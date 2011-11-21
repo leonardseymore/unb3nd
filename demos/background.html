@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>unb3nd - Backgrounds</title>
+		<link rel="stylesheet" href="../unb3nd.css" type="text/css" media="screen" />
+		<script type="text/javascript" src="../out/unb3nd.js"></script>
+		<script type="text/javascript" src="background.js"></script>
+	</head>
+	<body>
+		<center>
+			<canvas id="canvas" width="400" height="240"></canvas>
+			<hr/>
+			<select id="selBackground" onchange="engineStop();">
+				<option value="fill" selected>Fill Background</option>
+				<option value="starry">Starry Background</option>
+			</select>
+			<input id="btnStart" type="button" value="Start" onclick="engineStart();" />
+			<input id="btnStop"type="button" value="Stop" onclick="engineStop();" />
+		</center>
+	</body>
+</html>

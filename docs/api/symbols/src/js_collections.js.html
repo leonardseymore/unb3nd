@@ -1,0 +1,219 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @fileOverview Reusable collection classes
+<span class='line'>  3</span>  * @author &lt;a href="mailto:leonard.seymore@gmail.com">Leonard Seymore&lt;/a>
+<span class='line'>  4</span>  * @since 0.0.0
+<span class='line'>  5</span>  */</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="COMM">/**
+<span class='line'>  8</span>  * @class A queue (FIFO) collection implementation
+<span class='line'>  9</span>  * @constructor
+<span class='line'> 10</span>  * @since 0.0.0
+<span class='line'> 11</span>  */</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Queue</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 13</span> 
+<span class='line'> 14</span> </span><span class="WHIT">	</span><span class="COMM">/** 
+<span class='line'> 15</span> 	 * Array place holder for queue items
+<span class='line'> 16</span> 	 * @field 
+<span class='line'> 17</span> 	 * @type Object []
+<span class='line'> 18</span> 	 * @default []
+<span class='line'> 19</span> 	 * @since 0.0.0
+<span class='line'> 20</span> 	 */</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">queue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 24</span> 	 * Gets the size of the queue
+<span class='line'> 25</span> 	 * @function
+<span class='line'> 26</span> 	 * @returns {int} The size of the queue
+<span class='line'> 27</span> 	 * @since 0.0.0
+<span class='line'> 28</span> 	 */</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">	</span><span class="NAME">this.getSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">queue.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 34</span> 	 * Determines if the queue is empty
+<span class='line'> 35</span> 	 * @function
+<span class='line'> 36</span> 	 * @returns {boolean} True if the queue is empty
+<span class='line'> 37</span> 	 * @since 0.0.0
+<span class='line'> 38</span> 	 */</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">	</span><span class="NAME">this.isEmpty</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">queue.length</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 44</span> 	 * Enqueues the specified element in this queue
+<span class='line'> 45</span> 	 * @function
+<span class='line'> 46</span> 	 * @param {Object} element The element to push into the queue
+<span class='line'> 47</span> 	 * @returns {int} The new length of the queue
+<span class='line'> 48</span> 	 * @since 0.0.0
+<span class='line'> 49</span> 	 */</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">	</span><span class="NAME">this.enqueue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">queue.push</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 55</span> 	 * Dequeues the oldest element in the queue
+<span class='line'> 56</span> 	 * @function
+<span class='line'> 57</span> 	 * @returns {Object} The oldest element in the queue, null if queue is empty
+<span class='line'> 58</span> 	 * @since 0.0.0
+<span class='line'> 59</span> 	 */</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">	</span><span class="NAME">this.dequeue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">queue.shift</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 65</span> 	 * Gets all elements in this queue
+<span class='line'> 66</span> 	 * @function
+<span class='line'> 67</span> 	 * @returns {Object []} All elements in the queue
+<span class='line'> 68</span> 	 * @since 0.0.0
+<span class='line'> 69</span> 	 */</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">	</span><span class="NAME">this.getElements</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">queue</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 74</span> 
+<span class='line'> 75</span> </span><span class="COMM">/**
+<span class='line'> 76</span>  * @class A ringbuffer(FIFO) collection implementation.  The ringbuffer
+<span class='line'> 77</span>  * will automatically push out old items when maximum size is reached.
+<span class='line'> 78</span>  * @constructor
+<span class='line'> 79</span>  * @param {int} size The size of the buffer
+<span class='line'> 80</span>  * @throws Error if size is not a valid integer
+<span class='line'> 81</span>  * @since 0.0.0
+<span class='line'> 82</span>  */</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">RingBuffer</span><span class="PUNC">(</span><span class="NAME">size</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">	</span><span class="COMM">/*
+<span class='line'> 86</span> 	 * Size must be passed in
+<span class='line'> 87</span> 	 */</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">size</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"undefined"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">"Valid integer size expected"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'> 91</span> 
+<span class='line'> 92</span> </span><span class="WHIT">	</span><span class="COMM">/** 
+<span class='line'> 93</span> 	 * Array place holder for queue items
+<span class='line'> 94</span> 	 * @field 
+<span class='line'> 95</span> 	 * @type Queue
+<span class='line'> 96</span> 	 * @default new Queue()
+<span class='line'> 97</span> 	 * @since 0.0.0
+<span class='line'> 98</span> 	 */</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">queue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Queue</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>102</span> 	 * Gets the size of the queue
+<span class='line'>103</span> 	 * @function
+<span class='line'>104</span> 	 * @returns {int} The size of the queue
+<span class='line'>105</span> 	 * @since 0.0.0
+<span class='line'>106</span> 	 */</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">	</span><span class="NAME">this.getSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">queue.getSize</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>112</span> 	 * Determines if the queue is empty
+<span class='line'>113</span> 	 * @function
+<span class='line'>114</span> 	 * @returns {boolean} True if the queue is empty
+<span class='line'>115</span> 	 * @since 0.0.0
+<span class='line'>116</span> 	 */</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">	</span><span class="NAME">this.isEmpty</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">queue.isEmpty</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>122</span> 	 * Enqueues the specified element in this queue
+<span class='line'>123</span> 	 * @function
+<span class='line'>124</span> 	 * @param {Object} element The element to push into the queue
+<span class='line'>125</span> 	 * @returns {int} The new length of the queue
+<span class='line'>126</span> 	 * @since 0.0.0
+<span class='line'>127</span> 	 */</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">	</span><span class="NAME">this.enqueue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.getSize</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">size</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">			</span><span class="NAME">queue.dequeue</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">queue.enqueue</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>137</span> 	 * Dequeues the oldest element in the queue
+<span class='line'>138</span> 	 * @function
+<span class='line'>139</span> 	 * @returns {Object} The oldest element in the queue, null if queue is empty
+<span class='line'>140</span> 	 * @since 0.0.0
+<span class='line'>141</span> 	 */</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">	</span><span class="NAME">this.dequeue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">queue.dequeue</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>147</span> 	 * Gets all elements in this buffer
+<span class='line'>148</span> 	 * @function
+<span class='line'>149</span> 	 * @returns {Object []} All elements in the buffer
+<span class='line'>150</span> 	 * @since 0.0.0
+<span class='line'>151</span> 	 */</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">	</span><span class="NAME">this.getElements</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">queue.getElements</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>156</span> 
+<span class='line'>157</span> </span><span class="COMM">/**
+<span class='line'>158</span>  * @class A set of unique elements
+<span class='line'>159</span>  * @constructor
+<span class='line'>160</span>  * @since 0.0.0
+<span class='line'>161</span>  */</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Set</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>163</span> 
+<span class='line'>164</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>165</span> 	 * All elements in the set
+<span class='line'>166</span> 	 * @field
+<span class='line'>167</span> 	 * @type Object []
+<span class='line'>168</span> 	 * @default []
+<span class='line'>169</span> 	 * @since 0.0.0
+<span class='line'>170</span> 	 */</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">	</span><span class="NAME">this.elements</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>174</span> 	 * Add a new element to the set
+<span class='line'>175</span> 	 * @function
+<span class='line'>176</span> 	 * @param {Object} element The element to add
+<span class='line'>177</span> 	 * @returns {int} Number of elements
+<span class='line'>178</span> 	 * @since 0.0.0
+<span class='line'>179</span> 	 */</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">	</span><span class="NAME">this.add</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.elements.push</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>185</span> 	 * Remove an element at the specified index
+<span class='line'>186</span> 	 * @function
+<span class='line'>187</span> 	 * @param {int} index The index of the element
+<span class='line'>188</span> 	 * @returns {Object} The removed element
+<span class='line'>189</span> 	 * @since 0.0.0
+<span class='line'>190</span> 	 */</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">	</span><span class="NAME">this.removeEntityAtIndex</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.elements.splice</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>196</span> 	 * Remove the specified element from the set
+<span class='line'>197</span> 	 * @function
+<span class='line'>198</span> 	 * @param {Object} element The element to remove
+<span class='line'>199</span> 	 * @returns {boolean} True if the element was removed
+<span class='line'>200</span> 	 * @since 0.0.0
+<span class='line'>201</span> 	 */</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">	</span><span class="NAME">this.remove</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.elements</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.elements</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">				</span><span class="NAME">this.removeElementAtIndex</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// for</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="PUNC">}</span></pre></body></html>

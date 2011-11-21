@@ -1,0 +1,1 @@
+The icons in this folder are not open source, they are temporary icons until custom icons are developed!!!

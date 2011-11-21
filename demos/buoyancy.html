@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>unb3nd - Buoyancy</title>
+		<link rel="stylesheet" href="../css/unb3nd.css" type="text/css" media="screen" />
+		<script type="text/javascript" src="../out/unb3nd.js"></script>
+		<script type="text/javascript" src="buoyancy.js"></script>
+	</head>
+	<body>
+		<center>
+			<canvas id="canvas" width="400" height="240"></canvas>
+			<hr/>
+			<input id="btnStart" type="button" value="Start" onclick="engineStart();" />
+			<input id="btnStop"type="button" value="Stop" onclick="engineStop();" />
+			<br/>
+			<input id="chkBuoyancy" type="checkBox" onclick="checkForces();" />Buoyancy |
+			<input id="chkGravity" type="checkBox" onclick="checkForces();" />Gravity | 
+			<input id="chkDrag" type="checkBox" onclick="checkForces();" />Drag
+		</center>
+	</body>
+</html>

@@ -1,0 +1,156 @@
+
+<!-- saved from url=(0051)http://number-none.com/blow/inertia/deriving_i.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></head><body><p><font size="5"><b>Why the inertia tensor is the inertia tensor.</b></font></p>
+<p><font size="4"><a href="http://number-none.com/blow/inertia/index.html">[back to inertia page]</a></font><b><font size="4"><br>
+</font></b><br>
+<br>
+<br>
+<b>Angular Inertia in 2D</b> <br>
+<br>
+When doing 2D rigid body physics, we use a constant called the <i>moment of inertia</i> for each body, which describes how resistant that body is to being rotated.&nbsp; 
+Treating our rigid body as a collection of point masses, its moment of inertia, 
+which we will call <i>i</i>, 
+is:</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber2">
+  <tbody><tr>
+    <td width="12%">(1)&nbsp;&nbsp; </td>
+    <td width="88%">
+    <img border="0" src="./inertia_files/01.png" width="167" height="82"></td>
+  </tr>
+</tbody></table>
+<p>r is just the distance of each point from the center of mass.&nbsp; To find r<sup>2</sup>, 
+we find the vector <b>r</b> from the center of mass to each point, and 
+dot-product that vector with itself:</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tbody><tr>
+    <td width="12%">(2)&nbsp;&nbsp; </td>
+    <td width="88%">
+    <img border="0" src="./inertia_files/02.png" width="196" height="82"></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tbody><tr>
+    <td width="12%">(3)&nbsp;&nbsp; </td>
+    <td width="88%"><img border="0" src="./inertia_files/3.png" width="256" height="216"></td>
+  </tr>
+</tbody></table>
+<p><b>Angular Inertia in 3D</b></p>
+<p>Though it's a little bit more complex, the 3D case is a straightforward 
+extension from 2D.&nbsp; We're going to push on our body at some point, in some 
+direction.&nbsp; This point, direction, and center of mass, together define a 
+plane of rotation, and thus an axis that we are rotating around.&nbsp; (Unless 
+we are pushing along a ray through the center of mass, but in that case, the 
+object just doesn't rotate since there is no torque).&nbsp; We'll call the axis 
+of rotation <b>a</b>.&nbsp; To simplify some upcoming math, we'll define <b>a</b> 
+as being unit length.</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tbody><tr>
+    <td width="12%">(4)&nbsp;&nbsp; </td>
+    <td width="88%"><img border="0" src="./inertia_files/4.png" width="272" height="183"></td>
+  </tr>
+</tbody></table>
+<p>As in 2D, we want to compute Sum m r<sup>2</sup>, only now, r is the distance 
+from the axis of rotation to the point of mass.&nbsp; We'll call each point of 
+mass <b>x</b><sub>n</sub>.&nbsp; For simplicity's sake, we'll work in a 
+coordinate system where the center of mass is at the origin.&nbsp; As in 2D, we 
+can compute r<sup>2 </sup>as the vector dot product <b>r&#8729;r</b>, only now <b>
+r</b> is the component of <b>x</b> orthogonal to <b>a</b>.&nbsp; </p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tbody><tr>
+    <td width="12%">(5)&nbsp;&nbsp; </td>
+    <td width="88%"><img border="0" src="./inertia_files/5.png" width="284" height="264"></td>
+  </tr>
+</tbody></table>
+<p>This is simple enough to compute, and we plug it into our expression for the 
+angular inertia:</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tbody><tr>
+    <td width="12%">(6)&nbsp;&nbsp; </td>
+    <td width="88%">
+    <img border="0" src="./inertia_files/06.png" width="543" height="117"></td>
+  </tr>
+</tbody></table>
+<p>This equation for <i>i</i> would work fine  if we stored our body as a bunch of 
+point masses, but it would be expensive to compute, as we need to iterate over 
+all point masses every time we apply a force to the body.&nbsp; Though it looks 
+like we can't evaluate equation 7 until we know the axis of rotation (so we can 
+do those dot products), because everything in equation 7 is linear, we can 
+factor the equation across all the additions, so that we're just working with a 
+summary of the point masses.</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tbody><tr>
+    <td width="12%">(8)&nbsp;&nbsp; </td>
+    <td width="88%">
+    <img border="0" src="./inertia_files/08.png" width="371" height="241"></td>
+  </tr>
+</tbody></table>
+<p>Now, in order to combine terms so that we can factor the a out further, we 
+want to promote the scalar <b>x</b><b>&#8729;</b><b>x</b> to something matrix-sized.&nbsp; We can do 
+this just by wrapping it with <b>a</b><sup>T</sup> and <b>a</b>:</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tbody><tr>
+    <td width="12%">(9)&nbsp;&nbsp; </td>
+    <td width="88%">
+    <img border="0" src="./inertia_files/09.png" width="464" height="296"></td>
+  </tr>
+</tbody></table>
+<p>Now since the axis is constant over the summation, we can factor <b>a</b> all 
+the way out:</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tbody><tr>
+    <td width="12%">(10)&nbsp;&nbsp; </td>
+    <td width="88%">
+    <img border="0" src="./inertia_files/10.png" width="470" height="186"></td>
+  </tr>
+</tbody></table>
+<p>This gives us I, a 3x3 matrix that represents the angular inertia of a 3D 
+body, which can be entirely precomputed.&nbsp; When it comes time to push the 
+body around, we find <b>a</b>; computing <b>a</b><sup>T</sup>I<b>a</b> gives us a 
+scalar that tells us how hard it is to rotate the body in that direction.</p>
+<p>The way people standardly do 3D physics, they don't actually want a scalar, 
+the way they do in 2D.&nbsp; The reason is that you want to remember which way 
+the body is rotating.&nbsp; In 2D, we didn't have to remember, since there's 
+only one plane of rotation.&nbsp; So we just skip the multiplication of <b>a</b><sup>T
+</sup>on the left, and stop at I<b>a</b>.&nbsp; That gives us a vector parallel 
+to the axis of rotation <b>a</b>, whose length describes how difficult it is to 
+rotate that way.</p>
+<p>To see this angular inertia matrix ("Tensor of Inertia") in the form that 
+physics books usually write it, we can expand equation 10:</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tbody><tr>
+    <td width="12%">(11)&nbsp;&nbsp; </td>
+    <td width="88%">
+    <img border="0" src="./inertia_files/11.png" width="853" height="399"></td>
+  </tr>
+</tbody></table>
+<p>but I am going to drop that like a hot potato because it leads to just the sort of 
+icky symbol manipulation I'm trying to stay away from.&nbsp; It's only here to 
+provide a concrete connection between this derivation and what physics books 
+say.</p>
+<p><b>A Mental Shift</b></p>
+<p>Physics texts treat the tensor of inertia as a fundamental primitive about a 
+body that you want to compute, but I don't like to see it that way.&nbsp; 
+Looking at the form of the matrix, one can't help but feeling that it's a bit 
+mixed up and ugly.&nbsp; And looking at equation 11, it seems we arrived at this 
+ugly thing by starting with some simpler and nicer things, and subtracting one 
+from the other.&nbsp; </p>
+<p>Going back to the definition of I from equation 10, we can distribute the sum 
+to break it into two matrices:</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tbody><tr>
+    <td width="12%">(12)&nbsp;&nbsp; </td>
+    <td width="88%">
+    <img border="0" src="./inertia_files/12.png" width="401" height="231"></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;(tr C indicates the trace of the matrix C)</p>
+<p>So we can compute C, which has a very simple form, then convert from C to I 
+any time we want.&nbsp; To me, C is  more intuitive, and deserves to be 
+treated as the fundamental body primitive; I is just C with some case-specific 
+manipulations folded in.&nbsp; </p>
+<p>C is the 2nd moment of the mass distribution, also known as the <i>
+mass-weighted covariance</i> of the body.&nbsp; You can do a lot of things with 
+C besides just convert to I (for example, you can graph it).&nbsp; </p>
+<p>&nbsp;</p>
+<p><font size="4"><a href="http://number-none.com/blow/inertia/index.html">[back to inertia page]</a></font></p></body></html>

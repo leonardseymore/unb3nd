@@ -1,0 +1,51 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @fileOverview Resource managers / helpers
+<span class='line'>  3</span>  * @author &lt;a href="mailto:leonard.seymore@gmail.com">Leonard Seymore&lt;/a>
+<span class='line'>  4</span>  * @since 0.0.0
+<span class='line'>  5</span>  */</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="COMM">/** 
+<span class='line'>  8</span>  * @class Resources loader
+<span class='line'>  9</span>  * @constructor
+<span class='line'> 10</span>  * @since 0.0.0
+<span class='line'> 11</span>  */</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Resources</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 14</span> 
+<span class='line'> 15</span> </span><span class="COMM">/** 
+<span class='line'> 16</span>  * Resources configuration must be configured per application to be able 
+<span class='line'> 17</span>  * to locate resources.
+<span class='line'> 18</span>  * @field
+<span class='line'> 19</span>  * @static
+<span class='line'> 20</span>  * @type Object
+<span class='line'> 21</span>  * @default Fully initialized static
+<span class='line'> 22</span>  * @since 0.0.0
+<span class='line'> 23</span>  */</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="NAME">Resources.configuration</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="NAME">ROOT_PATH</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"../"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">	</span><span class="NAME">IMG_PATH</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"../img/"</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> 
+<span class='line'> 29</span> </span><span class="COMM">/**
+<span class='line'> 30</span>  * Loads an image resource from name
+<span class='line'> 31</span>  * TODO: An idea is to later combine all images into a sprite sheet and this method
+<span class='line'> 32</span>  *       could possibly retrieve it from the spritesheet rather than file.
+<span class='line'> 33</span>  * @function
+<span class='line'> 34</span>  * @static
+<span class='line'> 35</span>  * @param {string} name The name of the image to load
+<span class='line'> 36</span>  * @return {Image} The loaded image
+<span class='line'> 37</span>  * @since 0.0.0
+<span class='line'> 38</span>  * @see Resources#configuration
+<span class='line'> 39</span>  */</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="NAME">Resources.loadImage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">image</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Image</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">	</span><span class="NAME">image.src</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Resources.configuration.IMG_PATH</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">image</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="PUNC">}</span></pre></body></html>

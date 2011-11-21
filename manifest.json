@@ -1,0 +1,14 @@
+{
+  "name": "unb3nd",
+  "version": "0.0",
+  "description": "unb3nd",
+  "app": {
+    "launch": {
+      "local_path": "index.html"
+    }
+  },
+  "icons": {
+    "16": "img/icon_16.png",
+    "128": "img/icon_128.png"
+  }
+}
