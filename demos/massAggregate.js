@@ -11,22 +11,22 @@
  * @since 0.0.0
  */
 var ICONS = {
-	SELECT : "icon_pickup_24.png",
-	REMOVE : "icon_remove_24.png",
-	PARTICLES : "icon_particles_24.png",
-	ANCHOR : "icon_anchor_24.png",
-	ROPE : "icon_rope_24.png",
-	GRAVITY : "icon_gravity_24.png",
-	WIND : "icon_wind_24.png",
-	DRAG : "icon_drag_24.png",
-	INTER_COLLISION : "icon_instance_24.png",
-	COLLISION : "icon_collision_24.png",
-	SPRING : "icon_spring_24.png",
-	SPRING_ANCHORED : "icon_spring_anchored_24.png",
-	BUNGEE : "icon_rubber_24.png",
-	BUNGEE_ANCHORED : "icon_rubber_anchored_24.png",
-	CABLE : "icon_cable_24.png",
-	ROD : "icon_rod_24.png"
+	SELECT : "pickup.png",
+	REMOVE : "remove.png",
+	PARTICLES : "particles.png",
+	ANCHOR : "anchor.png",
+	ROPE : "rope.png",
+	GRAVITY : "gravity.png",
+	WIND : "wind.png",
+	DRAG : "drag.png",
+	INTER_COLLISION : "interCollision.png",
+	COLLISION : "collision.png",
+	SPRING : "spring.png",
+	SPRING_ANCHORED : "springAnchored.png",
+	BUNGEE : "rubber.png",
+	BUNGEE_ANCHORED : "rubberAnchored.png",
+	CABLE : "cable.png",
+	ROD : "rod.png"
 } 
  
 /**
