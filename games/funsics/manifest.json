@@ -1,0 +1,14 @@
+{
+  "name": "Funsics",
+  "version": "0.1",
+  "description": "Funsics",
+  "app": {
+    "launch": {
+      "local_path": "funsics.html"
+    }
+  },
+  "icons": {
+    "16": "img/icon_16.png",
+    "128": "img/icon_128.png"
+  }
+}

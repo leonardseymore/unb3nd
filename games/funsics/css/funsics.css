@@ -1,0 +1,12 @@
+body {
+	background: #eee;
+}
+
+canvas {
+	background: #fff;
+	cursor:url(css/blank.cur);
+}
+
+input[type=image] {
+	cursor: hand;
+}

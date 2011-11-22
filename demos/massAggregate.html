@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>unb3nd - Mass Aggregate Engine Demo</title>
+		<title>unb3nd - Mass Aggregate Demo</title>
 		<link rel="stylesheet" href="../css/unb3nd.css" type="text/css" media="screen" />
 		<script type="text/javascript" src="../out/unb3nd.js"></script>
 		<script type="text/javascript" src="massAggregate.js"></script>
 	</head>
 	<body>
 		<center>
-			<input id="btnStart" type="button" value="Start" onclick="engineStart();" />
-			<input id="btnStop" type="button" value="Stop" onclick="engineStop();" />
+			<input id="btnPlay" type="image" onclick="playButton_click();" src="../img/playButton.png" />
 			<br/>
 			<input id="btnEnableSelect" type="image" title="Select" value="Select" onclick="enableTool(SelectTool.instance);" src="../img/pickup.png" />
 			<input id="btnEnableRemove" type="image" title="Remove" value="Remove" onclick="enableTool(RemoveTool.instance);" src="../img/remove.png" /> | 
