@@ -4,6 +4,14 @@
  ****************************/
 
 /**
+ * Configure resources location
+ */
+Resources.configuration = {
+	ROOT_PATH : ".",
+	IMG_PATH : "img/"
+};
+ 
+/**
  * All icons
  * @field
  * @constant
