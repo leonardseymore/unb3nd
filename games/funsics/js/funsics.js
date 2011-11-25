@@ -3,14 +3,11 @@
  * Mass Aggregate Engine Demo
  ****************************/
 
-/**
- * Configure resources location
- */
 Resources.configuration = {
 	ROOT_PATH : ".",
 	IMG_PATH : "img/"
 };
- 
+
 /**
  * All icons
  * @field
@@ -51,9 +48,15 @@ var tool;
 
 /**
  * @global Vector2
- * Last mouse move position
+ * Last mouse move screen position
  */
-var lastMouseMove = new Vector2();
+var lastMouseMoveScreen = new Vector2();
+
+/**
+ * @global Vector2
+ * Last mouse move world position
+ */
+var lastMouseMoveWorld = new Vector2();
 
 /**
  * @global boolean
@@ -92,9 +95,14 @@ function playButton_click() {
  */
 engine.addEventListener("mousemove", function(e) {
 	var x = e.offsetX;
-	var y = Y(e.offsetY);
-	lastMouseMove.x = x;
-	lastMouseMove.y = y;
+	var y = e.offsetY;
+
+	lastMouseMoveScreen.x = x;
+	lastMouseMoveScreen.y = y;
+
+  lastMouseMoveWorld.x = x;
+  lastMouseMoveWorld.y = Y(y);
+
 	renderGame();
 });
 
@@ -104,7 +112,7 @@ engine.addEventListener("mousemove", function(e) {
  */
 engine.addEventListener("mousedown", function(e) {
 	var x = e.offsetX;
-	var y = Y(e.offsetY);
+	var y = e.offsetY;
 
 	tool.use(new Vector2(x, y));
 });
@@ -211,23 +219,25 @@ function updateGame(delta) {
  */
 function renderGame() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	
-	particleWorld.draw();
+
+  Renderer.instance.renderParticleWorld(particleWorld);
 	
 	for (i in anchors) {
 		var anchor = anchors[i];
-		ctx.drawImage(anchorImage, anchor.x - anchorImage.width / 2, anchor.y + anchorImage.height / 2);
+		ctx.drawImage(anchorImage, anchor.x - anchorImage.width / 2, anchor.y - anchorImage.height / 2);
 	} // for
 	
-	/*
-	ctx.fillText("Global Forces: " + particleWorld.globalForceGenerators, 10, 10);
-	ctx.fillText("Num Particles: " + particleWorld.particles.length, 10, 20);
-	ctx.fillText("Num Force Generators: " + particleWorld.forceRegistry.entries.length, 10, 30);
-	ctx.fillText("Num Contact Generators: " + particleWorld.contactGenerators.length, 10, 40);
-	*/
+  if (debug) {
+    ctx.fillText("Global Forces: " + particleWorld.globalForceGenerators, 10, Y(60));
+    ctx.fillText("Num Particles: " + particleWorld.particles.length, 10, Y(50));
+    ctx.fillText("Num Force Generators: " + particleWorld.forceRegistry.entries.length, 10, Y(40));
+    ctx.fillText("Num Contact Generators: " + particleWorld.contactGenerators.length, 10, Y(30));
+    ctx.fillText("Mouse Screen: (" + lastMouseMoveScreen.x + "," + lastMouseMoveScreen.y + ")", 10, Y(20));
+    ctx.fillText("Mouse World: (" + lastMouseMoveWorld.x + "," + lastMouseMoveWorld.y + ")", 10, Y(10));
+  } // if
 	
 	if (mouseInScreen) {
-		tool.drawHandles(lastMouseMove);
+		tool.drawHandles(lastMouseMoveScreen, lastMouseMoveWorld);
 	} // if
 }
 
@@ -238,15 +248,19 @@ function renderGame() {
  * @param float radius The radius around the point
  */
 function highlightParticles(point, radius) {
+  var worldPos = point.clone();
+  worldPos.y = Y(point.y);
 	for (i in particleWorld.particles) {
 		var particle = particleWorld.particles[i];
-		if (particle.isCloseToPoint(point, radius)) {
-			highlightPoint(particle.pos, radius);
+		if (particle.isCloseToPoint(worldPos, radius)) {
+      var particleScreenPos = particle.pos.clone();
+      particleScreenPos.y = Y(particle.pos.y);
+			highlightPoint(particleScreenPos, radius);
 		} // if
 	} // for
 }
 
-/** 
+/**
  * @function
  * Highlights all anchors around a point
  * @param Vector2 point The point
@@ -372,7 +386,7 @@ function Tool() {
 	 * @method
 	 * @abstract
 	 * Use this tool at position x, y
-	 * @param Vector2 point Point in world coordinates
+   * @param Vector2 point Point in screen coordinates
 	 * @return void
 	 */
 	this.use = function(point) {
@@ -386,7 +400,7 @@ function Tool() {
 	 */
 	this.drawIcon = function(point) {
 		var x = 5;
-		var y = windowRect.height - 5;
+		var y = 5;
 		if (point.x > x + this.icon.width) {
 			ctx.drawImage(this.icon, x, y);
 		} else {
@@ -401,7 +415,7 @@ function Tool() {
 	 * @method
 	 * @abstract
 	 * Draw tool visual helpers
-	 * @param Vector2 point Point in world coordinates
+	 * @param Vector2 point Point in screen coordinates
 	 * @return void
 	 */
 	this.drawHandles = function(point) {
@@ -448,17 +462,21 @@ function SelectTool() {
 	 * Makes a selection
 	 */
 	this.use = function(point) {
-		var particle = particleWorld.getFirstParticleWithin(
+		var particle = particleWorld.getFirstParticleWithinWindow(
 			point, this.selectRadius
 		);
 		
 		if (particle) {
-			console.log("Selected particle %o", particle);
+      if (debug) {
+			  console.debug("Selected particle %o", particle);
+      } // if
+
 			function mouseMoveListener(e) {
 				var x = e.offsetX;
-				var y = Y(e.offsetY);
-				particle.pos.x = x;
-				particle.pos.y = y;
+				var y = e.offsetY;
+        var newWindowPos = new Vector2(x, y);
+        var newWorldPos = world(newWindowPos);
+        particle.pos = newWorldPos;
 			}
 			
 			engine.addEventListener("mousemove", mouseMoveListener);
@@ -512,7 +530,7 @@ function RemoveTool() {
 	 * Creates a new particle
 	 */
 	this.use = function(point) {
-		var particle = particleWorld.getFirstParticleWithin(
+		var particle = particleWorld.getFirstParticleWithinWindow(
 			point, this.selectRadius
 		);
 		
@@ -568,9 +586,8 @@ function CreateParticleTool() {
 	 */
 	this.use = function(point) {
 		var particle = new Particle();
-		//particle.setMass(1 + Math.random() * 10);
 		particle.setMass(1);
-		particle.pos = point.clone();
+		particle.pos = world(point);
 		particleWorld.addParticle(particle);
 	}
 	
@@ -651,7 +668,7 @@ function CreateGravityTool() {
 	 * Creates a new particle
 	 */
 	this.use = function(point) {
-		var particle = particleWorld.getFirstParticleWithin(
+		var particle = particleWorld.getFirstParticleWithinWindow(
 			point, this.selectRadius
 		);
 		
@@ -674,7 +691,7 @@ function CreateGravityTool() {
 	this.drawHandles = function(point) {
 		highlightParticles(point, this.selectRadius);
 		
-		var particle = particleWorld.getFirstParticleWithin(
+		var particle = particleWorld.getFirstParticleWithinWindow(
 			point, this.selectRadius
 		);
 		
@@ -712,7 +729,7 @@ function CreateDragTool() {
 	 * Creates a new particle
 	 */
 	this.use = function(point) {
-		var particle = particleWorld.getFirstParticleWithin(
+		var particle = particleWorld.getFirstParticleWithinWindow(
 			point, this.selectRadius
 		);
 		
@@ -735,7 +752,7 @@ function CreateDragTool() {
 	this.drawHandles = function(point) {
 		highlightParticles(point, this.selectRadius);
 		
-		var particle = particleWorld.getFirstParticleWithin(
+		var particle = particleWorld.getFirstParticleWithinWindow(
 			point, this.selectRadius
 		);
 		
@@ -773,7 +790,7 @@ function CreateWindTool() {
 	 * Creates a new wind force generator
 	 */
 	this.use = function(point) {
-		var particle = particleWorld.getFirstParticleWithin(
+		var particle = particleWorld.getFirstParticleWithinWindow(
 			point, this.selectRadius
 		);
 		
@@ -796,7 +813,7 @@ function CreateWindTool() {
 	this.drawHandles = function(point) {
 		highlightParticles(point, this.selectRadius);
 		
-		var particle = particleWorld.getFirstParticleWithin(
+		var particle = particleWorld.getFirstParticleWithinWindow(
 			point, this.selectRadius
 		);
 		
@@ -846,7 +863,7 @@ function Particle2ParticleTool() {
 	 * Creates a new particle
 	 */
 	this.use = function(point) {
-		var particle = particleWorld.getFirstParticleWithin(
+		var particle = particleWorld.getFirstParticleWithinWindow(
 			point, this.selectRadius
 		);
 		
@@ -883,17 +900,19 @@ function Particle2ParticleTool() {
 		if (this.p1) {
 			ctx.save();
 			ctx.strokeStyle = "green";
-			highlightPoint(this.p1.pos, this.selectRadius);
+      var p1WindowPos = window(this.p1.pos);
+			highlightPoint(p1WindowPos, this.selectRadius);
 			
 			ctx.strokeStyle = "lightgrey";
 			ctx.beginPath();
-			ctx.moveTo(this.p1.pos.x, this.p1.pos.y);
+			ctx.moveTo(p1WindowPos.x, p1WindowPos.y);
 			
-			var p2 = particleWorld.getFirstParticleWithin(
+			var p2 = particleWorld.getFirstParticleWithinWindow(
 				point, this.selectRadius
 			);
 			if (p2) {
-				ctx.lineTo(p2.pos.x, p2.pos.y);
+        var p2WindowPos = window(p2.pos);
+				ctx.lineTo(p2WindowPos.x, p2WindowPos.y);
 			} else {
 				ctx.lineTo(point.x, point.y);
 			} // if
@@ -957,7 +976,7 @@ function Anchor2ParticleTool() {
 			return;
 		} // if
 
-		var particle = particleWorld.getFirstParticleWithin(
+		var particle = particleWorld.getFirstParticleWithinWindow(
 			point, this.selectRadius
 		);
 		
@@ -992,13 +1011,14 @@ function Anchor2ParticleTool() {
 			ctx.beginPath();
 			ctx.moveTo(this.anchor.x, this.anchor.y);
 			
-			var particle = particleWorld.getFirstParticleWithin(
+			var particle = particleWorld.getFirstParticleWithinWindow(
 				point, this.selectRadius
 			);
 			if (particle) {
-				ctx.lineTo(particle.pos.x, particle.pos.y);
+        var particleScreenPos = window(particle.pos);
+				ctx.lineTo(particleScreenPos.x, particleScreenPos.y);
 				ctx.stroke();
-				highlightPoint(particle.pos, this.selectRadius);
+				highlightPoint(particleScreenPos, this.selectRadius);
 			} else {
 				ctx.lineTo(point.x, point.y);
 				ctx.stroke();
@@ -1171,7 +1191,7 @@ function CreateAnchoredSpringTool() {
 	 */
 	this.createForce = function(anchor, particle) {
 		ParticleForceGeneratorFactory.createAnchoredSpring(
-			particleWorld.forceRegistry, particle, anchor,  1, 1
+			particleWorld.forceRegistry, particle, world(anchor),  1, 1
 		);
 	}
 }
@@ -1207,7 +1227,7 @@ function CreateAnchoredBungeeTool() {
 	 */
 	this.createForce = function(anchor, particle) {
 		ParticleForceGeneratorFactory.createAnchoredBungee(
-			particleWorld.forceRegistry, particle, anchor,  1, 1
+			particleWorld.forceRegistry, particle, world(anchor),  1, 1
 		);
 	}
 }

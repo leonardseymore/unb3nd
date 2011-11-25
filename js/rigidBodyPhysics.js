@@ -1,6 +1,6 @@
 /**
  * @fileOverview Rigid Body System
- * @author <a href="mailto:leonard.seymore@gmail.com">Leonard Seymore</a>
+ * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
  * @since 0.0.0
  */
 
@@ -163,8 +163,8 @@ function RigidBody(mass, inertia) {
 	
 	/**
 	 * Calculates internal data from state data. This should be called
-	 * after the body’s state is altered directly (it is called
-	 * automatically during integration). If you change the body’s
+	 * after the bodyï¿½s state is altered directly (it is called
+	 * automatically during integration). If you change the bodyï¿½s
 	 * state and then intend to integrate before querying any data
 	 * (such as the transform matrix), then you can omit this step.
 	 * @function

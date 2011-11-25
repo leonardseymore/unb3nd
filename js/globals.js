@@ -1,7 +1,7 @@
 /**
  * @fileOverview Global variables
  * TODO: maybe not such a good idea to have globals
- * @author <a href="mailto:leonard.seymore@gmail.com">Leonard Seymore</a>
+ * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
  * @since 0.0.0
  */
 

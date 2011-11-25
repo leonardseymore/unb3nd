@@ -7,7 +7,7 @@
 	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
 	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
 <span class='line'>  2</span>  * @fileOverview Main application driver
-<span class='line'>  3</span>  * @author &lt;a href="mailto:leonard.seymore@gmail.com">Leonard Seymore&lt;/a>
+<span class='line'>  3</span>  * @author &lt;a href="mailto:leonardseymore@gmail.com">Leonard Seymore&lt;/a>
 <span class='line'>  4</span>  * @since 0.0.0
 <span class='line'>  5</span>  */</span><span class="WHIT">
 <span class='line'>  6</span> 
@@ -285,7 +285,7 @@
 <span class='line'>278</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateFPS</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>279</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">lastFPS</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">1000</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>280</span> </span><span class="WHIT">		</span><span class="COMM">//document.title = "unb3nd: " + canvas.width + "x" + canvas.height + " FPS " + fps;</span><span class="WHIT">
-<span class='line'>281</span> </span><span class="WHIT">		</span><span class="NAME">document.title</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"FPS "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">fps</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">		</span><span class="COMM">//document.title = "FPS " + fps;</span><span class="WHIT">
 <span class='line'>282</span> </span><span class="WHIT">		</span><span class="NAME">fps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>283</span> </span><span class="WHIT">		</span><span class="NAME">lastFPS</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1000</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>284</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
@@ -350,8 +350,8 @@
 <span class='line'>343</span> </span><span class="WHIT">		</span><span class="COMM">// Effectively we want the world point (0, 0) to be at the bottom left</span><span class="WHIT">
 <span class='line'>344</span> </span><span class="WHIT">		</span><span class="COMM">// of the canvas.</span><span class="WHIT">
 <span class='line'>345</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">canvasCtx</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.getContext</span><span class="PUNC">(</span><span class="STRN">"2d"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>346</span> </span><span class="WHIT">		</span><span class="NAME">canvasCtx.translate</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">canvas.height</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="WHIT">
-<span class='line'>347</span> </span><span class="WHIT">		</span><span class="NAME">canvasCtx.scale</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>346</span> </span><span class="WHIT">		</span><span class="COMM">//canvasCtx.translate(0, canvas.height);</span><span class="WHIT">
+<span class='line'>347</span> </span><span class="WHIT">		</span><span class="COMM">//canvasCtx.scale(1,-1);</span><span class="WHIT">
 <span class='line'>348</span> 
 <span class='line'>349</span> </span><span class="WHIT">		</span><span class="COMM">/**
 <span class='line'>350</span> 		 * @class

@@ -1,6 +1,6 @@
 /**
  * @fileOverview Mass Aggregate Particle System
- * @author <a href="mailto:leonard.seymore@gmail.com">Leonard Seymore</a>
+ * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
  * @since 0.0.0
  */
 
@@ -201,46 +201,6 @@ function Particle(mass) {
 	}
 	
 	/**
-	 * Draw visual helpers for this vector
-	 * <p>
-	 * This function assumes that translations have already been made to the starting
-	 * position of the vector
-	 * </p>
-	 * @function
-	 * @param {string} fillStyle Optional overriding fill style
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.draw = function(fillStyle) {
-		ctx.save();	
-		ctx.fillStyle = (fillStyle == undefined ? SETTINGS.PARTICLE_COLOR : fillStyle);
-		ctx.translate(this.pos.x, this.pos.y);
-		var width = SETTINGS.PARTICLE_WIDTH;
-		ctx.fillRect(
-			-width, -width, width * 2, width * 2
-		);
-		ctx.restore();
-	}
-	
-	/**
-	 * Draws a string representation of this particle
-	 * @function
-	 * @param {string} fillStyle Optional overriding fill style
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.drawToString = function(fillStyle) {
-		ctx.save();	
-		ctx.fillStyle = (fillStyle == undefined ? SETTINGS.PARTICLE_STRING_COLOR : fillStyle);
-		ctx.translate(this.pos.x, this.pos.y);
-		var width = SETTINGS.PARTICLE_WIDTH;
-		ctx.fillText(
-			this.toString(),width, width
-		);
-		ctx.restore();
-	}
-	
-	/**
 	 * On die callback
 	 * @function
 	 * @returns {void}
@@ -260,6 +220,17 @@ function Particle(mass) {
 		} // if
 		this.dispatchEvent("die");
 	}
+
+  /**
+   * Accepts a particle world visitor
+	 * @function
+   * @param {ParticleWorldVisitor} visitor Visitor to visit
+	 * @returns {void}
+	 * @since 0.0.0.3
+   */
+  this.accept = function(visitor) {
+    visitor.visitParticle(this);
+  }
 	
 	/**
 	 * Converts the class to a string representation
@@ -411,21 +382,23 @@ function ParticleForceRegistry() {
 			} // for
 		} // for
 	}
-	
-	/**
-	 * Draws visual helpers of all force generators
-	 * @function
+
+  /**
+   * Accepts a particle world visitor
+	 * @method
+   * @abstract
+   * @param {ParticleWorldVisitor} visitor Visitor to visit
 	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.drawForceGenerators = function() {
-		for (i in this.entries) {
+	 * @since 0.0.0.3
+   */
+	this.accept = function(visitor) {
+    for (i in this.entries) {
 			var entry = this.entries[i];
 			var particle = entry.particle;
 			var forceGenerators = entry.forceGenerators;
 			for (j in forceGenerators) {
 				var forceGenerator = forceGenerators[j];
-				forceGenerator.draw(particle);
+				forceGenerator.accept(visitor, particle);
 			} // for
 		} // for
 	}
@@ -451,14 +424,15 @@ function ParticleForceGenerator() {
 	this.applyForce = function(particle, delta) {}
 	
 	/**
-	 * Draw a visual representation of this force generator
-	 * @function
-	 * @abstract
-	 * @param {Particle} particle The particle the generator is working on
+   * Accepts a particle world visitor
+	 * @method
+   * @abstract
+   * @param {ParticleWorldVisitor} visitor Visitor to visit
+   * @param {Particle} particle Particle that is currently affected by this generator
 	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.draw = function(particle) {
+	 * @since 0.0.0.3
+   */
+	this.accept = function(visitor, particle) {
 	}
 	
 	/**
@@ -514,23 +488,12 @@ function ParticleGravityForceGenerator(gravitation) {
 	}
 	
 	/**
-	 * Draw a visual representation of this force generator
+	 * Accepts the supplied particle visitor
 	 * @function
 	 * @override
-	 * @param {Particle} particle The particle the generator is working on
-	 * @returns {void}
-	 * @since 0.0.0
 	 */
-	this.draw = function(particle) {
-		ctx.save();
-		ctx.strokeStyle = SETTINGS.GRAVITY_COLOR;
-		ctx.beginPath();
-		ctx.translate(particle.pos.x, particle.pos.y);
-		ctx.moveTo(0, 0);
-		var gravityVector = this.gravitation.multScalar(particle.getMass())
-		ctx.lineTo(gravityVector.x, gravityVector.y);
-		ctx.stroke();
-		ctx.restore();
+	this.accept = function(visitor, particle) {
+    visitor.visitGravityForceGenerator(this, particle);
 	}
 	
 	/**
@@ -585,25 +548,14 @@ function ParticleWindForceGenerator(direction) {
 			this.direction.multScalar(particle.getMass())
 		);
 	}
-	
-	/**
-	 * Draw a visual representation of this force generator
+
+  /**
+	 * Accepts the supplied particle visitor
 	 * @function
 	 * @override
-	 * @param {Particle} particle The particle the generator is working on
-	 * @returns {void}
-	 * @since 0.0.0
 	 */
-	this.draw = function(particle) {
-		ctx.save();
-		ctx.strokeStyle = SETTINGS.WIND_COLOR;
-		ctx.beginPath();
-		ctx.translate(particle.pos.x, particle.pos.y);
-		ctx.moveTo(0, 0);
-		var windVector = this.direction.multScalar(particle.getMass())
-		ctx.lineTo(windVector.x, windVector.y);
-		ctx.stroke();
-		ctx.restore();
+	this.accept = function(visitor, particle) {
+    visitor.visitWindForceGenerator(this, particle);
 	}
 	
 	/**
@@ -677,25 +629,14 @@ function ParticleDragForceGenerator(k1, k2) {
 		force.multScalarMutate(-dragCoeff);
 		return force;
 	}
-	
-	/**
-	 * Draw a visual representation of this force generator
+
+  /**
+	 * Accepts the supplied particle visitor
 	 * @function
 	 * @override
-	 * @param {Particle} particle The particle the generator is working on
-	 * @returns {void}
-	 * @since 0.0.0
 	 */
-	this.draw = function(particle) {
-		ctx.save();
-		ctx.strokeStyle = SETTINGS.DRAG_COLOR;
-		ctx.beginPath();
-		ctx.translate(particle.pos.x, particle.pos.y);
-		ctx.moveTo(0, 0);
-		var dragVector = this.calculateForce(particle);
-		ctx.lineTo(dragVector.x, dragVector.y);
-		ctx.stroke();
-		ctx.restore();
+	this.accept = function(visitor, particle) {
+    visitor.visitDragForceGenerator(this, particle);
 	}
 	
 	/**
@@ -769,25 +710,14 @@ function ParticleSpringForceGenerator(particleOther, springConstant, restLength)
 		force.multScalarMutate(-magnitude);
 		particle.applyForce(force);
 	}
-	
-	/**
-	 * Draw a visual representation of this force generator
+
+  /**
+	 * Accepts the supplied particle visitor
 	 * @function
 	 * @override
-	 * @param {Particle} particle The particle the generator is working on
-	 * @returns {void}
-	 * @since 0.0.0
 	 */
-	this.draw = function(particle) {
-		ctx.save();
-		
-		ctx.strokeStyle = SETTINGS.SPRING_COLOR;
-		ctx.beginPath();
-		ctx.moveTo(particle.pos.x, particle.pos.y);
-		ctx.lineTo(this.particleOther.pos.x, this.particleOther.pos.y);
-		ctx.stroke();
-		
-		ctx.restore();
+	this.accept = function(visitor, particle) {
+    visitor.visitSpringForceGenerator(this, particle);
 	}
 }
 ParticleSpringForceGenerator.prototype = new ParticleForceGenerator();
@@ -851,25 +781,14 @@ function ParticleAnchoredSpringForceGenerator(anchor, springConstant, restLength
 		force.multScalarMutate(-magnitude);
 		particle.applyForce(force);
 	}
-	
-	/**
-	 * Draw a visual representation of this force generator
+
+  /**
+	 * Accepts the supplied particle visitor
 	 * @function
 	 * @override
-	 * @param {Particle} particle The particle the generator is working on
-	 * @returns {void}
-	 * @since 0.0.0
 	 */
-	this.draw = function(particle) {
-		ctx.save();
-		
-		ctx.strokeStyle = SETTINGS.ANCHORED_SPRING_COLOR;
-		ctx.beginPath();
-		ctx.moveTo(particle.pos.x, particle.pos.y);
-		ctx.lineTo(this.anchor.x, this.anchor.y);
-		ctx.stroke();
-		
-		ctx.restore();
+	this.accept = function(visitor, particle) {
+    visitor.visitAnchoredSpringForceGenerator(this, particle);
 	}
 }
 ParticleAnchoredSpringForceGenerator.prototype = new ParticleForceGenerator();
@@ -936,25 +855,14 @@ function ParticleBungeeForceGenerator(particleOther, springConstant, restLength)
 		force.multScalarMutate(-magnitude);
 		particle.applyForce(force);
 	}
-	
-	/**
-	 * Draw a visual representation of this force generator
+
+  /**
+	 * Accepts the supplied particle visitor
 	 * @function
 	 * @override
-	 * @param {Particle} particle The particle the generator is working on
-	 * @returns {void}
-	 * @since 0.0.0
 	 */
-	this.draw = function(particle) {
-		ctx.save();
-		
-		ctx.strokeStyle = SETTINGS.BUNGEE_COLOR;
-		ctx.beginPath();
-		ctx.moveTo(particle.pos.x, particle.pos.y);
-		ctx.lineTo(particleOther.pos.x, particleOther.pos.y);
-		ctx.stroke();
-		
-		ctx.restore();
+	this.accept = function(visitor, particle) {
+    visitor.visitBungeeForceGenerator(this, particle);
 	}
 }
 ParticleBungeeForceGenerator.prototype = new ParticleForceGenerator();
@@ -1020,25 +928,14 @@ function ParticleAnchoredBungeeForceGenerator(anchor, springConstant, restLength
 		force.multScalarMutate(-magnitude);
 		particle.applyForce(force);
 	}
-	
-	/**
-	 * Draw a visual representation of this force generator
+
+  /**
+	 * Accepts the supplied particle visitor
 	 * @function
 	 * @override
-	 * @param {Particle} particle The particle the generator is working on
-	 * @returns {void}
-	 * @since 0.0.0
 	 */
-	this.draw = function(particle) {
-		ctx.save();
-		
-		ctx.strokeStyle = SETTINGS.ANCHORED_BUNGEE_COLOR;
-		ctx.beginPath();
-		ctx.moveTo(particle.pos.x, particle.pos.y);
-		ctx.lineTo(this.anchor.x, this.anchor.y);
-		ctx.stroke();
-		
-		ctx.restore();
+	this.accept = function(visitor, particle) {
+    visitor.visitAnchoredBungeeForceGenerator(this, particle);
 	}
 }
 ParticleAnchoredBungeeForceGenerator.prototype = new ParticleForceGenerator();
@@ -1120,6 +1017,15 @@ function ParticleBuoyancyForceGenerator(anchor, maxDepth, volume, liquidDensity)
 		// TODO: determine partially emerged force
 		//force.y = this.liquidDensity * this.volume; //* (depth - this.maxDepth) / 2 * this.maxDepth;
 		//particle.applyForce(force);
+	}
+
+  /**
+	 * Accepts the supplied particle visitor
+	 * @function
+	 * @override
+	 */
+	this.accept = function(visitor, particle) {
+    visitor.visitBuoyancyForceGenerator(this, particle);
 	}
 }
 ParticleBuoyancyForceGenerator.prototype = new ParticleForceGenerator();
@@ -1413,12 +1319,12 @@ function ParticleContact() {
 		} // if
 		var accCausedSepVelocity = accCausedVelocity.dotProduct(this.contactNormal) * dt;
 		
-		// If we’ve got a closing velocity due to acceleration build-up,
+		// If weï¿½ve got a closing velocity due to acceleration build-up,
 		// remove it from the new separating velocity.
 		if (accCausedSepVelocity < 0) {
 			newSepVelocity += resitution * accCausedSepVelocity;
 			
-			// Make sure we haven’t removed more than was there to remove.
+			// Make sure we havenï¿½t removed more than was there to remove.
 			if (newSepVelocity < 0) {
 				newSepVelocity = 0;
 			} // if
@@ -1577,6 +1483,17 @@ function ParticleContactGenerator() {
 	 */
 	this.addContact = function(contacts, limit) {
 	}
+
+  /**
+   * Accepts a particle world visitor
+	 * @method
+   * @abstract
+   * @param {ParticleWorldVisitor} visitor Visitor to visit
+	 * @returns {void}
+	 * @since 0.0.0.3
+   */
+	this.accept = function(visitor) {
+	}
 }
 
 /**
@@ -1629,8 +1546,8 @@ function ParticleLinkContactGenerator() {
 	 * format is common to contact-generating functions, but this
 	 * class can only generate a single contact, so the
 	 * pointer can be a pointer to a single element. The limit
-	 * parameter is assumed to be at least one (zero isn’t valid),
-	 * and the return value is either 0, if the cable wasn’t
+	 * parameter is assumed to be at least one (zero isnï¿½t valid),
+	 * and the return value is either 0, if the cable wasnï¿½t
 	 * overextended, or one if a contact was needed.
 	 * @function
 	 * @abstract
@@ -1712,24 +1629,17 @@ function ParticleCableContactGenerator(maxLength, restitution) {
 		
 		return 1;
 	}
-	
-	/**
-	 * Draw a visual representation of this contact generator
-	 * @function
-	 * @override
-	 * @return {void}
-	 * @since 0.0.0
-	 */
-	this.draw = function() {
-		ctx.save();
-		
-		ctx.strokeStyle = SETTINGS.CABLE_COLOR;
-		ctx.beginPath();
-		ctx.moveTo(this.particles[0].pos.x, this.particles[0].pos.y);
-		ctx.lineTo(this.particles[1].pos.x, this.particles[1].pos.y);
-		ctx.stroke();
-		
-		ctx.restore();
+
+  /**
+   * Accepts a particle world visitor
+	 * @method
+   * @abstract
+   * @param {ParticleWorldVisitor} visitor Visitor to visit
+	 * @returns {void}
+	 * @since 0.0.0.3
+   */
+	this.accept = function(visitor) {
+    visitor.visitCableContactGenerator(this);
 	}
 }
 ParticleCableContactGenerator.prototype = new ParticleLinkContactGenerator();
@@ -1796,24 +1706,17 @@ function ParticleRodContactGenerator(length) {
 		
 		return 1;
 	}
-	
-	/**
-	 * Draw a visual representation of this contact generator
-	 * @function
-	 * @override
-	 * @return {void}
-	 * @since 0.0.0
-	 */
-	this.draw = function() {
-		ctx.save();
-		
-		ctx.strokeStyle = SETTINGS.ROD_COLOR;
-		ctx.beginPath();
-		ctx.moveTo(this.particles[0].pos.x, this.particles[0].pos.y);
-		ctx.lineTo(this.particles[1].pos.x, this.particles[1].pos.y);
-		ctx.stroke();
-		
-		ctx.restore();
+
+  /**
+   * Accepts a particle world visitor
+	 * @method
+   * @abstract
+   * @param {ParticleWorldVisitor} visitor Visitor to visit
+	 * @returns {void}
+	 * @since 0.0.0.3
+   */
+	this.accept = function(visitor) {
+    visitor.visitRodContactGenerator(this);
 	}
 }
 ParticleRodContactGenerator.prototype = new ParticleLinkContactGenerator();
@@ -1882,25 +1785,17 @@ function ParticleCollisionContactGenerator(collisionRadius) {
 		} // for
 		return usedContacts;
 	}
-	
-	/**
-	 * Draw a visual representation of this contact generator
-	 * @function
-	 * @override
+
+  /**
+   * Accepts a particle world visitor
+	 * @method
+   * @abstract
+   * @param {ParticleWorldVisitor} visitor Visitor to visit
 	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.draw = function() {
-		ctx.save();
-		
-		ctx.strokeStyle = SETTINGS.COLLISION_DETECTION_COLOR;
-		for (i in this.particles) {		
-			var particle = this.particles[i];
-			ctx.beginPath();
-			ctx.arc(particle.pos.x, particle.pos.y, this.collisionRadius, 0, Math.PI * 2);
-			ctx.stroke();
-		} // for		
-		ctx.restore();
+	 * @since 0.0.0.3
+   */
+	this.accept = function(visitor) {
+    visitor.visitCollisionContactGenerator(this);
 	}
 }
 ParticleCollisionContactGenerator.prototype = new ParticleContactGenerator();
@@ -2000,22 +1895,17 @@ function ParticleBoxContactGenerator(box, collisionRadius) {
 		} // for
 		return usedContacts;
 	}
-	
-	/**
-	 * Draw a visual representation of this contact generator
-	 * @function
-	 * @override
+
+  /**
+   * Accepts a particle world visitor
+	 * @method
+   * @abstract
+   * @param {ParticleWorldVisitor} visitor Visitor to visit
 	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.draw = function() {
-		ctx.save();
-		ctx.strokeStyle = SETTINGS.COLLISION_BOX_COLOR;
-		ctx.strokeRect(this.box.x, this.box.y, this.box.width, this.box.height);
-		
-		ctx.strokeStyle = SETTINGS.COLLISION_BOX_TOL_COLOR;
-		ctx.strokeRect(this.box.x + this.collisionRadius, this.box.y + this.collisionRadius, this.box.width - this.collisionRadius * 2, this.box.height - this.collisionRadius * 2);
-		ctx.restore();
+	 * @since 0.0.0.3
+   */
+	this.accept = function(visitor) {
+    visitor.visitBoxCollisionContactGenerator(this);
 	}
 }
 ParticleBoxContactGenerator.prototype = new ParticleContactGenerator();
@@ -2177,8 +2067,164 @@ function ContactEvent(contact, contactType) {
 	 * @since 0.0.0
 	 */
 	this.contactType = contactType;
-}	
-	
+}
+
+/**
+ * @class Visitor interface to visit the particle world
+ * @constructor
+ * @since 0.0.0.3
+ */
+function ParticleWorldVisitor() {
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits the particle world
+   * @param {ParticleWorld} world The visited particle world
+	 * @return void
+	 */
+	this.visitWorld = function(world) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits the particle
+   * @param {Particle} particle The visited particle
+	 * @return void
+	 */
+	this.visitParticle = function(particle) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits a gravity force generator
+   * @param {ParticleWindForceGenerator} forceGenerator The visited force generator
+   * @param {Particle} particle The particle currently affected by this force generator
+	 * @return void
+	 */
+	this.visitGravityForceGenerator = function(forceGenerator, particle) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits a gravity force generator
+   * @param {ParticleGravityForceGenerator} forceGenerator The visited force generator
+   * @param {Particle} particle The particle currently affected by this force generator
+	 * @return void
+	 */
+	this.visitWindForceGenerator = function(forceGenerator, particle) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits a drag generator
+   * @param {ParticleDragForceGenerator} forceGenerator The visited force generator
+   * @param {Particle} particle The particle currently affected by this force generator
+	 * @return void
+	 */
+	this.visitDragForceGenerator = function(forceGenerator, particle) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits a spring generator
+   * @param {ParticleSpringForceGenerator} forceGenerator The visited force generator
+   * @param {Particle} particle The particle currently affected by this force generator
+	 * @return void
+	 */
+	this.visitSpringForceGenerator = function(forceGenerator, particle) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits a spring generator
+   * @param {ParticleAnchoredSpringForceGenerator} forceGenerator The visited force generator
+   * @param {Particle} particle The particle currently affected by this force generator
+	 * @return void
+	 */
+	this.visitAnchoredSpringForceGenerator = function(forceGenerator, particle) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits a bungee generator
+   * @param {ParticleBungeeForceGenerator} forceGenerator The visited force generator
+   * @param {Particle} particle The particle currently affected by this force generator
+	 * @return void
+	 */
+	this.visitBungeeForceGenerator = function(forceGenerator, particle) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits a drag generator
+   * @param {ParticleAnchoredBungeeForceGenerator} forceGenerator The visited force generator
+   * @param {Particle} particle The particle currently affected by this force generator
+	 * @return void
+	 */
+	this.visitAnchoredBungeeForceGenerator = function(forceGenerator, particle) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits a drag generator
+   * @param {ParticleBuoyancyForceGenerator} forceGenerator The visited force generator
+   * @param {Particle} particle The particle currently affected by this force generator
+	 * @return void
+	 */
+	this.visitBuoyancyForceGenerator = function(forceGenerator, particle) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits the particle cable contact generator
+   * @param {ParticleCableContactGenerator} contactGenerator The visited particle contact generator
+	 * @return void
+	 */
+	this.visitCableContactGenerator = function(contactGenerator) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits the particle rod contact generator
+   * @param {ParticleRodContactGenerator} contactGenerator The visited particle contact generator
+	 * @return void
+	 */
+	this.visitRodContactGenerator = function(contactGenerator) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits the particle colllision contact generator
+   * @param {ParticleCollisionContactGenerator} contactGenerator The visited particle contact generator
+	 * @return void
+	 */
+	this.visitCollisionContactGenerator = function(contactGenerator) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits the particle box collision contact generator
+   * @param {ParticleBoxContactGenerator} contactGenerator The visited particle contact generator
+	 * @return void
+	 */
+	this.visitBoxCollisionContactGenerator = function(contactGenerator) {
+	}
+}
+
 /**
  * @class Keeps track of all particles
  * @constructor
@@ -2378,14 +2424,14 @@ function ParticleWorld(flags) {
 	}
 	
 	/**
-	 * Gets the first particle within the specified radius
+	 * Gets the first particle within the specified radius in world space
 	 * @function
-	 * @param {Vector2} point The point at which to look
+	 * @param {Vector2} point The world point at which to look
 	 * @param {float} radius The search radius
 	 * @returns {Particle} The particle, undefined if none were found
 	 * @since 0.0.0
 	 */
-	this.getFirstParticleWithin = function(point, radius) {
+	this.getFirstParticleWithinWorld = function(point, radius) {
 		for (i in this.particles) {
 			var particle = this.particles[i];
 			if (particle.isCloseToPoint(point, radius)) {
@@ -2393,6 +2439,19 @@ function ParticleWorld(flags) {
 			} // if
 		} // for
 		return undefined;
+	}
+
+  /**
+	 * Gets the first particle within the specified radius in window space
+	 * @function
+	 * @param {Vector2} point The window point at which to look
+	 * @param {float} radius The search radius
+	 * @returns {Particle} The particle, undefined if none were found
+	 * @since 0.0.0.3
+	 */
+	this.getFirstParticleWithinWindow = function(point, radius) {
+		var worldPos = world(point);
+		return this.getFirstParticleWithinWorld(worldPos, radius);
 	}
 	
 	/**
@@ -2483,48 +2542,6 @@ function ParticleWorld(flags) {
 	}
 	
 	/**
-	 * Draw all global force generators
-	 * @function
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.drawGlobalForces = function() {
-		for (j in this.globalForceGenerators) {
-			var forceGenerator = this.globalForceGenerators[j];
-			for (i in this.particles) {
-				var particle = this.particles[i];
-				forceGenerator.draw(particle);
-			} // for
-		} // for
-	}
-	
-	/**
-	 * Draw all contact generators
-	 * @function
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.drawContactGenerators = function() {
-		for (j in this.contactGenerators) {
-			var contactGenerator = this.contactGenerators[j];
-			contactGenerator.draw();
-		} // for
-	}
-	
-	/**
-	 * Draw all particles
-	 * @function
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.drawParticles = function() {
-		for (i in this.particles) {
-			var particle = this.particles[i];
-			particle.draw();
-		} // for
-	}
-	
-	/**
 	 * Adds a global force generator
 	 * @function
 	 * @param {ParticleForceGenerator} forceGenerator The global force generator to be added
@@ -2592,19 +2609,6 @@ function ParticleWorld(flags) {
 		);
 	}
 	
-	/**
-	 * Draws visualization of the physical simulation
-	 * @function
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.draw = function() {
-		this.drawGlobalForces();
-		this.forceRegistry.drawForceGenerators();
-		this.drawContactGenerators();
-		this.drawParticles();
-	}
-	
 	/*
 	 * Check flags
 	 */
@@ -2636,5 +2640,36 @@ function ParticleWorld(flags) {
 			console.debug("Contact events enabled");
 		} // if
 	} // if
+
+  /**
+   * Accepts a particle world visitor
+	 * @function
+   * @param {ParticleWorldVisitor} visitor Visitor to visit
+	 * @returns {void}
+	 * @since 0.0.0.3
+   */
+  this.accept = function(visitor) {
+    visitor.visitWorld(this);
+
+    for (j in this.globalForceGenerators) {
+			var forceGenerator = this.globalForceGenerators[j];
+      for (i in this.particles) {
+        var particle = this.particles[i];
+        forceGenerator.accept(visitor, particle);
+      } // for
+		} // for
+
+    for (j in this.contactGenerators) {
+			var contactGenerator = this.contactGenerators[j];
+      contactGenerator.accept(visitor);
+		} // for
+
+    this.forceRegistry.accept(visitor);
+
+    for (i in this.particles) {
+			var particle = this.particles[i];
+      particle.accept(visitor);
+		} // for
+  }
 }
 ParticleWorld.prototype = new Observable();

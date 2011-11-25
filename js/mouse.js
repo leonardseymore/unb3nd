@@ -1,6 +1,6 @@
 /**
  * @fileOverview Mouse cursor effects
- * @author <a href="mailto:leonard.seymore@gmail.com">Leonard Seymore</a>
+ * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
  * @since 0.0.0
  */
 /**
@@ -71,8 +71,7 @@ function FancyMouse() {
 	 */
 	this.draw = function() {
 		ctx.save();
-		
-		ctx.flipHorizontal();
+
 		ctx.fillStyle = "black";
 		ctx.beginPath();
 

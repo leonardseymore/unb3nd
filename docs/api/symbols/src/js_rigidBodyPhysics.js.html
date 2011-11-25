@@ -7,7 +7,7 @@
 	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
 	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
 <span class='line'>  2</span>  * @fileOverview Rigid Body System
-<span class='line'>  3</span>  * @author &lt;a href="mailto:leonard.seymore@gmail.com">Leonard Seymore&lt;/a>
+<span class='line'>  3</span>  * @author &lt;a href="mailto:leonardseymore@gmail.com">Leonard Seymore&lt;/a>
 <span class='line'>  4</span>  * @since 0.0.0
 <span class='line'>  5</span>  */</span><span class="WHIT">
 <span class='line'>  6</span> 
@@ -506,7 +506,7 @@
 <span class='line'>499</span> </span><span class="WHIT">		</span><span class="NAME">ctx.save</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">	</span><span class="WHIT">
 <span class='line'>500</span> </span><span class="WHIT">		</span><span class="NAME">ctx.fillStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fillStyle</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">SETTINGS.RIGID_BODY_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fillStyle</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>501</span> </span><span class="WHIT">		</span><span class="NAME">ctx.translate</span><span class="PUNC">(</span><span class="NAME">this.pos.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.pos.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>502</span> </span><span class="WHIT">		</span><span class="NAME">ctx.rotate</span><span class="PUNC">(</span><span class="NAME">this.getOrientation</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>502</span> </span><span class="WHIT">		</span><span class="NAME">ctx.rotate</span><span class="PUNC">(</span><span class="NAME">this.getOrientationAngle</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>503</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SETTINGS.RIGID_BODY_WIDTH</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>504</span> </span><span class="WHIT">		</span><span class="NAME">ctx.fillRect</span><span class="PUNC">(</span><span class="WHIT">
 <span class='line'>505</span> </span><span class="WHIT">			</span><span class="PUNC">-</span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT">

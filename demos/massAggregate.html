@@ -3,6 +3,12 @@
 	<head>
 		<title>unb3nd - Mass Aggregate Demo</title>
 		<link rel="stylesheet" href="../css/unb3nd.css" type="text/css" media="screen" />
+    <style type="text/css">
+      input {
+        width: 16px;
+        height: 16px;
+      }
+    </style>
 		<script type="text/javascript" src="../out/unb3nd.js"></script>
 		<script type="text/javascript" src="massAggregate.js"></script>
 	</head>
@@ -27,7 +33,7 @@
 			<input id="btnAddCable" type="image" title="Add Cable" value="Add Cable" onclick="enableTool(CreateCableTool.instance);" src="../img/cable.png" />
 			<input id="btnAddRod" type="image" title="Add Rod" value="Add Rod" onclick="enableTool(CreateRodTool.instance);" src="../img/rod.png" />
 			<hr/>
-			<canvas id="canvas" width="800" height="600"></canvas>
+			<canvas id="canvas" width="400" height="400"></canvas>
 		</center>
 	</body>
 </html>

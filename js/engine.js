@@ -1,6 +1,6 @@
 /**
  * @fileOverview Main application driver
- * @author <a href="mailto:leonard.seymore@gmail.com">Leonard Seymore</a>
+ * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
  * @since 0.0.0
  */
 
@@ -338,81 +338,7 @@ function engineInit() {
 	
 	canvas = document.getElementById("canvas");
 	if (canvas.getContext) {
-
-		// Implicitly convert world to canvas coordinates
-		// Effectively we want the world point (0, 0) to be at the bottom left
-		// of the canvas.
-		var canvasCtx = canvas.getContext("2d");
-		canvasCtx.translate(0, canvas.height); 
-		canvasCtx.scale(1,-1);
-
-		/**
-		 * @class
-		 * @constructor
-		 * @extend CanvasRenderingContext2D
-		 * We want to overload some methods to project correctly onto canvas
-		 */
-		function CustomCanvasRenderingContext2D() {		
-		
-			/** 
-		     * @method
-			 * @override
-			 * @param string text The text to print
-			 * @param float x The X-coordinate
-			 * @param float y The Y-coordinate
-			 * @param float maxWidth The maximum string width
-			 * @return void
-			 */
-			this.fillText = function(text, x, y, maxWidth) {
-				canvasCtx.save();
-				this.flipHorizontal();
-				canvasCtx.fillText(text, x, Y(y), maxWidth);
-				canvasCtx.restore();
-			}
-			
-			/** 
-		     * @method
-			 * @override
-			 * @param Image image The image to draw
-			 * @param float x The X-coordinate
-			 * @param float y The Y-coordinate
-			 * @return void
-			 */
-			this.drawImage = function(image, dx, dy) {
-				canvasCtx.save();
-				this.flipHorizontal();
-				canvasCtx.drawImage(image, dx, Y(dy));
-				canvasCtx.restore();
-			}
-			
-			/** 
-		     * @method
-			 * @override
-			 * @param string text The text to print
-			 * @param float x The X-coordinate
-			 * @param float y The Y-coordinate
-			 * @param float maxWidth The maximum string width
-			 * @return void
-			 */
-			this.strokeText = function(text, x, y, maxWidth) {
-				canvasCtx.save();
-				this.flipHorizontal();
-				canvasCtx.strokeText(text, x, Y(y), maxWidth);
-				canvasCtx.restore();
-			}
-			
-			/**
-			 * @method
-			 * Flips the canvas horizontally
-			 * @return void
-			 */
-			this.flipHorizontal = function() {
-				canvasCtx.translate(0, canvas.height); 
-				canvasCtx.scale(1, -1);
-			}
-		}
-		CustomCanvasRenderingContext2D.prototype = canvasCtx;
-		ctx = new CustomCanvasRenderingContext2D();
+    ctx = canvas.getContext("2d");
 		
 		if (debug) {
 			console.debug("Found 2d context");
