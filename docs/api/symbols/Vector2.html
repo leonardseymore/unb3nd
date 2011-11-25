@@ -217,8 +217,6 @@ ul.inheritsList
 	
 	<li><a href="../symbols/Engine.html">Engine</a></li>
 	
-	<li><a href="../symbols/engineInit-CustomCanvasRenderingContext2D.html">engineInit-CustomCanvasRenderingContext2D</a></li>
-	
 	<li><a href="../symbols/Entity.html">Entity</a></li>
 	
 	<li><a href="../symbols/EntityManager.html">EntityManager</a></li>
@@ -285,6 +283,10 @@ ul.inheritsList
 	
 	<li><a href="../symbols/ParticleWorld.html">ParticleWorld</a></li>
 	
+	<li><a href="../symbols/ParticleWorldRenderVisitor.html">ParticleWorldRenderVisitor</a></li>
+	
+	<li><a href="../symbols/ParticleWorldVisitor.html">ParticleWorldVisitor</a></li>
+	
 	<li><a href="../symbols/Plane2.html">Plane2</a></li>
 	
 	<li><a href="../symbols/PotentialContact.html">PotentialContact</a></li>
@@ -292,6 +294,8 @@ ul.inheritsList
 	<li><a href="../symbols/Queue.html">Queue</a></li>
 	
 	<li><a href="../symbols/Rectangle.html">Rectangle</a></li>
+	
+	<li><a href="../symbols/Renderer.html">Renderer</a></li>
 	
 	<li><a href="../symbols/Resources.html">Resources</a></li>
 	
@@ -482,6 +486,24 @@ ul.inheritsList
 						</tr>
 					
 						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Vector2.<b><a href="../symbols/Vector2.html#.getDistance">getDistance</a></b>(v1, v2)
+								</div>
+								<div class="description">Calculates the distance between two vectors</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Vector2.<b><a href="../symbols/Vector2.html#.getDistanceSquare">getDistanceSquare</a></b>(v1, v2)
+								</div>
+								<div class="description">Calculates the squared distance between two vectorsThis method is less expensive than Vector2#getDistance methodbecause it does not perform a square root operation.</div>
+							</td>
+						</tr>
+					
+						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/Vector2.html#getMagnitude">getMagnitude</a></b>()
@@ -496,6 +518,24 @@ ul.inheritsList
 								<div class="fixedFont"><b><a href="../symbols/Vector2.html#getMagnitudeSquare">getMagnitudeSquare</a></b>()
 								</div>
 								<div class="description">Calculate the squared magnitude of this vector</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Vector2.<b><a href="../symbols/Vector2.html#.isWithin">isWithin</a></b>(v1, v2, distance)
+								</div>
+								<div class="description">Determines if the two vectors are within a specified distance from each other.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Vector2.<b><a href="../symbols/Vector2.html#.isWithinStrict">isWithinStrict</a></b>(v1, v2, distance)
+								</div>
+								<div class="description">Determines if the two vectors are strictly a specified distance from each other.</div>
 							</td>
 						</tr>
 					
@@ -1061,6 +1101,116 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name=".getDistance"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{float}</span>
+					<span class="light">Vector2.</span><b>getDistance</b>(v1, v2)
+					
+					</div>
+					<div class="description">
+						Calculates the distance between two vectors
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>v1</b>
+									
+								</dt>
+								<dd>The first vector</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>v2</b>
+									
+								</dt>
+								<dd>The second vector</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{float}</span> The distance between the two vectors</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getDistanceSquare"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{float}</span>
+					<span class="light">Vector2.</span><b>getDistanceSquare</b>(v1, v2)
+					
+					</div>
+					<div class="description">
+						Calculates the squared distance between two vectorsThis method is less expensive than Vector2#getDistance methodbecause it does not perform a square root operation.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>v1</b>
+									
+								</dt>
+								<dd>The first vector</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>v2</b>
+									
+								</dt>
+								<dd>The second vector</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{float}</span> The distance squared between the two vectors</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
 					<a name="getMagnitude"> </a>
 					<div class="fixedFont">
 					
@@ -1129,6 +1279,128 @@ ul.inheritsList
 							<dt class="heading">Returns:</dt>
 							
 								<dd><span class="light fixedFont">{float}</span> The square magnitude</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".isWithin"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{boolean}</span>
+					<span class="light">Vector2.</span><b>isWithin</b>(v1, v2, distance)
+					
+					</div>
+					<div class="description">
+						Determines if the two vectors are within a specified distance from each other.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>v1</b>
+									
+								</dt>
+								<dd>The first vector</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>v2</b>
+									
+								</dt>
+								<dd>The second vector</dd>
+							
+								<dt>
+									<span class="light fixedFont">{float}</span> <b>distance</b>
+									
+								</dt>
+								<dd>The distance to test for</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{boolean}</span> True if the vectors are within specified distance</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".isWithinStrict"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{boolean}</span>
+					<span class="light">Vector2.</span><b>isWithinStrict</b>(v1, v2, distance)
+					
+					</div>
+					<div class="description">
+						Determines if the two vectors are strictly a specified distance from each other.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>v1</b>
+									
+								</dt>
+								<dd>The first vector</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>v2</b>
+									
+								</dt>
+								<dd>The second vector</dd>
+							
+								<dt>
+									<span class="light fixedFont">{float}</span> <b>distance</b>
+									
+								</dt>
+								<dd>The distance to test for</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{boolean}</span> True if the vectors are strictly within specified distance</dd>
 							
 							</dl>
 						
@@ -1535,7 +1807,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Nov 23 2011 06:54:31 GMT+0200 (CAT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Nov 25 2011 13:42:19 GMT+0200 (CAT)
 		</div>
 	</body>
 </html>

@@ -35,6 +35,7 @@ function Y(y) {
 function world(point) {
   var worldPos = point.clone();
   worldPos.y = Y(point.y);
+  worldPos.multScalarMutate(1 / ppm);
   return worldPos;
 }
 
@@ -47,7 +48,8 @@ function world(point) {
  */
 function window(point) {
   var windowPos = point.clone();
-  windowPos.y = Y(point.y);
+  windowPos.multScalarMutate(ppm);
+  windowPos.y = Y(windowPos.y);
   return windowPos;
 }
 
@@ -61,5 +63,6 @@ function window(point) {
 function windowVector(vector) {
   var windowVec = vector.clone();
   windowVec.y = -vector.y;
+  windowVec.multScalarMutate(ppm);
   return windowVec;
 }

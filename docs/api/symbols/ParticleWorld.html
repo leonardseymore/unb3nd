@@ -217,8 +217,6 @@ ul.inheritsList
 	
 	<li><a href="../symbols/Engine.html">Engine</a></li>
 	
-	<li><a href="../symbols/engineInit-CustomCanvasRenderingContext2D.html">engineInit-CustomCanvasRenderingContext2D</a></li>
-	
 	<li><a href="../symbols/Entity.html">Entity</a></li>
 	
 	<li><a href="../symbols/EntityManager.html">EntityManager</a></li>
@@ -285,6 +283,10 @@ ul.inheritsList
 	
 	<li><a href="../symbols/ParticleWorld.html">ParticleWorld</a></li>
 	
+	<li><a href="../symbols/ParticleWorldRenderVisitor.html">ParticleWorldRenderVisitor</a></li>
+	
+	<li><a href="../symbols/ParticleWorldVisitor.html">ParticleWorldVisitor</a></li>
+	
 	<li><a href="../symbols/Plane2.html">Plane2</a></li>
 	
 	<li><a href="../symbols/PotentialContact.html">PotentialContact</a></li>
@@ -292,6 +294,8 @@ ul.inheritsList
 	<li><a href="../symbols/Queue.html">Queue</a></li>
 	
 	<li><a href="../symbols/Rectangle.html">Rectangle</a></li>
+	
+	<li><a href="../symbols/Renderer.html">Renderer</a></li>
 	
 	<li><a href="../symbols/Resources.html">Resources</a></li>
 	
@@ -507,6 +511,15 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorld.html#accept">accept</a></b>(visitor)
+								</div>
+								<div class="description">Accepts a particle world visitor</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/ParticleWorld.html#addContactGenerator">addContactGenerator</a></b>(contactGenerator)
 								</div>
 								<div class="description">Adds a contact generator</div>
@@ -579,42 +592,6 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ParticleWorld.html#draw">draw</a></b>()
-								</div>
-								<div class="description">Draws visualization of the physical simulation</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ParticleWorld.html#drawContactGenerators">drawContactGenerators</a></b>()
-								</div>
-								<div class="description">Draw all contact generators</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ParticleWorld.html#drawGlobalForces">drawGlobalForces</a></b>()
-								</div>
-								<div class="description">Draw all global force generators</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ParticleWorld.html#drawParticles">drawParticles</a></b>()
-								</div>
-								<div class="description">Draw all particles</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/ParticleWorld.html#generateContacts">generateContacts</a></b>()
 								</div>
 								<div class="description">Calls all the contact generators</div>
@@ -624,9 +601,18 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ParticleWorld.html#getFirstParticleWithin">getFirstParticleWithin</a></b>(point, radius)
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorld.html#getFirstParticleWithinWindow">getFirstParticleWithinWindow</a></b>(point, radius)
 								</div>
-								<div class="description">Gets the first particle within the specified radius</div>
+								<div class="description">Gets the first particle within the specified radius in window space</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorld.html#getFirstParticleWithinWorld">getFirstParticleWithinWorld</a></b>(point, radius)
+								</div>
+								<div class="description">Gets the first particle within the specified radius in world space</div>
 							</td>
 						</tr>
 					
@@ -1097,6 +1083,55 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
+					<a name="accept"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{void}</span>
+					<b>accept</b>(visitor)
+					
+					</div>
+					<div class="description">
+						Accepts a particle world visitor
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/ParticleWorldVisitor.html">ParticleWorldVisitor</a>}</span> <b>visitor</b>
+									
+								</dt>
+								<dd>Visitor to visit</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{void}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
 					<a name="addContactGenerator"> </a>
 					<div class="fixedFont">
 					
@@ -1495,158 +1530,6 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="draw"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{void}</span>
-					<b>draw</b>()
-					
-					</div>
-					<div class="description">
-						Draws visualization of the physical simulation
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="drawContactGenerators"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{void}</span>
-					<b>drawContactGenerators</b>()
-					
-					</div>
-					<div class="description">
-						Draw all contact generators
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="drawGlobalForces"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{void}</span>
-					<b>drawGlobalForces</b>()
-					
-					</div>
-					<div class="description">
-						Draw all global force generators
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="drawParticles"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{void}</span>
-					<b>drawParticles</b>()
-					
-					</div>
-					<div class="description">
-						Draw all particles
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
 					<a name="generateContacts"> </a>
 					<div class="fixedFont">
 					
@@ -1685,15 +1568,15 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="getFirstParticleWithin"> </a>
+					<a name="getFirstParticleWithinWindow"> </a>
 					<div class="fixedFont">
 					
 					<span class="light">{<a href="../symbols/Particle.html">Particle</a>}</span>
-					<b>getFirstParticleWithin</b>(point, radius)
+					<b>getFirstParticleWithinWindow</b>(point, radius)
 					
 					</div>
 					<div class="description">
-						Gets the first particle within the specified radius
+						Gets the first particle within the specified radius in window space
 						
 						
 					</div>
@@ -1708,7 +1591,62 @@ ul.inheritsList
 									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>point</b>
 									
 								</dt>
-								<dd>The point at which to look</dd>
+								<dd>The window point at which to look</dd>
+							
+								<dt>
+									<span class="light fixedFont">{float}</span> <b>radius</b>
+									
+								</dt>
+								<dd>The search radius</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Particle.html">Particle</a>}</span> The particle, undefined if none were found</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getFirstParticleWithinWorld"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Particle.html">Particle</a>}</span>
+					<b>getFirstParticleWithinWorld</b>(point, radius)
+					
+					</div>
+					<div class="description">
+						Gets the first particle within the specified radius in world space
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>point</b>
+									
+								</dt>
+								<dd>The world point at which to look</dd>
 							
 								<dt>
 									<span class="light fixedFont">{float}</span> <b>radius</b>
@@ -2035,7 +1973,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Nov 23 2011 06:54:30 GMT+0200 (CAT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Nov 25 2011 13:42:19 GMT+0200 (CAT)
 		</div>
 	</body>
 </html>

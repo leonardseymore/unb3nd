@@ -172,6 +172,29 @@ var Engine = function() {
 		} // if
 		this.dispatchEvent("mouseout", e);
 	}
+
+  /**
+	 * On mouse wheel event callback
+	 * @field
+	 * @type function
+	 * @default undefined
+	 * @since 0.0.0.3
+	 */
+	this.onmousewheel = undefined;
+
+	/**
+	 * On mouse wheel callback invoker
+	 * @function
+	 * @param {MouseEvent} e The event object
+	 * @returns {void}
+	 * @since 0.0.0.3
+	 */
+	this.mousewheel = function(e) {
+		if (this.onmousewheel) {
+			this.onmousewheel(e);
+		} // if
+		this.dispatchEvent("mousewheel", e);
+	}
 	
 	/**
 	 * On key down event callback
@@ -389,6 +412,16 @@ function engineInit() {
 		canvas.onmouseout = function(e) {
 			engine.mouseout(e);
 		}
+
+    /**
+		 * @eventHandler
+		 * This handler links up the canvas mouseout event handler
+		 * @param Event e mousewheel event
+		 */
+		canvas.onmousewheel = function(e) {
+			engine.mousewheel(e);
+		}
+
 		
 		STYLE_DARK_EVENING = ctx.createLinearGradient(0,-75,0,75);
 		STYLE_DARK_EVENING.addColorStop(0, '#232256');

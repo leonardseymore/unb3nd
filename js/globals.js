@@ -205,10 +205,10 @@ var running = false;
 var paused = false;
 
 /**
- * Late evening style
+ * Global scale (Pixels Per Meter) flag
  * @public
  * @field
- * @type FillStyle
- * @since 0.0.0
+ * @type boolean
+ * @since 0.0.0.3
  */
-var STYLE_LATE_EVENING = null;
+var ppm = 1;

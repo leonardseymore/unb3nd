@@ -96,7 +96,7 @@ function Particle(mass) {
 	 * @since 0.0.0
 	 */
 	 this.isCloseToPoint = function(point, distance) {
-		return this.pos.sub(point).getMagnitude() <= distance;
+    return Vector2.isWithin(this.pos, point, distance);
 	 }
 	
 	/**
@@ -2450,8 +2450,13 @@ function ParticleWorld(flags) {
 	 * @since 0.0.0.3
 	 */
 	this.getFirstParticleWithinWindow = function(point, radius) {
-		var worldPos = world(point);
-		return this.getFirstParticleWithinWorld(worldPos, radius);
+    for (i in this.particles) {
+			var particle = this.particles[i];
+			if (Vector2.isWithin(window(particle.pos), point, radius)) {
+				return particle;
+			} // if
+		} // for
+		return undefined;
 	}
 	
 	/**

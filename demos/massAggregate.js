@@ -3,6 +3,8 @@
  * Mass Aggregate Engine Demo
  ****************************/
 
+ppm = 20;
+
 /**
  * All icons
  * @field
@@ -131,6 +133,19 @@ engine.addEventListener("mouseout", function(e) {
 });
 
 /**
+ * @eventHandler
+ * Mouse wheel handler
+ */
+engine.addEventListener("mousewheel", function(e) {
+  if (e.wheelDelta > 0) {
+    ppm *= 2;
+  } else {
+    ppm /= 2;
+  } // if
+  renderGame();
+});
+
+/**
  * @function
  * Enables the supplied tool
  * @return void
@@ -169,7 +184,8 @@ function removeAnchor(anchor) {
 function getFirstAnchorWithin(point, radius) {
 	for (i in anchors) {
 		var anchor = anchors[i];
-		if (anchor.sub(point).getMagnitude() <= radius) {
+    var anchorScreenPos = window(anchor);
+		if (Vector2.isWithin(anchorScreenPos, point, radius)) {
 			return anchor;
 		} // if
 	} // for
@@ -219,16 +235,18 @@ function renderGame() {
 	
 	for (i in anchors) {
 		var anchor = anchors[i];
-		ctx.drawImage(anchorImage, anchor.x - anchorImage.width / 2, anchor.y - anchorImage.height / 2);
+    var anchorScreenPos = window(anchor);
+		ctx.drawImage(anchorImage, anchorScreenPos.x - anchorImage.width / 2, anchorScreenPos.y - anchorImage.height / 2);
 	} // for
 	
   if (debug) {
-    ctx.fillText("Global Forces: " + particleWorld.globalForceGenerators, 10, Y(60));
-    ctx.fillText("Num Particles: " + particleWorld.particles.length, 10, Y(50));
-    ctx.fillText("Num Force Generators: " + particleWorld.forceRegistry.entries.length, 10, Y(40));
-    ctx.fillText("Num Contact Generators: " + particleWorld.contactGenerators.length, 10, Y(30));
-    ctx.fillText("Mouse Screen: (" + lastMouseMoveScreen.x + "," + lastMouseMoveScreen.y + ")", 10, Y(20));
-    ctx.fillText("Mouse World: (" + lastMouseMoveWorld.x + "," + lastMouseMoveWorld.y + ")", 10, Y(10));
+    ctx.fillText("Global Forces: " + particleWorld.globalForceGenerators, 10, Y(80));
+    ctx.fillText("Num Particles: " + particleWorld.particles.length, 10, Y(70));
+    ctx.fillText("Num Force Generators: " + particleWorld.forceRegistry.entries.length, 10, Y(60));
+    ctx.fillText("Num Contact Generators: " + particleWorld.contactGenerators.length, 10, Y(50));
+    ctx.fillText("Mouse Screen: (" + lastMouseMoveScreen.x + "," + lastMouseMoveScreen.y + ")", 10, Y(40));
+    ctx.fillText("Mouse World: (" + lastMouseMoveWorld.x + "," + lastMouseMoveWorld.y + ")", 10, Y(30));
+    ctx.fillText("Pixels Per Meter: " + ppm, 10, Y(20));
   } // if
 	
 	if (mouseInScreen) {
@@ -243,15 +261,12 @@ function renderGame() {
  * @param float radius The radius around the point
  */
 function highlightParticles(point, radius) {
-  var worldPos = point.clone();
-  worldPos.y = Y(point.y);
 	for (i in particleWorld.particles) {
 		var particle = particleWorld.particles[i];
-		if (particle.isCloseToPoint(worldPos, radius)) {
-      var particleScreenPos = particle.pos.clone();
-      particleScreenPos.y = Y(particle.pos.y);
-			highlightPoint(particleScreenPos, radius);
-		} // if
+    var particleScreenPos = window(particle.pos);
+    if (Vector2.isWithin(point, particleScreenPos, radius)) {
+      highlightPoint(particleScreenPos, radius);
+    } // if
 	} // for
 }
 
@@ -264,9 +279,10 @@ function highlightParticles(point, radius) {
 function highlightAnchors(point, radius) {
 	for (i in anchors) {
 		var anchor = anchors[i];
-		if (anchor.sub(point).getMagnitude() <= radius) {
-			highlightPoint(anchor, radius);
-		} // if
+    var anchorScreenPos = window(anchor);
+    if (Vector2.isWithin(point, anchorScreenPos, radius)) {
+      highlightPoint(anchorScreenPos, radius);
+    } // if
 	} // for
 }
 
@@ -623,7 +639,7 @@ function CreateAnchorTool() {
 	 */
 	this.use = function(point) {
 		var anchor = point.clone();
-		anchors.push(anchor);
+		anchors.push(world(anchor));
 	}
 	
 	/** 
@@ -1000,11 +1016,12 @@ function Anchor2ParticleTool() {
 		if (this.anchor) {
 			ctx.save();
 			ctx.strokeStyle = "green";
-			highlightPoint(this.anchor, this.selectRadius);
+      var anchorScreenPos = window(this.anchor);
+			highlightPoint(anchorScreenPos, this.selectRadius);
 			
 			ctx.strokeStyle = "darkgrey";
 			ctx.beginPath();
-			ctx.moveTo(this.anchor.x, this.anchor.y);
+			ctx.moveTo(anchorScreenPos.x, anchorScreenPos.y);
 			
 			var particle = particleWorld.getFirstParticleWithinWindow(
 				point, this.selectRadius
@@ -1186,7 +1203,7 @@ function CreateAnchoredSpringTool() {
 	 */
 	this.createForce = function(anchor, particle) {
 		ParticleForceGeneratorFactory.createAnchoredSpring(
-			particleWorld.forceRegistry, particle, world(anchor),  1, 1
+			particleWorld.forceRegistry, particle, anchor,  1, 1
 		);
 	}
 }
@@ -1222,7 +1239,7 @@ function CreateAnchoredBungeeTool() {
 	 */
 	this.createForce = function(anchor, particle) {
 		ParticleForceGeneratorFactory.createAnchoredBungee(
-			particleWorld.forceRegistry, particle, world(anchor),  1, 1
+			particleWorld.forceRegistry, particle, anchor,  1, 1
 		);
 	}
 }

@@ -217,8 +217,6 @@ ul.inheritsList
 	
 	<li><a href="../symbols/Engine.html">Engine</a></li>
 	
-	<li><a href="../symbols/engineInit-CustomCanvasRenderingContext2D.html">engineInit-CustomCanvasRenderingContext2D</a></li>
-	
 	<li><a href="../symbols/Entity.html">Entity</a></li>
 	
 	<li><a href="../symbols/EntityManager.html">EntityManager</a></li>
@@ -285,6 +283,10 @@ ul.inheritsList
 	
 	<li><a href="../symbols/ParticleWorld.html">ParticleWorld</a></li>
 	
+	<li><a href="../symbols/ParticleWorldRenderVisitor.html">ParticleWorldRenderVisitor</a></li>
+	
+	<li><a href="../symbols/ParticleWorldVisitor.html">ParticleWorldVisitor</a></li>
+	
 	<li><a href="../symbols/Plane2.html">Plane2</a></li>
 	
 	<li><a href="../symbols/PotentialContact.html">PotentialContact</a></li>
@@ -292,6 +294,8 @@ ul.inheritsList
 	<li><a href="../symbols/Queue.html">Queue</a></li>
 	
 	<li><a href="../symbols/Rectangle.html">Rectangle</a></li>
+	
+	<li><a href="../symbols/Renderer.html">Renderer</a></li>
 	
 	<li><a href="../symbols/Resources.html">Resources</a></li>
 	
@@ -558,6 +562,16 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
+								<b><a href="../symbols/_global_.html#ppm">ppm</a></b>
+								</div>
+								<div class="description">Global scale (Pixels Per Meter) flag</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
 								<b><a href="../symbols/_global_.html#running">running</a></b>
 								</div>
 								<div class="description">Global running flag</div>
@@ -571,16 +585,6 @@ ul.inheritsList
 								<b><a href="../symbols/_global_.html#SETTINGS">SETTINGS</a></b>
 								</div>
 								<div class="description">Global settings</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/_global_.html#STYLE_LATE_EVENING">STYLE_LATE_EVENING</a></b>
-								</div>
-								<div class="description">Late evening style</div>
 							</td>
 						</tr>
 					
@@ -731,6 +735,33 @@ ul.inheritsList
 								<div class="fixedFont"><b><a href="../symbols/_global_.html#updateFPS">updateFPS</a></b>()
 								</div>
 								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/_global_.html#window">window</a></b>(point)
+								</div>
+								<div class="description">From world position to window position</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/_global_.html#windowVector">windowVector</a></b>(vector)
+								</div>
+								<div class="description">From world vector to window vector</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/_global_.html#world">world</a></b>(point)
+								</div>
+								<div class="description">From window position to world position</div>
 							</td>
 						</tr>
 					
@@ -1391,6 +1422,36 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="ppm"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{boolean}</span>
+					<b>ppm</b>
+					
+					</div>
+					<div class="description">
+						Global scale (Pixels Per Meter) flag
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/js_globals.js.html">globals.js</a>.
+						
+						
+					</div>
+					
+					
+
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+						
+						
+						
+
+					<hr />
+				
 					<a name="running"> </a>
 					<div class="fixedFont">
 					
@@ -1430,36 +1491,6 @@ ul.inheritsList
 					</div>
 					<div class="description">
 						Global settings
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/js_globals.js.html">globals.js</a>.
-						
-						
-					</div>
-					
-					
-
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="STYLE_LATE_EVENING"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{FillStyle}</span>
-					<b>STYLE_LATE_EVENING</b>
-					
-					</div>
-					<div class="description">
-						Late evening style
 						
 							<br />
 							<i>Defined in: </i> <a href="../symbols/src/js_globals.js.html">globals.js</a>.
@@ -1980,6 +2011,162 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="window"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Vector2.html">Vector2</a>}</span>
+					<b>window</b>(point)
+					
+					</div>
+					<div class="description">
+						From world position to window position
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/js_util.js.html">util.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>point</b>
+									
+								</dt>
+								<dd>World position</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> Window position</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="windowVector"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Vector2.html">Vector2</a>}</span>
+					<b>windowVector</b>(vector)
+					
+					</div>
+					<div class="description">
+						From world vector to window vector
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/js_util.js.html">util.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>vector</b>
+									
+								</dt>
+								<dd>World vector</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> Window vector</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="world"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Vector2.html">Vector2</a>}</span>
+					<b>world</b>(point)
+					
+					</div>
+					<div class="description">
+						From window position to world position
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/js_util.js.html">util.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>point</b>
+									
+								</dt>
+								<dd>Window position</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> Window position</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
 					<a name="Y"> </a>
 					<div class="fixedFont">
 					
@@ -2044,7 +2231,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Nov 23 2011 06:54:27 GMT+0200 (CAT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Nov 25 2011 13:42:13 GMT+0200 (CAT)
 		</div>
 	</body>
 </html>

@@ -402,6 +402,62 @@ Vector2.getAngle = function(v1, v2) {
 }
 
 /**
+ * Calculates the distance between two vectors
+ * @function
+ * @static
+ * @param {Vector2} v1 The first vector
+ * @param {Vector2} v2 The second vector
+ * @returns {float} The distance between the two vectors
+ * @since 0.0.0.3
+ */
+Vector2.getDistance = function(v1, v2) {
+	return v1.sub(v2).getMagnitude();
+}
+
+/**
+ * Calculates the squared distance between two vectors
+ * This method is less expensive than {@link Vector2#getDistance} method
+ * because it does not perform a square root operation.
+ * @function
+ * @static
+ * @param {Vector2} v1 The first vector
+ * @param {Vector2} v2 The second vector
+ * @returns {float} The distance squared between the two vectors
+ * @since 0.0.0.3
+ */
+Vector2.getDistanceSquare = function(v1, v2) {
+	return v1.sub(v2).getMagnitudeSquare();
+}
+
+/**
+ * Determines if the two vectors are within a specified distance from each other.
+ * @function
+ * @static
+ * @param {Vector2} v1 The first vector
+ * @param {Vector2} v2 The second vector
+ * @param {float} distance The distance to test for
+ * @returns {boolean} True if the vectors are within specified distance
+ * @since 0.0.0.3
+ */
+Vector2.isWithin = function(v1, v2, distance) {
+	return Vector2.getDistanceSquare(v1, v2) <= distance * distance;
+}
+
+/**
+ * Determines if the two vectors are strictly a specified distance from each other.
+ * @function
+ * @static
+ * @param {Vector2} v1 The first vector
+ * @param {Vector2} v2 The second vector
+ * @param {float} distance The distance to test for
+ * @returns {boolean} True if the vectors are strictly within specified distance
+ * @since 0.0.0.3
+ */
+Vector2.isWithinStrict = function(v1, v2, distance) {
+	return Vector2.getDistanceSquare(v1, v2) < distance * distance;
+}
+
+/**
  * @class 2x2 matrix
  * @constructor
  * @param {float} data1 Matrix data entry

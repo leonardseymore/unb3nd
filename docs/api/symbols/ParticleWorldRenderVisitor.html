@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - ConstantTorqueForceGenerator</title>
+		<title>JsDoc Reference - ParticleWorldRenderVisitor</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -328,26 +328,26 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class ConstantTorqueForceGenerator
+				Class ParticleWorldRenderVisitor
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
 				<br />Extends
-					<a href="../symbols/ForceGenerator.html">ForceGenerator</a>.<br />
+					<a href="../symbols/ParticleWorldVisitor.html">ParticleWorldVisitor</a>Particle world renderer vistor implementation.<br />
 				
 			
-				A constant torque force generator
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/js_rigidBodyPhysics.js.html">rigidBodyPhysics.js</a>.
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/js_render.js.html">render.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ConstantTorqueForceGenerator.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ParticleWorldRenderVisitor.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -360,7 +360,7 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/ConstantTorqueForceGenerator.html#constructor">ConstantTorqueForceGenerator</a></b>(torque)
+								<b><a href="../symbols/ParticleWorldRenderVisitor.html#constructor">ParticleWorldRenderVisitor</a></b>()
 							</div>
 							<div class="description"></div>
 						</td>
@@ -373,7 +373,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ConstantTorqueForceGenerator.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ParticleWorldRenderVisitor.">
 					<caption>Field Summary</caption>
 					<thead>
 						<tr>
@@ -387,9 +387,9 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/ConstantTorqueForceGenerator.html#torque">torque</a></b>
+								<b><a href="../symbols/ParticleWorldRenderVisitor.html#particleWorld">particleWorld</a></b>
 								</div>
-								<div class="description">The torque to apply</div>
+								<div class="description"></div>
 							</td>
 						</tr>
 					
@@ -398,17 +398,13 @@ ul.inheritsList
 				
 				
 				
-				<dl class="inheritsList">
-				
-				</dl>
-				
 			
 
 <!-- ============================== methods summary ======================== -->
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ConstantTorqueForceGenerator.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ParticleWorldRenderVisitor.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -421,27 +417,117 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ConstantTorqueForceGenerator.html#applyForce">applyForce</a></b>(rigidBody, delta)
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorldRenderVisitor.html#visitAnchoredBungeeForceGenerator">visitAnchoredBungeeForceGenerator</a></b>(forceGenerator, particle)
 								</div>
-								<div class="description">Apply torque to the given mass over the delta time</div>
+								<div class="description"></div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ConstantTorqueForceGenerator.html#draw">draw</a></b>(rigidBody)
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorldRenderVisitor.html#visitAnchoredSpringForceGenerator">visitAnchoredSpringForceGenerator</a></b>(forceGenerator, particle)
 								</div>
-								<div class="description">Draw a visual representation of this force generator</div>
+								<div class="description"></div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ConstantTorqueForceGenerator.html#toString">toString</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorldRenderVisitor.html#visitBoxCollisionContactGenerator">visitBoxCollisionContactGenerator</a></b>(contactGenerator)
 								</div>
-								<div class="description">Converts the class to a string representation</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorldRenderVisitor.html#visitBungeeForceGenerator">visitBungeeForceGenerator</a></b>(forceGenerator, particle)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorldRenderVisitor.html#visitCableContactGenerator">visitCableContactGenerator</a></b>(contactGenerator)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorldRenderVisitor.html#visitCollisionContactGenerator">visitCollisionContactGenerator</a></b>(contactGenerator)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorldRenderVisitor.html#visitDragForceGenerator">visitDragForceGenerator</a></b>(forceGenerator, particle)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorldRenderVisitor.html#visitGravityForceGenerator">visitGravityForceGenerator</a></b>(forceGenerator, particle)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorldRenderVisitor.html#visitParticle">visitParticle</a></b>(particle)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorldRenderVisitor.html#visitRodContactGenerator">visitRodContactGenerator</a></b>(contactGenerator)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorldRenderVisitor.html#visitSpringForceGenerator">visitSpringForceGenerator</a></b>(forceGenerator, particle)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorldRenderVisitor.html#visitWindForceGenerator">visitWindForceGenerator</a></b>(forceGenerator, particle)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ParticleWorldRenderVisitor.html#visitWorld">visitWorld</a></b>(world)
+								</div>
+								<div class="description"></div>
 							</td>
 						</tr>
 					
@@ -449,10 +535,6 @@ ul.inheritsList
 				</table>
 				
 				
-				
-				<dl class="inheritsList">
-				
-				</dl>
 				
 			
 <!-- ============================== events summary ======================== -->
@@ -466,7 +548,7 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>ConstantTorqueForceGenerator</b>(torque)
+						<b>ParticleWorldRenderVisitor</b>()
 				</div>
 				
 				<div class="description">
@@ -478,22 +560,11 @@ ul.inheritsList
 				
 				
 					
-						<dl class="detailList">
-						<dt class="heading">Parameters:</dt>
-						
-							<dt>
-								<span class="light fixedFont">{float}</span>  <b>torque</b>
-								
-							</dt>
-								<dd>The amount of torque to apply</dd>
-						
-						</dl>
-					
 					
 					
 						<dl class="detailList">
 						<dt class="heading">Since:</dt>
-							<dd>0.0.0</dd>
+							<dd>0.0.0.3</dd>
 						</dl>
 					
 					
@@ -510,15 +581,15 @@ ul.inheritsList
 					Field Detail
 				</div>
 				
-					<a name="torque"> </a>
+					<a name="particleWorld"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{float}</span>
-					<b>torque</b>
+					
+					<b>particleWorld</b>
 					
 					</div>
 					<div class="description">
-						The torque to apply
+						
 						
 						
 					</div>
@@ -527,19 +598,7 @@ ul.inheritsList
 
 						
 						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
 						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Default Value:</dt>
-							<dd>
-								0.0
-							</dd>
-							</dl>
 						
 
 					
@@ -552,15 +611,15 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name="applyForce"> </a>
+					<a name="visitAnchoredBungeeForceGenerator"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{void}</span>
-					<b>applyForce</b>(rigidBody, delta)
+					
+					<b>visitAnchoredBungeeForceGenerator</b>(forceGenerator, particle)
 					
 					</div>
 					<div class="description">
-						Apply torque to the given mass over the delta time
+						
 						
 						
 					</div>
@@ -572,50 +631,37 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{<a href="../symbols/RigidBody.html">RigidBody</a>}</span> <b>rigidBody</b>
+									<b>forceGenerator</b>
 									
 								</dt>
-								<dd>The rigid body to apply the force to</dd>
+								<dd></dd>
 							
 								<dt>
-									<span class="light fixedFont">{int}</span> <b>delta</b>
+									<b>particle</b>
 									
 								</dt>
-								<dd>The delta time in milliseconds</dd>
+								<dd></dd>
 							
 							</dl>
 						
 						
 						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
 						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
 						
 						
 						
 
 					<hr />
 				
-					<a name="draw"> </a>
+					<a name="visitAnchoredSpringForceGenerator"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{void}</span>
-					<b>draw</b>(rigidBody)
+					
+					<b>visitAnchoredSpringForceGenerator</b>(forceGenerator, particle)
 					
 					</div>
 					<div class="description">
-						Draw a visual representation of this force generator
+						
 						
 						
 					</div>
@@ -627,44 +673,37 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{<a href="../symbols/RigidBody.html">RigidBody</a>}</span> <b>rigidBody</b>
+									<b>forceGenerator</b>
 									
 								</dt>
-								<dd>The rigid body the generator is working on</dd>
+								<dd></dd>
+							
+								<dt>
+									<b>particle</b>
+									
+								</dt>
+								<dd></dd>
 							
 							</dl>
 						
 						
 						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
 						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
 						
 						
 						
 
 					<hr />
 				
-					<a name="toString"> </a>
+					<a name="visitBoxCollisionContactGenerator"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{string}</span>
-					<b>toString</b>()
+					
+					<b>visitBoxCollisionContactGenerator</b>(contactGenerator)
 					
 					</div>
 					<div class="description">
-						Converts the class to a string representation
+						
 						
 						
 					</div>
@@ -672,22 +711,410 @@ ul.inheritsList
 					
 					
 						
-						
-						
 							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
+							<dt class="heading">Parameters:</dt>
 							
-								<dd><span class="light fixedFont">{string}</span> The string representation of this object</dd>
+								<dt>
+									<b>contactGenerator</b>
+									
+								</dt>
+								<dd></dd>
 							
 							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="visitBungeeForceGenerator"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>visitBungeeForceGenerator</b>(forceGenerator, particle)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>forceGenerator</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>particle</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="visitCableContactGenerator"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>visitCableContactGenerator</b>(contactGenerator)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>contactGenerator</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="visitCollisionContactGenerator"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>visitCollisionContactGenerator</b>(contactGenerator)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>contactGenerator</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="visitDragForceGenerator"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>visitDragForceGenerator</b>(forceGenerator, particle)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>forceGenerator</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>particle</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="visitGravityForceGenerator"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>visitGravityForceGenerator</b>(forceGenerator, particle)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>forceGenerator</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>particle</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="visitParticle"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>visitParticle</b>(particle)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>particle</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="visitRodContactGenerator"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>visitRodContactGenerator</b>(contactGenerator)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>contactGenerator</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="visitSpringForceGenerator"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>visitSpringForceGenerator</b>(forceGenerator, particle)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>forceGenerator</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>particle</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="visitWindForceGenerator"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>visitWindForceGenerator</b>(forceGenerator, particle)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>forceGenerator</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>particle</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="visitWorld"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>visitWorld</b>(world)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>world</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
 						
 						
 						
@@ -706,7 +1133,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Nov 25 2011 13:42:14 GMT+0200 (CAT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Nov 25 2011 13:42:19 GMT+0200 (CAT)
 		</div>
 	</body>
 </html>
