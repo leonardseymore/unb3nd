@@ -247,6 +247,29 @@ function renderGame() {
     ctx.fillText("Mouse Screen: (" + lastMouseMoveScreen.x + "," + lastMouseMoveScreen.y + ")", 10, Y(40));
     ctx.fillText("Mouse World: (" + lastMouseMoveWorld.x + "," + lastMouseMoveWorld.y + ")", 10, Y(30));
     ctx.fillText("Pixels Per Meter: " + ppm, 10, Y(20));
+    ctx.save();
+    ctx.beginPath();
+    ctx.strokeStyle = "red";
+    ctx.translate(10, Y(10));
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, -3);
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(ppm, 0);
+    ctx.lineTo(ppm, -3);
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.moveTo(0, 0);
+    ctx.lineTo(ppm, 0);
+    ctx.stroke();
+    ctx.restore();
   } // if
 	
 	if (mouseInScreen) {
