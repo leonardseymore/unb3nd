@@ -79,10 +79,10 @@ var anchorImage = Resources.loadImage("anchor16.png");
 function playButton_click() {
 	if (running) {
 		engineStop();
-		btnPlay.src = "../img/playButton.png";
+		btnPlay.src = Resources.configuration.IMG_PATH + "playButton.png";
 	} else {
 		engineStart();
-		btnPlay.src = "../img/pauseButton.png";
+		btnPlay.src = Resources.configuration.IMG_PATH + "pauseButton.png";
 	} // if
 }
 
