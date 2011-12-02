@@ -27,7 +27,9 @@ var SETTINGS = {
 	ANCHORED_SPRING_COLOR : "darkgreen",
 	BUNGEE_COLOR : "pink",
 	ANCHORED_BUNGEE_COLOR : "magenta",
+  AERO_COLOR : "purple",
 	CABLE_COLOR : "grey",
+	ANCHORED_CABLE_COLOR : "#333333",
 	ROD_COLOR : "black",
 	COLLISION_DETECTION_COLOR : "purple",
 	COLLISION_BOX_COLOR : "purple",
@@ -166,6 +168,15 @@ var fps = 0;
  * @since 0.0.0
  */
 var lastFrame = 0;
+
+/**
+ * Average frame rate
+ * @public
+ * @field
+ * @type int
+ * @since 0.0.0.3
+ */
+var avgFps = 0;
 
 /**
  * Last frame rate update time

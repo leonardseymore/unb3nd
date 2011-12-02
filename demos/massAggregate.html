@@ -14,7 +14,17 @@
         height: 48px;
       }
     </style>
-		<script type="text/javascript" src="../out/unb3nd.js"></script>
+    <script type="text/javascript" src="../js/util.js"></script>
+		<script type="text/javascript" src="../js/globals.js"></script>
+    <script type="text/javascript" src="../js/collections.js"></script>
+		<script type="text/javascript" src="../js/math.js"></script>
+		<script type="text/javascript" src="../js/events.js"></script>
+		<script type="text/javascript" src="../js/collisions.js"></script>
+		<script type="text/javascript" src="../js/engine.js"></script>
+		<script type="text/javascript" src="../js/resources.js"></script>
+    <script type="text/javascript" src="../js/massAggregatePhysics.js"></script>
+    <script type="text/javascript" src="../js/rigidBodyPhysics.js"></script>
+		<script type="text/javascript" src="../js/render.js"></script>
 		<script type="text/javascript" src="massAggregate.js"></script>
 	</head>
 	<body>
@@ -36,6 +46,7 @@
       <input id="btnAddBungee" type="image" title="Add Bungee" value="Add Bungee" onclick="enableTool(CreateBungeeTool.instance);" src="../img/rubber.png" />
       <input id="btnAddAnchoredBungee" type="image" title="Add Anchored Bungee" value="Add Anchored Bungee" onclick="enableTool(CreateAnchoredBungeeTool.instance);" src="../img/rubberAnchored.png" />
       <input id="btnAddCable" type="image" title="Add Cable" value="Add Cable" onclick="enableTool(CreateCableTool.instance);" src="../img/cable.png" />
+      <input id="btnAddAnchoredCable" type="image" title="Add Anchored Cable" value="Add Anchored Cable" onclick="enableTool(CreateAnchoredCableTool.instance);" src="../img/cableAnchored.png" />
       <input id="btnAddRod" type="image" title="Add Rod" value="Add Rod" onclick="enableTool(CreateRodTool.instance);" src="../img/rod.png" />
       <hr/>
       <canvas id="canvas" width="400" height="400"></canvas>

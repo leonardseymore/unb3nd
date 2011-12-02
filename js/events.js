@@ -73,3 +73,39 @@ function Observable() {
 		return undefined;
 	}
 }
+
+/**
+ * Bind a property on one Observable property to a property on another object
+ * @param {string} eventType The event to bind on
+ * @param {Object} target The object to set the property on
+ * @param {string} targetProperty The property to use on the target object
+ * @param {Object} source The object hosting the property
+ * @param {string} sourceProperty The property on the source to use
+ * @param {boolean} twoWay True for bi-directional binding
+ * @param {Function} conversionFunction Used to convert from source format to target format
+ * @return {void}
+ * @since 0.0.0.3
+ */
+function bind(eventType, target, targetProperty, source, sourceProperty, twoWay, conversionFunction) {
+  var value = source[sourceProperty];
+  if (conversionFunction != undefined) {
+    value = conversionFunction(value);
+  } // if
+  target[targetProperty] = value;
+
+  source.addEventListener(eventType, function(e) {
+    if (debug && verbose) {
+      console.debug("%s event type, %o event, setting target %o.%s to source %o.%s", eventType, e, target, targetProperty, source, sourceProperty);
+    } // if
+
+    var value = source[sourceProperty];
+    if (conversionFunction != undefined) {
+      value = conversionFunction(value);
+    } // if
+    target[targetProperty] = value;
+  });
+
+  if (twoWay) {
+    bind(eventType, source, sourceProperty, target, targetProperty, false);
+  } // if
+}

@@ -159,12 +159,12 @@ function RigidBody(mass, inertia) {
 	 * @default Zero matrix
 	 * @since 0.0.0
 	 */
-	this.transformMatrix = new Matrix2();
+	this.transformMatrix = undefined;
 	
 	/**
 	 * Calculates internal data from state data. This should be called
-	 * after the body�s state is altered directly (it is called
-	 * automatically during integration). If you change the body�s
+	 * after the body's state is altered directly (it is called
+	 * automatically during integration). If you change the body's
 	 * state and then intend to integrate before querying any data
 	 * (such as the transform matrix), then you can omit this step.
 	 * @function
@@ -182,13 +182,13 @@ function RigidBody(mass, inertia) {
 	 * @since 0.0.0
 	 */
 	this.calculateTransformMatrix = function() {
-		var transform = this.orientation.clone();
-		transform.addMutate(this.pos);
-		this.transformMatrix = transform;
+		this.transformMatrix = new TransformationMatrix3(
+      this.getOrientationAngle(), this.pos.x, this.pos.y
+    );
 	}
 	
 	/**
-	 * Sets the orientation angle of this object
+	 * Sets the orientation angle of this object (-PI;PI]
 	 * TODO: this method normalizes the vector after every call
 	 *       we need a less expensive way to periodically normalize
 	 *       the orientation vector
@@ -221,15 +221,10 @@ function RigidBody(mass, inertia) {
 	 * @since 0.0.0
 	 */
 	this.getOrientationAngle = function() {
-		var x = this.orientation.x;
-		var y = this.orientation.y;
-		
-		if (x >= 0 && y >= 0 ||
-			x < 0 && y >= 0) {
-			return Math.acos(x);
-		} else {
-			return Math.PI + Math.acos(x);
-		} // if
+    var x = this.orientation.x;
+    var y = this.orientation.y;
+
+    return Math.atan2(y, x);
 	}
 	
 	/**
@@ -250,7 +245,9 @@ function RigidBody(mass, inertia) {
 	 * @since 0.0.0
 	 */
 	 this.getPointInWorldSpace = function(point) {
-		return this.transformMatrix.getInverse().multVector(point);
+     var v3 = new Vector3(point.x, point.y, 1);
+		 v3 = this.transformMatrix.multVector(v3);
+     return new Vector2(v3.x, v3.y);
 	 }
 	 
 	/**
@@ -262,7 +259,9 @@ function RigidBody(mass, inertia) {
 	 * @since 0.0.0
 	 */
 	 this.getPointInLocalSpace = function(point) {
-		return this.transformMatrix.multVector(point);
+     var v3 = new Vector3(point.x, point.y, 1);
+		 v3 = this.transformMatrix.getInverse().multVector(v3);
+     return new Vector2(v3.x, v3.y);
 	 }
 	
 	/**
@@ -306,7 +305,6 @@ function RigidBody(mass, inertia) {
 	
 	/**
 	 * Adds the given force to this body at the relative point
-	 * TODO: this method looks fishy
 	 * @function 
 	 * @param {Vector2} force The force to add to this rigid body
 	 * @param {Vector2} point The location at which to apply the force in local coordinates
@@ -315,8 +313,11 @@ function RigidBody(mass, inertia) {
 	 */
 	this.addForceAtPoint = function(force, point) {
 		this.applyForce(force);
+
+    var pt = point.clone();
+    pt.subMutate(this.pos);
 		this.applyTorque(
-			force.dotProduct(point)
+      pt.vectorProduct(force)
 		);
 	}
 	
@@ -483,47 +484,17 @@ function RigidBody(mass, inertia) {
 		this.calculateDerivedData();
 		this.clearAccums();
 	}
-	
-	/**
-	 * Draw visual helpers for this vector
-	 * <p>
-	 * This function assumes that translations have already been made to the starting
-	 * position of the vector
-	 * </p>
+
+  /**
+   * Accepts a world visitor
 	 * @function
-	 * @param {string} fillStyle Optional overriding fill style
+   * @param {WorldVisitor} visitor Visitor to visit
 	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.draw = function(fillStyle) {
-		ctx.save();	
-		ctx.fillStyle = (fillStyle == undefined ? SETTINGS.RIGID_BODY_COLOR : fillStyle);
-		ctx.translate(this.pos.x, this.pos.y);
-		ctx.rotate(this.getOrientationAngle());
-		var width = SETTINGS.RIGID_BODY_WIDTH;
-		ctx.fillRect(
-			-width, -width, width * 2, width * 2
-		);
-		ctx.restore();
-	}
-	
-	/**
-	 * Draws a string representation of this rigid body
-	 * @function
-	 * @param {string} fillStyle Optional overriding fill style
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.drawToString = function(fillStyle) {
-		ctx.save();	
-		ctx.fillStyle = (fillStyle == undefined ? SETTINGS.RIGID_BODY_STRING_COLOR : fillStyle);
-		ctx.translate(this.pos.x, this.pos.y);
-		var width = SETTINGS.RIGID_BODY_WIDTH;
-		ctx.fillText(
-			this.toString(),width, width
-		);
-		ctx.restore();
-	}
+	 * @since 0.0.0.3
+   */
+  this.accept = function(visitor) {
+    visitor.visitRigidBody(this);
+  }
 	
 	/**
 	 * On die callback
@@ -599,16 +570,17 @@ function ForceGenerator() {
 	 * @since 0.0.0
 	 */
 	this.applyForce = function(rigidBody, delta) {}
-	
-	/**
-	 * Draw a visual representation of this force generator
-	 * @function
-	 * @abstract
-	 * @param {RigidBody} rigidBody The rigid body the generator is working on
+
+  /**
+   * Accepts a world visitor
+	 * @method
+   * @abstract
+   * @param {WorldVisitor} visitor Visitor to visit
+   * @param {RigidBody} rigidBody RigidBody that is currently affected by this generator
 	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.draw = function(rigidBody) {
+	 * @since 0.0.0.3
+   */
+	this.accept = function(visitor, rigidBody) {
 	}
 	
 	/**
@@ -644,7 +616,7 @@ function GravityForceGenerator(gravitation) {
 	 * Apply gravity to the given mass over the delta time
 	 * @function
 	 * @override
-	 * @param {RigidBody} rigidBody The particle to apply the force to
+	 * @param {RigidBody} rigidBody The rigid body to apply the force to
 	 * @param {int} delta The delta time in milliseconds
 	 * @returns {void}
 	 * @since 0.0.0
@@ -662,26 +634,15 @@ function GravityForceGenerator(gravitation) {
 			this.gravitation.multScalar(rigidBody.getMass())
 		);
 	}
-	
-	/**
-	 * Draw a visual representation of this force generator
+
+  /**
+	 * Accepts the supplied rigid boy visitor
 	 * @function
 	 * @override
-	 * @param {RigidBody} rigidBody The rigid body the generator is working on
-	 * @returns {void}
-	 * @since 0.0.0
 	 */
-	this.draw = function(rigidBody) {
-		ctx.save();
-		ctx.strokeStyle = SETTINGS.GRAVITY_COLOR;
-		ctx.beginPath();
-		ctx.translate(rigidBody.pos.x, rigidBody.pos.y);
-		ctx.moveTo(0, 0);
-		var gravityVector = this.gravitation.multScalar(rigidBody.getMass());
-		ctx.lineTo(gravityVector.x, gravityVector.y);
-		ctx.stroke();
-		ctx.restore();
-	}
+	this.accept = function(visitor, rigidBody) {
+    visitor.visitGravityForceGenerator(this, rigidBody);
+  }
 	
 	/**
 	 * Converts the class to a string representation
@@ -699,17 +660,17 @@ GravityForceGenerator.prototype = new ForceGenerator();
  * @class A spring force generator
  * @constructor
  * @extends ForceGenerator
- * @param {Vector2d} connectionPoint The connection point of the spring, in 
+ * @param {Vector2} connectionPoint The connection point of the spring, in
  *        local coordinates of this rigid body
  * @param {RigidBody} rigidBodyOther Rigid body at the other end of the spring
- * @param {Vector2d} connectionPointOther The connection point of the spring, 
+ * @param {Vector2} connectionPointOther The connection point of the spring,
  *        in that object's local coordinates of the {@link #rigidBodyOther}
  * @param {float} springConstant Holds the spring constant
  * @param {float} restLength Holds the spring's rest length
  * @since 0.0.0
  */
-function SpringForceGenerator(connectionPoint, rigidBodyOther, 
-	connectionPointOther, springConstant, restLength) {
+function SpringForceGenerator(connectionPoint, rigidBodyOther, connectionPointOther,
+	springConstant, restLength) {
 	
 	/**
 	 * The connection point of the spring, in local coordinates of this rigid 
@@ -733,13 +694,13 @@ function SpringForceGenerator(connectionPoint, rigidBodyOther,
 
 	/**
 	 * Rigid body at the other end of the spring
-	 * @field 
+	 * @field
 	 * @type RigidBody
 	 * @default rigidBodyOther
 	 * @since 0.0.0
 	 */
 	this.rigidBodyOther = rigidBodyOther;
-	
+
 	/**
 	 * Holds the spring constant
 	 * @field
@@ -769,9 +730,8 @@ function SpringForceGenerator(connectionPoint, rigidBodyOther,
 	 */
 	this.applyForce = function(rigidBody, delta) {
 		var lws = rigidBody.getPointInWorldSpace(this.connectionPoint);
-		var ows = rigidBody.getPointInWorldSpace(this.connectionPointOther);
+		var ows = this.rigidBodyOther.getPointInWorldSpace(this.connectionPointOther);
 		var force = lws.sub(ows);
-		force.subMutate(this.particleOther.pos);
 		
 		var magnitude = force.getMagnitude();
 		magnitude = Math.abs(magnitude - this.restLength);
@@ -781,26 +741,15 @@ function SpringForceGenerator(connectionPoint, rigidBodyOther,
 		force.multScalarMutate(-magnitude);
 		rigidBody.addForceAtPoint(force, lws);
 	}
-	
-	/**
-	 * Draw a visual representation of this force generator
+
+  /**
+	 * Accepts the supplied rigid boy visitor
 	 * @function
 	 * @override
-	 * @param {RigidBody} particle The rigid body the generator is working on
-	 * @returns {void}
-	 * @since 0.0.0
 	 */
-	this.draw = function(rigidBody) {
-		ctx.save();
-		
-		ctx.strokeStyle = SETTINGS.SPRING_COLOR;
-		ctx.beginPath();
-		ctx.moveTo(rigidBody.pos.x, rigidBody.pos.y);
-		ctx.lineTo(this.rigidBodyOther.pos.x, this.rigidBodyOther.pos.y);
-		ctx.stroke();
-		
-		ctx.restore();
-	}
+	this.accept = function(visitor, rigidBody) {
+    visitor.visitSpringForceGenerator(this, rigidBody);
+  }
 }
 SpringForceGenerator.prototype = new ForceGenerator();
 
@@ -845,18 +794,6 @@ function ConstantTorqueForceGenerator(torque) {
 	}
 	
 	/**
-	 * Draw a visual representation of this force generator
-	 * @function
-	 * @override
-	 * @param {RigidBody} rigidBody The rigid body the generator is working on
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.draw = function(rigidBody) {
-
-	}
-	
-	/**
 	 * Converts the class to a string representation
 	 * @function
 	 * @returns {string} The string representation of this object
@@ -867,6 +804,166 @@ function ConstantTorqueForceGenerator(torque) {
 	}
 }
 ConstantTorqueForceGenerator.prototype = new ForceGenerator();
+
+/**
+ * @class An aero dynamic tensor fake force generator
+ * @constructor
+ * @extends ForceGenerator
+ * @param {Matrix2} tensor The aerodynamic tensor for the surface in body space
+ * @param {Vector2} position The relative position of the aerodynamic surface in body coordinates
+ * @param {Vector2} windspeed The wind speed
+ * @since 0.0.0.3
+ */
+function AeroForceGenerator(tensor, position, windspeed) {
+
+  /**
+	 * The aerodynamic tensor for the surface in body space
+	 * @field
+	 * @type Matrix2
+	 * @default undefined
+	 * @since 0.0.0.3
+	 */
+  this.tensor = tensor;
+
+  /**
+	 * The relative position of the aerodynamic surface in body coordinates
+	 * @field
+	 * @type Vector2
+	 * @default undefined
+	 * @since 0.0.0.3
+	 */
+  this.position = position;
+
+	/**
+	 * The wind speed
+	 * @field
+	 * @type float
+	 * @default 0.0
+	 * @since 0.0.0.3
+	 */
+	this.windspeed = windspeed || new Vector2(0, 0);
+
+	/**
+	 * Converts the class to a string representation
+	 * @function
+	 * @returns {string} The string representation of this object
+	 * @since 0.0.0
+	 */
+	this.toString = function() {
+		return "Aero: windspeed=" + this.windspeed.toString() +
+      ", tensor=" + tensor.toString() +
+      ", pos=" + pos.toString();
+	}
+}
+AeroForceGenerator.prototype = new ForceGenerator();
+
+/**
+ * @class An aero dynamic tensor control force generator
+ * @constructor
+ * @extends AeroForceGenerator
+ * @param {Matrix2} baseTensor The aerodynamic tensor for the surface in body space
+ * @param {Matrix2} minTensor The aerodynamic tensor for the surface in body space (at min)
+ * @param {Matrix2} maxTensor The aerodynamic tensor for the surface in body space (at max)
+ * @param {Vector2} position The relative position of the aerodynamic surface in body coordinates
+ * @param {Vector2} windspeed The wind speed
+ * @since 0.0.0.3
+ */
+function AeroControlForceGenerator(baseTensor, minTensor, maxTensor, position, windspeed) {
+
+  /**
+   * Super
+   */
+  AeroForceGenerator.call(this, baseTensor, position, windspeed);
+
+  /**
+	 * The aerodynamic tensor for the surface in body space (at minimum value)
+	 * @field
+	 * @type Matrix2
+	 * @default undefined
+	 * @since 0.0.0.3
+	 */
+  this.minTensor = minTensor;
+
+  /**
+	 * The aerodynamic tensor for the surface in body space (at maximum value)
+	 * @field
+	 * @type Matrix2
+	 * @default undefined
+	 * @since 0.0.0.3
+	 */
+  this.maxTensor = maxTensor;
+
+
+  /**
+	 * Range of -1 to 1, where if -1 then minTensor is used, at 1 maxTensor is used, and in
+   * between base tensor is used
+	 * @field
+	 * @type float
+	 * @default 0.0
+	 * @since 0.0.0.3
+	 */
+  this.controlSetting = 0.0;
+
+  /**
+	 * The relative position of the aerodynamic surface in body coordinates
+	 * @method
+	 * @type Vector2
+	 * @returns {Matrix2} Aero dynamic tensor to use for current control setting
+	 * @since 0.0.0.3
+	 */
+  this.getTensor = function() {
+      if (this.controlSetting == -1) {
+        return this.minTensor;
+      } else if (this.controlSetting == 1) {
+        return this.maxTensor;
+      } else {
+        return this.tensor;
+      } // if
+  }
+
+	/**
+	 * Apply force to the given mass over the delta time
+	 * @function
+	 * @override
+	 * @param {RigidBody} rigidBody The rigid body to apply the force to
+	 * @param {int} delta The delta time in milliseconds
+	 * @returns {void}
+	 * @since 0.0.0
+	 */
+	this.applyForce = function(rigidBody, delta) {
+    if (!rigidBody.hasFiniteMass()) {
+			if (debug && verbose) {
+				console.debug("RigidBody %o has zero mass", rigidBody);
+			} // if
+			return;
+		} // if
+
+    var force = this.getTensor().multVector(this.windspeed);
+		rigidBody.applyForceAtBodyPoint(force, this.position);
+	}
+
+  /**
+	 * Accepts the supplied rigid boy visitor
+	 * @function
+	 * @override
+	 */
+	this.accept = function(visitor, rigidBody) {
+    visitor.visitAeroControlForceGenerator(this, rigidBody);
+  }
+
+	/**
+	 * Converts the class to a string representation
+	 * @function
+	 * @returns {string} The string representation of this object
+	 * @since 0.0.0
+	 */
+	this.toString = function() {
+		return "Aero: windspeed=" + this.windspeed.toString() +
+      ", tensor=" + tensor.toString() +
+      ", pos=" + pos.toString();
+	}
+}
+AeroControlForceGenerator.prototype = new AeroForceGenerator();
 
 /**
  * @class Force generator factory
@@ -896,12 +993,50 @@ ForceGeneratorFactory.createGravity = function(forceRegistry, rigidBody, gravita
  * @static
  * @param {ForceRegistry} forceRegistry The force registry to add the generator to
  * @param {RigidBody} rigidBody The rigidBody to add the generator to
- * @param {Vector2d} torque The torque force to apply
+ * @param {float} torque The torque force to apply
  * @returns {void}
  * @since 0.0.0
  */
 ForceGeneratorFactory.createConstantTorque = function(forceRegistry, rigidBody, torque) {
 	forceRegistry.add(rigidBody, new ConstantTorqueForceGenerator(torque));
+}
+
+/**
+ * Creates a spring force generator for a single rigid body only
+ * @function
+ * @static
+ * @param {ForceRegistry} forceRegistry The force registry to add the generator to
+ * @param {RigidBody} rigidBody The rigidBody to add the generator to
+ * @param {Vector2} connectionPoint The connection point of the spring, in
+ *        local coordinates of this rigid body
+ * @param {RigidBody} rigidBodyOther Rigid body at the other end of the spring
+ * @param {Vector2} connectionPointOther The connection point of the spring,
+ *        in that object's local coordinates of the {@link #rigidBodyOther}
+ * @param {float} springConstant Holds the spring constant
+ * @param {float} restLength Holds the spring's rest length
+ * @returns {void}
+ * @since 0.0.0
+ */
+ForceGeneratorFactory.createSpring = function(forceRegistry, rigidBody, connectionPoint, rigidBodyOther, connectionPointOther, springConstant, restLength) {
+  var p1F = new SpringForceGenerator(connectionPoint, rigidBodyOther, connectionPointOther, springConstant, restLength);
+	forceRegistry.add(rigidBody, p1F);
+	rigidBody.addEventListener("die", function() {
+		if (debug) {
+			console.debug("Removing force generator for dead rigid body %s", this.toString());
+		} // if
+
+		forceRegistry.removeForceGenerator(p1F);
+	});
+
+	var p2F = new SpringForceGenerator(connectionPointOther, rigidBody, connectionPoint, springConstant, restLength)
+	forceRegistry.add(rigidBodyOther, p2F);
+	rigidBodyOther.addEventListener("die", function() {
+		if (debug) {
+			console.debug("Removing force generator for dead rigid body %s", this.toString());
+		} // if
+
+		forceRegistry.removeForceGenerator(p2F);
+	});
 }
 
 /** 
@@ -1019,23 +1154,86 @@ function ForceRegistry() {
 			} // for
 		} // for
 	}
-	
-	/**
-	 * Draws visual helpers of all force generators
-	 * @function
-	 * @returns {void}
-	 * @since 0.0.0
+
+  /**
+   * Accepts a world visitor
+   * @method
+   * @abstract
+   * @param {WorldVisitor} visitor Visitor to visit
+   * @returns {void}
+   * @since 0.0.0.3
+   */
+  this.accept = function(visitor) {
+    for (i in this.entries) {
+      var entry = this.entries[i];
+      var rigidBody = entry.rigidBody;
+      var forceGenerators = entry.forceGenerators;
+      for (j in forceGenerators) {
+        var forceGenerator = forceGenerators[j];
+        forceGenerator.accept(visitor, rigidBody);
+      } // for
+    } // for
+  }
+}
+
+/**
+ * @class Visitor interface to visit the rigid body world
+ * @constructor
+ * @since 0.0.0.3
+ */
+function WorldVisitor() {
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits the world
+   * @param {World} world The visited world
+	 * @return void
 	 */
-	this.drawForceGenerators = function() {
-		for (i in this.entries) {
-			var entry = this.entries[i];
-			var rigidBody = entry.rigidBody;
-			var forceGenerators = entry.forceGenerators;
-			for (j in forceGenerators) {
-				var forceGenerator = forceGenerators[j];
-				forceGenerator.draw(rigidBody);
-			} // for
-		} // for
+	this.visitWorld = function(world) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits the rigid body
+   * @param {RigidBody} rigidBody The visited ridig body
+	 * @return void
+	 */
+	this.visitRigidBody = function(rigidBody) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits a gravity force generator
+   * @param {GravityForceGenerator} forceGenerator The visited force generator
+   * @param {RigidBody} rigidBody The rigidBody currently affected by this force generator
+	 * @return void
+	 */
+	this.visitGravityForceGenerator = function(forceGenerator, rigidBody) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits a spring force generator
+   * @param {SpringForceGenerator} forceGenerator The visited force generator
+   * @param {RigidBody} rigidBody The rigidBody currently affected by this force generator
+	 * @return void
+	 */
+	this.visitSpringForceGenerator = function(forceGenerator, rigidBody) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits a aero control force generator
+   * @param {AeroControlForceGenerator} forceGenerator The visited force generator
+   * @param {RigidBody} rigidBody The rigidBody currently affected by this force generator
+	 * @return void
+	 */
+	this.visitAeroControlForceGenerator = function(forceGenerator, rigidBody) {
 	}
 }
 
@@ -1150,7 +1348,7 @@ function World() {
 	}
 	
 	/**
-	 * Process all physics for the particle world
+	 * Process all physics for the world
 	 * @function
 	 * @param {int} delta Delta time in milliseconds since last update
 	 * @returns {void}
@@ -1161,36 +1359,7 @@ function World() {
 		this.forceRegistry.applyForces(delta);
 		this.integrate(delta);
 	}
-	
-	/**
-	 * Draw all global force generators
-	 * @function
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.drawGlobalForces = function() {
-		for (j in this.globalForceGenerators) {
-			var forceGenerator = this.globalForceGenerators[j];
-			for (i in this.particles) {
-				var particle = this.particles[i];
-				forceGenerator.draw(particle);
-			} // for
-		} // for
-	}
-	
-	/**
-	 * Draw all rigid bodies
-	 * @function
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.drawRigidBodies = function() {
-		for (i in this.rigidBodies) {
-			var rigidBody = this.rigidBodies[i];
-			rigidBody.draw();
-		} // for
-	}
-	
+
 	/**
 	 * Adds a global force generator
 	 * @function
@@ -1231,16 +1400,26 @@ function World() {
 			new GravityForceGenerator(gravitation)
 		);
 	}
-	
-	/**
-	 * Draws visualization of the physical simulation
+
+  /**
+   * Accepts a world visitor
 	 * @function
+   * @param {WorldVisitor} visitor Visitor to visit
 	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.draw = function() {
-		this.drawGlobalForces();
-		this.forceRegistry.drawForceGenerators();
-		this.drawRigidBodies();
-	}
+	 * @since 0.0.0.3
+   */
+  this.accept = function(visitor) {
+    visitor.visitWorld(this);
+
+    for (i in this.rigidBodies) {
+			var rigidBody = this.rigidBodies[i];
+      rigidBody.accept(visitor);
+      for (j in this.globalForceGenerators) {
+			  var forceGenerator = this.globalForceGenerators[j];
+        forceGenerator.accept(visitor, rigidBody);
+		  } // for
+		} // for
+
+    this.forceRegistry.accept(visitor);
+  }
 }

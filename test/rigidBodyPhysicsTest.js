@@ -8,14 +8,19 @@ test("Test RigidBody", function() {
 	equals(b1.getOrientation().y, 0);
 	
 	var TOL = 0.01;
-	var angle = 3 * Math.PI / 2;
-	b1.setOrientationAngle(angle);
-	var x = b1.getOrientation().x;
-	var y = b1.getOrientation().y;
-	ok(x > Math.cos(angle) - TOL && 
-	   x < Math.cos(angle) + TOL);
-	ok(y > Math.sin(angle) - TOL && 
-	   y < Math.sin(angle) + TOL);
-	   
-	equals(b1.getOrientationAngle(), angle);
+
+  var inBounds = true;
+  for (var angle = -Math.PI; angle < Math.PI; angle += 0.25) {
+    b1.setOrientationAngle(angle);
+    var angleResult = b1.getOrientationAngle();
+    inBounds = angle > angleResult - TOL &&
+       angle < angleResult + TOL;
+
+    if (!inBounds) {
+      console.warn("Angle %d angleResult %d", angle, angleResult);
+    } else {
+      console.log("Angle %d angleResult %d", angle, angleResult);
+    }
+  } // for
+	ok(inBounds);
 });

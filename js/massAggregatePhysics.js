@@ -1209,7 +1209,8 @@ var CONTACT_TYPE = {
 	BOX : 1, // bounding box
 	INTER : 2, // inter particle collision
 	CABLE : 4, // cable constraint
-	ROD : 8// rod constraint
+	CABLE_ANCHORED : 8, // cable constraint
+	ROD : 16 // rod constraint
 };
 
 /**
@@ -1319,12 +1320,12 @@ function ParticleContact() {
 		} // if
 		var accCausedSepVelocity = accCausedVelocity.dotProduct(this.contactNormal) * dt;
 		
-		// If we�ve got a closing velocity due to acceleration build-up,
+		// If we've got a closing velocity due to acceleration build-up,
 		// remove it from the new separating velocity.
 		if (accCausedSepVelocity < 0) {
 			newSepVelocity += resitution * accCausedSepVelocity;
 			
-			// Make sure we haven�t removed more than was there to remove.
+			// Make sure we haven't removed more than was there to remove.
 			if (newSepVelocity < 0) {
 				newSepVelocity = 0;
 			} // if
@@ -1643,6 +1644,119 @@ function ParticleCableContactGenerator(maxLength, restitution) {
 	}
 }
 ParticleCableContactGenerator.prototype = new ParticleLinkContactGenerator();
+
+/**
+ * @class An anchored cable contact generator
+ * @constructor
+ * @extends ParticleContactGenerator
+ * @param {Particle} particle Particle fixed to this anchor
+ * @param {Vector2} anchor Fixed point
+ * @param {float} maxLength Maximum length of the cable
+ * @param {float} restitution Restitution (bounciness) of the cable
+ * @since 0.0.0.3
+ */
+function ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, restitution) {
+
+	/*
+	 * Super constructor
+	 */
+	ParticleContactGenerator.call(this);
+	this.setContactType(CONTACT_TYPE.CABLE_ANCHORED);
+
+  /**
+	 * The particle attached to the anchor
+	 * @field
+	 * @type Particle
+	 * @default 0.0
+	 * @since 0.0.0.3
+	 */
+	this.particle = particle;
+
+  /**
+	 * Anchor to which particle must be connected
+	 * @field
+	 * @type Vector2
+	 * @default anchor
+	 * @since 0.0.0.3
+	 */
+	this.anchor = anchor;
+
+	/**
+	 * Maximum length of the cable
+	 * @field
+	 * @type float
+	 * @default 0.0
+	 * @since 0.0.0
+	 */
+	this.maxLength = maxLength || 0.0;
+
+	/**
+	 * Restitution (bounciness) of the cable
+	 * @field
+	 * @type float
+	 * @default 0.0
+	 * @since 0.0.0.3
+	 */
+	this.restitution = restitution || 0.0;
+
+  /**
+	 * Determines the current length of the cable, in other words
+	 * the distance between the anchor and the particle
+	 * @function
+	 * @protected
+	 * @return {float} The distance between the two particles
+	 * @since 0.0.0.3
+	 */
+	this.getCurrentLength = function() {
+		var relativePos = this.particle.pos.sub(
+			this.anchor
+		);
+		return relativePos.getMagnitude();
+	}
+
+  /**
+	 * Creates a contact needed to keep the cable from overextending
+	 * @function
+	 * @override
+	 * @return {int} The number of contacts that have been written to
+	 * @since 0.0.0.3
+	 */
+	this.addContact = function(contacts, limit) {
+		var length = this.getCurrentLength();
+
+		if (length <= this.maxLength) {
+			return 0;
+		} // if
+
+		var contact = new ParticleContact();
+		contact.particles[0] = this.particle;
+		var normal = this.particle.pos.sub(
+			this.anchor
+		);
+    normal.inverseMutate();
+		normal.normalizeMutate();
+		contact.contactNormal = normal;
+		contact.penetration = this.maxLength - length;
+		contact.restitution = this.restitution;
+
+		contacts.push(contact);
+
+		return 1;
+	}
+
+  /**
+   * Accepts a particle world visitor
+	 * @method
+   * @abstract
+   * @param {ParticleWorldVisitor} visitor Visitor to visit
+	 * @returns {void}
+	 * @since 0.0.0.3
+   */
+	this.accept = function(visitor) {
+    visitor.visitAnchoredCableContactGenerator(this);
+	}
+}
+ParticleAnchoredCableContactGenerator.prototype = new ParticleContactGenerator();
 
 /**
  * @class Cables link a pair of particles, generating a contact if they stray too far 
@@ -1971,6 +2085,24 @@ ParticleContactGeneratorFactory.createCable = function(particleWorld, particle, 
 }
 
 /**
+ * Creates an anchored cable contact generator
+ * @function
+ * @static
+ * @param {ParticleWorld} particleWorld The particle world to add the generator to
+ * @param {Particle} particle The first particle
+ * @param {Vector2} anchor The anchor to attach the particle to
+ * @param {float} maxLength The maximum length of the cable
+ * @param {float} restitution The cable's restitution
+ * @returns {void}
+ * @since 0.0.0.3
+ */
+ParticleContactGeneratorFactory.createAnchoredCable = function(particleWorld, particle, anchor, maxLength, restitution) {
+	var generator = new ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, restitution);
+	generator.particle = particle;
+	particleWorld.addContactGenerator(generator);
+}
+
+/**
  * Creates a rod contact generator
  * @function
  * @static
@@ -2100,7 +2232,7 @@ function ParticleWorldVisitor() {
 	 * @method
 	 * @abstract
 	 * Visits a gravity force generator
-   * @param {ParticleWindForceGenerator} forceGenerator The visited force generator
+   * @param {ParticleGravityForceGenerator} forceGenerator The visited force generator
    * @param {Particle} particle The particle currently affected by this force generator
 	 * @return void
 	 */
@@ -2190,6 +2322,17 @@ function ParticleWorldVisitor() {
 	 * Visits the particle cable contact generator
    * @param {ParticleCableContactGenerator} contactGenerator The visited particle contact generator
 	 * @return void
+	 */
+	this.visitCableContactGenerator = function(contactGenerator) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits the anchored particle cable contact generator
+   * @param {ParticleAnchoredCableContactGenerator} contactGenerator The visited particle contact generator
+	 * @return void
+   * @since 0.0.0.3
 	 */
 	this.visitCableContactGenerator = function(contactGenerator) {
 	}
@@ -2352,18 +2495,21 @@ function ParticleWorld(flags) {
 	 */
 	this.addContactGenerator = function(contactGenerator) {
 		this.contactGenerators.push(contactGenerator);
-		
-		if (contactGenerator.particles[0]) {
-			contactGenerator.particles[0].addEventListener("die", function() {
-				particleWorld.removeContactGenerator(contactGenerator);
-			});
-		} // if
-		
-		if (contactGenerator.particles[1]) {
-			contactGenerator.particles[1].addEventListener("die", function() {
-				particleWorld.removeContactGenerator(contactGenerator);
-			});
-		} // if
+
+    // TODO: every contact generator should clean up after itself rather
+    if (contactGenerator.particles) {
+      if (contactGenerator.particles[0]) {
+        contactGenerator.particles[0].addEventListener("die", function() {
+          particleWorld.removeContactGenerator(contactGenerator);
+        });
+      } // if
+
+      if (contactGenerator.particles[1]) {
+        contactGenerator.particles[1].addEventListener("die", function() {
+          particleWorld.removeContactGenerator(contactGenerator);
+        });
+      } // if
+    } // if
 	}
 	
 	/**

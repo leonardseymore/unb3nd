@@ -300,8 +300,7 @@ function getDelta() {
  */
 function updateFPS() {
 	if (getTime() - lastFPS > 1000) {
-		//document.title = "unb3nd: " + canvas.width + "x" + canvas.height + " FPS " + fps;
-		//document.title = "FPS " + fps;
+    avgFps = fps;
 		fps = 0;
 		lastFPS += 1000;
 	} // if

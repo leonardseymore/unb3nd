@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>unb3nd - Rigid Body Aero Sample</title>
+		<link rel="stylesheet" href="../css/unb3nd.css" type="text/css" media="screen" />
+    <style type="text/css">
+      input {
+        width: 50px;
+      }
+
+      table {
+        border: 1px solid black;
+        margin: 5px;
+        background: #ffffff;
+      }
+
+      canvas {
+        border: 1px solid #000000;
+      }
+
+      caption {
+        width: 100%;
+        font-weight: bold;
+        border: 1px solid black;
+        background: #aaaaaa;
+      }
+
+      .container {
+        display: -webkit-box;
+        -webkit-box-orient: horizontal;
+      }
+    </style>
+		<script type="text/javascript" src="../out/unb3nd.js"></script>
+		<script type="text/javascript" src="aero.js"></script>
+	</head>
+	<body>
+      <div class="container">
+        <div style="text-align: right;">
+          <table>
+            <caption>Tensor Matrix</caption>
+            <tr><td><input id="txtTensor1" type="number" value="1" step="0.1"/></td><td><input id="txtTensor2" type="number" value="0"/></td></tr>
+            <tr><td><input id="txtTensor3" type="number" value="0" step="0.1"/></td><td><input id="txtTensor4" type="number" value="1"/></td></tr>
+          </table>
+          <table>
+            <caption>Wind</caption>
+            <tr><td>X:</td><td><input id="txtWindX" type="number" value="-2" step="0.1"/></td></tr>
+            <tr><td>Y:</td><td><input id="txtWindY" type="number" value="1" step="0.1"/></td></tr>
+          </table>
+          <table>
+            <caption>Plane Position</caption>
+            <tr><td>X:</td><td><input id="txtPlanePosX" type="number" value="20"/></td></tr>
+            <tr><td>Y:</td><td><input id="txtPlanePosY" type="number" value="50"/></td></tr>
+          </table>
+          <table>
+            <caption>Control Position</caption>
+            <tr><td>X:</td><td><input id="txtControlPosX" type="number" value="0" step="0.1"/></td></tr>
+            <tr><td>Y:</td><td><input id="txtControlPosY" type="number" value="0" step="0.1"/></td></tr>
+          </table>
+        </div>
+        <div>
+          <canvas id="canvas" width="400" height="400"></canvas>
+        </div>
+      </div>
+
+			<hr/>
+			<input id="btnStart" type="button" value="Start" onclick="engineStart();" />
+			<input id="btnStop"type="button" value="Stop" onclick="engineStop();" />
+	</body>
+</html>
