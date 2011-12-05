@@ -7,7 +7,8 @@
  * Globals init
  */
 debug = false;
-ppm = 20;
+ppm = 10;
+FPS = 64;
 Resources.configuration = {
 	ROOT_PATH : ".",
 	IMG_PATH : "img/"
@@ -36,9 +37,11 @@ var ICONS = {
 	BUNGEE : "rubber.png",
 	BUNGEE_ANCHORED : "rubberAnchored.png",
 	CABLE : "cable.png",
-	ROD : "rod.png"
-} 
- 
+	CABLE_ANCHORED : "cableAnchored.png",
+	ROD : "rod.png",
+	ROD_ANCHORED : "rodAnchored.png"
+}
+
 /**
  * @global ParticleWorld
  * Physically simulated particle world
@@ -248,13 +251,37 @@ function renderGame() {
 	} // for
 
   if (debug) {
-    ctx.fillText("Global Forces: " + particleWorld.globalForceGenerators, 10, Y(80));
-    ctx.fillText("Num Particles: " + particleWorld.particles.length, 10, Y(70));
-    ctx.fillText("Num Force Generators: " + particleWorld.forceRegistry.entries.length, 10, Y(60));
-    ctx.fillText("Num Contact Generators: " + particleWorld.contactGenerators.length, 10, Y(50));
-    ctx.fillText("Mouse Screen: (" + lastMouseMoveScreen.x + "," + lastMouseMoveScreen.y + ")", 10, Y(40));
-    ctx.fillText("Mouse World: (" + lastMouseMoveWorld.x + "," + lastMouseMoveWorld.y + ")", 10, Y(30));
-    ctx.fillText("Pixels Per Meter: " + ppm, 10, Y(20));
+    ctx.fillText("Global Forces: " + particleWorld.globalForceGenerators, 10, Y(90));
+    ctx.fillText("Num Particles: " + particleWorld.particles.length, 10, Y(80));
+    ctx.fillText("Num Force Generators: " + particleWorld.forceRegistry.entries.length, 10, Y(70));
+    ctx.fillText("Num Contact Generators: " + particleWorld.contactGenerators.length, 10, Y(60));
+    ctx.fillText("Mouse Screen: (" + lastMouseMoveScreen.x + "," + lastMouseMoveScreen.y + ")", 10, Y(50));
+    ctx.fillText("Mouse World: (" + lastMouseMoveWorld.x + "," + lastMouseMoveWorld.y + ")", 10, Y(40));
+    ctx.fillText("Pixels Per Meter: " + ppm, 10, Y(30));
+    ctx.fillText("FPS: " + avgFps, 10, Y(20));
+    ctx.save();
+    ctx.beginPath();
+    ctx.strokeStyle = "red";
+    ctx.translate(10, Y(10));
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, -3);
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(ppm, 0);
+    ctx.lineTo(ppm, -3);
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.moveTo(0, 0);
+    ctx.lineTo(ppm, 0);
+    ctx.stroke();
+    ctx.restore();
   } // if
 
 	if (mouseInScreen) {
@@ -1272,7 +1299,7 @@ function CreateCableTool() {
 	 * Set the tool's icon
 	 */
 	this.setIcon(ICONS.CABLE);
-	
+
 	/**
 	 * @method
 	 * Creates the actual force
@@ -1292,11 +1319,50 @@ CreateCableTool.instance = new CreateCableTool();
 /**
  * @class
  * @constructor
+ * @extends Anchor2ParticleTool
+ * Create anchored cable tool
+ * @since 0.0.0.3
+ */
+function CreateAnchoredCableTool() {
+
+	/**
+	 * @super
+	 * Super constructor
+	 */
+	Anchor2ParticleTool.call(this);
+
+	/**
+	 * Set the tool's icon
+	 */
+	this.setIcon(ICONS.CABLE_ANCHORED);
+
+	/**
+	 * @method
+	 * @override CreateSpringTool#createForce(Particle, Particle)
+	 * Creates the actual force
+	 * @param Anchor anchor The anchor to connect
+	 * @param Particle particle The particle to connect
+	 * @return void
+	 */
+	this.createForce = function(anchor, particle) {
+    var distance = this.anchor.sub(particle.pos).getMagnitude();
+		var resitution = 0.1;
+		ParticleContactGeneratorFactory.createAnchoredCable(
+			particleWorld, particle, anchor, distance, resitution
+		);
+	}
+}
+CreateAnchoredCableTool.prototype = new Anchor2ParticleTool();
+CreateAnchoredCableTool.instance = new CreateAnchoredCableTool();
+
+/**
+ * @class
+ * @constructor
  * @extends Particle2ParticleTool
  * Create rod tool
  */
 function CreateRodTool() {
-	
+
 	/**
 	 * @super
 	 * Super constructor
@@ -1307,7 +1373,7 @@ function CreateRodTool() {
 	 * Set the tool's icon
 	 */
 	this.setIcon(ICONS.ROD);
-	
+
 	/**
 	 * @method
 	 * Creates the actual force
@@ -1322,6 +1388,45 @@ function CreateRodTool() {
 }
 CreateRodTool.prototype = new Particle2ParticleTool();
 CreateRodTool.instance = new CreateRodTool();
+
+/**
+ * @class
+ * @constructor
+ * @extends Anchor2ParticleTool
+ * Create anchored cable tool
+ * @since 0.0.0.3
+ */
+function CreateAnchoredRodTool() {
+
+	/**
+	 * @super
+	 * Super constructor
+	 */
+	Anchor2ParticleTool.call(this);
+
+	/**
+	 * Set the tool's icon
+	 */
+	this.setIcon(ICONS.ROD_ANCHORED);
+
+	/**
+	 * @method
+	 * @override CreateSpringTool#createForce(Particle, Particle)
+	 * Creates the actual force
+	 * @param Anchor anchor The anchor to connect
+	 * @param Particle particle The particle to connect
+	 * @return void
+	 */
+	this.createForce = function(anchor, particle) {
+    var distance = this.anchor.sub(particle.pos).getMagnitude();
+		var resitution = 0.1;
+		ParticleContactGeneratorFactory.createAnchoredRod(
+			particleWorld, particle, anchor, distance
+		);
+	}
+}
+CreateAnchoredRodTool.prototype = new CreateAnchoredRodTool();
+CreateAnchoredRodTool.instance = new CreateAnchoredRodTool();
 
 /**
  * @class
