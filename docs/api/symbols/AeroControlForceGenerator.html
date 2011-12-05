@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - ConstantTorqueForceGenerator</title>
+		<title>JsDoc Reference - AeroControlForceGenerator</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -346,17 +346,17 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class ConstantTorqueForceGenerator
+				Class AeroControlForceGenerator
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
 				<br />Extends
-					<a href="../symbols/ForceGenerator.html">ForceGenerator</a>.<br />
+					<a href="../symbols/AeroForceGenerator.html">AeroForceGenerator</a>.<br />
 				
 			
-				A constant torque force generator
+				An aero dynamic tensor control force generator
 				
 				
 					<br /><i>Defined in: </i> <a href="../symbols/src/js_rigidBodyPhysics.js.html">rigidBodyPhysics.js</a>.
@@ -365,7 +365,7 @@ ul.inheritsList
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ConstantTorqueForceGenerator.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class AeroControlForceGenerator.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -378,7 +378,7 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/ConstantTorqueForceGenerator.html#constructor">ConstantTorqueForceGenerator</a></b>(torque)
+								<b><a href="../symbols/AeroControlForceGenerator.html#constructor">AeroControlForceGenerator</a></b>(baseTensor, minTensor, maxTensor, position, windspeed)
 							</div>
 							<div class="description"></div>
 						</td>
@@ -391,7 +391,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ConstantTorqueForceGenerator.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class AeroControlForceGenerator.">
 					<caption>Field Summary</caption>
 					<thead>
 						<tr>
@@ -405,9 +405,29 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/ConstantTorqueForceGenerator.html#torque">torque</a></b>
+								<b><a href="../symbols/AeroControlForceGenerator.html#controlSetting">controlSetting</a></b>
 								</div>
-								<div class="description">The torque to apply</div>
+								<div class="description">Range of -1 to 1, where if -1 then minTensor is used, at 1 maxTensor is used, and inbetween base tensor is used</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/AeroControlForceGenerator.html#maxTensor">maxTensor</a></b>
+								</div>
+								<div class="description">The aerodynamic tensor for the surface in body space (at maximum value)</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/AeroControlForceGenerator.html#minTensor">minTensor</a></b>
+								</div>
+								<div class="description">The aerodynamic tensor for the surface in body space (at minimum value)</div>
 							</td>
 						</tr>
 					
@@ -417,7 +437,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				
+				<dt>Fields borrowed from class <a href="../symbols/AeroForceGenerator.html">AeroForceGenerator</a>: </dt><dd><a href="../symbols/AeroForceGenerator.html#position">position</a>, <a href="../symbols/AeroForceGenerator.html#tensor">tensor</a>, <a href="../symbols/AeroForceGenerator.html#windspeed">windspeed</a></dd>
 				</dl>
 				
 			
@@ -426,7 +446,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ConstantTorqueForceGenerator.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class AeroControlForceGenerator.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -439,16 +459,34 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ConstantTorqueForceGenerator.html#applyForce">applyForce</a></b>(rigidBody, delta)
+								<div class="fixedFont"><b><a href="../symbols/AeroControlForceGenerator.html#accept">accept</a></b>(visitor, rigidBody)
 								</div>
-								<div class="description">Apply torque to the given mass over the delta time</div>
+								<div class="description">Accepts the supplied rigid boy visitor</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ConstantTorqueForceGenerator.html#toString">toString</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/AeroControlForceGenerator.html#applyForce">applyForce</a></b>(rigidBody, delta)
+								</div>
+								<div class="description">Apply force to the given mass over the delta time</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/AeroControlForceGenerator.html#getTensor">getTensor</a></b>()
+								</div>
+								<div class="description">The relative position of the aerodynamic surface in body coordinates</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/AeroControlForceGenerator.html#toString">toString</a></b>()
 								</div>
 								<div class="description">Converts the class to a string representation</div>
 							</td>
@@ -460,7 +498,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/ForceGenerator.html">ForceGenerator</a>: </dt><dd><a href="../symbols/ForceGenerator.html#accept">accept</a></dd>
+				
 				</dl>
 				
 			
@@ -475,7 +513,7 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>ConstantTorqueForceGenerator</b>(torque)
+						<b>AeroControlForceGenerator</b>(baseTensor, minTensor, maxTensor, position, windspeed)
 				</div>
 				
 				<div class="description">
@@ -491,10 +529,34 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{float}</span>  <b>torque</b>
+								<span class="light fixedFont">{<a href="../symbols/Matrix2.html">Matrix2</a>}</span>  <b>baseTensor</b>
 								
 							</dt>
-								<dd>The amount of torque to apply</dd>
+								<dd>The aerodynamic tensor for the surface in body space</dd>
+						
+							<dt>
+								<span class="light fixedFont">{<a href="../symbols/Matrix2.html">Matrix2</a>}</span>  <b>minTensor</b>
+								
+							</dt>
+								<dd>The aerodynamic tensor for the surface in body space (at min)</dd>
+						
+							<dt>
+								<span class="light fixedFont">{<a href="../symbols/Matrix2.html">Matrix2</a>}</span>  <b>maxTensor</b>
+								
+							</dt>
+								<dd>The aerodynamic tensor for the surface in body space (at max)</dd>
+						
+							<dt>
+								<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span>  <b>position</b>
+								
+							</dt>
+								<dd>The relative position of the aerodynamic surface in body coordinates</dd>
+						
+							<dt>
+								<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span>  <b>windspeed</b>
+								
+							</dt>
+								<dd>The wind speed</dd>
 						
 						</dl>
 					
@@ -502,7 +564,7 @@ ul.inheritsList
 					
 						<dl class="detailList">
 						<dt class="heading">Since:</dt>
-							<dd>0.0.0</dd>
+							<dd>0.0.0.3</dd>
 						</dl>
 					
 					
@@ -519,15 +581,15 @@ ul.inheritsList
 					Field Detail
 				</div>
 				
-					<a name="torque"> </a>
+					<a name="controlSetting"> </a>
 					<div class="fixedFont">
 					
 					<span class="light">{float}</span>
-					<b>torque</b>
+					<b>controlSetting</b>
 					
 					</div>
 					<div class="description">
-						The torque to apply
+						Range of -1 to 1, where if -1 then minTensor is used, at 1 maxTensor is used, and inbetween base tensor is used
 						
 						
 					</div>
@@ -538,7 +600,7 @@ ul.inheritsList
 						
 							<dl class="detailList">
 							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
+								<dd>0.0.0.3</dd>
 							</dl>
 						
 						
@@ -547,6 +609,74 @@ ul.inheritsList
 							<dt class="heading">Default Value:</dt>
 							<dd>
 								0.0
+							</dd>
+							</dl>
+						
+
+					<hr />
+				
+					<a name="maxTensor"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Matrix2.html">Matrix2</a>}</span>
+					<b>maxTensor</b>
+					
+					</div>
+					<div class="description">
+						The aerodynamic tensor for the surface in body space (at maximum value)
+						
+						
+					</div>
+					
+					
+
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								undefined
+							</dd>
+							</dl>
+						
+
+					<hr />
+				
+					<a name="minTensor"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Matrix2.html">Matrix2</a>}</span>
+					<b>minTensor</b>
+					
+					</div>
+					<div class="description">
+						The aerodynamic tensor for the surface in body space (at minimum value)
+						
+						
+					</div>
+					
+					
+
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								undefined
 							</dd>
 							</dl>
 						
@@ -561,6 +691,48 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
+					<a name="accept"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>accept</b>(visitor, rigidBody)
+					
+					</div>
+					<div class="description">
+						Accepts the supplied rigid boy visitor
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>visitor</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>rigidBody</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="applyForce"> </a>
 					<div class="fixedFont">
 					
@@ -569,7 +741,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Apply torque to the given mass over the delta time
+						Apply force to the given mass over the delta time
 						
 						
 					</div>
@@ -608,6 +780,44 @@ ul.inheritsList
 							<dt class="heading">Returns:</dt>
 							
 								<dd><span class="light fixedFont">{void}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getTensor"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Vector2.html">Vector2</a>}</span>
+					<b>getTensor</b>()
+					
+					</div>
+					<div class="description">
+						The relative position of the aerodynamic surface in body coordinates
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Matrix2.html">Matrix2</a>}</span> Aero dynamic tensor to use for current control setting</dd>
 							
 							</dl>
 						
@@ -666,7 +876,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Dec 05 2011 08:27:00 GMT+0200 (CAT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Dec 05 2011 08:26:59 GMT+0200 (CAT)
 		</div>
 	</body>
 </html>

@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - ConstantTorqueForceGenerator</title>
+		<title>JsDoc Reference - ParticleAnchoredRodContactGenerator</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -346,26 +346,26 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class ConstantTorqueForceGenerator
+				Class ParticleAnchoredRodContactGenerator
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
 				<br />Extends
-					<a href="../symbols/ForceGenerator.html">ForceGenerator</a>.<br />
+					<a href="../symbols/ParticleContactGenerator.html">ParticleContactGenerator</a>.<br />
 				
 			
-				A constant torque force generator
+				An anchored rod contact generator
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/js_rigidBodyPhysics.js.html">rigidBodyPhysics.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/js_massAggregatePhysics.js.html">massAggregatePhysics.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ConstantTorqueForceGenerator.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ParticleAnchoredRodContactGenerator.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -378,7 +378,7 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/ConstantTorqueForceGenerator.html#constructor">ConstantTorqueForceGenerator</a></b>(torque)
+								<b><a href="../symbols/ParticleAnchoredRodContactGenerator.html#constructor">ParticleAnchoredRodContactGenerator</a></b>(particle, anchor, length)
 							</div>
 							<div class="description"></div>
 						</td>
@@ -391,7 +391,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ConstantTorqueForceGenerator.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ParticleAnchoredRodContactGenerator.">
 					<caption>Field Summary</caption>
 					<thead>
 						<tr>
@@ -405,9 +405,29 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/ConstantTorqueForceGenerator.html#torque">torque</a></b>
+								<b><a href="../symbols/ParticleAnchoredRodContactGenerator.html#anchor">anchor</a></b>
 								</div>
-								<div class="description">The torque to apply</div>
+								<div class="description">Anchor to which particle must be connected</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/ParticleAnchoredRodContactGenerator.html#length">length</a></b>
+								</div>
+								<div class="description">Maximum length of the cable</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/ParticleAnchoredRodContactGenerator.html#particle">particle</a></b>
+								</div>
+								<div class="description">The particle attached to the anchor</div>
 							</td>
 						</tr>
 					
@@ -417,7 +437,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				
+				<dt>Fields borrowed from class <a href="../symbols/ParticleContactGenerator.html">ParticleContactGenerator</a>: </dt><dd><a href="../symbols/ParticleContactGenerator.html#contactType">contactType</a></dd>
 				</dl>
 				
 			
@@ -426,7 +446,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ConstantTorqueForceGenerator.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ParticleAnchoredRodContactGenerator.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -439,18 +459,27 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ConstantTorqueForceGenerator.html#applyForce">applyForce</a></b>(rigidBody, delta)
+								<div class="fixedFont"><b><a href="../symbols/ParticleAnchoredRodContactGenerator.html#accept">accept</a></b>(visitor)
 								</div>
-								<div class="description">Apply torque to the given mass over the delta time</div>
+								<div class="description">Accepts a particle world visitor</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ConstantTorqueForceGenerator.html#toString">toString</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/ParticleAnchoredRodContactGenerator.html#addContact">addContact</a></b>(contacts, limit)
 								</div>
-								<div class="description">Converts the class to a string representation</div>
+								<div class="description">Creates a contact needed to keep the cable from overextending</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ParticleAnchoredRodContactGenerator.html#getCurrentLength">getCurrentLength</a></b>()
+								</div>
+								<div class="description">Determines the current length of the cable, in other wordsthe distance between the anchor and the particle</div>
 							</td>
 						</tr>
 					
@@ -460,7 +489,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/ForceGenerator.html">ForceGenerator</a>: </dt><dd><a href="../symbols/ForceGenerator.html#accept">accept</a></dd>
+				<dt>Methods borrowed from class <a href="../symbols/ParticleContactGenerator.html">ParticleContactGenerator</a>: </dt><dd><a href="../symbols/ParticleContactGenerator.html#setContactType">setContactType</a></dd>
 				</dl>
 				
 			
@@ -475,7 +504,7 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>ConstantTorqueForceGenerator</b>(torque)
+						<b>ParticleAnchoredRodContactGenerator</b>(particle, anchor, length)
 				</div>
 				
 				<div class="description">
@@ -491,10 +520,22 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{float}</span>  <b>torque</b>
+								<span class="light fixedFont">{<a href="../symbols/Particle.html">Particle</a>}</span>  <b>particle</b>
 								
 							</dt>
-								<dd>The amount of torque to apply</dd>
+								<dd>Particle fixed to this anchor</dd>
+						
+							<dt>
+								<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span>  <b>anchor</b>
+								
+							</dt>
+								<dd>Fixed point</dd>
+						
+							<dt>
+								<span class="light fixedFont">{float}</span>  <b>length</b>
+								
+							</dt>
+								<dd>Length of this rod</dd>
 						
 						</dl>
 					
@@ -502,7 +543,7 @@ ul.inheritsList
 					
 						<dl class="detailList">
 						<dt class="heading">Since:</dt>
-							<dd>0.0.0</dd>
+							<dd>0.0.0.3</dd>
 						</dl>
 					
 					
@@ -519,15 +560,49 @@ ul.inheritsList
 					Field Detail
 				</div>
 				
-					<a name="torque"> </a>
+					<a name="anchor"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{float}</span>
-					<b>torque</b>
+					<span class="light">{<a href="../symbols/Vector2.html">Vector2</a>}</span>
+					<b>anchor</b>
 					
 					</div>
 					<div class="description">
-						The torque to apply
+						Anchor to which particle must be connected
+						
+						
+					</div>
+					
+					
+
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								anchor
+							</dd>
+							</dl>
+						
+
+					<hr />
+				
+					<a name="length"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{float}</span>
+					<b>length</b>
+					
+					</div>
+					<div class="description">
+						Maximum length of the cable
 						
 						
 					</div>
@@ -551,6 +626,40 @@ ul.inheritsList
 							</dl>
 						
 
+					<hr />
+				
+					<a name="particle"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Particle.html">Particle</a>}</span>
+					<b>particle</b>
+					
+					</div>
+					<div class="description">
+						The particle attached to the anchor
+						
+						
+					</div>
+					
+					
+
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								0.0
+							</dd>
+							</dl>
+						
+
 					
 				
 			
@@ -561,15 +670,15 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name="applyForce"> </a>
+					<a name="accept"> </a>
 					<div class="fixedFont">
 					
 					<span class="light">{void}</span>
-					<b>applyForce</b>(rigidBody, delta)
+					<b>accept</b>(visitor)
 					
 					</div>
 					<div class="description">
-						Apply torque to the given mass over the delta time
+						Accepts a particle world visitor
 						
 						
 					</div>
@@ -581,16 +690,10 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{<a href="../symbols/RigidBody.html">RigidBody</a>}</span> <b>rigidBody</b>
+									<span class="light fixedFont">{<a href="../symbols/ParticleWorldVisitor.html">ParticleWorldVisitor</a>}</span> <b>visitor</b>
 									
 								</dt>
-								<dd>The rigid body to apply the force to</dd>
-							
-								<dt>
-									<span class="light fixedFont">{int}</span> <b>delta</b>
-									
-								</dt>
-								<dd>The delta time in milliseconds</dd>
+								<dd>Visitor to visit</dd>
 							
 							</dl>
 						
@@ -598,7 +701,7 @@ ul.inheritsList
 						
 							<dl class="detailList">
 							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
+								<dd>0.0.0.3</dd>
 							</dl>
 							</dl>
 						
@@ -616,15 +719,70 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="toString"> </a>
+					<a name="addContact"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{string}</span>
-					<b>toString</b>()
+					<span class="light">{int}</span>
+					<b>addContact</b>(contacts, limit)
 					
 					</div>
 					<div class="description">
-						Converts the class to a string representation
+						Creates a contact needed to keep the cable from overextending
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>contacts</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>limit</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{int}</span> The number of contacts that have been written to</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getCurrentLength"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{float}</span>
+					<b>getCurrentLength</b>()
+					
+					</div>
+					<div class="description">
+						Determines the current length of the cable, in other wordsthe distance between the anchor and the particle
 						
 						
 					</div>
@@ -636,7 +794,7 @@ ul.inheritsList
 						
 							<dl class="detailList">
 							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
+								<dd>0.0.0.3</dd>
 							</dl>
 							</dl>
 						
@@ -645,7 +803,7 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{string}</span> The string representation of this object</dd>
+								<dd><span class="light fixedFont">{float}</span> The distance between the two particles</dd>
 							
 							</dl>
 						
@@ -666,7 +824,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Dec 05 2011 08:27:00 GMT+0200 (CAT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Dec 05 2011 08:27:03 GMT+0200 (CAT)
 		</div>
 	</body>
 </html>

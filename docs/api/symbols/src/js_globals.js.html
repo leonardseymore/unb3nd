@@ -34,188 +34,200 @@
 <span class='line'> 27</span> </span><span class="WHIT">	</span><span class="NAME">ANCHORED_SPRING_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"darkgreen"</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 28</span> </span><span class="WHIT">	</span><span class="NAME">BUNGEE_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"pink"</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 29</span> </span><span class="WHIT">	</span><span class="NAME">ANCHORED_BUNGEE_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"magenta"</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 30</span> </span><span class="WHIT">	</span><span class="NAME">CABLE_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"grey"</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 31</span> </span><span class="WHIT">	</span><span class="NAME">ROD_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"black"</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 32</span> </span><span class="WHIT">	</span><span class="NAME">COLLISION_DETECTION_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"purple"</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 33</span> </span><span class="WHIT">	</span><span class="NAME">COLLISION_BOX_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"purple"</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 34</span> </span><span class="WHIT">	</span><span class="NAME">COLLISION_BOX_TOL_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"pink"</span><span class="WHIT">
-<span class='line'> 35</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 36</span> 
-<span class='line'> 37</span> </span><span class="COMM">/**
-<span class='line'> 38</span>  * Earth's gravitational constant
-<span class='line'> 39</span>  * @public
-<span class='line'> 40</span>  * @constant
-<span class='line'> 41</span>  * @field
-<span class='line'> 42</span>  * @type float
-<span class='line'> 43</span>  * @since 0.0.0
-<span class='line'> 44</span>  */</span><span class="WHIT">
-<span class='line'> 45</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">EARTH_GRAVITATIONAL_CONSTANT</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">9.81</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 46</span> 
-<span class='line'> 47</span> </span><span class="COMM">/**
-<span class='line'> 48</span>  * Default gravitational constant used throughout
-<span class='line'> 49</span>  * @public
-<span class='line'> 50</span>  * @constant
-<span class='line'> 51</span>  * @field
-<span class='line'> 52</span>  * @type float
-<span class='line'> 53</span>  * @since 0.0.0
-<span class='line'> 54</span>  */</span><span class="WHIT">
-<span class='line'> 55</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">DEFAULT_GRAVITATIONAL_CONSTANT</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">EARTH_GRAVITATIONAL_CONSTANT</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 56</span> 
-<span class='line'> 57</span> </span><span class="COMM">/**
-<span class='line'> 58</span>  * Default drag velocity coefficient
-<span class='line'> 59</span>  * @public
-<span class='line'> 60</span>  * @constant
-<span class='line'> 61</span>  * @field
-<span class='line'> 62</span>  * @type float
-<span class='line'> 63</span>  * @since 0.0.0
-<span class='line'> 64</span>  */</span><span class="WHIT">
-<span class='line'> 65</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">DEFAULT_DRAG_VELOCITY_COEFF</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0.5</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 66</span> 
-<span class='line'> 67</span> </span><span class="COMM">/**
-<span class='line'> 68</span>  * Default drag velocity squared coefficient
-<span class='line'> 69</span>  * @public
-<span class='line'> 70</span>  * @constant
-<span class='line'> 71</span>  * @field
-<span class='line'> 72</span>  * @type float
-<span class='line'> 73</span>  * @since 0.0.0
-<span class='line'> 74</span>  */</span><span class="WHIT">
-<span class='line'> 75</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">DEFAULT_DRAG_VELOCITY_SQUARED_COEFF</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0.05</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 76</span> 
-<span class='line'> 77</span> </span><span class="COMM">/**
-<span class='line'> 78</span>  * Default collision restitution
-<span class='line'> 79</span>  * @public
-<span class='line'> 80</span>  * @constant
-<span class='line'> 81</span>  * @field
-<span class='line'> 82</span>  * @type float
-<span class='line'> 83</span>  * @since 0.0.0
-<span class='line'> 84</span>  */</span><span class="WHIT">
-<span class='line'> 85</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">DEFAULT_COLLISION_RESTITUTION</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0.5</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 86</span> 
-<span class='line'> 87</span> </span><span class="COMM">/**
-<span class='line'> 88</span>  * Useful for drawing full circles
-<span class='line'> 89</span>  * @public
-<span class='line'> 90</span>  * @constant
-<span class='line'> 91</span>  * @field
-<span class='line'> 92</span>  * @type float
-<span class='line'> 93</span>  * @since 0.0.0
-<span class='line'> 94</span>  */</span><span class="WHIT">
-<span class='line'> 95</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">TWO_PI</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.PI</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 96</span> 
-<span class='line'> 97</span> </span><span class="COMM">/**
-<span class='line'> 98</span>  * Target frame rate
-<span class='line'> 99</span>  * @public
-<span class='line'>100</span>  * @constant
-<span class='line'>101</span>  * @field
-<span class='line'>102</span>  * @type float
-<span class='line'>103</span>  * @since 0.0.0
-<span class='line'>104</span>  */</span><span class="WHIT">
-<span class='line'>105</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">FPS</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">30</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>106</span> 
-<span class='line'>107</span> </span><span class="COMM">/**
-<span class='line'>108</span>  * Log debug flag
-<span class='line'>109</span>  * @public
-<span class='line'>110</span>  * @field
-<span class='line'>111</span>  * @type boolean
-<span class='line'>112</span>  * @since 0.0.0
-<span class='line'>113</span>  */</span><span class="WHIT">
-<span class='line'>114</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">debug</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>115</span> 
-<span class='line'>116</span> </span><span class="COMM">/**
-<span class='line'>117</span>  * Verbose log debug flag
-<span class='line'>118</span>  * @public
-<span class='line'>119</span>  * @field
-<span class='line'>120</span>  * @type boolean
-<span class='line'>121</span>  * @since 0.0.0
-<span class='line'>122</span>  */</span><span class="WHIT">
-<span class='line'>123</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">verbose</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>124</span> 
-<span class='line'>125</span> </span><span class="COMM">/**
-<span class='line'>126</span>  * Drawing surface
-<span class='line'>127</span>  * @public
-<span class='line'>128</span>  * @field
-<span class='line'>129</span>  * @type Canvas
-<span class='line'>130</span>  * @since 0.0.0
-<span class='line'>131</span>  */</span><span class="WHIT">
-<span class='line'>132</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">canvas</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>133</span> 
-<span class='line'>134</span> </span><span class="COMM">/**
-<span class='line'>135</span>  * Canvas rectangle
-<span class='line'>136</span>  * @public
-<span class='line'>137</span>  * @field
-<span class='line'>138</span>  * @type Rectangle
-<span class='line'>139</span>  * @since 0.0.0
-<span class='line'>140</span>  */</span><span class="WHIT">
-<span class='line'>141</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">windowRect</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>142</span> 
-<span class='line'>143</span> </span><span class="COMM">/**
-<span class='line'>144</span>  * Drawing context
-<span class='line'>145</span>  * @public
-<span class='line'>146</span>  * @field
-<span class='line'>147</span>  * @type Canvas2DRenderingContext
-<span class='line'>148</span>  * @since 0.0.0
-<span class='line'>149</span>  */</span><span class="WHIT">
-<span class='line'>150</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ctx</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>151</span> 
-<span class='line'>152</span> </span><span class="COMM">/**
-<span class='line'>153</span>  * Last calculated frame rate
-<span class='line'>154</span>  * @public
-<span class='line'>155</span>  * @field
-<span class='line'>156</span>  * @type int
-<span class='line'>157</span>  * @since 0.0.0
-<span class='line'>158</span>  */</span><span class="WHIT">
-<span class='line'>159</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>160</span> 
-<span class='line'>161</span> </span><span class="COMM">/**
-<span class='line'>162</span>  * Last frame update time
-<span class='line'>163</span>  * @public
-<span class='line'>164</span>  * @field
-<span class='line'>165</span>  * @type long
-<span class='line'>166</span>  * @since 0.0.0
-<span class='line'>167</span>  */</span><span class="WHIT">
-<span class='line'>168</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">lastFrame</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>169</span> 
-<span class='line'>170</span> </span><span class="COMM">/**
-<span class='line'>171</span>  * Last frame rate update time
-<span class='line'>172</span>  * @public
-<span class='line'>173</span>  * @field
-<span class='line'>174</span>  * @type long
-<span class='line'>175</span>  * @since 0.0.0
-<span class='line'>176</span>  */</span><span class="WHIT">
-<span class='line'>177</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">lastFPS</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>178</span> 
-<span class='line'>179</span> </span><span class="COMM">/**
-<span class='line'>180</span>  * Last sync time
-<span class='line'>181</span>  * @public
-<span class='line'>182</span>  * @field
-<span class='line'>183</span>  * @type long
-<span class='line'>184</span>  * @since 0.0.0
-<span class='line'>185</span>  */</span><span class="WHIT">
-<span class='line'>186</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">lastSync</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>187</span> 
-<span class='line'>188</span> </span><span class="COMM">/**
-<span class='line'>189</span>  * Global running flag
-<span class='line'>190</span>  * @public
-<span class='line'>191</span>  * @field
-<span class='line'>192</span>  * @type boolean
-<span class='line'>193</span>  * @since 0.0.0
-<span class='line'>194</span>  */</span><span class="WHIT">
-<span class='line'>195</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">running</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>196</span> 
-<span class='line'>197</span> </span><span class="COMM">/**
-<span class='line'>198</span>  * Global paused flag
-<span class='line'>199</span>  * TODO: ensure this is used
-<span class='line'>200</span>  * @public
-<span class='line'>201</span>  * @field
-<span class='line'>202</span>  * @type boolean
-<span class='line'>203</span>  * @since 0.0.0
-<span class='line'>204</span>  */</span><span class="WHIT">
-<span class='line'>205</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">paused</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>206</span> 
-<span class='line'>207</span> </span><span class="COMM">/**
-<span class='line'>208</span>  * Global scale (Pixels Per Meter) flag
-<span class='line'>209</span>  * @public
-<span class='line'>210</span>  * @field
-<span class='line'>211</span>  * @type boolean
-<span class='line'>212</span>  * @since 0.0.0.3
-<span class='line'>213</span>  */</span><span class="WHIT">
-<span class='line'>214</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ppm</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span></pre></body></html>
+<span class='line'> 30</span> </span><span class="WHIT">  </span><span class="NAME">AERO_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"purple"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">	</span><span class="NAME">CABLE_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"grey"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">	</span><span class="NAME">ANCHORED_CABLE_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"#333333"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">	</span><span class="NAME">ROD_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"black"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">  </span><span class="NAME">ANCHORED_ROD_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"#333333"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">	</span><span class="NAME">COLLISION_DETECTION_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"purple"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">	</span><span class="NAME">COLLISION_BOX_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"purple"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">	</span><span class="NAME">COLLISION_BOX_TOL_COLOR</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"pink"</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 39</span> 
+<span class='line'> 40</span> </span><span class="COMM">/**
+<span class='line'> 41</span>  * Earth's gravitational constant
+<span class='line'> 42</span>  * @public
+<span class='line'> 43</span>  * @constant
+<span class='line'> 44</span>  * @field
+<span class='line'> 45</span>  * @type float
+<span class='line'> 46</span>  * @since 0.0.0
+<span class='line'> 47</span>  */</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">EARTH_GRAVITATIONAL_CONSTANT</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">9.81</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> 
+<span class='line'> 50</span> </span><span class="COMM">/**
+<span class='line'> 51</span>  * Default gravitational constant used throughout
+<span class='line'> 52</span>  * @public
+<span class='line'> 53</span>  * @constant
+<span class='line'> 54</span>  * @field
+<span class='line'> 55</span>  * @type float
+<span class='line'> 56</span>  * @since 0.0.0
+<span class='line'> 57</span>  */</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">DEFAULT_GRAVITATIONAL_CONSTANT</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">EARTH_GRAVITATIONAL_CONSTANT</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> 
+<span class='line'> 60</span> </span><span class="COMM">/**
+<span class='line'> 61</span>  * Default drag velocity coefficient
+<span class='line'> 62</span>  * @public
+<span class='line'> 63</span>  * @constant
+<span class='line'> 64</span>  * @field
+<span class='line'> 65</span>  * @type float
+<span class='line'> 66</span>  * @since 0.0.0
+<span class='line'> 67</span>  */</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">DEFAULT_DRAG_VELOCITY_COEFF</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0.5</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> 
+<span class='line'> 70</span> </span><span class="COMM">/**
+<span class='line'> 71</span>  * Default drag velocity squared coefficient
+<span class='line'> 72</span>  * @public
+<span class='line'> 73</span>  * @constant
+<span class='line'> 74</span>  * @field
+<span class='line'> 75</span>  * @type float
+<span class='line'> 76</span>  * @since 0.0.0
+<span class='line'> 77</span>  */</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">DEFAULT_DRAG_VELOCITY_SQUARED_COEFF</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0.05</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 79</span> 
+<span class='line'> 80</span> </span><span class="COMM">/**
+<span class='line'> 81</span>  * Default collision restitution
+<span class='line'> 82</span>  * @public
+<span class='line'> 83</span>  * @constant
+<span class='line'> 84</span>  * @field
+<span class='line'> 85</span>  * @type float
+<span class='line'> 86</span>  * @since 0.0.0
+<span class='line'> 87</span>  */</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">DEFAULT_COLLISION_RESTITUTION</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0.5</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> 
+<span class='line'> 90</span> </span><span class="COMM">/**
+<span class='line'> 91</span>  * Useful for drawing full circles
+<span class='line'> 92</span>  * @public
+<span class='line'> 93</span>  * @constant
+<span class='line'> 94</span>  * @field
+<span class='line'> 95</span>  * @type float
+<span class='line'> 96</span>  * @since 0.0.0
+<span class='line'> 97</span>  */</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">TWO_PI</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.PI</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span> 
+<span class='line'>100</span> </span><span class="COMM">/**
+<span class='line'>101</span>  * Target frame rate
+<span class='line'>102</span>  * @public
+<span class='line'>103</span>  * @constant
+<span class='line'>104</span>  * @field
+<span class='line'>105</span>  * @type float
+<span class='line'>106</span>  * @since 0.0.0
+<span class='line'>107</span>  */</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">FPS</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">30</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> 
+<span class='line'>110</span> </span><span class="COMM">/**
+<span class='line'>111</span>  * Log debug flag
+<span class='line'>112</span>  * @public
+<span class='line'>113</span>  * @field
+<span class='line'>114</span>  * @type boolean
+<span class='line'>115</span>  * @since 0.0.0
+<span class='line'>116</span>  */</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">debug</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> 
+<span class='line'>119</span> </span><span class="COMM">/**
+<span class='line'>120</span>  * Verbose log debug flag
+<span class='line'>121</span>  * @public
+<span class='line'>122</span>  * @field
+<span class='line'>123</span>  * @type boolean
+<span class='line'>124</span>  * @since 0.0.0
+<span class='line'>125</span>  */</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">verbose</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>127</span> 
+<span class='line'>128</span> </span><span class="COMM">/**
+<span class='line'>129</span>  * Drawing surface
+<span class='line'>130</span>  * @public
+<span class='line'>131</span>  * @field
+<span class='line'>132</span>  * @type Canvas
+<span class='line'>133</span>  * @since 0.0.0
+<span class='line'>134</span>  */</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">canvas</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>136</span> 
+<span class='line'>137</span> </span><span class="COMM">/**
+<span class='line'>138</span>  * Canvas rectangle
+<span class='line'>139</span>  * @public
+<span class='line'>140</span>  * @field
+<span class='line'>141</span>  * @type Rectangle
+<span class='line'>142</span>  * @since 0.0.0
+<span class='line'>143</span>  */</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">windowRect</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> 
+<span class='line'>146</span> </span><span class="COMM">/**
+<span class='line'>147</span>  * Drawing context
+<span class='line'>148</span>  * @public
+<span class='line'>149</span>  * @field
+<span class='line'>150</span>  * @type Canvas2DRenderingContext
+<span class='line'>151</span>  * @since 0.0.0
+<span class='line'>152</span>  */</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ctx</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>154</span> 
+<span class='line'>155</span> </span><span class="COMM">/**
+<span class='line'>156</span>  * Last calculated frame rate
+<span class='line'>157</span>  * @public
+<span class='line'>158</span>  * @field
+<span class='line'>159</span>  * @type int
+<span class='line'>160</span>  * @since 0.0.0
+<span class='line'>161</span>  */</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span> 
+<span class='line'>164</span> </span><span class="COMM">/**
+<span class='line'>165</span>  * Last frame update time
+<span class='line'>166</span>  * @public
+<span class='line'>167</span>  * @field
+<span class='line'>168</span>  * @type long
+<span class='line'>169</span>  * @since 0.0.0
+<span class='line'>170</span>  */</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">lastFrame</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>172</span> 
+<span class='line'>173</span> </span><span class="COMM">/**
+<span class='line'>174</span>  * Average frame rate
+<span class='line'>175</span>  * @public
+<span class='line'>176</span>  * @field
+<span class='line'>177</span>  * @type int
+<span class='line'>178</span>  * @since 0.0.0.3
+<span class='line'>179</span>  */</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">avgFps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> 
+<span class='line'>182</span> </span><span class="COMM">/**
+<span class='line'>183</span>  * Last frame rate update time
+<span class='line'>184</span>  * @public
+<span class='line'>185</span>  * @field
+<span class='line'>186</span>  * @type long
+<span class='line'>187</span>  * @since 0.0.0
+<span class='line'>188</span>  */</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">lastFPS</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> 
+<span class='line'>191</span> </span><span class="COMM">/**
+<span class='line'>192</span>  * Last sync time
+<span class='line'>193</span>  * @public
+<span class='line'>194</span>  * @field
+<span class='line'>195</span>  * @type long
+<span class='line'>196</span>  * @since 0.0.0
+<span class='line'>197</span>  */</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">lastSync</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span> 
+<span class='line'>200</span> </span><span class="COMM">/**
+<span class='line'>201</span>  * Global running flag
+<span class='line'>202</span>  * @public
+<span class='line'>203</span>  * @field
+<span class='line'>204</span>  * @type boolean
+<span class='line'>205</span>  * @since 0.0.0
+<span class='line'>206</span>  */</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">running</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> 
+<span class='line'>209</span> </span><span class="COMM">/**
+<span class='line'>210</span>  * Global paused flag
+<span class='line'>211</span>  * TODO: ensure this is used
+<span class='line'>212</span>  * @public
+<span class='line'>213</span>  * @field
+<span class='line'>214</span>  * @type boolean
+<span class='line'>215</span>  * @since 0.0.0
+<span class='line'>216</span>  */</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">paused</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span> 
+<span class='line'>219</span> </span><span class="COMM">/**
+<span class='line'>220</span>  * Global scale (Pixels Per Meter) flag
+<span class='line'>221</span>  * @public
+<span class='line'>222</span>  * @field
+<span class='line'>223</span>  * @type boolean
+<span class='line'>224</span>  * @since 0.0.0.3
+<span class='line'>225</span>  */</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ppm</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span></pre></body></html>

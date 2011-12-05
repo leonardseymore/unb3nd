@@ -191,6 +191,10 @@ ul.inheritsList
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
+	<li><a href="../symbols/AeroControlForceGenerator.html">AeroControlForceGenerator</a></li>
+	
+	<li><a href="../symbols/AeroForceGenerator.html">AeroForceGenerator</a></li>
+	
 	<li><a href="../symbols/Background.html">Background</a></li>
 	
 	<li><a href="../symbols/BoundaryAction.html">BoundaryAction</a></li>
@@ -237,11 +241,17 @@ ul.inheritsList
 	
 	<li><a href="../symbols/Matrix2.html">Matrix2</a></li>
 	
+	<li><a href="../symbols/Matrix3.html">Matrix3</a></li>
+	
 	<li><a href="../symbols/Observable.html">Observable</a></li>
 	
 	<li><a href="../symbols/Particle.html">Particle</a></li>
 	
 	<li><a href="../symbols/ParticleAnchoredBungeeForceGenerator.html">ParticleAnchoredBungeeForceGenerator</a></li>
+	
+	<li><a href="../symbols/ParticleAnchoredCableContactGenerator.html">ParticleAnchoredCableContactGenerator</a></li>
+	
+	<li><a href="../symbols/ParticleAnchoredRodContactGenerator.html">ParticleAnchoredRodContactGenerator</a></li>
 	
 	<li><a href="../symbols/ParticleAnchoredSpringForceGenerator.html">ParticleAnchoredSpringForceGenerator</a></li>
 	
@@ -315,9 +325,17 @@ ul.inheritsList
 	
 	<li><a href="../symbols/StarryBackground-Star.html">StarryBackground-Star</a></li>
 	
+	<li><a href="../symbols/TransformationMatrix3.html">TransformationMatrix3</a></li>
+	
 	<li><a href="../symbols/Vector2.html">Vector2</a></li>
 	
+	<li><a href="../symbols/Vector3.html">Vector3</a></li>
+	
 	<li><a href="../symbols/World.html">World</a></li>
+	
+	<li><a href="../symbols/WorldRenderVisitor.html">WorldRenderVisitor</a></li>
+	
+	<li><a href="../symbols/WorldVisitor.html">WorldVisitor</a></li>
 	
 </ul>
 <hr />
@@ -358,7 +376,7 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/RotationMatrix2.html#constructor">RotationMatrix2</a></b>()
+								<b><a href="../symbols/RotationMatrix2.html#constructor">RotationMatrix2</a></b>(theta)
 							</div>
 							<div class="description"></div>
 						</td>
@@ -369,72 +387,8 @@ ul.inheritsList
 
 <!-- ============================== properties summary ===================== -->
 			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class RotationMatrix2.">
-					<caption>Field Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Field Attributes</th>
-							<th scope="col">Field Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								RotationMatrix2.<b><a href="../symbols/RotationMatrix2.html#.instance">instance</a></b>
-								</div>
-								<div class="description">Rotation matrix singleton instance</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
-			
 
 <!-- ============================== methods summary ======================== -->
-			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class RotationMatrix2.">
-					<caption>Method Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Method Attributes</th>
-							<th scope="col">Method Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/RotationMatrix2.html#rotate">rotate</a></b>(vector, theta)
-								</div>
-								<div class="description">Apply matrix to the supplied vector</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/RotationMatrix2.html#rotateMutate">rotateMutate</a></b>(vector, theta)
-								</div>
-								<div class="description">Apply matrix to the supplied vector</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
 			
 <!-- ============================== events summary ======================== -->
 			
@@ -447,7 +401,7 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>RotationMatrix2</b>()
+						<b>RotationMatrix2</b>(theta)
 				</div>
 				
 				<div class="description">
@@ -458,6 +412,17 @@ ul.inheritsList
 				
 				
 				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{float}</span>  <b>theta</b>
+								
+							</dt>
+								<dd>The angle of this rotation matrix</dd>
+						
+						</dl>
 					
 					
 					
@@ -476,162 +441,8 @@ ul.inheritsList
 
 <!-- ============================== field details ========================== -->		
 			
-				<div class="sectionTitle">
-					Field Detail
-				</div>
-				
-					<a name=".instance"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{<a href="../symbols/RotationMatrix2.html">RotationMatrix2</a>}</span>
-					<span class="light">RotationMatrix2.</span><b>instance</b>
-					
-					</div>
-					<div class="description">
-						Rotation matrix singleton instance
-						
-						
-					</div>
-					
-					
-
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Default Value:</dt>
-							<dd>
-								new RotationMatrix2()
-							</dd>
-							</dl>
-						
-
-					
-				
-			
 
 <!-- ============================== method details ========================= -->		
-			
-				<div class="sectionTitle">
-					Method Detail
-				</div>
-				
-					<a name="rotate"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{<a href="../symbols/Vector2.html">Vector2</a>}</span>
-					<b>rotate</b>(vector, theta)
-					
-					</div>
-					<div class="description">
-						Apply matrix to the supplied vector
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>vector</b>
-									
-								</dt>
-								<dd>The vector to rotate</dd>
-							
-								<dt>
-									<span class="light fixedFont">{float}</span> <b>theta</b>
-									
-								</dt>
-								<dd>The amount to rotate the vector by</dd>
-							
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> The rotated vector</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="rotateMutate"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{void}</span>
-					<b>rotateMutate</b>(vector, theta)
-					
-					</div>
-					<div class="description">
-						Apply matrix to the supplied vector
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>vector</b>
-									
-								</dt>
-								<dd>The vector to rotate</dd>
-							
-								<dt>
-									<span class="light fixedFont">{float}</span> <b>theta</b>
-									
-								</dt>
-								<dd>The amount to rotate the vector by</dd>
-							
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					
-				
 			
 			
 <!-- ============================== event details ========================= -->		
@@ -644,7 +455,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Nov 25 2011 13:42:19 GMT+0200 (CAT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Dec 05 2011 08:27:06 GMT+0200 (CAT)
 		</div>
 	</body>
 </html>

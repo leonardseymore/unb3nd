@@ -191,6 +191,10 @@ ul.inheritsList
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
+	<li><a href="../symbols/AeroControlForceGenerator.html">AeroControlForceGenerator</a></li>
+	
+	<li><a href="../symbols/AeroForceGenerator.html">AeroForceGenerator</a></li>
+	
 	<li><a href="../symbols/Background.html">Background</a></li>
 	
 	<li><a href="../symbols/BoundaryAction.html">BoundaryAction</a></li>
@@ -237,11 +241,17 @@ ul.inheritsList
 	
 	<li><a href="../symbols/Matrix2.html">Matrix2</a></li>
 	
+	<li><a href="../symbols/Matrix3.html">Matrix3</a></li>
+	
 	<li><a href="../symbols/Observable.html">Observable</a></li>
 	
 	<li><a href="../symbols/Particle.html">Particle</a></li>
 	
 	<li><a href="../symbols/ParticleAnchoredBungeeForceGenerator.html">ParticleAnchoredBungeeForceGenerator</a></li>
+	
+	<li><a href="../symbols/ParticleAnchoredCableContactGenerator.html">ParticleAnchoredCableContactGenerator</a></li>
+	
+	<li><a href="../symbols/ParticleAnchoredRodContactGenerator.html">ParticleAnchoredRodContactGenerator</a></li>
 	
 	<li><a href="../symbols/ParticleAnchoredSpringForceGenerator.html">ParticleAnchoredSpringForceGenerator</a></li>
 	
@@ -315,9 +325,17 @@ ul.inheritsList
 	
 	<li><a href="../symbols/StarryBackground-Star.html">StarryBackground-Star</a></li>
 	
+	<li><a href="../symbols/TransformationMatrix3.html">TransformationMatrix3</a></li>
+	
 	<li><a href="../symbols/Vector2.html">Vector2</a></li>
 	
+	<li><a href="../symbols/Vector3.html">Vector3</a></li>
+	
 	<li><a href="../symbols/World.html">World</a></li>
+	
+	<li><a href="../symbols/WorldRenderVisitor.html">WorldRenderVisitor</a></li>
+	
+	<li><a href="../symbols/WorldVisitor.html">WorldVisitor</a></li>
 	
 </ul>
 <hr />
@@ -399,6 +417,15 @@ ul.inheritsList
 								<div class="fixedFont">ForceGeneratorFactory.<b><a href="../symbols/ForceGeneratorFactory.html#.createGravity">createGravity</a></b>(forceRegistry, rigidBody, gravitation)
 								</div>
 								<div class="description">Creates a gravity force generator for a single rigid body only</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ForceGeneratorFactory.<b><a href="../symbols/ForceGeneratorFactory.html#.createSpring">createSpring</a></b>(forceRegistry, rigidBody, connectionPoint, rigidBodyOther, connectionPointOther, springConstant, restLength)
+								</div>
+								<div class="description">Creates a spring force generator for a single rigid body only</div>
 							</td>
 						</tr>
 					
@@ -487,7 +514,7 @@ ul.inheritsList
 								<dd>The rigidBody to add the generator to</dd>
 							
 								<dt>
-									<span class="light fixedFont">{Vector2d}</span> <b>torque</b>
+									<span class="light fixedFont">{float}</span> <b>torque</b>
 									
 								</dt>
 								<dd>The torque force to apply</dd>
@@ -575,6 +602,91 @@ ul.inheritsList
 						
 						
 
+					<hr />
+				
+					<a name=".createSpring"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{void}</span>
+					<span class="light">ForceGeneratorFactory.</span><b>createSpring</b>(forceRegistry, rigidBody, connectionPoint, rigidBodyOther, connectionPointOther, springConstant, restLength)
+					
+					</div>
+					<div class="description">
+						Creates a spring force generator for a single rigid body only
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/ForceRegistry.html">ForceRegistry</a>}</span> <b>forceRegistry</b>
+									
+								</dt>
+								<dd>The force registry to add the generator to</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/RigidBody.html">RigidBody</a>}</span> <b>rigidBody</b>
+									
+								</dt>
+								<dd>The rigidBody to add the generator to</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>connectionPoint</b>
+									
+								</dt>
+								<dd>The connection point of the spring, in       local coordinates of this rigid body</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/RigidBody.html">RigidBody</a>}</span> <b>rigidBodyOther</b>
+									
+								</dt>
+								<dd>Rigid body at the other end of the spring</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>connectionPointOther</b>
+									
+								</dt>
+								<dd>The connection point of the spring,       in that object's local coordinates of the #rigidBodyOther</dd>
+							
+								<dt>
+									<span class="light fixedFont">{float}</span> <b>springConstant</b>
+									
+								</dt>
+								<dd>Holds the spring constant</dd>
+							
+								<dt>
+									<span class="light fixedFont">{float}</span> <b>restLength</b>
+									
+								</dt>
+								<dd>Holds the spring's rest length</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{void}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
 					
 				
 			
@@ -589,7 +701,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Nov 25 2011 13:42:16 GMT+0200 (CAT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Dec 05 2011 08:27:02 GMT+0200 (CAT)
 		</div>
 	</body>
 </html>

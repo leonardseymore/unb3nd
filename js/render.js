@@ -282,6 +282,26 @@ function ParticleWorldRenderVisitor() {
   /**
 	 * @method
 	 * @override
+	 * Visits the anchored particle rod contact generator
+	 */
+	this.visitAnchoredRodContactGenerator = function(contactGenerator) {
+    var p1ScreenPos = window(contactGenerator.particle.pos);
+    var anchorScreenPos = window(contactGenerator.anchor);
+
+    ctx.save();
+
+		ctx.strokeStyle = SETTINGS.ANCHORED_ROD_COLOR;
+		ctx.beginPath();
+		ctx.moveTo(p1ScreenPos.x, p1ScreenPos.y);
+		ctx.lineTo(anchorScreenPos.x, anchorScreenPos.y);
+		ctx.stroke();
+
+		ctx.restore();
+	}
+
+  /**
+	 * @method
+	 * @override
 	 * Visits the particle collision contact generator
 	 */
 	this.visitCollisionContactGenerator = function(contactGenerator) {
@@ -292,7 +312,7 @@ function ParticleWorldRenderVisitor() {
       var particleScreenPos = window(particle.pos);
 
 			ctx.beginPath();
-			ctx.arc(particleScreenPos.x, particleScreenPos.y, contactGenerator.collisionRadius, 0, Math.PI * 2);
+			ctx.arc(particleScreenPos.x, particleScreenPos.y, contactGenerator.collisionRadius, 0, TWO_PI);
 			ctx.stroke();
 		} // for
 		ctx.restore();

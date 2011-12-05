@@ -52,7 +52,7 @@ function highlightPoint(point, radius) {
 	ctx.save();
 	ctx.translate(windowRect.width / 2, windowRect.height / 2);
 	ctx.beginPath();
-	ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+	ctx.arc(point.x, point.y, radius, 0, TWO_PI);
 	ctx.stroke();
 	ctx.restore();
 }

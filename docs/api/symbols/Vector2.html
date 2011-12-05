@@ -191,6 +191,10 @@ ul.inheritsList
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
+	<li><a href="../symbols/AeroControlForceGenerator.html">AeroControlForceGenerator</a></li>
+	
+	<li><a href="../symbols/AeroForceGenerator.html">AeroForceGenerator</a></li>
+	
 	<li><a href="../symbols/Background.html">Background</a></li>
 	
 	<li><a href="../symbols/BoundaryAction.html">BoundaryAction</a></li>
@@ -237,11 +241,17 @@ ul.inheritsList
 	
 	<li><a href="../symbols/Matrix2.html">Matrix2</a></li>
 	
+	<li><a href="../symbols/Matrix3.html">Matrix3</a></li>
+	
 	<li><a href="../symbols/Observable.html">Observable</a></li>
 	
 	<li><a href="../symbols/Particle.html">Particle</a></li>
 	
 	<li><a href="../symbols/ParticleAnchoredBungeeForceGenerator.html">ParticleAnchoredBungeeForceGenerator</a></li>
+	
+	<li><a href="../symbols/ParticleAnchoredCableContactGenerator.html">ParticleAnchoredCableContactGenerator</a></li>
+	
+	<li><a href="../symbols/ParticleAnchoredRodContactGenerator.html">ParticleAnchoredRodContactGenerator</a></li>
 	
 	<li><a href="../symbols/ParticleAnchoredSpringForceGenerator.html">ParticleAnchoredSpringForceGenerator</a></li>
 	
@@ -315,9 +325,17 @@ ul.inheritsList
 	
 	<li><a href="../symbols/StarryBackground-Star.html">StarryBackground-Star</a></li>
 	
+	<li><a href="../symbols/TransformationMatrix3.html">TransformationMatrix3</a></li>
+	
 	<li><a href="../symbols/Vector2.html">Vector2</a></li>
 	
+	<li><a href="../symbols/Vector3.html">Vector3</a></li>
+	
 	<li><a href="../symbols/World.html">World</a></li>
+	
+	<li><a href="../symbols/WorldRenderVisitor.html">WorldRenderVisitor</a></li>
+	
+	<li><a href="../symbols/WorldVisitor.html">WorldVisitor</a></li>
 	
 </ul>
 <hr />
@@ -522,6 +540,24 @@ ul.inheritsList
 						</tr>
 					
 						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Vector2.html#inverse">inverse</a></b>()
+								</div>
+								<div class="description">Flip vector around</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Vector2.html#inverseMutate">inverseMutate</a></b>()
+								</div>
+								<div class="description">Inverts this vector</div>
+							</td>
+						</tr>
+					
+						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">Vector2.<b><a href="../symbols/Vector2.html#.isWithin">isWithin</a></b>(v1, v2, distance)
@@ -578,15 +614,6 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/Vector2.html#reverse">reverse</a></b>()
-								</div>
-								<div class="description">Flip vector aroundTODO: invert is maybe a better name for this method</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/Vector2.html#sub">sub</a></b>(o)
 								</div>
 								<div class="description">Remove another vector from this vector</div>
@@ -608,6 +635,15 @@ ul.inheritsList
 								<div class="fixedFont"><b><a href="../symbols/Vector2.html#toString">toString</a></b>()
 								</div>
 								<div class="description">Converts the class to a string representation</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/Vector2.html#vectorProduct">vectorProduct</a></b>(other)
+								</div>
+								<div class="description">Calculate the vector product with another vector</div>
 							</td>
 						</tr>
 					
@@ -1287,6 +1323,82 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="inverse"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Vector2.html">Vector2</a>}</span>
+					<b>inverse</b>()
+					
+					</div>
+					<div class="description">
+						Flip vector around
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> The flipped vector</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="inverseMutate"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{void}</span>
+					<b>inverseMutate</b>()
+					
+					</div>
+					<div class="description">
+						Inverts this vector
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{void}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
 					<a name=".isWithin"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
@@ -1583,44 +1695,6 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="reverse"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{<a href="../symbols/Vector2.html">Vector2</a>}</span>
-					<b>reverse</b>()
-					
-					</div>
-					<div class="description">
-						Flip vector aroundTODO: invert is maybe a better name for this method
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> The flipped vector</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
 					<a name="sub"> </a>
 					<div class="fixedFont">
 					
@@ -1757,6 +1831,55 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="vectorProduct"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Vector2.html">Vector2</a>}</span>
+					<b>vectorProduct</b>(other)
+					
+					</div>
+					<div class="description">
+						Calculate the vector product with another vector
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>other</b>
+									
+								</dt>
+								<dd>The vector to perform the calculation with</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> The vector product</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
 					<a name="zeroMutate"> </a>
 					<div class="fixedFont">
 					
@@ -1807,7 +1930,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Nov 25 2011 13:42:19 GMT+0200 (CAT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Dec 05 2011 08:27:06 GMT+0200 (CAT)
 		</div>
 	</body>
 </html>

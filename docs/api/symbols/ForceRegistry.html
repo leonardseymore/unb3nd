@@ -191,6 +191,10 @@ ul.inheritsList
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
+	<li><a href="../symbols/AeroControlForceGenerator.html">AeroControlForceGenerator</a></li>
+	
+	<li><a href="../symbols/AeroForceGenerator.html">AeroForceGenerator</a></li>
+	
 	<li><a href="../symbols/Background.html">Background</a></li>
 	
 	<li><a href="../symbols/BoundaryAction.html">BoundaryAction</a></li>
@@ -237,11 +241,17 @@ ul.inheritsList
 	
 	<li><a href="../symbols/Matrix2.html">Matrix2</a></li>
 	
+	<li><a href="../symbols/Matrix3.html">Matrix3</a></li>
+	
 	<li><a href="../symbols/Observable.html">Observable</a></li>
 	
 	<li><a href="../symbols/Particle.html">Particle</a></li>
 	
 	<li><a href="../symbols/ParticleAnchoredBungeeForceGenerator.html">ParticleAnchoredBungeeForceGenerator</a></li>
+	
+	<li><a href="../symbols/ParticleAnchoredCableContactGenerator.html">ParticleAnchoredCableContactGenerator</a></li>
+	
+	<li><a href="../symbols/ParticleAnchoredRodContactGenerator.html">ParticleAnchoredRodContactGenerator</a></li>
 	
 	<li><a href="../symbols/ParticleAnchoredSpringForceGenerator.html">ParticleAnchoredSpringForceGenerator</a></li>
 	
@@ -315,9 +325,17 @@ ul.inheritsList
 	
 	<li><a href="../symbols/StarryBackground-Star.html">StarryBackground-Star</a></li>
 	
+	<li><a href="../symbols/TransformationMatrix3.html">TransformationMatrix3</a></li>
+	
 	<li><a href="../symbols/Vector2.html">Vector2</a></li>
 	
+	<li><a href="../symbols/Vector3.html">Vector3</a></li>
+	
 	<li><a href="../symbols/World.html">World</a></li>
+	
+	<li><a href="../symbols/WorldRenderVisitor.html">WorldRenderVisitor</a></li>
+	
+	<li><a href="../symbols/WorldVisitor.html">WorldVisitor</a></li>
 	
 </ul>
 <hr />
@@ -415,6 +433,15 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ForceRegistry.html#accept">accept</a></b>(visitor)
+								</div>
+								<div class="description">Accepts a world visitor</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/ForceRegistry.html#add">add</a></b>(rigidBody, forceGenerator)
 								</div>
 								<div class="description">Adds the force generator to the supplied rigid bodyTODO: This is a very brute force function, we need a HashMap or similar datastructure</div>
@@ -427,15 +454,6 @@ ul.inheritsList
 								<div class="fixedFont"><b><a href="../symbols/ForceRegistry.html#applyForces">applyForces</a></b>(delta)
 								</div>
 								<div class="description">Adds each force generator's force to every rigid body in the registry over the delta time</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ForceRegistry.html#drawForceGenerators">drawForceGenerators</a></b>()
-								</div>
-								<div class="description">Draws visual helpers of all force generators</div>
 							</td>
 						</tr>
 					
@@ -558,6 +576,55 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
+					<a name="accept"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{void}</span>
+					<b>accept</b>(visitor)
+					
+					</div>
+					<div class="description">
+						Accepts a world visitor
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/WorldVisitor.html">WorldVisitor</a>}</span> <b>visitor</b>
+									
+								</dt>
+								<dd>Visitor to visit</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{void}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
 					<a name="add"> </a>
 					<div class="fixedFont">
 					
@@ -639,44 +706,6 @@ ul.inheritsList
 								<dd>Delta time in milliseconds</dd>
 							
 							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="drawForceGenerators"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{void}</span>
-					<b>drawForceGenerators</b>()
-					
-					</div>
-					<div class="description">
-						Draws visual helpers of all force generators
-						
-						
-					</div>
-					
-					
-					
 						
 						
 						
@@ -859,7 +888,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Nov 25 2011 13:42:16 GMT+0200 (CAT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Dec 05 2011 08:27:02 GMT+0200 (CAT)
 		</div>
 	</body>
 </html>

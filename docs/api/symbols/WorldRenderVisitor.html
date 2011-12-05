@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - ConstantTorqueForceGenerator</title>
+		<title>JsDoc Reference - WorldRenderVisitor</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -346,26 +346,26 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class ConstantTorqueForceGenerator
+				Class WorldRenderVisitor
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
 				<br />Extends
-					<a href="../symbols/ForceGenerator.html">ForceGenerator</a>.<br />
+					<a href="../symbols/WorldVisitor.html">WorldVisitor</a>World renderer vistor implementation.<br />
 				
 			
-				A constant torque force generator
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/js_rigidBodyPhysics.js.html">rigidBodyPhysics.js</a>.
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/js_render.js.html">render.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ConstantTorqueForceGenerator.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class WorldRenderVisitor.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -378,7 +378,7 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/ConstantTorqueForceGenerator.html#constructor">ConstantTorqueForceGenerator</a></b>(torque)
+								<b><a href="../symbols/WorldRenderVisitor.html#constructor">WorldRenderVisitor</a></b>()
 							</div>
 							<div class="description"></div>
 						</td>
@@ -391,7 +391,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ConstantTorqueForceGenerator.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class WorldRenderVisitor.">
 					<caption>Field Summary</caption>
 					<thead>
 						<tr>
@@ -405,9 +405,9 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/ConstantTorqueForceGenerator.html#torque">torque</a></b>
+								<b><a href="../symbols/WorldRenderVisitor.html#rigidBodyWorld">rigidBodyWorld</a></b>
 								</div>
-								<div class="description">The torque to apply</div>
+								<div class="description"></div>
 							</td>
 						</tr>
 					
@@ -416,17 +416,13 @@ ul.inheritsList
 				
 				
 				
-				<dl class="inheritsList">
-				
-				</dl>
-				
 			
 
 <!-- ============================== methods summary ======================== -->
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ConstantTorqueForceGenerator.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class WorldRenderVisitor.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -439,18 +435,45 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ConstantTorqueForceGenerator.html#applyForce">applyForce</a></b>(rigidBody, delta)
+								<div class="fixedFont"><b><a href="../symbols/WorldRenderVisitor.html#visitAeroControlForceGenerator">visitAeroControlForceGenerator</a></b>(forceGenerator, rigidBody)
 								</div>
-								<div class="description">Apply torque to the given mass over the delta time</div>
+								<div class="description"></div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ConstantTorqueForceGenerator.html#toString">toString</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/WorldRenderVisitor.html#visitGravityForceGenerator">visitGravityForceGenerator</a></b>(forceGenerator, rigidBody)
 								</div>
-								<div class="description">Converts the class to a string representation</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/WorldRenderVisitor.html#visitRigidBody">visitRigidBody</a></b>(rigidBody)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/WorldRenderVisitor.html#visitSpringForceGenerator">visitSpringForceGenerator</a></b>(forceGenerator, rigidBody)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/WorldRenderVisitor.html#visitWorld">visitWorld</a></b>(rigidBodyWorld)
+								</div>
+								<div class="description"></div>
 							</td>
 						</tr>
 					
@@ -458,10 +481,6 @@ ul.inheritsList
 				</table>
 				
 				
-				
-				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/ForceGenerator.html">ForceGenerator</a>: </dt><dd><a href="../symbols/ForceGenerator.html#accept">accept</a></dd>
-				</dl>
 				
 			
 <!-- ============================== events summary ======================== -->
@@ -475,7 +494,7 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>ConstantTorqueForceGenerator</b>(torque)
+						<b>WorldRenderVisitor</b>()
 				</div>
 				
 				<div class="description">
@@ -487,22 +506,11 @@ ul.inheritsList
 				
 				
 					
-						<dl class="detailList">
-						<dt class="heading">Parameters:</dt>
-						
-							<dt>
-								<span class="light fixedFont">{float}</span>  <b>torque</b>
-								
-							</dt>
-								<dd>The amount of torque to apply</dd>
-						
-						</dl>
-					
 					
 					
 						<dl class="detailList">
 						<dt class="heading">Since:</dt>
-							<dd>0.0.0</dd>
+							<dd>0.0.0.3</dd>
 						</dl>
 					
 					
@@ -519,15 +527,15 @@ ul.inheritsList
 					Field Detail
 				</div>
 				
-					<a name="torque"> </a>
+					<a name="rigidBodyWorld"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{float}</span>
-					<b>torque</b>
+					
+					<b>rigidBodyWorld</b>
 					
 					</div>
 					<div class="description">
-						The torque to apply
+						
 						
 						
 					</div>
@@ -536,19 +544,7 @@ ul.inheritsList
 
 						
 						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
 						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Default Value:</dt>
-							<dd>
-								0.0
-							</dd>
-							</dl>
 						
 
 					
@@ -561,15 +557,15 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name="applyForce"> </a>
+					<a name="visitAeroControlForceGenerator"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{void}</span>
-					<b>applyForce</b>(rigidBody, delta)
+					
+					<b>visitAeroControlForceGenerator</b>(forceGenerator, rigidBody)
 					
 					</div>
 					<div class="description">
-						Apply torque to the given mass over the delta time
+						
 						
 						
 					</div>
@@ -581,50 +577,37 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{<a href="../symbols/RigidBody.html">RigidBody</a>}</span> <b>rigidBody</b>
+									<b>forceGenerator</b>
 									
 								</dt>
-								<dd>The rigid body to apply the force to</dd>
+								<dd></dd>
 							
 								<dt>
-									<span class="light fixedFont">{int}</span> <b>delta</b>
+									<b>rigidBody</b>
 									
 								</dt>
-								<dd>The delta time in milliseconds</dd>
+								<dd></dd>
 							
 							</dl>
 						
 						
 						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
 						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
 						
 						
 						
 
 					<hr />
 				
-					<a name="toString"> </a>
+					<a name="visitGravityForceGenerator"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{string}</span>
-					<b>toString</b>()
+					
+					<b>visitGravityForceGenerator</b>(forceGenerator, rigidBody)
 					
 					</div>
 					<div class="description">
-						Converts the class to a string representation
+						
 						
 						
 					</div>
@@ -632,22 +615,140 @@ ul.inheritsList
 					
 					
 						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>forceGenerator</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>rigidBody</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
 						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="visitRigidBody"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>visitRigidBody</b>(rigidBody)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
 						
 							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>rigidBody</b>
+									
+								</dt>
+								<dd></dd>
+							
 							</dl>
 						
 						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="visitSpringForceGenerator"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>visitSpringForceGenerator</b>(forceGenerator, rigidBody)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
 						
 							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
+							<dt class="heading">Parameters:</dt>
 							
-								<dd><span class="light fixedFont">{string}</span> The string representation of this object</dd>
+								<dt>
+									<b>forceGenerator</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>rigidBody</b>
+									
+								</dt>
+								<dd></dd>
 							
 							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="visitWorld"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>visitWorld</b>(rigidBodyWorld)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>rigidBodyWorld</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
 						
 						
 						
@@ -666,7 +767,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Dec 05 2011 08:27:00 GMT+0200 (CAT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Dec 05 2011 08:27:06 GMT+0200 (CAT)
 		</div>
 	</body>
 </html>

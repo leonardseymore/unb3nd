@@ -191,6 +191,10 @@ ul.inheritsList
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
+	<li><a href="../symbols/AeroControlForceGenerator.html">AeroControlForceGenerator</a></li>
+	
+	<li><a href="../symbols/AeroForceGenerator.html">AeroForceGenerator</a></li>
+	
 	<li><a href="../symbols/Background.html">Background</a></li>
 	
 	<li><a href="../symbols/BoundaryAction.html">BoundaryAction</a></li>
@@ -237,11 +241,17 @@ ul.inheritsList
 	
 	<li><a href="../symbols/Matrix2.html">Matrix2</a></li>
 	
+	<li><a href="../symbols/Matrix3.html">Matrix3</a></li>
+	
 	<li><a href="../symbols/Observable.html">Observable</a></li>
 	
 	<li><a href="../symbols/Particle.html">Particle</a></li>
 	
 	<li><a href="../symbols/ParticleAnchoredBungeeForceGenerator.html">ParticleAnchoredBungeeForceGenerator</a></li>
+	
+	<li><a href="../symbols/ParticleAnchoredCableContactGenerator.html">ParticleAnchoredCableContactGenerator</a></li>
+	
+	<li><a href="../symbols/ParticleAnchoredRodContactGenerator.html">ParticleAnchoredRodContactGenerator</a></li>
 	
 	<li><a href="../symbols/ParticleAnchoredSpringForceGenerator.html">ParticleAnchoredSpringForceGenerator</a></li>
 	
@@ -315,9 +325,17 @@ ul.inheritsList
 	
 	<li><a href="../symbols/StarryBackground-Star.html">StarryBackground-Star</a></li>
 	
+	<li><a href="../symbols/TransformationMatrix3.html">TransformationMatrix3</a></li>
+	
 	<li><a href="../symbols/Vector2.html">Vector2</a></li>
 	
+	<li><a href="../symbols/Vector3.html">Vector3</a></li>
+	
 	<li><a href="../symbols/World.html">World</a></li>
+	
+	<li><a href="../symbols/WorldRenderVisitor.html">WorldRenderVisitor</a></li>
+	
+	<li><a href="../symbols/WorldVisitor.html">WorldVisitor</a></li>
 	
 </ul>
 <hr />
@@ -435,6 +453,15 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/World.html#accept">accept</a></b>(visitor)
+								</div>
+								<div class="description">Accepts a world visitor</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/World.html#addGlobalForce">addGlobalForce</a></b>(forceGenerator)
 								</div>
 								<div class="description">Adds a global force generator</div>
@@ -471,33 +498,6 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/World.html#draw">draw</a></b>()
-								</div>
-								<div class="description">Draws visualization of the physical simulation</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/World.html#drawGlobalForces">drawGlobalForces</a></b>()
-								</div>
-								<div class="description">Draw all global force generators</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/World.html#drawRigidBodies">drawRigidBodies</a></b>()
-								</div>
-								<div class="description">Draw all rigid bodies</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/World.html#integrate">integrate</a></b>(delta)
 								</div>
 								<div class="description">Integrates all the rigid bodies in this world forward in timeby the given duration</div>
@@ -518,7 +518,7 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/World.html#runPhysics">runPhysics</a></b>(delta)
 								</div>
-								<div class="description">Process all physics for the particle world</div>
+								<div class="description">Process all physics for the world</div>
 							</td>
 						</tr>
 					
@@ -699,6 +699,55 @@ ul.inheritsList
 				<div class="sectionTitle">
 					Method Detail
 				</div>
+				
+					<a name="accept"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{void}</span>
+					<b>accept</b>(visitor)
+					
+					</div>
+					<div class="description">
+						Accepts a world visitor
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/WorldVisitor.html">WorldVisitor</a>}</span> <b>visitor</b>
+									
+								</dt>
+								<dd>Visitor to visit</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{void}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
 				
 					<a name="addGlobalForce"> </a>
 					<div class="fixedFont">
@@ -896,120 +945,6 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="draw"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{void}</span>
-					<b>draw</b>()
-					
-					</div>
-					<div class="description">
-						Draws visualization of the physical simulation
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="drawGlobalForces"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{void}</span>
-					<b>drawGlobalForces</b>()
-					
-					</div>
-					<div class="description">
-						Draw all global force generators
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="drawRigidBodies"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{void}</span>
-					<b>drawRigidBodies</b>()
-					
-					</div>
-					<div class="description">
-						Draw all rigid bodies
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
 					<a name="integrate"> </a>
 					<div class="fixedFont">
 					
@@ -1116,7 +1051,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Process all physics for the particle world
+						Process all physics for the world
 						
 						
 					</div>
@@ -1256,7 +1191,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Nov 25 2011 13:42:19 GMT+0200 (CAT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Dec 05 2011 08:27:06 GMT+0200 (CAT)
 		</div>
 	</body>
 </html>

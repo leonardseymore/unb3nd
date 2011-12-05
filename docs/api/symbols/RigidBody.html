@@ -191,6 +191,10 @@ ul.inheritsList
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
+	<li><a href="../symbols/AeroControlForceGenerator.html">AeroControlForceGenerator</a></li>
+	
+	<li><a href="../symbols/AeroForceGenerator.html">AeroForceGenerator</a></li>
+	
 	<li><a href="../symbols/Background.html">Background</a></li>
 	
 	<li><a href="../symbols/BoundaryAction.html">BoundaryAction</a></li>
@@ -237,11 +241,17 @@ ul.inheritsList
 	
 	<li><a href="../symbols/Matrix2.html">Matrix2</a></li>
 	
+	<li><a href="../symbols/Matrix3.html">Matrix3</a></li>
+	
 	<li><a href="../symbols/Observable.html">Observable</a></li>
 	
 	<li><a href="../symbols/Particle.html">Particle</a></li>
 	
 	<li><a href="../symbols/ParticleAnchoredBungeeForceGenerator.html">ParticleAnchoredBungeeForceGenerator</a></li>
+	
+	<li><a href="../symbols/ParticleAnchoredCableContactGenerator.html">ParticleAnchoredCableContactGenerator</a></li>
+	
+	<li><a href="../symbols/ParticleAnchoredRodContactGenerator.html">ParticleAnchoredRodContactGenerator</a></li>
 	
 	<li><a href="../symbols/ParticleAnchoredSpringForceGenerator.html">ParticleAnchoredSpringForceGenerator</a></li>
 	
@@ -315,9 +325,17 @@ ul.inheritsList
 	
 	<li><a href="../symbols/StarryBackground-Star.html">StarryBackground-Star</a></li>
 	
+	<li><a href="../symbols/TransformationMatrix3.html">TransformationMatrix3</a></li>
+	
 	<li><a href="../symbols/Vector2.html">Vector2</a></li>
 	
+	<li><a href="../symbols/Vector3.html">Vector3</a></li>
+	
 	<li><a href="../symbols/World.html">World</a></li>
+	
+	<li><a href="../symbols/WorldRenderVisitor.html">WorldRenderVisitor</a></li>
+	
+	<li><a href="../symbols/WorldVisitor.html">WorldVisitor</a></li>
 	
 </ul>
 <hr />
@@ -491,9 +509,18 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/RigidBody.html#accept">accept</a></b>(visitor)
+								</div>
+								<div class="description">Accepts a world visitor</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/RigidBody.html#addForceAtPoint">addForceAtPoint</a></b>(force, point)
 								</div>
-								<div class="description">Adds the given force to this body at the relative pointTODO: this method looks fishy</div>
+								<div class="description">Adds the given force to this body at the relative point</div>
 							</td>
 						</tr>
 					
@@ -575,24 +602,6 @@ ul.inheritsList
 								<div class="fixedFont"><b><a href="../symbols/RigidBody.html#die">die</a></b>()
 								</div>
 								<div class="description">Die callback invoker</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/RigidBody.html#draw">draw</a></b>(fillStyle)
-								</div>
-								<div class="description">Draw visual helpers for this vector<p>This function assumes that translations have already been made to the startingposition of the vector</p></div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/RigidBody.html#drawToString">drawToString</a></b>(fillStyle)
-								</div>
-								<div class="description">Draws a string representation of this rigid body</div>
 							</td>
 						</tr>
 					
@@ -727,7 +736,7 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/RigidBody.html#setOrientationAngle">setOrientationAngle</a></b>(theta)
 								</div>
-								<div class="description">Sets the orientation angle of this objectTODO: this method normalizes the vector after every call      we need a less expensive way to periodically normalize      the orientation vector</div>
+								<div class="description">Sets the orientation angle of this object (-PI;PI]TODO: this method normalizes the vector after every call      we need a less expensive way to periodically normalize      the orientation vector</div>
 							</td>
 						</tr>
 					
@@ -1098,6 +1107,55 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
+					<a name="accept"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{void}</span>
+					<b>accept</b>(visitor)
+					
+					</div>
+					<div class="description">
+						Accepts a world visitor
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/WorldVisitor.html">WorldVisitor</a>}</span> <b>visitor</b>
+									
+								</dt>
+								<dd>Visitor to visit</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{void}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
 					<a name="addForceAtPoint"> </a>
 					<div class="fixedFont">
 					
@@ -1106,7 +1164,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Adds the given force to this body at the relative pointTODO: this method looks fishy
+						Adds the given force to this body at the relative point
 						
 						
 					</div>
@@ -1314,7 +1372,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Calculates internal data from state data. This should be calledafter the body�s state is altered directly (it is calledautomatically during integration). If you change the body�sstate and then intend to integrate before querying any data(such as the transform matrix), then you can omit this step.
+						Calculates internal data from state data. This should be calledafter the body's state is altered directly (it is calledautomatically during integration). If you change the body'sstate and then intend to integrate before querying any data(such as the transform matrix), then you can omit this step.
 						
 						
 					</div>
@@ -1511,104 +1569,6 @@ ul.inheritsList
 					
 					
 					
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="draw"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{void}</span>
-					<b>draw</b>(fillStyle)
-					
-					</div>
-					<div class="description">
-						Draw visual helpers for this vector<p>This function assumes that translations have already been made to the startingposition of the vector</p>
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{string}</span> <b>fillStyle</b>
-									
-								</dt>
-								<dd>Optional overriding fill style</dd>
-							
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="drawToString"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{void}</span>
-					<b>drawToString</b>(fillStyle)
-					
-					</div>
-					<div class="description">
-						Draws a string representation of this rigid body
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{string}</span> <b>fillStyle</b>
-									
-								</dt>
-								<dd>Optional overriding fill style</dd>
-							
-							</dl>
 						
 						
 						
@@ -2260,7 +2220,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Sets the orientation angle of this objectTODO: this method normalizes the vector after every call      we need a less expensive way to periodically normalize      the orientation vector
+						Sets the orientation angle of this object (-PI;PI]TODO: this method normalizes the vector after every call      we need a less expensive way to periodically normalize      the orientation vector
 						
 						
 					</div>
@@ -2351,7 +2311,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Nov 25 2011 13:42:19 GMT+0200 (CAT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Dec 05 2011 08:27:05 GMT+0200 (CAT)
 		</div>
 	</body>
 </html>

@@ -1210,7 +1210,8 @@ var CONTACT_TYPE = {
 	INTER : 2, // inter particle collision
 	CABLE : 4, // cable constraint
 	CABLE_ANCHORED : 8, // cable constraint
-	ROD : 16 // rod constraint
+	ROD : 16, // rod constraint
+	ROD_ANCHORED : 32 // rod anchored constraint
 };
 
 /**
@@ -1836,6 +1837,110 @@ function ParticleRodContactGenerator(length) {
 ParticleRodContactGenerator.prototype = new ParticleLinkContactGenerator();
 
 /**
+ * @class An anchored rod contact generator
+ * @constructor
+ * @extends ParticleContactGenerator
+ * @param {Particle} particle Particle fixed to this anchor
+ * @param {Vector2} anchor Fixed point
+ * @param {float} length Length of this rod
+ * @since 0.0.0.3
+ */
+function ParticleAnchoredRodContactGenerator(particle, anchor, length) {
+
+	/*
+	 * Super constructor
+	 */
+	ParticleContactGenerator.call(this);
+	this.setContactType(CONTACT_TYPE.ROD_ANCHORED);
+
+  /**
+	 * The particle attached to the anchor
+	 * @field
+	 * @type Particle
+	 * @default 0.0
+	 * @since 0.0.0.3
+	 */
+	this.particle = particle;
+
+  /**
+	 * Anchor to which particle must be connected
+	 * @field
+	 * @type Vector2
+	 * @default anchor
+	 * @since 0.0.0.3
+	 */
+	this.anchor = anchor;
+
+	/**
+	 * Maximum length of the cable
+	 * @field
+	 * @type float
+	 * @default 0.0
+	 * @since 0.0.0
+	 */
+	this.length = length || 0.0;
+
+  /**
+	 * Determines the current length of the cable, in other words
+	 * the distance between the anchor and the particle
+	 * @function
+	 * @protected
+	 * @return {float} The distance between the two particles
+	 * @since 0.0.0.3
+	 */
+	this.getCurrentLength = function() {
+		var relativePos = this.particle.pos.sub(
+			this.anchor
+		);
+		return relativePos.getMagnitude();
+	}
+
+  /**
+	 * Creates a contact needed to keep the cable from overextending
+	 * @function
+	 * @override
+	 * @return {int} The number of contacts that have been written to
+	 * @since 0.0.0.3
+	 */
+	this.addContact = function(contacts, limit) {
+		var currentLength = this.getCurrentLength();
+
+		var contact = new ParticleContact();
+		contact.particles[0] = this.particle;
+		var normal = this.particle.pos.sub(
+			this.anchor
+		);
+		normal.normalizeMutate();
+
+    if (currentLength > this.length) {
+			contact.contactNormal = normal.inverse();
+			contact.penetration = this.length - currentLength;
+		} else {
+			contact.contactNormal = normal;
+			contact.penetration = currentLength - this.length;
+		} // if
+		contact.restitution = 0;
+
+		contacts.push(contact);
+
+		return 1;
+	}
+
+  /**
+   * Accepts a particle world visitor
+	 * @method
+   * @abstract
+   * @param {ParticleWorldVisitor} visitor Visitor to visit
+	 * @returns {void}
+	 * @since 0.0.0.3
+   */
+	this.accept = function(visitor) {
+    visitor.visitAnchoredRodContactGenerator(this);
+	}
+}
+ParticleAnchoredRodContactGenerator.prototype = new ParticleContactGenerator();
+
+/**
  * @class Responsible for generating collision contacts between particles
  * @constructor
  * @extend ParticleContactGenerator
@@ -2121,6 +2226,23 @@ ParticleContactGeneratorFactory.createRod = function(particleWorld, particle, pa
 }
 
 /**
+ * Creates an anchored rod contact generator
+ * @function
+ * @static
+ * @param {ParticleWorld} particleWorld The particle world to add the generator to
+ * @param {Particle} particle The first particle
+ * @param {Vector2} anchor The anchor to attach the particle to
+ * @param {float} length The length of the rod
+ * @returns {void}
+ * @since 0.0.0.3
+ */
+ParticleContactGeneratorFactory.createAnchoredRod = function(particleWorld, particle, anchor, length) {
+	var generator = new ParticleAnchoredRodContactGenerator(particle, anchor, length);
+	generator.particle = particle;
+	particleWorld.addContactGenerator(generator);
+}
+
+/**
  * Gravity on flag
  * @field
  * @constant
@@ -2334,7 +2456,7 @@ function ParticleWorldVisitor() {
 	 * @return void
    * @since 0.0.0.3
 	 */
-	this.visitCableContactGenerator = function(contactGenerator) {
+	this.visitAnchoredCableContactGenerator = function(contactGenerator) {
 	}
 
   /**
@@ -2345,6 +2467,17 @@ function ParticleWorldVisitor() {
 	 * @return void
 	 */
 	this.visitRodContactGenerator = function(contactGenerator) {
+	}
+
+  /**
+	 * @method
+	 * @abstract
+	 * Visits the anchored particle rod contact generator
+   * @param {ParticleAnchoredRodContactGenerator} contactGenerator The visited particle contact generator
+	 * @return void
+   * @since 0.0.0.3
+	 */
+	this.visitAnchoredRodContactGenerator = function(contactGenerator) {
 	}
 
   /**

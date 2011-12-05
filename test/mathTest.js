@@ -70,10 +70,10 @@ test("Test Vector2", function() {
 	v7.subMutate(v2);
 	deepEqual(v7, v6, "Sub mutate deeply equals");
 	
-	var v8 = v7.reverse();
-	ok(v8 !== v7, "Reverse returns new object reference");
-	equals(v8.x, -v7.x, "Reverse on x correct");
-	equals(v8.y, -v7.y, "Reverse on y correct");
+	var v8 = v7.inverse();
+	ok(v8 !== v7, "Inverse returns new object reference");
+	equals(v8.x, -v7.x, "Inverse on x correct");
+	equals(v8.y, -v7.y, "Inverse on y correct");
 	
 	var scalar = 5;
 	var v9 = v3.multScalar(scalar);

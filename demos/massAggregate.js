@@ -3,7 +3,7 @@
  * Mass Aggregate Engine Demo
  ****************************/
 
-ppm = 20;
+ppm = 10;
 FPS = 64;
 
 /**
@@ -30,8 +30,9 @@ var ICONS = {
 	BUNGEE_ANCHORED : "rubberAnchored.png",
 	CABLE : "cable.png",
 	CABLE_ANCHORED : "cableAnchored.png",
-	ROD : "rod.png"
-} 
+	ROD : "rod.png",
+	ROD_ANCHORED : "rodAnchored.png"
+}
  
 /**
  * @global ParticleWorld
@@ -320,7 +321,7 @@ function highlightAnchors(point, radius) {
  */
 function highlightPoint(point, radius) {
 	ctx.beginPath();
-	ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+	ctx.arc(point.x, point.y, radius, 0, TWO_PI);
 	ctx.stroke();
 }
 
@@ -1379,6 +1380,45 @@ function CreateRodTool() {
 }
 CreateRodTool.prototype = new Particle2ParticleTool();
 CreateRodTool.instance = new CreateRodTool();
+
+/**
+ * @class
+ * @constructor
+ * @extends Anchor2ParticleTool
+ * Create anchored cable tool
+ * @since 0.0.0.3
+ */
+function CreateAnchoredRodTool() {
+
+	/**
+	 * @super
+	 * Super constructor
+	 */
+	Anchor2ParticleTool.call(this);
+
+	/**
+	 * Set the tool's icon
+	 */
+	this.setIcon(ICONS.ROD_ANCHORED);
+
+	/**
+	 * @method
+	 * @override CreateSpringTool#createForce(Particle, Particle)
+	 * Creates the actual force
+	 * @param Anchor anchor The anchor to connect
+	 * @param Particle particle The particle to connect
+	 * @return void
+	 */
+	this.createForce = function(anchor, particle) {
+    var distance = this.anchor.sub(particle.pos).getMagnitude();
+		var resitution = 0.1;
+		ParticleContactGeneratorFactory.createAnchoredRod(
+			particleWorld, particle, anchor, distance
+		);
+	}
+}
+CreateAnchoredRodTool.prototype = new CreateAnchoredRodTool();
+CreateAnchoredRodTool.instance = new CreateAnchoredRodTool();
 
 /**
  * @class

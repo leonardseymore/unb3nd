@@ -302,7 +302,7 @@ function highlightAnchors(point, radius) {
  */
 function highlightPoint(point, radius) {
 	ctx.beginPath();
-	ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+	ctx.arc(point.x, point.y, radius, 0, TWO_PI);
 	ctx.stroke();
 }
 

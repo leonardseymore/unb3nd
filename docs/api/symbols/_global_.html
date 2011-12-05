@@ -191,6 +191,10 @@ ul.inheritsList
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
+	<li><a href="../symbols/AeroControlForceGenerator.html">AeroControlForceGenerator</a></li>
+	
+	<li><a href="../symbols/AeroForceGenerator.html">AeroForceGenerator</a></li>
+	
 	<li><a href="../symbols/Background.html">Background</a></li>
 	
 	<li><a href="../symbols/BoundaryAction.html">BoundaryAction</a></li>
@@ -237,11 +241,17 @@ ul.inheritsList
 	
 	<li><a href="../symbols/Matrix2.html">Matrix2</a></li>
 	
+	<li><a href="../symbols/Matrix3.html">Matrix3</a></li>
+	
 	<li><a href="../symbols/Observable.html">Observable</a></li>
 	
 	<li><a href="../symbols/Particle.html">Particle</a></li>
 	
 	<li><a href="../symbols/ParticleAnchoredBungeeForceGenerator.html">ParticleAnchoredBungeeForceGenerator</a></li>
+	
+	<li><a href="../symbols/ParticleAnchoredCableContactGenerator.html">ParticleAnchoredCableContactGenerator</a></li>
+	
+	<li><a href="../symbols/ParticleAnchoredRodContactGenerator.html">ParticleAnchoredRodContactGenerator</a></li>
 	
 	<li><a href="../symbols/ParticleAnchoredSpringForceGenerator.html">ParticleAnchoredSpringForceGenerator</a></li>
 	
@@ -315,9 +325,17 @@ ul.inheritsList
 	
 	<li><a href="../symbols/StarryBackground-Star.html">StarryBackground-Star</a></li>
 	
+	<li><a href="../symbols/TransformationMatrix3.html">TransformationMatrix3</a></li>
+	
 	<li><a href="../symbols/Vector2.html">Vector2</a></li>
 	
+	<li><a href="../symbols/Vector3.html">Vector3</a></li>
+	
 	<li><a href="../symbols/World.html">World</a></li>
+	
+	<li><a href="../symbols/WorldRenderVisitor.html">WorldRenderVisitor</a></li>
+	
+	<li><a href="../symbols/WorldVisitor.html">WorldVisitor</a></li>
 	
 </ul>
 <hr />
@@ -357,6 +375,16 @@ ul.inheritsList
 						</tr>
 					</thead>
 					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/_global_.html#avgFps">avgFps</a></b>
+								</div>
+								<div class="description">Average frame rate</div>
+							</td>
+						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
@@ -642,6 +670,15 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/_global_.html#bind">bind</a></b>(eventType, target, targetProperty, source, sourceProperty, twoWay, conversionFunction)
+								</div>
+								<div class="description">Bind a property on one Observable property to a property on another object</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/_global_.html#engineContinue">engineContinue</a></b>()
 								</div>
 								<div class="description"></div>
@@ -791,6 +828,36 @@ ul.inheritsList
 				<div class="sectionTitle">
 					Field Detail
 				</div>
+				
+					<a name="avgFps"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{int}</span>
+					<b>avgFps</b>
+					
+					</div>
+					<div class="description">
+						Average frame rate
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/js_globals.js.html">globals.js</a>.
+						
+						
+					</div>
+					
+					
+
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+						
+						
+						
+
+					<hr />
 				
 					<a name="canvas"> </a>
 					<div class="fixedFont">
@@ -1610,6 +1677,94 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
+					<a name="bind"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{void}</span>
+					<b>bind</b>(eventType, target, targetProperty, source, sourceProperty, twoWay, conversionFunction)
+					
+					</div>
+					<div class="description">
+						Bind a property on one Observable property to a property on another object
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/js_events.js.html">events.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>eventType</b>
+									
+								</dt>
+								<dd>The event to bind on</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>target</b>
+									
+								</dt>
+								<dd>The object to set the property on</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>targetProperty</b>
+									
+								</dt>
+								<dd>The property to use on the target object</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>source</b>
+									
+								</dt>
+								<dd>The object hosting the property</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>sourceProperty</b>
+									
+								</dt>
+								<dd>The property on the source to use</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>twoWay</b>
+									
+								</dt>
+								<dd>True for bi-directional binding</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>conversionFunction</b>
+									
+								</dt>
+								<dd>Used to convert from source format to target format</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.3</dd>
+							</dl>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{void}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
 					<a name="engineContinue"> </a>
 					<div class="fixedFont">
 					
@@ -2231,7 +2386,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Nov 25 2011 13:42:13 GMT+0200 (CAT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Dec 05 2011 08:26:59 GMT+0200 (CAT)
 		</div>
 	</body>
 </html>
