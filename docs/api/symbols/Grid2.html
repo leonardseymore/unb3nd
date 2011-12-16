@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - ParticleForceRegistry</title>
+		<title>JsDoc Reference - Grid2</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -360,7 +360,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class ParticleForceRegistry
+				Class Grid2
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -368,16 +368,16 @@ ul.inheritsList
 				
 				
 			
-				A force registry for matching up force generators to particles
+				2D Grid
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/js_massAggregatePhysics.js.html">massAggregatePhysics.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/js_rigidBodyPhysics.js.html">rigidBodyPhysics.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ParticleForceRegistry.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Grid2.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -390,7 +390,7 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/ParticleForceRegistry.html#constructor">ParticleForceRegistry</a></b>()
+								<b><a href="../symbols/Grid2.html#constructor">Grid2</a></b>(xExtent, yExtent, origin)
 							</div>
 							<div class="description"></div>
 						</td>
@@ -403,7 +403,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ParticleForceRegistry.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class Grid2.">
 					<caption>Field Summary</caption>
 					<thead>
 						<tr>
@@ -417,9 +417,49 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/ParticleForceRegistry.html#entries">entries</a></b>
+								<b><a href="../symbols/Grid2.html#locations">locations</a></b>
 								</div>
-								<div class="description">Registry entries</div>
+								<div class="description">Cells of the grid</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Grid2.html#oneOverCellSize">oneOverCellSize</a></b>
+								</div>
+								<div class="description">1 over the size of each cell</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Grid2.html#origin">origin</a></b>
+								</div>
+								<div class="description">Origin of the grid</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Grid2.html#xExtent">xExtent</a></b>
+								</div>
+								<div class="description">Number of cells in the X-direction of the grid</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/Grid2.html#yExtent">yExtent</a></b>
+								</div>
+								<div class="description">Number of cells in the Y-direction of the grid</div>
 							</td>
 						</tr>
 					
@@ -434,7 +474,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ParticleForceRegistry.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class Grid2.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -447,54 +487,9 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ParticleForceRegistry.html#accept">accept</a></b>(visitor)
+								<div class="fixedFont"><b><a href="../symbols/Grid2.html#getLocationIndex">getLocationIndex</a></b>(o)
 								</div>
-								<div class="description">Accepts a particle world visitor</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ParticleForceRegistry.html#add">add</a></b>(particle, forceGenerator)
-								</div>
-								<div class="description">Adds the force generator to the supplied particleTODO: This is a very brute force function, we need a HashMap or similar datastructure</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ParticleForceRegistry.html#applyForces">applyForces</a></b>(delta)
-								</div>
-								<div class="description">Adds each force generator's force to every particle in the registry over the delta time</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ParticleForceRegistry.html#getForceGenerators">getForceGenerators</a></b>(particle)
-								</div>
-								<div class="description">Gets all force generators for the supplied particle</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ParticleForceRegistry.html#removeForceGenerator">removeForceGenerator</a></b>(forceGenerator)
-								</div>
-								<div class="description">Removes a specific force generator</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ParticleForceRegistry.html#removeForceGenerators">removeForceGenerators</a></b>(particle)
-								</div>
-								<div class="description">Removes all force generators for the supplied particle</div>
+								<div class="description">Gets the location index at the specified location</div>
 							</td>
 						</tr>
 					
@@ -515,7 +510,7 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>ParticleForceRegistry</b>()
+						<b>Grid2</b>(xExtent, yExtent, origin)
 				</div>
 				
 				<div class="description">
@@ -527,11 +522,34 @@ ul.inheritsList
 				
 				
 					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{int}</span>  <b>xExtent</b>
+								
+							</dt>
+								<dd>Number of cells in the X-direction of the grid</dd>
+						
+							<dt>
+								<span class="light fixedFont">{int}</span>  <b>yExtent</b>
+								
+							</dt>
+								<dd>Number of cells in the Y-direction of the grid</dd>
+						
+							<dt>
+								<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span>  <b>origin</b>
+								
+							</dt>
+								<dd>The origin of the grid</dd>
+						
+						</dl>
+					
 					
 					
 						<dl class="detailList">
 						<dt class="heading">Since:</dt>
-							<dd>0.0.0</dd>
+							<dd>0.0.0.4</dd>
 						</dl>
 					
 					
@@ -548,15 +566,15 @@ ul.inheritsList
 					Field Detail
 				</div>
 				
-					<a name="entries"> </a>
+					<a name="locations"> </a>
 					<div class="fixedFont">
 					
-					
-					<b>entries</b>
+					<span class="light">{Object []}</span>
+					<b>locations</b>
 					
 					</div>
 					<div class="description">
-						Registry entries
+						Cells of the grid
 						
 						
 					</div>
@@ -567,7 +585,7 @@ ul.inheritsList
 						
 							<dl class="detailList">
 							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
+								<dd>0.0.0.4</dd>
 							</dl>
 						
 						
@@ -576,6 +594,142 @@ ul.inheritsList
 							<dt class="heading">Default Value:</dt>
 							<dd>
 								[]
+							</dd>
+							</dl>
+						
+
+					<hr />
+				
+					<a name="oneOverCellSize"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Vector2.html">Vector2</a>}</span>
+					<b>oneOverCellSize</b>
+					
+					</div>
+					<div class="description">
+						1 over the size of each cell
+						
+						
+					</div>
+					
+					
+
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.4</dd>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								undefined
+							</dd>
+							</dl>
+						
+
+					<hr />
+				
+					<a name="origin"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Vector2.html">Vector2</a>}</span>
+					<b>origin</b>
+					
+					</div>
+					<div class="description">
+						Origin of the grid
+						
+						
+					</div>
+					
+					
+
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.4</dd>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								undefined
+							</dd>
+							</dl>
+						
+
+					<hr />
+				
+					<a name="xExtent"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{int}</span>
+					<b>xExtent</b>
+					
+					</div>
+					<div class="description">
+						Number of cells in the X-direction of the grid
+						
+						
+					</div>
+					
+					
+
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.4</dd>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								0
+							</dd>
+							</dl>
+						
+
+					<hr />
+				
+					<a name="yExtent"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{int}</span>
+					<b>yExtent</b>
+					
+					</div>
+					<div class="description">
+						Number of cells in the Y-direction of the grid
+						
+						
+					</div>
+					
+					
+
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Since:</dt>
+								<dd>0.0.0.4</dd>
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								0
 							</dd>
 							</dl>
 						
@@ -590,15 +744,15 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name="accept"> </a>
+					<a name="getLocationIndex"> </a>
 					<div class="fixedFont">
 					
-					<span class="light">{void}</span>
-					<b>accept</b>(visitor)
+					<span class="light">{int}</span>
+					<b>getLocationIndex</b>(o)
 					
 					</div>
 					<div class="description">
-						Accepts a particle world visitor
+						Gets the location index at the specified location
 						
 						
 					</div>
@@ -610,10 +764,10 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{<a href="../symbols/ParticleWorldVisitor.html">ParticleWorldVisitor</a>}</span> <b>visitor</b>
+									<span class="light fixedFont">{<a href="../symbols/Vector2.html">Vector2</a>}</span> <b>o</b>
 									
 								</dt>
-								<dd>Visitor to visit</dd>
+								<dd>The object's location</dd>
 							
 							</dl>
 						
@@ -621,7 +775,7 @@ ul.inheritsList
 						
 							<dl class="detailList">
 							<dt class="heading">Since:</dt>
-								<dd>0.0.0.3</dd>
+								<dd>0.0.0.4</dd>
 							</dl>
 							</dl>
 						
@@ -630,258 +784,7 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="add"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{void}</span>
-					<b>add</b>(particle, forceGenerator)
-					
-					</div>
-					<div class="description">
-						Adds the force generator to the supplied particleTODO: This is a very brute force function, we need a HashMap or similar datastructure
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/Particle.html">Particle</a>}</span> <b>particle</b>
-									
-								</dt>
-								<dd>The particle to add a force generator to</dd>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/ParticleForceGenerator.html">ParticleForceGenerator</a>}</span> <b>forceGenerator</b>
-									
-								</dt>
-								<dd>The force generator to add to the particle</dd>
-							
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="applyForces"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{void}</span>
-					<b>applyForces</b>(delta)
-					
-					</div>
-					<div class="description">
-						Adds each force generator's force to every particle in the registry over the delta time
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{int}</span> <b>delta</b>
-									
-								</dt>
-								<dd>Delta time in milliseconds</dd>
-							
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getForceGenerators"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{<a href="../symbols/ParticleForceGenerator.html">ParticleForceGenerator</a> []}</span>
-					<b>getForceGenerators</b>(particle)
-					
-					</div>
-					<div class="description">
-						Gets all force generators for the supplied particle
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/Particle.html">Particle</a>}</span> <b>particle</b>
-									
-								</dt>
-								<dd>The particle to get the force generators for</dd>
-							
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{<a href="../symbols/ParticleForceGenerator.html">ParticleForceGenerator</a> []}</span> All the force generators for the supplied particle, undefined if not found</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="removeForceGenerator"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{void}</span>
-					<b>removeForceGenerator</b>(forceGenerator)
-					
-					</div>
-					<div class="description">
-						Removes a specific force generator
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/ParticleForceGenerator.html">ParticleForceGenerator</a>}</span> <b>forceGenerator</b>
-									
-								</dt>
-								<dd>The specific force generator to remove</dd>
-							
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="removeForceGenerators"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{void}</span>
-					<b>removeForceGenerators</b>(particle)
-					
-					</div>
-					<div class="description">
-						Removes all force generators for the supplied particle
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/Particle.html">Particle</a>}</span> <b>particle</b>
-									
-								</dt>
-								<dd>The particle to remove the force generators from</dd>
-							
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Since:</dt>
-								<dd>0.0.0</dd>
-							</dl>
-							</dl>
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{void}</span> </dd>
+								<dd><span class="light fixedFont">{int}</span> The index of the location</dd>
 							
 							</dl>
 						
@@ -902,7 +805,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Dec 15 2011 14:25:44 GMT+0200 (CAT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Dec 15 2011 14:25:43 GMT+0200 (CAT)
 		</div>
 	</body>
 </html>

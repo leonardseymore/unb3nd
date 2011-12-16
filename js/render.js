@@ -57,6 +57,20 @@ function ParticleWorldRenderVisitor() {
    */
   this.particleWorld = undefined;
 
+  /**
+   * Determines if the given point is within the screen bounds
+   *
+   * @param {Vector2} point The point to test
+   * @returns {boolean} True if the point is inside the screen
+   * @since 0.0.0.4
+   */
+  this.isPointInScreen = function(point) {
+    return point.x >= 0
+           && point.x < windowRect.width
+           && point.y >= 0
+           && point.y < windowRect.height;
+  }
+
 	/**
 	 * @method
 	 * @override
@@ -73,6 +87,10 @@ function ParticleWorldRenderVisitor() {
 	 */
 	this.visitParticle = function(particle) {
     var particleScreenPos = window(particle.pos);
+    if (!this.isPointInScreen(particleScreenPos)) {
+      return;
+    } // if
+
 		ctx.save();
 		ctx.fillStyle = SETTINGS.PARTICLE_COLOR;
     ctx.translate(particleScreenPos.x, particleScreenPos.y);
@@ -90,13 +108,18 @@ function ParticleWorldRenderVisitor() {
 	 */
 	this.visitGravityForceGenerator = function(forceGenerator, particle) {
     var particleScreenPos = window(particle.pos);
+    var gravityVector = forceGenerator.gravitation.multScalar(particle.getMass())
+    var gravityVectorScreenPos = windowVector(gravityVector);
+    if (!this.isPointInScreen(particleScreenPos)
+        && !this.isPointInScreen(gravityVectorScreenPos)) {
+      return;
+    } // if
+
 		ctx.save();
 		ctx.strokeStyle = SETTINGS.GRAVITY_COLOR;
 		ctx.beginPath();
 		ctx.translate(particleScreenPos.x, particleScreenPos.y);
 		ctx.moveTo(0, 0);
-		var gravityVector = forceGenerator.gravitation.multScalar(particle.getMass())
-    var gravityVectorScreenPos = windowVector(gravityVector);
 		ctx.lineTo(gravityVectorScreenPos.x, gravityVectorScreenPos.y);
 		ctx.stroke();
 		ctx.restore();
@@ -109,12 +132,17 @@ function ParticleWorldRenderVisitor() {
 	 */
 	this.visitWindForceGenerator = function(forceGenerator, particle) {
     var particleScreenPos = window(particle.pos);
+    var windVector = forceGenerator.direction.multScalar(particle.getMass())
+    if (!this.isPointInScreen(particleScreenPos)
+        && !this.isPointInScreen(windVector)) {
+      return;
+    } // if
+
     ctx.save();
 		ctx.strokeStyle = SETTINGS.WIND_COLOR;
 		ctx.beginPath();
 		ctx.translate(particleScreenPos.x, particleScreenPos.y);
 		ctx.moveTo(0, 0);
-		var windVector = forceGenerator.direction.multScalar(particle.getMass())
 		ctx.lineTo(windVector.x, windVector.y);
 		ctx.stroke();
 		ctx.restore();
@@ -127,13 +155,19 @@ function ParticleWorldRenderVisitor() {
 	 */
 	this.visitDragForceGenerator = function(forceGenerator, particle) {
     var particleScreenPos = window(particle.pos);
+    var dragVector = forceGenerator.calculateForce(particle);
+    var dragVectorScreenPos = windowVector(dragVector);
+
+    if (!this.isPointInScreen(particleScreenPos)
+        && !this.isPointInScreen(dragVectorScreenPos)) {
+      return;
+    } // if
+
 		ctx.save();
 		ctx.strokeStyle = SETTINGS.DRAG_COLOR;
 		ctx.beginPath();
 		ctx.translate(particleScreenPos.x, particleScreenPos.y);
 		ctx.moveTo(0, 0);
-		var dragVector = forceGenerator.calculateForce(particle);
-    var dragVectorScreenPos = windowVector(dragVector);
 		ctx.lineTo(dragVectorScreenPos.x, dragVectorScreenPos.y);
 		ctx.stroke();
 		ctx.restore();
@@ -148,14 +182,17 @@ function ParticleWorldRenderVisitor() {
     var particleScreenPos = window(particle.pos);
     var particleOtherScreenPos = window(forceGenerator.particleOther.pos);
 
-		ctx.save();
+    if (!this.isPointInScreen(particleScreenPos)
+        && !this.isPointInScreen(particleOtherScreenPos)) {
+      return;
+    } // if
 
+		ctx.save();
 		ctx.strokeStyle = SETTINGS.SPRING_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(particleScreenPos.x, particleScreenPos.y);
 		ctx.lineTo(particleOtherScreenPos.x, particleOtherScreenPos.y);
 		ctx.stroke();
-
 		ctx.restore();
 	}
 
@@ -168,14 +205,17 @@ function ParticleWorldRenderVisitor() {
     var particleScreenPos = window(particle.pos);
     var anchorScreenPos = window(forceGenerator.anchor);
 
-		ctx.save();
+    if (!this.isPointInScreen(particleScreenPos)
+        && !this.isPointInScreen(anchorScreenPos)) {
+      return;
+    } // if
 
+		ctx.save();
 		ctx.strokeStyle = SETTINGS.ANCHORED_SPRING_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(particleScreenPos.x, particleScreenPos.y);
 		ctx.lineTo(anchorScreenPos.x, anchorScreenPos.y);
 		ctx.stroke();
-
 		ctx.restore();
 	}
 
@@ -188,14 +228,17 @@ function ParticleWorldRenderVisitor() {
     var particleScreenPos = window(particle.pos);
     var particleOtherScreenPos = window(forceGenerator.particleOther.pos);
 
-		ctx.save();
+    if (!this.isPointInScreen(particleScreenPos)
+        && !this.isPointInScreen(particleOtherScreenPos)) {
+      return;
+    } // if
 
+		ctx.save();
 		ctx.strokeStyle = SETTINGS.BUNGEE_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(particleScreenPos.x, particleScreenPos.y);
 		ctx.lineTo(particleOtherScreenPos.x, particleOtherScreenPos.y);
 		ctx.stroke();
-
 		ctx.restore();
 	}
 
@@ -208,14 +251,17 @@ function ParticleWorldRenderVisitor() {
     var particleScreenPos = window(particle.pos);
     var anchorScreenPos = window(forceGenerator.anchor);
 
-		ctx.save();
+    if (!this.isPointInScreen(particleScreenPos)
+        && !this.isPointInScreen(anchorScreenPos)) {
+      return;
+    } // if
 
+		ctx.save();
 		ctx.strokeStyle = SETTINGS.ANCHORED_BUNGEE_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(particleScreenPos.x, particleScreenPos.y);
 		ctx.lineTo(anchorScreenPos.x, anchorScreenPos.y);
 		ctx.stroke();
-
 		ctx.restore();
 	}
 
@@ -228,14 +274,17 @@ function ParticleWorldRenderVisitor() {
     var p1ScreenPos = window(contactGenerator.particles[0].pos);
     var p2ScreenPos = window(contactGenerator.particles[1].pos);
 
-    ctx.save();
+    if (!this.isPointInScreen(p1ScreenPos)
+        && !this.isPointInScreen(p2ScreenPos)) {
+      return;
+    } // if
 
+    ctx.save();
 		ctx.strokeStyle = SETTINGS.CABLE_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(p1ScreenPos.x, p1ScreenPos.y);
 		ctx.lineTo(p2ScreenPos.x, p2ScreenPos.y);
 		ctx.stroke();
-
 		ctx.restore();
 	}
 
@@ -248,14 +297,17 @@ function ParticleWorldRenderVisitor() {
     var p1ScreenPos = window(contactGenerator.particle.pos);
     var anchorScreenPos = window(contactGenerator.anchor);
 
-    ctx.save();
+    if (!this.isPointInScreen(p1ScreenPos)
+        && !this.isPointInScreen(anchorScreenPos)) {
+      return;
+    } // if
 
+    ctx.save();
 		ctx.strokeStyle = SETTINGS.ANCHORED_CABLE_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(p1ScreenPos.x, p1ScreenPos.y);
 		ctx.lineTo(anchorScreenPos.x, anchorScreenPos.y);
 		ctx.stroke();
-
 		ctx.restore();
 	}
 
@@ -268,14 +320,17 @@ function ParticleWorldRenderVisitor() {
     var p1ScreenPos = window(contactGenerator.particles[0].pos);
     var p2ScreenPos = window(contactGenerator.particles[1].pos);
 
-    ctx.save();
+    if (!this.isPointInScreen(p1ScreenPos)
+        && !this.isPointInScreen(p2ScreenPos)) {
+      return;
+    } // if
 
+    ctx.save();
 		ctx.strokeStyle = SETTINGS.ROD_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(p1ScreenPos.x, p1ScreenPos.y);
 		ctx.lineTo(p2ScreenPos.x, p2ScreenPos.y);
 		ctx.stroke();
-
 		ctx.restore();
 	}
 
@@ -288,14 +343,17 @@ function ParticleWorldRenderVisitor() {
     var p1ScreenPos = window(contactGenerator.particle.pos);
     var anchorScreenPos = window(contactGenerator.anchor);
 
-    ctx.save();
+    if (!this.isPointInScreen(p1ScreenPos)
+        && !this.isPointInScreen(anchorScreenPos)) {
+      return;
+    } // if
 
+    ctx.save();
 		ctx.strokeStyle = SETTINGS.ANCHORED_ROD_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(p1ScreenPos.x, p1ScreenPos.y);
 		ctx.lineTo(anchorScreenPos.x, anchorScreenPos.y);
 		ctx.stroke();
-
 		ctx.restore();
 	}
 
@@ -311,9 +369,11 @@ function ParticleWorldRenderVisitor() {
 			var particle = contactGenerator.particles[i];
       var particleScreenPos = window(particle.pos);
 
-			ctx.beginPath();
-			ctx.arc(particleScreenPos.x, particleScreenPos.y, contactGenerator.collisionRadius, 0, TWO_PI);
-			ctx.stroke();
+      if (this.isPointInScreen(particleScreenPos)) {
+        ctx.beginPath();
+        ctx.arc(particleScreenPos.x, particleScreenPos.y, contactGenerator.collisionRadius, 0, TWO_PI);
+        ctx.stroke();
+      } // if
 		} // for
 		ctx.restore();
 	}

@@ -1184,249 +1184,1100 @@
 <span class='line'>1177</span> </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>1178</span> 
 <span class='line'>1179</span> </span><span class="COMM">/**
-<span class='line'>1180</span>  * @class Visitor interface to visit the rigid body world
-<span class='line'>1181</span>  * @constructor
-<span class='line'>1182</span>  * @since 0.0.0.3
-<span class='line'>1183</span>  */</span><span class="WHIT">
-<span class='line'>1184</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">WorldVisitor</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1185</span> 
-<span class='line'>1186</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>1187</span> 	 * @method
-<span class='line'>1188</span> 	 * @abstract
-<span class='line'>1189</span> 	 * Visits the world
-<span class='line'>1190</span>    * @param {World} world The visited world
-<span class='line'>1191</span> 	 * @return void
-<span class='line'>1192</span> 	 */</span><span class="WHIT">
-<span class='line'>1193</span> </span><span class="WHIT">	</span><span class="NAME">this.visitWorld</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">world</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1194</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1195</span> 
-<span class='line'>1196</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>1197</span> 	 * @method
-<span class='line'>1198</span> 	 * @abstract
-<span class='line'>1199</span> 	 * Visits the rigid body
-<span class='line'>1200</span>    * @param {RigidBody} rigidBody The visited ridig body
-<span class='line'>1201</span> 	 * @return void
-<span class='line'>1202</span> 	 */</span><span class="WHIT">
-<span class='line'>1203</span> </span><span class="WHIT">	</span><span class="NAME">this.visitRigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1204</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1180</span>  * COLLISION DETECTION
+<span class='line'>1181</span>  */</span><span class="WHIT">
+<span class='line'>1182</span> 
+<span class='line'>1183</span> </span><span class="COMM">/**
+<span class='line'>1184</span>  * @class A contact represents two bodies in contact. Resolving a
+<span class='line'>1185</span>  * contact removes their interpenetration, and applies sufficient
+<span class='line'>1186</span>  * impulse to keep them apart. Colliding bodies may also rebound.
+<span class='line'>1187</span>  *
+<span class='line'>1188</span>  * Colliding bodies may also rebound. Contacts can be used to represent
+<span class='line'>1189</span>  * positional joints, by making the contact constraint keep the bodies
+<span class='line'>1190</span>  * in their correct orientation.
+<span class='line'>1191</span>  *
+<span class='line'>1192</span>  * @constructor
+<span class='line'>1193</span>  * @since 0.0.0.4
+<span class='line'>1194</span>  */</span><span class="WHIT">
+<span class='line'>1195</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Contact</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1196</span> 
+<span class='line'>1197</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1198</span> 	 * Holds the position of the contact in world coordinates
+<span class='line'>1199</span> 	 * @field
+<span class='line'>1200</span> 	 * @type Vector2
+<span class='line'>1201</span> 	 * @default undefined
+<span class='line'>1202</span> 	 * @since 0.0.0.4
+<span class='line'>1203</span> 	 */</span><span class="WHIT">
+<span class='line'>1204</span> </span><span class="WHIT">	</span><span class="NAME">this.contactPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>1205</span> 
-<span class='line'>1206</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>1207</span> 	 * @method
-<span class='line'>1208</span> 	 * @abstract
-<span class='line'>1209</span> 	 * Visits a gravity force generator
-<span class='line'>1210</span>    * @param {GravityForceGenerator} forceGenerator The visited force generator
-<span class='line'>1211</span>    * @param {RigidBody} rigidBody The rigidBody currently affected by this force generator
-<span class='line'>1212</span> 	 * @return void
-<span class='line'>1213</span> 	 */</span><span class="WHIT">
-<span class='line'>1214</span> </span><span class="WHIT">	</span><span class="NAME">this.visitGravityForceGenerator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">forceGenerator</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1215</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1216</span> 
-<span class='line'>1217</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>1218</span> 	 * @method
-<span class='line'>1219</span> 	 * @abstract
-<span class='line'>1220</span> 	 * Visits a spring force generator
-<span class='line'>1221</span>    * @param {SpringForceGenerator} forceGenerator The visited force generator
-<span class='line'>1222</span>    * @param {RigidBody} rigidBody The rigidBody currently affected by this force generator
-<span class='line'>1223</span> 	 * @return void
-<span class='line'>1224</span> 	 */</span><span class="WHIT">
-<span class='line'>1225</span> </span><span class="WHIT">	</span><span class="NAME">this.visitSpringForceGenerator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">forceGenerator</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1226</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1227</span> 
-<span class='line'>1228</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>1229</span> 	 * @method
-<span class='line'>1230</span> 	 * @abstract
-<span class='line'>1231</span> 	 * Visits a aero control force generator
-<span class='line'>1232</span>    * @param {AeroControlForceGenerator} forceGenerator The visited force generator
-<span class='line'>1233</span>    * @param {RigidBody} rigidBody The rigidBody currently affected by this force generator
-<span class='line'>1234</span> 	 * @return void
-<span class='line'>1235</span> 	 */</span><span class="WHIT">
-<span class='line'>1236</span> </span><span class="WHIT">	</span><span class="NAME">this.visitAeroControlForceGenerator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">forceGenerator</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1237</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1238</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1239</span> 
-<span class='line'>1240</span> </span><span class="COMM">/**
-<span class='line'>1241</span>  * @class Keeps track of all rigid bodies
-<span class='line'>1242</span>  * @constructor
-<span class='line'>1243</span>  * @since 0.0.0
-<span class='line'>1244</span>  */</span><span class="WHIT">
-<span class='line'>1245</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">World</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1246</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>1247</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>1248</span> 	 * All rigid bodies in simulation
-<span class='line'>1249</span> 	 * @field 
-<span class='line'>1250</span> 	 * @type RigidBody []
-<span class='line'>1251</span> 	 * @default []
-<span class='line'>1252</span> 	 * @since 0.0.0
-<span class='line'>1253</span> 	 */</span><span class="WHIT">
-<span class='line'>1254</span> </span><span class="WHIT">	</span><span class="NAME">this.rigidBodies</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1255</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>1256</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>1257</span> 	 * Holds all the force generators
-<span class='line'>1258</span> 	 * @field 
-<span class='line'>1259</span> 	 * @type ForceRegistry
-<span class='line'>1260</span> 	 * @default new ForceRegistry()
-<span class='line'>1261</span> 	 * @since 0.0.0
-<span class='line'>1262</span> 	 */</span><span class="WHIT">
-<span class='line'>1263</span> </span><span class="WHIT">	</span><span class="NAME">this.forceRegistry</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">ForceRegistry</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1264</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>1265</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>1266</span> 	 * Force generators applied to all rigid bodies
-<span class='line'>1267</span> 	 * @field 
-<span class='line'>1268</span> 	 * @type ForceGenerator []
-<span class='line'>1269</span> 	 * @default []
-<span class='line'>1270</span> 	 * @since 0.0.0
-<span class='line'>1271</span> 	 */</span><span class="WHIT">
-<span class='line'>1272</span> </span><span class="WHIT">	</span><span class="NAME">this.globalForceGenerators</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1273</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>1274</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>1275</span> 	 * Adds a new rigid body to the simulation
-<span class='line'>1276</span> 	 * @function
-<span class='line'>1277</span> 	 * @param {RigidBody} rigidBody The new rigidBody to add
-<span class='line'>1278</span> 	 * @returns {int} The total number of rigid bodies in the simulation
-<span class='line'>1279</span> 	 * @since 0.0.0
-<span class='line'>1280</span> 	 */</span><span class="WHIT">
-<span class='line'>1281</span> </span><span class="WHIT">	</span><span class="NAME">this.addRigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1282</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies.push</span><span class="PUNC">(</span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1283</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1284</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>1285</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>1286</span> 	 * Removes a rigid body from the simulation
-<span class='line'>1287</span> 	 * @function
-<span class='line'>1288</span> 	 * @param {RigidBody} rigidBody The rigid body to remove
-<span class='line'>1289</span> 	 * @returns {RigidBody} The removed rigid body, undefied if not removed
-<span class='line'>1290</span> 	 * @since 0.0.0
-<span class='line'>1291</span> 	 */</span><span class="WHIT">
-<span class='line'>1292</span> </span><span class="WHIT">	</span><span class="NAME">this.removeParticle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1293</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">removedRigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1294</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1295</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1296</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1297</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">debug</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1298</span> </span><span class="WHIT">					</span><span class="NAME">console.debug</span><span class="PUNC">(</span><span class="STRN">"Removing rigid body %s"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rigidBody.toString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1299</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>1300</span> </span><span class="WHIT">				</span><span class="WHIT">
-<span class='line'>1301</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">removedRigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies.splice</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1302</span> </span><span class="WHIT">				</span><span class="NAME">removedRigidBody.die</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">				</span><span class="WHIT">
-<span class='line'>1303</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">removedRigidBody</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1304</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>1305</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// for</span><span class="WHIT">
-<span class='line'>1306</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">removedRigidBody</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1307</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1308</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>1309</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>1310</span> 	 * Runs a complete cycle
-<span class='line'>1311</span> 	 * @function
-<span class='line'>1312</span> 	 * @param {int} delta Delta time in milliseconds since last update
-<span class='line'>1313</span> 	 * @returns {void}
-<span class='line'>1314</span> 	 * @since 0.0.0
-<span class='line'>1315</span> 	 */</span><span class="WHIT">
-<span class='line'>1316</span> </span><span class="WHIT">	</span><span class="NAME">this.update</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1317</span> </span><span class="WHIT">		</span><span class="NAME">this.startFrame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1318</span> </span><span class="WHIT">		</span><span class="NAME">this.runPhysics</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1319</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1320</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>1321</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>1322</span> 	 * Clears all force accumulators on rigid bodies
-<span class='line'>1323</span> 	 * @function
+<span class='line'>1206</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1207</span> 	 * Holds the direction of the contact in world coordinates
+<span class='line'>1208</span> 	 * @field
+<span class='line'>1209</span> 	 * @type Vector2
+<span class='line'>1210</span> 	 * @default undefined
+<span class='line'>1211</span> 	 * @since 0.0.0.4
+<span class='line'>1212</span> 	 */</span><span class="WHIT">
+<span class='line'>1213</span> </span><span class="WHIT">	</span><span class="NAME">this.contactNormal</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1214</span> 
+<span class='line'>1215</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1216</span> 	 * Penetration depth in the direction of the contact normal
+<span class='line'>1217</span> 	 * @field
+<span class='line'>1218</span> 	 * @type float
+<span class='line'>1219</span> 	 * @default 0.0
+<span class='line'>1220</span> 	 * @since 0.0.0.4
+<span class='line'>1221</span> 	 */</span><span class="WHIT">
+<span class='line'>1222</span> </span><span class="WHIT">	</span><span class="NAME">this.penetration</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0.0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1223</span> 
+<span class='line'>1224</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1225</span> 	 * Resolves this contact for both veolcity and interpenetration
+<span class='line'>1226</span> 	 * @function
+<span class='line'>1227</span> 	 * @protected
+<span class='line'>1228</span> 	 * @param {int} delta Delta time in milliseconds since last update
+<span class='line'>1229</span> 	 * @returns {void}
+<span class='line'>1230</span> 	 * @since 0.0.0
+<span class='line'>1231</span> 	 */</span><span class="WHIT">
+<span class='line'>1232</span> </span><span class="WHIT">	</span><span class="NAME">this.resolve</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1233</span> </span><span class="WHIT">		</span><span class="NAME">this.resolveVelocity</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1234</span> </span><span class="WHIT">		</span><span class="NAME">this.resolveInterpenetration</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1235</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1236</span> 
+<span class='line'>1237</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1238</span> 	 * Calculate separating velocity at this contact
+<span class='line'>1239</span> 	 * @function
+<span class='line'>1240</span> 	 * @protected
+<span class='line'>1241</span> 	 * @returns {float} Separating velocity at this contact
+<span class='line'>1242</span> 	 * @since 0.0.0
+<span class='line'>1243</span> 	 */</span><span class="WHIT">
+<span class='line'>1244</span> </span><span class="WHIT">	</span><span class="NAME">this.calculateSeparatingVelocity</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1245</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">relativeVelocity</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">vel.clone</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1246</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1247</span> </span><span class="WHIT">			</span><span class="NAME">relativeVelocity.subMutate</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1248</span> </span><span class="WHIT">				</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">vel</span><span class="WHIT">
+<span class='line'>1249</span> </span><span class="WHIT">			</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1250</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1251</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">relativeVelocity.dotProduct</span><span class="PUNC">(</span><span class="NAME">this.contactNormal</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1252</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1253</span> 
+<span class='line'>1254</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1255</span> 	 * Handles impulse calculations for this collision
+<span class='line'>1256</span> 	 * @function
+<span class='line'>1257</span> 	 * @private
+<span class='line'>1258</span> 	 * @param {int} delta Delta time in milliseconds since last update
+<span class='line'>1259</span> 	 * @returns {void}
+<span class='line'>1260</span> 	 * @since 0.0.0
+<span class='line'>1261</span> 	 */</span><span class="WHIT">
+<span class='line'>1262</span> </span><span class="WHIT">	</span><span class="NAME">this.resolveVelocity</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1263</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">delta</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">1000</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1264</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">separatingVelocity</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.calculateSeparatingVelocity</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1265</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">separatingVelocity</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1266</span> </span><span class="WHIT">			</span><span class="COMM">// contact is either separating or stationary</span><span class="WHIT">
+<span class='line'>1267</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1268</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1269</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newSepVelocity</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NAME">separatingVelocity</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">this.restitution</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1270</span> 
+<span class='line'>1271</span> </span><span class="WHIT">		</span><span class="COMM">// ~PHYLIMIT keep to objects in resting contact</span><span class="WHIT">
+<span class='line'>1272</span> </span><span class="WHIT">		</span><span class="COMM">// micro-collision approach</span><span class="WHIT">
+<span class='line'>1273</span> </span><span class="WHIT">		</span><span class="COMM">// check velocity build up due to acceleration only</span><span class="WHIT">
+<span class='line'>1274</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">accCausedVelocity</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">acc.clone</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1275</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1276</span> </span><span class="WHIT">			</span><span class="NAME">accCausedVelocity.subMutate</span><span class="PUNC">(</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">acc</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1277</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1278</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">accCausedSepVelocity</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">accCausedVelocity.dotProduct</span><span class="PUNC">(</span><span class="NAME">this.contactNormal</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">dt</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1279</span> 
+<span class='line'>1280</span> </span><span class="WHIT">		</span><span class="COMM">// If we've got a closing velocity due to acceleration build-up,</span><span class="WHIT">
+<span class='line'>1281</span> </span><span class="WHIT">		</span><span class="COMM">// remove it from the new separating velocity.</span><span class="WHIT">
+<span class='line'>1282</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">accCausedSepVelocity</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1283</span> </span><span class="WHIT">			</span><span class="NAME">newSepVelocity</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">resitution</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">accCausedSepVelocity</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1284</span> 
+<span class='line'>1285</span> </span><span class="WHIT">			</span><span class="COMM">// Make sure we haven't removed more than was there to remove.</span><span class="WHIT">
+<span class='line'>1286</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">newSepVelocity</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1287</span> </span><span class="WHIT">				</span><span class="NAME">newSepVelocity</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1288</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1289</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1290</span> </span><span class="WHIT">		</span><span class="COMM">// ~END-PHYLIMIT</span><span class="WHIT">
+<span class='line'>1291</span> 
+<span class='line'>1292</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">deltaVelocity</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newSepVelocity</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">separatingVelocity</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1293</span> 
+<span class='line'>1294</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">totalInverseMass</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">inverseMass</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1295</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1296</span> </span><span class="WHIT">			</span><span class="NAME">totalInverseMass</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">inverseMass</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1297</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1298</span> 
+<span class='line'>1299</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">totalInverseMass</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1300</span> </span><span class="WHIT">			</span><span class="COMM">// all particles have infinite mass</span><span class="WHIT">
+<span class='line'>1301</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1302</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1303</span> 
+<span class='line'>1304</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">impulse</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">deltaVelocity</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">totalInverseMass</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1305</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">impulsePerIMass</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.contactNormal.multScalar</span><span class="PUNC">(</span><span class="NAME">impulse</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1306</span> 
+<span class='line'>1307</span> </span><span class="WHIT">		</span><span class="COMM">// apply impulses proportional to inverse mass</span><span class="WHIT">
+<span class='line'>1308</span> </span><span class="WHIT">		</span><span class="COMM">// in the direction of the contact</span><span class="WHIT">
+<span class='line'>1309</span> </span><span class="WHIT">		</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">vel.addMutate</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1310</span> </span><span class="WHIT">			</span><span class="NAME">impulsePerIMass.multScalar</span><span class="PUNC">(</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">inverseMass</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>1311</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1312</span> 
+<span class='line'>1313</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1314</span> </span><span class="WHIT">			</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">vel.addMutate</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1315</span> </span><span class="WHIT">				</span><span class="NAME">impulsePerIMass.multScalar</span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">inverseMass</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>1316</span> </span><span class="WHIT">			</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1317</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1318</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1319</span> 
+<span class='line'>1320</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1321</span> 	 * Handles interpenetration resolution for this contact
+<span class='line'>1322</span> 	 * @function
+<span class='line'>1323</span> 	 * @param {int} delta Delta time in milliseconds since last update
 <span class='line'>1324</span> 	 * @returns {void}
 <span class='line'>1325</span> 	 * @since 0.0.0
 <span class='line'>1326</span> 	 */</span><span class="WHIT">
-<span class='line'>1327</span> </span><span class="WHIT">	</span><span class="NAME">this.startFrame</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1328</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1329</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1330</span> </span><span class="WHIT">			</span><span class="NAME">rigidBody.clearForceAccum</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1331</span> </span><span class="WHIT">			</span><span class="NAME">rigidBody.calculateDerivedData</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1332</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// for</span><span class="WHIT">
-<span class='line'>1333</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1334</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>1335</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>1336</span> 	 * Integrates all the rigid bodies in this world forward in time
-<span class='line'>1337</span> 	 * by the given duration
-<span class='line'>1338</span> 	 * @function
-<span class='line'>1339</span> 	 * @param {int} delta Delta time in milliseconds since last update
-<span class='line'>1340</span> 	 * @returns {void}
-<span class='line'>1341</span> 	 * @since 0.0.0
-<span class='line'>1342</span> 	 */</span><span class="WHIT">
-<span class='line'>1343</span> </span><span class="WHIT">	</span><span class="NAME">this.integrate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1344</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1345</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1346</span> </span><span class="WHIT">			</span><span class="NAME">rigidBody.integrate</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1347</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// for</span><span class="WHIT">
-<span class='line'>1348</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1349</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>1350</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>1351</span> 	 * Process all physics for the world
-<span class='line'>1352</span> 	 * @function
-<span class='line'>1353</span> 	 * @param {int} delta Delta time in milliseconds since last update
-<span class='line'>1354</span> 	 * @returns {void}
-<span class='line'>1355</span> 	 * @since 0.0.0
-<span class='line'>1356</span> 	 */</span><span class="WHIT">
-<span class='line'>1357</span> </span><span class="WHIT">	</span><span class="NAME">this.runPhysics</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1358</span> </span><span class="WHIT">		</span><span class="NAME">this.applyGlobalForces</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1359</span> </span><span class="WHIT">		</span><span class="NAME">this.forceRegistry.applyForces</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1360</span> </span><span class="WHIT">		</span><span class="NAME">this.integrate</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1361</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1362</span> 
-<span class='line'>1363</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>1364</span> 	 * Adds a global force generator
-<span class='line'>1365</span> 	 * @function
-<span class='line'>1366</span> 	 * @param {ForceGenerator} forceGenerator The global force generator to be added
-<span class='line'>1367</span> 	 * @returns {void}
-<span class='line'>1368</span> 	 * @since 0.0.0
-<span class='line'>1369</span> 	 */</span><span class="WHIT">
-<span class='line'>1370</span> </span><span class="WHIT">	</span><span class="NAME">this.addGlobalForce</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">forceGenerator</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1371</span> </span><span class="WHIT">		</span><span class="NAME">this.globalForceGenerators.push</span><span class="PUNC">(</span><span class="NAME">forceGenerator</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1372</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1373</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>1374</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>1375</span> 	 * Applies all global forces to all rigid bodies over time delta
-<span class='line'>1376</span> 	 * @function
-<span class='line'>1377</span> 	 * @param {int} delta Delta Time delta in milliseconds
-<span class='line'>1378</span> 	 * @returns {void}
-<span class='line'>1379</span> 	 * @since 0.0.0
-<span class='line'>1380</span> 	 */</span><span class="WHIT">
-<span class='line'>1381</span> </span><span class="WHIT">	</span><span class="NAME">this.applyGlobalForces</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1382</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">j</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.globalForceGenerators</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1383</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">forceGenerator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.globalForceGenerators</span><span class="PUNC">[</span><span class="NAME">j</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1384</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1385</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1386</span> </span><span class="WHIT">				</span><span class="NAME">forceGenerator.applyForce</span><span class="PUNC">(</span><span class="NAME">rigidBody</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1387</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// for</span><span class="WHIT">
-<span class='line'>1388</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// for</span><span class="WHIT">
-<span class='line'>1389</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1390</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>1327</span> </span><span class="WHIT">	</span><span class="NAME">this.resolveInterpenetration</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1328</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.penetration</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1329</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1330</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1331</span> 
+<span class='line'>1332</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">totalInverseMass</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">inverseMass</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1333</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1334</span> </span><span class="WHIT">			</span><span class="NAME">totalInverseMass</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">inverseMass</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1335</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1336</span> 
+<span class='line'>1337</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">totalInverseMass</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1338</span> </span><span class="WHIT">			</span><span class="COMM">// infinite mass</span><span class="WHIT">
+<span class='line'>1339</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1340</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1341</span> 
+<span class='line'>1342</span> </span><span class="WHIT">		</span><span class="COMM">// find penetration resolution relative to inverse mass</span><span class="WHIT">
+<span class='line'>1343</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">movePerIMass</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.contactNormal.multScalar</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1344</span> </span><span class="WHIT">			</span><span class="PUNC">-</span><span class="NAME">this.penetration</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">totalInverseMass</span><span class="WHIT">
+<span class='line'>1345</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1346</span> 
+<span class='line'>1347</span> </span><span class="WHIT">		</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">pos.addMutate</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1348</span> </span><span class="WHIT">			</span><span class="NAME">movePerIMass.multScalar</span><span class="PUNC">(</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">inverseMass</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>1349</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1350</span> 
+<span class='line'>1351</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1352</span> </span><span class="WHIT">			</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">pos.addMutate</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1353</span> </span><span class="WHIT">				</span><span class="NAME">movePerIMass.multScalar</span><span class="PUNC">(</span><span class="NAME">this.particles</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">inverseMass</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>1354</span> </span><span class="WHIT">			</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1355</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1356</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1357</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1358</span> 
+<span class='line'>1359</span> </span><span class="COMM">/**
+<span class='line'>1360</span>  * @class Bounding volume base class
+<span class='line'>1361</span>  * @constructor
+<span class='line'>1362</span>  * @since 0.0.0
+<span class='line'>1363</span>  */</span><span class="WHIT">
+<span class='line'>1364</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">BoundingVolume</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1365</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1366</span> 
+<span class='line'>1367</span> </span><span class="COMM">/**
+<span class='line'>1368</span>  * @class A bounding sphere
+<span class='line'>1369</span>  * @constructor
+<span class='line'>1370</span>  * @extends BoundingVolume
+<span class='line'>1371</span>  * @param {Vector2} center Center of the sphere
+<span class='line'>1372</span>  * @param {float} radius Radius of the sphere
+<span class='line'>1373</span>  * @since 0.0.0
+<span class='line'>1374</span>  */</span><span class="WHIT">
+<span class='line'>1375</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">BoundingSphere</span><span class="PUNC">(</span><span class="NAME">center</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1376</span> 
+<span class='line'>1377</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>1378</span>    * Super constructor
+<span class='line'>1379</span>    */</span><span class="WHIT">
+<span class='line'>1380</span> </span><span class="WHIT">  </span><span class="NAME">BoundingVolume.call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1381</span> 
+<span class='line'>1382</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1383</span> 	 * Center of the sphere
+<span class='line'>1384</span> 	 * @field
+<span class='line'>1385</span> 	 * @type Vector2
+<span class='line'>1386</span> 	 * @default undefined
+<span class='line'>1387</span> 	 * @since 0.0.0
+<span class='line'>1388</span> 	 */</span><span class="WHIT">
+<span class='line'>1389</span> </span><span class="WHIT">	</span><span class="NAME">this.center</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">center</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1390</span> 
 <span class='line'>1391</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>1392</span> 	 * Adds a global gravity force
-<span class='line'>1393</span> 	 * @function
-<span class='line'>1394</span> 	 * @param {Vector2} gravitation Optional gravitational pull
-<span class='line'>1395</span> 	 * @returns {void}
+<span class='line'>1392</span> 	 * Radius of the sphere
+<span class='line'>1393</span> 	 * @field
+<span class='line'>1394</span> 	 * @type float
+<span class='line'>1395</span> 	 * @default 0.0
 <span class='line'>1396</span> 	 * @since 0.0.0
 <span class='line'>1397</span> 	 */</span><span class="WHIT">
-<span class='line'>1398</span> </span><span class="WHIT">	</span><span class="NAME">this.addGlobalGravityForce</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">gravitation</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1399</span> </span><span class="WHIT">		</span><span class="NAME">this.addGlobalForce</span><span class="PUNC">(</span><span class="WHIT">
-<span class='line'>1400</span> </span><span class="WHIT">			</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">GravityForceGenerator</span><span class="PUNC">(</span><span class="NAME">gravitation</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'>1401</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1402</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1403</span> 
-<span class='line'>1404</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>1405</span>    * Accepts a world visitor
-<span class='line'>1406</span> 	 * @function
-<span class='line'>1407</span>    * @param {WorldVisitor} visitor Visitor to visit
-<span class='line'>1408</span> 	 * @returns {void}
-<span class='line'>1409</span> 	 * @since 0.0.0.3
-<span class='line'>1410</span>    */</span><span class="WHIT">
-<span class='line'>1411</span> </span><span class="WHIT">  </span><span class="NAME">this.accept</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">visitor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1412</span> </span><span class="WHIT">    </span><span class="NAME">visitor.visitWorld</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1413</span> 
-<span class='line'>1414</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1415</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1416</span> </span><span class="WHIT">      </span><span class="NAME">rigidBody.accept</span><span class="PUNC">(</span><span class="NAME">visitor</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1417</span> </span><span class="WHIT">      </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">j</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.globalForceGenerators</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1418</span> </span><span class="WHIT">			  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">forceGenerator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.globalForceGenerators</span><span class="PUNC">[</span><span class="NAME">j</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1419</span> </span><span class="WHIT">        </span><span class="NAME">forceGenerator.accept</span><span class="PUNC">(</span><span class="NAME">visitor</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1420</span> </span><span class="WHIT">		  </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// for</span><span class="WHIT">
-<span class='line'>1421</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// for</span><span class="WHIT">
-<span class='line'>1422</span> 
-<span class='line'>1423</span> </span><span class="WHIT">    </span><span class="NAME">this.forceRegistry.accept</span><span class="PUNC">(</span><span class="NAME">visitor</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1424</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1425</span> </span><span class="PUNC">}</span></pre></body></html>
+<span class='line'>1398</span> </span><span class="WHIT">	</span><span class="NAME">this.radius</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0.0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1399</span> 
+<span class='line'>1400</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1401</span> 	 * Determines if the bounding sphere overlaps with the supplied bounding
+<span class='line'>1402</span> 	 * sphere
+<span class='line'>1403</span> 	 * @function
+<span class='line'>1404</span> 	 * @param {BoundingSphere} o The other sphere to test
+<span class='line'>1405</span> 	 * @returns {boolean} True if this overlaps with the supplied bounding
+<span class='line'>1406</span> 	 *  sphere
+<span class='line'>1407</span> 	 * @since 0.0.0
+<span class='line'>1408</span> 	 */</span><span class="WHIT">
+<span class='line'>1409</span> </span><span class="WHIT">	</span><span class="NAME">this.overlaps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1410</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Vector2.isWithin</span><span class="PUNC">(</span><span class="NAME">this.center</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">o.center</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.radius</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">o.radius</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1411</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1412</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1413</span> </span><span class="NAME">BoundingSphere.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">BoundingVolume</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1414</span> 
+<span class='line'>1415</span> </span><span class="COMM">/**
+<span class='line'>1416</span>  * Factory method to create a bounding sphere to enclose the two given bounding
+<span class='line'>1417</span>  * spheres.
+<span class='line'>1418</span>  * @static
+<span class='line'>1419</span>  * @function
+<span class='line'>1420</span>  * @param {BoundingSphere} bs1 First bounding sphere
+<span class='line'>1421</span>  * @param {BoundingSphere} bs2 Second bounding sphere
+<span class='line'>1422</span>  * @returns {BoundingSphere} A new bounding sphere enclosing the supplied
+<span class='line'>1423</span>  *  bounding spheres.
+<span class='line'>1424</span>  * @since 0.0.0
+<span class='line'>1425</span>  */</span><span class="WHIT">
+<span class='line'>1426</span> </span><span class="NAME">BoundingSphere.enclose</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">bs1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">bs2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1427</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">boundingSphere</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">BoundingSphere</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1428</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">center</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">bs1.center.add</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1429</span> </span><span class="WHIT">    </span><span class="NAME">bs2.center</span><span class="WHIT">
+<span class='line'>1430</span> </span><span class="WHIT">  </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1431</span> </span><span class="WHIT">  </span><span class="NAME">center.multScalar</span><span class="PUNC">(</span><span class="NUMB">0.5</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1432</span> </span><span class="WHIT">  </span><span class="NAME">boundingSphere.center</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">center</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1433</span> </span><span class="WHIT">  </span><span class="NAME">boundingSphere.radius</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">bs1.radius</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">bs2.radius</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1434</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">boundingSphere</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1435</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1436</span> 
+<span class='line'>1437</span> </span><span class="COMM">/**
+<span class='line'>1438</span>  * @class A bounding box
+<span class='line'>1439</span>  * @constructor
+<span class='line'>1440</span>  * @extends BoundingVolume
+<span class='line'>1441</span>  * @param {Vector2} center Center of the sphere
+<span class='line'>1442</span>  * @param {Vector2} halfSize Half size used for collision detection
+<span class='line'>1443</span>  * @since 0.0.0
+<span class='line'>1444</span>  */</span><span class="WHIT">
+<span class='line'>1445</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">BoundingBox</span><span class="PUNC">(</span><span class="NAME">center</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">halfSize</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1446</span> 
+<span class='line'>1447</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>1448</span>    * Super constructor
+<span class='line'>1449</span>    */</span><span class="WHIT">
+<span class='line'>1450</span> </span><span class="WHIT">  </span><span class="NAME">BoundingVolume.call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1451</span> 
+<span class='line'>1452</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1453</span> 	 * Center of the sphere
+<span class='line'>1454</span> 	 * @field
+<span class='line'>1455</span> 	 * @type Vector2
+<span class='line'>1456</span> 	 * @default undefined
+<span class='line'>1457</span> 	 * @since 0.0.0
+<span class='line'>1458</span> 	 */</span><span class="WHIT">
+<span class='line'>1459</span> </span><span class="WHIT">	</span><span class="NAME">this.center</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">center</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1460</span> 
+<span class='line'>1461</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1462</span> 	 * Half size used for collision detection
+<span class='line'>1463</span> 	 * @field
+<span class='line'>1464</span> 	 * @type Vector2
+<span class='line'>1465</span> 	 * @default undefined
+<span class='line'>1466</span> 	 * @since 0.0.0
+<span class='line'>1467</span> 	 */</span><span class="WHIT">
+<span class='line'>1468</span> </span><span class="WHIT">	</span><span class="NAME">this.halfSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">halfSize</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1469</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1470</span> </span><span class="NAME">BoundingBox.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">BoundingVolume</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1471</span> 
+<span class='line'>1472</span> </span><span class="COMM">/**
+<span class='line'>1473</span>  * @class Stores a potential contact to check later
+<span class='line'>1474</span>  * @constructor
+<span class='line'>1475</span>  * @param {RigidBody []} rigidBodies The rigid bodies that might be in contact
+<span class='line'>1476</span>  * @since 0.0.0
+<span class='line'>1477</span>  */</span><span class="WHIT">
+<span class='line'>1478</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">PotentialContact</span><span class="PUNC">(</span><span class="NAME">rigidBodies</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1479</span> 
+<span class='line'>1480</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1481</span> 	 * The rigid bodies that might be in contact
+<span class='line'>1482</span> 	 * @field
+<span class='line'>1483</span> 	 * @type RigidBody []
+<span class='line'>1484</span> 	 * @default undefined
+<span class='line'>1485</span> 	 * @since 0.0.0
+<span class='line'>1486</span> 	 */</span><span class="WHIT">
+<span class='line'>1487</span> </span><span class="WHIT">	</span><span class="NAME">this.center</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rigidBodies</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1488</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1489</span> 
+<span class='line'>1490</span> </span><span class="COMM">/**
+<span class='line'>1491</span>  * @class A base class for nodes in a bounding volume hierarchy.  This class
+<span class='line'>1492</span>  *  uses a binary tree to store the bounding volumes.
+<span class='line'>1493</span>  * @constructor
+<span class='line'>1494</span>  * @param {BVHNode []} children The child nodes
+<span class='line'>1495</span>  * @param {BoundingVolume} volume Holds a single volume encompassing all the
+<span class='line'>1496</span>  *  descendents of this node.
+<span class='line'>1497</span>  * @param {RigidBody} rigidBody Holds the rigid body at this node of the
+<span class='line'>1498</span>  *  hierarchy. Only leaf nodes can have rigid body defined {@link BVHNode#isLeaf}.
+<span class='line'>1499</span>  *  Note that it is possible to rewrite the algorithms in this class to handle
+<span class='line'>1500</span>  *  objects at all levels of the hierarchy, but the code provided ignores this
+<span class='line'>1501</span>  *  vector unless firstChild is undefined.
+<span class='line'>1502</span>  * @since 0.0.0
+<span class='line'>1503</span>  */</span><span class="WHIT">
+<span class='line'>1504</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">BVHNode</span><span class="PUNC">(</span><span class="NAME">children</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">volume</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1505</span> 
+<span class='line'>1506</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1507</span> 	 * The child nodes
+<span class='line'>1508</span> 	 * @field
+<span class='line'>1509</span> 	 * @type BVHNode []
+<span class='line'>1510</span> 	 * @default undefined
+<span class='line'>1511</span> 	 * @since 0.0.0
+<span class='line'>1512</span> 	 */</span><span class="WHIT">
+<span class='line'>1513</span> </span><span class="WHIT">	</span><span class="NAME">this.children</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">children</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1514</span> 
+<span class='line'>1515</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1516</span> 	 * Holds a single volume encompassing all the descendents of this node.
+<span class='line'>1517</span> 	 * @field
+<span class='line'>1518</span> 	 * @type BoundingVolume
+<span class='line'>1519</span> 	 * @default undefined
+<span class='line'>1520</span> 	 * @since 0.0.0
+<span class='line'>1521</span> 	 */</span><span class="WHIT">
+<span class='line'>1522</span> </span><span class="WHIT">	</span><span class="NAME">this.volume</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">volume</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1523</span> 
+<span class='line'>1524</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1525</span> 	 * Holds the rigid body at this node of the
+<span class='line'>1526</span> 	 * hierarchy. Only leaf nodes can have rigid body defined {@link BVHNode#isLeaf}.
+<span class='line'>1527</span> 	 * Note that it is possible to rewrite the algorithms in this class to handle
+<span class='line'>1528</span> 	 * objects at all levels of the hierarchy, but the code provided ignores this
+<span class='line'>1529</span> 	 * vector unless firstChild is undefined.
+<span class='line'>1530</span> 	 * @field
+<span class='line'>1531</span> 	 * @type RigidBody
+<span class='line'>1532</span> 	 * @default undefined
+<span class='line'>1533</span> 	 * @since 0.0.0
+<span class='line'>1534</span> 	 */</span><span class="WHIT">
+<span class='line'>1535</span> </span><span class="WHIT">	</span><span class="NAME">this.rigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1536</span> 
+<span class='line'>1537</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1538</span> 	 * Determines if this node is at the bottom of the hierarchy
+<span class='line'>1539</span> 	 * @function
+<span class='line'>1540</span> 	 * @returns {boolean} True if this node is at the bottom of the hierarchy
+<span class='line'>1541</span> 	 * @since 0.0.0
+<span class='line'>1542</span> 	 */</span><span class="WHIT">
+<span class='line'>1543</span> </span><span class="WHIT">	</span><span class="NAME">this.isLeaf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1544</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.rigidBody</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1545</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1546</span> 
+<span class='line'>1547</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1548</span> 	 * Inserts the given rigid body, with the given bounding volume,
+<span class='line'>1549</span> 	 * into the hierarchy. This may involve the creation of
+<span class='line'>1550</span> 	 * further bounding volume nodes.
+<span class='line'>1551</span> 	 * @function
+<span class='line'>1552</span> 	 * @param {RigidBody} rigidBody The rigid body to add
+<span class='line'>1553</span> 	 * @param {BoundingVolume} volume The type of volume to add
+<span class='line'>1554</span> 	 * @returns {void}
+<span class='line'>1555</span> 	 * @since 0.0.0
+<span class='line'>1556</span> 	 */</span><span class="WHIT">
+<span class='line'>1557</span> </span><span class="WHIT">	</span><span class="NAME">this.insert</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">rigidBody</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">volume</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1558</span> </span><span class="WHIT">		</span><span class="COMM">// If we are a leaf, then the only option is to spawn two</span><span class="WHIT">
+<span class='line'>1559</span> </span><span class="WHIT">		</span><span class="COMM">// new children and place the new body in one.</span><span class="WHIT">
+<span class='line'>1560</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.isLeaf</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1561</span> </span><span class="WHIT">			</span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">BVHNode</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1562</span> </span><span class="WHIT">				</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.volume</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.rigidBody</span><span class="WHIT">
+<span class='line'>1563</span> </span><span class="WHIT">			</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1564</span> 
+<span class='line'>1565</span> </span><span class="WHIT">			</span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">BVHNode</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1566</span> </span><span class="WHIT">				</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">volume</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="WHIT">
+<span class='line'>1567</span> </span><span class="WHIT">			</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1568</span> 
+<span class='line'>1569</span> </span><span class="WHIT">			</span><span class="NAME">this.rigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1570</span> </span><span class="WHIT">			</span><span class="NAME">this.recalculateBoundingVolume</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1571</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1572</span> </span><span class="WHIT">			</span><span class="COMM">// Otherwise we need to work out which child gets to keep</span><span class="WHIT">
+<span class='line'>1573</span> </span><span class="WHIT">			</span><span class="COMM">// the inserted body. We give it to whoever would grow the</span><span class="WHIT">
+<span class='line'>1574</span> </span><span class="WHIT">			</span><span class="COMM">// least to incorporate it.</span><span class="WHIT">
+<span class='line'>1575</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">volume.getGrowth</span><span class="PUNC">(</span><span class="NAME">volume</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT">
+<span class='line'>1576</span> </span><span class="WHIT">				</span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">volume.getGrowth</span><span class="PUNC">(</span><span class="NAME">volume</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1577</span> </span><span class="WHIT">				</span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">insert</span><span class="PUNC">(</span><span class="NAME">rigidBody</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">volume</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1578</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1579</span> </span><span class="WHIT">				</span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">insert</span><span class="PUNC">(</span><span class="NAME">rigidBody</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">volume</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1580</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1581</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1582</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1583</span> 
+<span class='line'>1584</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1585</span>  	 * Deletes this node, removing it first from the hierarchy, along
+<span class='line'>1586</span> 	 * with its associated rigid body and child nodes. This method
+<span class='line'>1587</span> 	 * deletes the node and all its children (but obviously not the
+<span class='line'>1588</span> 	 * rigid bodies). This also has the effect of deleting the sibling
+<span class='line'>1589</span> 	 * of this node, and changing the parent node so that it contains
+<span class='line'>1590</span> 	 * the data currently in that sibling. Finally it forces the
+<span class='line'>1591</span> 	 * hierarchy above the current node to reconsider its bounding
+<span class='line'>1592</span> 	 * volume.
+<span class='line'>1593</span> 	 * @function
+<span class='line'>1594</span> 	 * @returns {void}
+<span class='line'>1595</span> 	 * @since 0.0.0
+<span class='line'>1596</span> 	 */</span><span class="WHIT">
+<span class='line'>1597</span> </span><span class="WHIT">	</span><span class="NAME">this.remove</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1598</span> </span><span class="WHIT">		</span><span class="COMM">// If we don't have a parent, then we ignore the sibling processing.</span><span class="WHIT">
+<span class='line'>1599</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.parent</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1600</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sibling</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1601</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.parent.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1602</span> </span><span class="WHIT">				</span><span class="NAME">sibling</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.parent.children</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1603</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1604</span> </span><span class="WHIT">				</span><span class="NAME">sibling</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.parent.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1605</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1606</span> 
+<span class='line'>1607</span> </span><span class="WHIT">			</span><span class="NAME">this.parent.volume</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sibling.volume</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1608</span> </span><span class="WHIT">			</span><span class="NAME">this.parent.rigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sibling.rigidBody</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1609</span> </span><span class="WHIT">			</span><span class="NAME">this.parent.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sibling.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1610</span> </span><span class="WHIT">			</span><span class="NAME">this.parent.children</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sibling.children</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1611</span> 
+<span class='line'>1612</span> </span><span class="WHIT">			</span><span class="NAME">sibling.parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1613</span> </span><span class="WHIT">			</span><span class="NAME">sibling.rigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1614</span> </span><span class="WHIT">			</span><span class="NAME">sibling.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1615</span> </span><span class="WHIT">			</span><span class="NAME">sibling.children</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1616</span> </span><span class="WHIT">			</span><span class="NAME">sibling.remove</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1617</span> 
+<span class='line'>1618</span> </span><span class="WHIT">			</span><span class="NAME">this.parent.recalculateBoundingVolume</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1619</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1620</span> 
+<span class='line'>1621</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1622</span> </span><span class="WHIT">			</span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1623</span> </span><span class="WHIT">			</span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">remove</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1624</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1625</span> 
+<span class='line'>1626</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1627</span> </span><span class="WHIT">			</span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1628</span> </span><span class="WHIT">			</span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">remove</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1629</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1630</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1631</span> 
+<span class='line'>1632</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1633</span> 	 * Checks the potential contacts from this node downward in
+<span class='line'>1634</span> 	 * the hierarchy, writing them to the given array (up to the
+<span class='line'>1635</span> 	 * given limit). Returns the number of potential contacts it
+<span class='line'>1636</span> 	 * found.
+<span class='line'>1637</span> 	 * @function
+<span class='line'>1638</span> 	 * @param {PotentialContact []} potentialContacts The array to append to
+<span class='line'>1639</span> 	 * @param {int} limit The maximum number of contacts that may be generated
+<span class='line'>1640</span> 	 * @returns {int} Number of potential contacts found
+<span class='line'>1641</span> 	 * @since 0.0.0
+<span class='line'>1642</span> 	 */</span><span class="WHIT">
+<span class='line'>1643</span> </span><span class="WHIT">	</span><span class="NAME">this.getPotentialContacts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">potentialContacts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">limit</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1644</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.isLeaf</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">limit</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1645</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1646</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1647</span> 
+<span class='line'>1648</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getPotentialContactsWith</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1649</span> </span><span class="WHIT">			</span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">potentialContacts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">limit</span><span class="WHIT">
+<span class='line'>1650</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1651</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1652</span> 
+<span class='line'>1653</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1654</span> 	 * Gets potential contacts between this node and the supplied node.
+<span class='line'>1655</span> 	 * @function
+<span class='line'>1656</span> 	 * @param {BVHNode} o The other node to use
+<span class='line'>1657</span> 	 * @param {PotentialContact []} potentialContacts The array to append to
+<span class='line'>1658</span> 	 * @param {int} limit The maximum number of contacts that may be generated
+<span class='line'>1659</span> 	 * @returns {int} Number of potential contacts found
+<span class='line'>1660</span> 	 * @since 0.0.0
+<span class='line'>1661</span> 	 */</span><span class="WHIT">
+<span class='line'>1662</span> </span><span class="WHIT">	</span><span class="NAME">this.getPotentialContactsWith</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">potentialContacts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">limit</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1663</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.overlaps</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">limit</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1664</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1665</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1666</span> 
+<span class='line'>1667</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.isLeaf</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">o.isLeaf</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1668</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">potentialContact</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">PotentialContact</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'>1669</span> </span><span class="WHIT">				</span><span class="NAME">this.rigidBody</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">o.rigidBody</span><span class="WHIT">
+<span class='line'>1670</span> </span><span class="WHIT">			</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1671</span> </span><span class="WHIT">			</span><span class="NAME">potentialContacts.push</span><span class="PUNC">(</span><span class="NAME">potentialContact</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1672</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1673</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1674</span> 
+<span class='line'>1675</span> </span><span class="WHIT">		</span><span class="COMM">// Determine which node to descend into. If either is</span><span class="WHIT">
+<span class='line'>1676</span> </span><span class="WHIT">		</span><span class="COMM">// a leaf, then we descend the other. If both are branches,</span><span class="WHIT">
+<span class='line'>1677</span> </span><span class="WHIT">		</span><span class="COMM">// then we use the one with the largest size.</span><span class="WHIT">
+<span class='line'>1678</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">o.isLeaf</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT">
+<span class='line'>1679</span> </span><span class="WHIT">		  </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.isLeaf</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.volume.getSize</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">o.volume.getSize</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1680</span> </span><span class="WHIT">			</span><span class="COMM">// recurse onto self</span><span class="WHIT">
+<span class='line'>1681</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">count</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getPotentialContactsWith</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1682</span> </span><span class="WHIT">				</span><span class="NAME">o</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">potentialContacts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">limit</span><span class="WHIT">
+<span class='line'>1683</span> </span><span class="WHIT">			</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1684</span> 
+<span class='line'>1685</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">limit</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">count</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1686</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">count</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.children</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getPotentialContactsWith</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1687</span> </span><span class="WHIT">					</span><span class="NAME">o</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">potentialContacts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">limit</span><span class="WHIT">
+<span class='line'>1688</span> </span><span class="WHIT">				</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1689</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1690</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">count</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1691</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1692</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1693</span> </span><span class="WHIT">			</span><span class="COMM">// recurse onto other</span><span class="WHIT">
+<span class='line'>1694</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">count</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getPotentialContactsWith</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1695</span> </span><span class="WHIT">				</span><span class="NAME">o</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">potentialContacts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">limit</span><span class="WHIT">
+<span class='line'>1696</span> </span><span class="WHIT">			</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1697</span> 
+<span class='line'>1698</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">limit</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">count</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1699</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">count</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">o.children</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getPotentialContactsWith</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1700</span> </span><span class="WHIT">					</span><span class="NAME">o</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">potentialContacts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">limit</span><span class="WHIT">
+<span class='line'>1701</span> </span><span class="WHIT">				</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1702</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1703</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">count</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1704</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1705</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1706</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1707</span> 
+<span class='line'>1708</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1709</span> 	 * Checks if this node overlaps with the supplied node
+<span class='line'>1710</span> 	 * @function
+<span class='line'>1711</span> 	 * @param {BVHNode} o The other node to use
+<span class='line'>1712</span> 	 * @returns {boolean} True if this node overlaps with the supplied node
+<span class='line'>1713</span> 	 * @since 0.0.0
+<span class='line'>1714</span> 	 */</span><span class="WHIT">
+<span class='line'>1715</span> </span><span class="WHIT">	</span><span class="NAME">this.overlaps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1716</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.volume.overlaps</span><span class="PUNC">(</span><span class="NAME">o.volume</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1717</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1718</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1719</span> 
+<span class='line'>1720</span> </span><span class="COMM">/**
+<span class='line'>1721</span>  * @class BSP collision plane
+<span class='line'>1722</span>  * @constructor
+<span class='line'>1723</span>  * @param {Vector2} position Any position on the plane
+<span class='line'>1724</span>  * @param {Vector2} direction The direction perpendicular to the plane
+<span class='line'>1725</span>  * @since 0.0.0
+<span class='line'>1726</span>  */</span><span class="WHIT">
+<span class='line'>1727</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Plane2</span><span class="PUNC">(</span><span class="NAME">position</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">direction</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1728</span> 
+<span class='line'>1729</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1730</span> 	 * Any position on the plane
+<span class='line'>1731</span> 	 * @field
+<span class='line'>1732</span> 	 * @type Vector2
+<span class='line'>1733</span> 	 * @default undefined
+<span class='line'>1734</span> 	 * @since 0.0.0
+<span class='line'>1735</span> 	 */</span><span class="WHIT">
+<span class='line'>1736</span> </span><span class="WHIT">	</span><span class="NAME">this.position</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">position</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1737</span> 
+<span class='line'>1738</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1739</span> 	 * The direction perpendicular to the plane, this should be a normalized
+<span class='line'>1740</span> 	 * vector
+<span class='line'>1741</span> 	 * @field
+<span class='line'>1742</span> 	 * @type Vector2
+<span class='line'>1743</span> 	 * @default undefined
+<span class='line'>1744</span> 	 * @since 0.0.0
+<span class='line'>1745</span> 	 */</span><span class="WHIT">
+<span class='line'>1746</span> </span><span class="WHIT">	</span><span class="NAME">this.direction</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">direction</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1747</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1748</span> 
+<span class='line'>1749</span> </span><span class="COMM">/**
+<span class='line'>1750</span>  * BSP child can be of types NODE or OBJECTS
+<span class='line'>1751</span>  * @enum
+<span class='line'>1752</span>  * @since 0.0.0.4
+<span class='line'>1753</span>  */</span><span class="WHIT">
+<span class='line'>1754</span> </span><span class="NAME">BSP_CHILD_TYPE</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1755</span> </span><span class="WHIT">  </span><span class="NAME">BSP_CHILD_NODE</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1756</span> </span><span class="WHIT">  </span><span class="NAME">BSP_CHILD_OBJECTS</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT">
+<span class='line'>1757</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1758</span> 
+<span class='line'>1759</span> </span><span class="COMM">/**
+<span class='line'>1760</span>  * @class BSP collision child
+<span class='line'>1761</span>  * @constructor
+<span class='line'>1762</span>  * @param {int} type {@link BSP_CHILD_TYPE} Type of the child
+<span class='line'>1763</span>  * @since 0.0.0.4
+<span class='line'>1764</span>  */</span><span class="WHIT">
+<span class='line'>1765</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">BSPChild2</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1766</span> 
+<span class='line'>1767</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1768</span> 	 * {@link BSP_CHILD_TYPE} type of the child
+<span class='line'>1769</span> 	 * @field
+<span class='line'>1770</span> 	 * @type int
+<span class='line'>1771</span> 	 * @default undefined
+<span class='line'>1772</span> 	 * @since 0.0.0.4
+<span class='line'>1773</span> 	 */</span><span class="WHIT">
+<span class='line'>1774</span> </span><span class="WHIT">	</span><span class="NAME">this.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">type</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1775</span> 
+<span class='line'>1776</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1777</span> 	 * Node in case if type is {@link BSP_CHILD_TYPE.BSP_CHILD_NODE}
+<span class='line'>1778</span> 	 * @field
+<span class='line'>1779</span> 	 * @type BSPNode2
+<span class='line'>1780</span> 	 * @default undefined
+<span class='line'>1781</span> 	 * @since 0.0.0.4
+<span class='line'>1782</span> 	 */</span><span class="WHIT">
+<span class='line'>1783</span> </span><span class="WHIT">	</span><span class="NAME">this.node</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1784</span> 
+<span class='line'>1785</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1786</span> 	 * Array of objects if type is {@link BSP_CHILD_TYPE.BSP_CHILD_OBJECTS}
+<span class='line'>1787</span> 	 * @field
+<span class='line'>1788</span> 	 * @type Array
+<span class='line'>1789</span> 	 * @default undefined
+<span class='line'>1790</span> 	 * @since 0.0.0.4
+<span class='line'>1791</span> 	 */</span><span class="WHIT">
+<span class='line'>1792</span> </span><span class="WHIT">	</span><span class="NAME">this.objects</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1793</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1794</span> 
+<span class='line'>1795</span> </span><span class="COMM">/**
+<span class='line'>1796</span>  * @class BSP collision node
+<span class='line'>1797</span>  * @constructor
+<span class='line'>1798</span>  * @param {Plane2} plane Collision plane
+<span class='line'>1799</span>  * @param {BSPNode2} front Node in front of the plane
+<span class='line'>1800</span>  * @param {BSPNode2} black Node behind the plane
+<span class='line'>1801</span>  * @since 0.0.0
+<span class='line'>1802</span>  */</span><span class="WHIT">
+<span class='line'>1803</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">BSPNode2</span><span class="PUNC">(</span><span class="NAME">plane</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">front</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">back</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1804</span> 
+<span class='line'>1805</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1806</span> 	 * Collision plane
+<span class='line'>1807</span> 	 * @field
+<span class='line'>1808</span> 	 * @type Plane2
+<span class='line'>1809</span> 	 * @default undefined
+<span class='line'>1810</span> 	 * @since 0.0.0
+<span class='line'>1811</span> 	 */</span><span class="WHIT">
+<span class='line'>1812</span> </span><span class="WHIT">	</span><span class="NAME">this.plane</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">plane</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1813</span> 
+<span class='line'>1814</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1815</span> 	 * Child in front of the plane
+<span class='line'>1816</span> 	 * @field
+<span class='line'>1817</span> 	 * @type BSPChild
+<span class='line'>1818</span> 	 * @default undefined
+<span class='line'>1819</span> 	 * @since 0.0.0
+<span class='line'>1820</span> 	 */</span><span class="WHIT">
+<span class='line'>1821</span> </span><span class="WHIT">	</span><span class="NAME">this.front</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">front</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1822</span> 
+<span class='line'>1823</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1824</span> 	 * Child behind the plane
+<span class='line'>1825</span> 	 * @field
+<span class='line'>1826</span> 	 * @type BSPChild2
+<span class='line'>1827</span> 	 * @default undefined
+<span class='line'>1828</span> 	 * @since 0.0.0
+<span class='line'>1829</span> 	 */</span><span class="WHIT">
+<span class='line'>1830</span> </span><span class="WHIT">	</span><span class="NAME">this.back</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">back</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1831</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1832</span> 
+<span class='line'>1833</span> </span><span class="COMM">/**
+<span class='line'>1834</span>  * @class 2D Quad node tree
+<span class='line'>1835</span>  * @constructor
+<span class='line'>1836</span>  * @param {Vector2} position Position of the quad tree node
+<span class='line'>1837</span>  * @since 0.0.0.4
+<span class='line'>1838</span>  */</span><span class="WHIT">
+<span class='line'>1839</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">QuadNodeTree2</span><span class="PUNC">(</span><span class="NAME">position</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1840</span> 
+<span class='line'>1841</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>1842</span> 	 * Position of the quad tree node
+<span class='line'>1843</span> 	 * @field
+<span class='line'>1844</span> 	 * @type Vector2
+<span class='line'>1845</span> 	 * @default undefined
+<span class='line'>1846</span> 	 * @since 0.0.0.4
+<span class='line'>1847</span> 	 */</span><span class="WHIT">
+<span class='line'>1848</span> </span><span class="WHIT">	</span><span class="NAME">this.position</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">position</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1849</span> 
+<span class='line'>1850</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>1851</span> 	 * Quadrants of the tree node
+<span class='line'>1852</span> 	 * @field
+<span class='line'>1853</span> 	 * @type QuadNodeTree2 []
+<span class='line'>1854</span> 	 * @default undefined
+<span class='line'>1855</span> 	 * @since 0.0.0.4
+<span class='line'>1856</span> 	 */</span><span class="WHIT">
+<span class='line'>1857</span> </span><span class="WHIT">	</span><span class="NAME">this.children</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1858</span> 
+<span class='line'>1859</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>1860</span> 	 * Gets the child index at the specified location
+<span class='line'>1861</span> 	 * @function
+<span class='line'>1862</span> 	 * @param {Vector2} o The object's position
+<span class='line'>1863</span> 	 * @returns {int} The index of the object
+<span class='line'>1864</span> 	 * @since 0.0.0.4
+<span class='line'>1865</span> 	 */</span><span class="WHIT">
+<span class='line'>1866</span> </span><span class="WHIT">	</span><span class="NAME">this.getChildIndex</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1867</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1868</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">o.x</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">this.position.x</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1869</span> </span><span class="WHIT">      </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1870</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1871</span> 
+<span class='line'>1872</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">o.y</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">this.position.y</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1873</span> </span><span class="WHIT">      </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1874</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>1875</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">index</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1876</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1877</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1878</span> 
+<span class='line'>1879</span> </span><span class="COMM">/**
+<span class='line'>1880</span>  * @class 2D Grid
+<span class='line'>1881</span>  * @constructor
+<span class='line'>1882</span>  * @param {int} xExtent Number of cells in the X-direction of the grid
+<span class='line'>1883</span>  * @param {int} yExtent Number of cells in the Y-direction of the grid
+<span class='line'>1884</span>  * @param {Vector2} origin The origin of the grid
+<span class='line'>1885</span>  * @since 0.0.0.4
+<span class='line'>1886</span>  */</span><span class="WHIT">
+<span class='line'>1887</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Grid2</span><span class="PUNC">(</span><span class="NAME">xExtent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">yExtent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">origin</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1888</span> 
+<span class='line'>1889</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>1890</span> 	 * Number of cells in the X-direction of the grid
+<span class='line'>1891</span> 	 * @field
+<span class='line'>1892</span> 	 * @type int
+<span class='line'>1893</span> 	 * @default 0
+<span class='line'>1894</span> 	 * @since 0.0.0.4
+<span class='line'>1895</span> 	 */</span><span class="WHIT">
+<span class='line'>1896</span> </span><span class="WHIT">	</span><span class="NAME">this.xExtent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xExtent</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1897</span> 
+<span class='line'>1898</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>1899</span> 	 * Number of cells in the Y-direction of the grid
+<span class='line'>1900</span> 	 * @field
+<span class='line'>1901</span> 	 * @type int
+<span class='line'>1902</span> 	 * @default 0
+<span class='line'>1903</span> 	 * @since 0.0.0.4
+<span class='line'>1904</span> 	 */</span><span class="WHIT">
+<span class='line'>1905</span> </span><span class="WHIT">	</span><span class="NAME">this.yExtent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">yExtent</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1906</span> 
+<span class='line'>1907</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>1908</span> 	 * Cells of the grid
+<span class='line'>1909</span> 	 * @field
+<span class='line'>1910</span> 	 * @type Object []
+<span class='line'>1911</span> 	 * @default []
+<span class='line'>1912</span> 	 * @since 0.0.0.4
+<span class='line'>1913</span> 	 */</span><span class="WHIT">
+<span class='line'>1914</span> </span><span class="WHIT">	</span><span class="NAME">this.locations</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1915</span> 
+<span class='line'>1916</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>1917</span> 	 * Origin of the grid
+<span class='line'>1918</span> 	 * @field
+<span class='line'>1919</span> 	 * @type Vector2
+<span class='line'>1920</span> 	 * @default undefined
+<span class='line'>1921</span> 	 * @since 0.0.0.4
+<span class='line'>1922</span> 	 */</span><span class="WHIT">
+<span class='line'>1923</span> </span><span class="WHIT">  </span><span class="NAME">this.origin</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">origin</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1924</span> 
+<span class='line'>1925</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>1926</span> 	 * 1 over the size of each cell
+<span class='line'>1927</span> 	 * @field
+<span class='line'>1928</span> 	 * @type Vector2
+<span class='line'>1929</span> 	 * @default undefined
+<span class='line'>1930</span> 	 * @since 0.0.0.4
+<span class='line'>1931</span> 	 */</span><span class="WHIT">
+<span class='line'>1932</span> </span><span class="WHIT">  </span><span class="NAME">this.oneOverCellSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1933</span> 
+<span class='line'>1934</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>1935</span> 	 * Gets the location index at the specified location
+<span class='line'>1936</span> 	 * @function
+<span class='line'>1937</span> 	 * @param {Vector2} o The object's location
+<span class='line'>1938</span> 	 * @returns {int} The index of the location
+<span class='line'>1939</span> 	 * @since 0.0.0.4
+<span class='line'>1940</span> 	 */</span><span class="WHIT">
+<span class='line'>1941</span> </span><span class="WHIT">	</span><span class="NAME">this.getLocationIndex</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1942</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1943</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">square</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.multScalar</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1944</span> </span><span class="WHIT">      </span><span class="NAME">this.oneOverCellSize</span><span class="WHIT">
+<span class='line'>1945</span> </span><span class="WHIT">    </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1946</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">square.x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.xExtent</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">square.y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1947</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1948</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1949</span> 
+<span class='line'>1950</span> </span><span class="COMM">/**
+<span class='line'>1951</span>  * Collision
+<span class='line'>1952</span>  * @param rigidBody
+<span class='line'>1953</span>  * @param offset
+<span class='line'>1954</span>  */</span><span class="WHIT">
+<span class='line'>1955</span> 
+<span class='line'>1956</span> </span><span class="COMM">/**
+<span class='line'>1957</span>  * @class Collision 2D primitive base class
+<span class='line'>1958</span>  * @constructor
+<span class='line'>1959</span>  * @param {RigidBody} rigidBody The body encapsulated by this primitive
+<span class='line'>1960</span>  * @param {TransformationMatrix3} offset Translation and rotation from the rigid body
+<span class='line'>1961</span>  * @since 0.0.0.4
+<span class='line'>1962</span>  */</span><span class="WHIT">
+<span class='line'>1963</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">CollisionPrimitive2</span><span class="PUNC">(</span><span class="NAME">rigidBody</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1964</span> 
+<span class='line'>1965</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>1966</span> 	 * The body encapsulated by this primitive
+<span class='line'>1967</span> 	 * @field
+<span class='line'>1968</span> 	 * @type RigidBody
+<span class='line'>1969</span> 	 * @default undefined
+<span class='line'>1970</span> 	 * @since 0.0.0.4
+<span class='line'>1971</span> 	 */</span><span class="WHIT">
+<span class='line'>1972</span> </span><span class="WHIT">  </span><span class="NAME">this.rigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1973</span> 
+<span class='line'>1974</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>1975</span> 	 * Translation and rotation from the rigid body for this primitive
+<span class='line'>1976</span> 	 * @field
+<span class='line'>1977</span> 	 * @type TransformationMatrix3
+<span class='line'>1978</span> 	 * @default undefined
+<span class='line'>1979</span> 	 * @since 0.0.0.4
+<span class='line'>1980</span> 	 */</span><span class="WHIT">
+<span class='line'>1981</span> </span><span class="WHIT">  </span><span class="NAME">this.offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1982</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1983</span> 
+<span class='line'>1984</span> </span><span class="COMM">/**
+<span class='line'>1985</span>  * @class Collision circle
+<span class='line'>1986</span>  * @constructor
+<span class='line'>1987</span>  * @extends CollisionPrimitive2
+<span class='line'>1988</span>  * @param {RigidBody} rigidBody The body encapsulated by this primitive
+<span class='line'>1989</span>  * @param {TransformationMatrix3} offset Translation and rotation from the rigid body
+<span class='line'>1990</span>  * @since 0.0.0.4
+<span class='line'>1991</span>  */</span><span class="WHIT">
+<span class='line'>1992</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">CollisionCircle</span><span class="PUNC">(</span><span class="NAME">rigidBody</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1993</span> 
+<span class='line'>1994</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>1995</span>    * Super constructor
+<span class='line'>1996</span>    */</span><span class="WHIT">
+<span class='line'>1997</span> </span><span class="WHIT">  </span><span class="NAME">CollisionPrimitive2.call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1998</span> 
+<span class='line'>1999</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>2000</span> 	 * Radius of this circle
+<span class='line'>2001</span> 	 * @field
+<span class='line'>2002</span> 	 * @type float
+<span class='line'>2003</span> 	 * @default 0.0
+<span class='line'>2004</span> 	 * @since 0.0.0.4
+<span class='line'>2005</span> 	 */</span><span class="WHIT">
+<span class='line'>2006</span> </span><span class="WHIT">  </span><span class="NAME">this.radius</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0.0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2007</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2008</span> </span><span class="NAME">CollisionCircle.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">CollisionPrimitive2</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2009</span> 
+<span class='line'>2010</span> </span><span class="COMM">/**
+<span class='line'>2011</span>  * @class 2D collision detector
+<span class='line'>2012</span>  * @constructor
+<span class='line'>2013</span>  * @since 0.0.0.4
+<span class='line'>2014</span>  */</span><span class="WHIT">
+<span class='line'>2015</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">CollisionDetector2</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2016</span> 
+<span class='line'>2017</span> </span><span class="WHIT">   </span><span class="COMM">/**
+<span class='line'>2018</span>     * Gets the child index at the specified location
+<span class='line'>2019</span>     * @function
+<span class='line'>2020</span>     * @param {CollisionCircle} one The first circle to use
+<span class='line'>2021</span>     * @param {CollisionCircle} two The second circle to use
+<span class='line'>2022</span>     * @param {Array}
+<span class='line'>2023</span>     * @returns {int} The index of the object
+<span class='line'>2024</span>     * @since 0.0.0.4
+<span class='line'>2025</span>     */</span><span class="WHIT">
+<span class='line'>2026</span> </span><span class="WHIT">	</span><span class="NAME">this.circleAndCircle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">one</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">two</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">collisions</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">limit</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2027</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2028</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2029</span> 
+<span class='line'>2030</span> </span><span class="COMM">/**
+<span class='line'>2031</span>  * @class Visitor interface to visit the rigid body world
+<span class='line'>2032</span>  * @constructor
+<span class='line'>2033</span>  * @since 0.0.0.3
+<span class='line'>2034</span>  */</span><span class="WHIT">
+<span class='line'>2035</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">WorldVisitor</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2036</span> 
+<span class='line'>2037</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>2038</span> 	 * @method
+<span class='line'>2039</span> 	 * @abstract
+<span class='line'>2040</span> 	 * Visits the world
+<span class='line'>2041</span>    * @param {World} world The visited world
+<span class='line'>2042</span> 	 * @return void
+<span class='line'>2043</span> 	 */</span><span class="WHIT">
+<span class='line'>2044</span> </span><span class="WHIT">	</span><span class="NAME">this.visitWorld</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">world</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2045</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2046</span> 
+<span class='line'>2047</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>2048</span> 	 * @method
+<span class='line'>2049</span> 	 * @abstract
+<span class='line'>2050</span> 	 * Visits the rigid body
+<span class='line'>2051</span>    * @param {RigidBody} rigidBody The visited ridig body
+<span class='line'>2052</span> 	 * @return void
+<span class='line'>2053</span> 	 */</span><span class="WHIT">
+<span class='line'>2054</span> </span><span class="WHIT">	</span><span class="NAME">this.visitRigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2055</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2056</span> 
+<span class='line'>2057</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>2058</span> 	 * @method
+<span class='line'>2059</span> 	 * @abstract
+<span class='line'>2060</span> 	 * Visits a gravity force generator
+<span class='line'>2061</span>    * @param {GravityForceGenerator} forceGenerator The visited force generator
+<span class='line'>2062</span>    * @param {RigidBody} rigidBody The rigidBody currently affected by this force generator
+<span class='line'>2063</span> 	 * @return void
+<span class='line'>2064</span> 	 */</span><span class="WHIT">
+<span class='line'>2065</span> </span><span class="WHIT">	</span><span class="NAME">this.visitGravityForceGenerator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">forceGenerator</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2066</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2067</span> 
+<span class='line'>2068</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>2069</span> 	 * @method
+<span class='line'>2070</span> 	 * @abstract
+<span class='line'>2071</span> 	 * Visits a spring force generator
+<span class='line'>2072</span>    * @param {SpringForceGenerator} forceGenerator The visited force generator
+<span class='line'>2073</span>    * @param {RigidBody} rigidBody The rigidBody currently affected by this force generator
+<span class='line'>2074</span> 	 * @return void
+<span class='line'>2075</span> 	 */</span><span class="WHIT">
+<span class='line'>2076</span> </span><span class="WHIT">	</span><span class="NAME">this.visitSpringForceGenerator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">forceGenerator</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2077</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2078</span> 
+<span class='line'>2079</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>2080</span> 	 * @method
+<span class='line'>2081</span> 	 * @abstract
+<span class='line'>2082</span> 	 * Visits a aero control force generator
+<span class='line'>2083</span>    * @param {AeroControlForceGenerator} forceGenerator The visited force generator
+<span class='line'>2084</span>    * @param {RigidBody} rigidBody The rigidBody currently affected by this force generator
+<span class='line'>2085</span> 	 * @return void
+<span class='line'>2086</span> 	 */</span><span class="WHIT">
+<span class='line'>2087</span> </span><span class="WHIT">	</span><span class="NAME">this.visitAeroControlForceGenerator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">forceGenerator</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2088</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2089</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2090</span> 
+<span class='line'>2091</span> </span><span class="COMM">/**
+<span class='line'>2092</span>  * @class Keeps track of all rigid bodies
+<span class='line'>2093</span>  * @constructor
+<span class='line'>2094</span>  * @since 0.0.0
+<span class='line'>2095</span>  */</span><span class="WHIT">
+<span class='line'>2096</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">World</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2097</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>2098</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2099</span> 	 * All rigid bodies in simulation
+<span class='line'>2100</span> 	 * @field 
+<span class='line'>2101</span> 	 * @type RigidBody []
+<span class='line'>2102</span> 	 * @default []
+<span class='line'>2103</span> 	 * @since 0.0.0
+<span class='line'>2104</span> 	 */</span><span class="WHIT">
+<span class='line'>2105</span> </span><span class="WHIT">	</span><span class="NAME">this.rigidBodies</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2106</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>2107</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2108</span> 	 * Holds all the force generators
+<span class='line'>2109</span> 	 * @field 
+<span class='line'>2110</span> 	 * @type ForceRegistry
+<span class='line'>2111</span> 	 * @default new ForceRegistry()
+<span class='line'>2112</span> 	 * @since 0.0.0
+<span class='line'>2113</span> 	 */</span><span class="WHIT">
+<span class='line'>2114</span> </span><span class="WHIT">	</span><span class="NAME">this.forceRegistry</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">ForceRegistry</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2115</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>2116</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2117</span> 	 * Force generators applied to all rigid bodies
+<span class='line'>2118</span> 	 * @field 
+<span class='line'>2119</span> 	 * @type ForceGenerator []
+<span class='line'>2120</span> 	 * @default []
+<span class='line'>2121</span> 	 * @since 0.0.0
+<span class='line'>2122</span> 	 */</span><span class="WHIT">
+<span class='line'>2123</span> </span><span class="WHIT">	</span><span class="NAME">this.globalForceGenerators</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2124</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>2125</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2126</span> 	 * Adds a new rigid body to the simulation
+<span class='line'>2127</span> 	 * @function
+<span class='line'>2128</span> 	 * @param {RigidBody} rigidBody The new rigidBody to add
+<span class='line'>2129</span> 	 * @returns {int} The total number of rigid bodies in the simulation
+<span class='line'>2130</span> 	 * @since 0.0.0
+<span class='line'>2131</span> 	 */</span><span class="WHIT">
+<span class='line'>2132</span> </span><span class="WHIT">	</span><span class="NAME">this.addRigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2133</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies.push</span><span class="PUNC">(</span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2134</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2135</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>2136</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2137</span> 	 * Removes a rigid body from the simulation
+<span class='line'>2138</span> 	 * @function
+<span class='line'>2139</span> 	 * @param {RigidBody} rigidBody The rigid body to remove
+<span class='line'>2140</span> 	 * @returns {RigidBody} The removed rigid body, undefied if not removed
+<span class='line'>2141</span> 	 * @since 0.0.0
+<span class='line'>2142</span> 	 */</span><span class="WHIT">
+<span class='line'>2143</span> </span><span class="WHIT">	</span><span class="NAME">this.removeParticle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2144</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">removedRigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2145</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2146</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2147</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2148</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">debug</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2149</span> </span><span class="WHIT">					</span><span class="NAME">console.debug</span><span class="PUNC">(</span><span class="STRN">"Removing rigid body %s"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rigidBody.toString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2150</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>2151</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>2152</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">removedRigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies.splice</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2153</span> </span><span class="WHIT">				</span><span class="NAME">removedRigidBody.die</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>2154</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">removedRigidBody</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2155</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>2156</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// for</span><span class="WHIT">
+<span class='line'>2157</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">removedRigidBody</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2158</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2159</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>2160</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2161</span> 	 * Runs a complete cycle
+<span class='line'>2162</span> 	 * @function
+<span class='line'>2163</span> 	 * @param {int} delta Delta time in milliseconds since last update
+<span class='line'>2164</span> 	 * @returns {void}
+<span class='line'>2165</span> 	 * @since 0.0.0
+<span class='line'>2166</span> 	 */</span><span class="WHIT">
+<span class='line'>2167</span> </span><span class="WHIT">	</span><span class="NAME">this.update</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2168</span> </span><span class="WHIT">		</span><span class="NAME">this.startFrame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2169</span> </span><span class="WHIT">		</span><span class="NAME">this.runPhysics</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2170</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2171</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>2172</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2173</span> 	 * Clears all force accumulators on rigid bodies
+<span class='line'>2174</span> 	 * @function
+<span class='line'>2175</span> 	 * @returns {void}
+<span class='line'>2176</span> 	 * @since 0.0.0
+<span class='line'>2177</span> 	 */</span><span class="WHIT">
+<span class='line'>2178</span> </span><span class="WHIT">	</span><span class="NAME">this.startFrame</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2179</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2180</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2181</span> </span><span class="WHIT">			</span><span class="NAME">rigidBody.clearForceAccum</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2182</span> </span><span class="WHIT">			</span><span class="NAME">rigidBody.calculateDerivedData</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2183</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// for</span><span class="WHIT">
+<span class='line'>2184</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2185</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>2186</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2187</span> 	 * Integrates all the rigid bodies in this world forward in time
+<span class='line'>2188</span> 	 * by the given duration
+<span class='line'>2189</span> 	 * @function
+<span class='line'>2190</span> 	 * @param {int} delta Delta time in milliseconds since last update
+<span class='line'>2191</span> 	 * @returns {void}
+<span class='line'>2192</span> 	 * @since 0.0.0
+<span class='line'>2193</span> 	 */</span><span class="WHIT">
+<span class='line'>2194</span> </span><span class="WHIT">	</span><span class="NAME">this.integrate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2195</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2196</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2197</span> </span><span class="WHIT">			</span><span class="NAME">rigidBody.integrate</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2198</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// for</span><span class="WHIT">
+<span class='line'>2199</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2200</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>2201</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2202</span> 	 * Process all physics for the world
+<span class='line'>2203</span> 	 * @function
+<span class='line'>2204</span> 	 * @param {int} delta Delta time in milliseconds since last update
+<span class='line'>2205</span> 	 * @returns {void}
+<span class='line'>2206</span> 	 * @since 0.0.0
+<span class='line'>2207</span> 	 */</span><span class="WHIT">
+<span class='line'>2208</span> </span><span class="WHIT">	</span><span class="NAME">this.runPhysics</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2209</span> </span><span class="WHIT">		</span><span class="NAME">this.applyGlobalForces</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2210</span> </span><span class="WHIT">		</span><span class="NAME">this.forceRegistry.applyForces</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2211</span> </span><span class="WHIT">		</span><span class="NAME">this.integrate</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2212</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2213</span> 
+<span class='line'>2214</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2215</span> 	 * Adds a global force generator
+<span class='line'>2216</span> 	 * @function
+<span class='line'>2217</span> 	 * @param {ForceGenerator} forceGenerator The global force generator to be added
+<span class='line'>2218</span> 	 * @returns {void}
+<span class='line'>2219</span> 	 * @since 0.0.0
+<span class='line'>2220</span> 	 */</span><span class="WHIT">
+<span class='line'>2221</span> </span><span class="WHIT">	</span><span class="NAME">this.addGlobalForce</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">forceGenerator</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2222</span> </span><span class="WHIT">		</span><span class="NAME">this.globalForceGenerators.push</span><span class="PUNC">(</span><span class="NAME">forceGenerator</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2223</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2224</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>2225</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2226</span> 	 * Applies all global forces to all rigid bodies over time delta
+<span class='line'>2227</span> 	 * @function
+<span class='line'>2228</span> 	 * @param {int} delta Delta Time delta in milliseconds
+<span class='line'>2229</span> 	 * @returns {void}
+<span class='line'>2230</span> 	 * @since 0.0.0
+<span class='line'>2231</span> 	 */</span><span class="WHIT">
+<span class='line'>2232</span> </span><span class="WHIT">	</span><span class="NAME">this.applyGlobalForces</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2233</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">j</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.globalForceGenerators</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2234</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">forceGenerator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.globalForceGenerators</span><span class="PUNC">[</span><span class="NAME">j</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2235</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2236</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2237</span> </span><span class="WHIT">				</span><span class="NAME">forceGenerator.applyForce</span><span class="PUNC">(</span><span class="NAME">rigidBody</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2238</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// for</span><span class="WHIT">
+<span class='line'>2239</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// for</span><span class="WHIT">
+<span class='line'>2240</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2241</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>2242</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2243</span> 	 * Adds a global gravity force
+<span class='line'>2244</span> 	 * @function
+<span class='line'>2245</span> 	 * @param {Vector2} gravitation Optional gravitational pull
+<span class='line'>2246</span> 	 * @returns {void}
+<span class='line'>2247</span> 	 * @since 0.0.0
+<span class='line'>2248</span> 	 */</span><span class="WHIT">
+<span class='line'>2249</span> </span><span class="WHIT">	</span><span class="NAME">this.addGlobalGravityForce</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">gravitation</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2250</span> </span><span class="WHIT">		</span><span class="NAME">this.addGlobalForce</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>2251</span> </span><span class="WHIT">			</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">GravityForceGenerator</span><span class="PUNC">(</span><span class="NAME">gravitation</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>2252</span> </span><span class="WHIT">		</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2253</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2254</span> 
+<span class='line'>2255</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>2256</span>    * Accepts a world visitor
+<span class='line'>2257</span> 	 * @function
+<span class='line'>2258</span>    * @param {WorldVisitor} visitor Visitor to visit
+<span class='line'>2259</span> 	 * @returns {void}
+<span class='line'>2260</span> 	 * @since 0.0.0.3
+<span class='line'>2261</span>    */</span><span class="WHIT">
+<span class='line'>2262</span> </span><span class="WHIT">  </span><span class="NAME">this.accept</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">visitor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2263</span> </span><span class="WHIT">    </span><span class="NAME">visitor.visitWorld</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2264</span> 
+<span class='line'>2265</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2266</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rigidBodies</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2267</span> </span><span class="WHIT">      </span><span class="NAME">rigidBody.accept</span><span class="PUNC">(</span><span class="NAME">visitor</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2268</span> </span><span class="WHIT">      </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">j</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.globalForceGenerators</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2269</span> </span><span class="WHIT">			  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">forceGenerator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.globalForceGenerators</span><span class="PUNC">[</span><span class="NAME">j</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2270</span> </span><span class="WHIT">        </span><span class="NAME">forceGenerator.accept</span><span class="PUNC">(</span><span class="NAME">visitor</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rigidBody</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2271</span> </span><span class="WHIT">		  </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// for</span><span class="WHIT">
+<span class='line'>2272</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// for</span><span class="WHIT">
+<span class='line'>2273</span> 
+<span class='line'>2274</span> </span><span class="WHIT">    </span><span class="NAME">this.forceRegistry.accept</span><span class="PUNC">(</span><span class="NAME">visitor</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2275</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2276</span> </span><span class="PUNC">}</span></pre></body></html>

@@ -1177,6 +1177,887 @@ function ForceRegistry() {
 }
 
 /**
+ * COLLISION DETECTION
+ */
+
+/**
+ * @class A contact represents two bodies in contact. Resolving a
+ * contact removes their interpenetration, and applies sufficient
+ * impulse to keep them apart. Colliding bodies may also rebound.
+ *
+ * Colliding bodies may also rebound. Contacts can be used to represent
+ * positional joints, by making the contact constraint keep the bodies
+ * in their correct orientation.
+ *
+ * @constructor
+ * @since 0.0.0.4
+ */
+function Contact() {
+
+  /**
+	 * Holds the bodies that are involved in the contact. The second may be
+	 * omitted in the case of a contact with the environment.
+	 * @field
+	 * @type RigidBody []
+	 * @default []
+	 * @since 0.0.0.4
+	 */
+	this.ridigBodies = [];
+
+	/**
+	 * Holds the position of the contact in world coordinates
+	 * @field
+	 * @type Vector2
+	 * @default undefined
+	 * @since 0.0.0.4
+	 */
+	this.contactPoint = undefined;
+
+	/**
+	 * Holds the direction of the contact in world coordinates
+	 * @field
+	 * @type Vector2
+	 * @default undefined
+	 * @since 0.0.0.4
+	 */
+	this.contactNormal = undefined;
+
+	/**
+	 * Penetration depth in the direction of the contact normal
+	 * @field
+	 * @type float
+	 * @default 0.0
+	 * @since 0.0.0.4
+	 */
+	this.penetration = 0.0;
+
+	/**
+	 * Resolves this contact for both veolcity and interpenetration
+	 * @function
+	 * @protected
+	 * @param {int} delta Delta time in milliseconds since last update
+	 * @returns {void}
+	 * @since 0.0.0
+	 */
+	this.resolve = function(delta) {
+		this.resolveVelocity(delta);
+		this.resolveInterpenetration(delta);
+	}
+
+	/**
+	 * Calculate separating velocity at this contact
+	 * @function
+	 * @protected
+	 * @returns {float} Separating velocity at this contact
+	 * @since 0.0.0
+	 */
+	this.calculateSeparatingVelocity = function() {
+		var relativeVelocity = this.particles[0].vel.clone();
+		if (this.particles[1]) {
+			relativeVelocity.subMutate(
+				this.particles[1].vel
+			);
+		} // if
+		return relativeVelocity.dotProduct(this.contactNormal);
+	}
+
+	/**
+	 * Handles impulse calculations for this collision
+	 * @function
+	 * @private
+	 * @param {int} delta Delta time in milliseconds since last update
+	 * @returns {void}
+	 * @since 0.0.0
+	 */
+	this.resolveVelocity = function(delta) {
+		var dt = delta / 1000;
+		var separatingVelocity = this.calculateSeparatingVelocity();
+		if (separatingVelocity > 0) {
+			// contact is either separating or stationary
+			return;
+		} // if
+		var newSepVelocity = -separatingVelocity * this.restitution;
+
+		// ~PHYLIMIT keep to objects in resting contact
+		// micro-collision approach
+		// check velocity build up due to acceleration only
+		var accCausedVelocity = this.particles[0].acc.clone();
+		if (this.particles[1]) {
+			accCausedVelocity.subMutate(this.particles[1].acc);
+		} // if
+		var accCausedSepVelocity = accCausedVelocity.dotProduct(this.contactNormal) * dt;
+
+		// If we've got a closing velocity due to acceleration build-up,
+		// remove it from the new separating velocity.
+		if (accCausedSepVelocity < 0) {
+			newSepVelocity += resitution * accCausedSepVelocity;
+
+			// Make sure we haven't removed more than was there to remove.
+			if (newSepVelocity < 0) {
+				newSepVelocity = 0;
+			} // if
+		} // if
+		// ~END-PHYLIMIT
+
+		var deltaVelocity = newSepVelocity - separatingVelocity;
+
+		var totalInverseMass = this.particles[0].inverseMass;
+		if (this.particles[1]) {
+			totalInverseMass += this.particles[1].inverseMass;
+		} // if
+
+		if (totalInverseMass <= 0) {
+			// all particles have infinite mass
+			return;
+		} // if
+
+		var impulse = deltaVelocity / totalInverseMass;
+		var impulsePerIMass = this.contactNormal.multScalar(impulse);
+
+		// apply impulses proportional to inverse mass
+		// in the direction of the contact
+		this.particles[0].vel.addMutate(
+			impulsePerIMass.multScalar(this.particles[0].inverseMass)
+		);
+
+		if (this.particles[1]) {
+			this.particles[1].vel.addMutate(
+				impulsePerIMass.multScalar(-this.particles[1].inverseMass)
+			);
+		} // if
+	}
+
+	/**
+	 * Handles interpenetration resolution for this contact
+	 * @function
+	 * @param {int} delta Delta time in milliseconds since last update
+	 * @returns {void}
+	 * @since 0.0.0
+	 */
+	this.resolveInterpenetration = function(delta) {
+		if (this.penetration <= 0) {
+			return;
+		} // if
+
+		var totalInverseMass = this.particles[0].inverseMass;
+		if (this.particles[1]) {
+			totalInverseMass += this.particles[1].inverseMass;
+		} // if
+
+		if (totalInverseMass <= 0) {
+			// infinite mass
+			return;
+		} // if
+
+		// find penetration resolution relative to inverse mass
+		var movePerIMass = this.contactNormal.multScalar(
+			-this.penetration / totalInverseMass
+		);
+
+		this.particles[0].pos.addMutate(
+			movePerIMass.multScalar(this.particles[0].inverseMass)
+		);
+
+		if (this.particles[1]) {
+			this.particles[1].pos.addMutate(
+				movePerIMass.multScalar(this.particles[1].inverseMass)
+			);
+		} // if
+	}
+}
+
+/**
+ * @class Bounding volume base class
+ * @constructor
+ * @since 0.0.0
+ */
+function BoundingVolume() {
+}
+
+/**
+ * @class A bounding sphere
+ * @constructor
+ * @extends BoundingVolume
+ * @param {Vector2} center Center of the sphere
+ * @param {float} radius Radius of the sphere
+ * @since 0.0.0
+ */
+function BoundingSphere(center, radius) {
+
+  /**
+   * Super constructor
+   */
+  BoundingVolume.call(this);
+
+	/**
+	 * Center of the sphere
+	 * @field
+	 * @type Vector2
+	 * @default undefined
+	 * @since 0.0.0
+	 */
+	this.center = center || undefined;
+
+	/**
+	 * Radius of the sphere
+	 * @field
+	 * @type float
+	 * @default 0.0
+	 * @since 0.0.0
+	 */
+	this.radius = radius || 0.0;
+
+	/**
+	 * Determines if the bounding sphere overlaps with the supplied bounding
+	 * sphere
+	 * @function
+	 * @param {BoundingSphere} o The other sphere to test
+	 * @returns {boolean} True if this overlaps with the supplied bounding
+	 *  sphere
+	 * @since 0.0.0
+	 */
+	this.overlaps = function(o) {
+    return Vector2.isWithin(this.center, o.center, this.radius + o.radius);
+	}
+}
+BoundingSphere.prototype = new BoundingVolume();
+
+/**
+ * Factory method to create a bounding sphere to enclose the two given bounding
+ * spheres.
+ * @static
+ * @function
+ * @param {BoundingSphere} bs1 First bounding sphere
+ * @param {BoundingSphere} bs2 Second bounding sphere
+ * @returns {BoundingSphere} A new bounding sphere enclosing the supplied
+ *  bounding spheres.
+ * @since 0.0.0
+ */
+BoundingSphere.enclose = function(bs1, bs2) {
+  var boundingSphere = new BoundingSphere();
+  var center = bs1.center.add(
+    bs2.center
+  );
+  center.multScalar(0.5);
+  boundingSphere.center = center;
+  boundingSphere.radius = bs1.radius + bs2.radius;
+  return boundingSphere;
+}
+
+/**
+ * @class A bounding box
+ * @constructor
+ * @extends BoundingVolume
+ * @param {Vector2} center Center of the sphere
+ * @param {Vector2} halfSize Half size used for collision detection
+ * @since 0.0.0
+ */
+function BoundingBox(center, halfSize) {
+
+  /**
+   * Super constructor
+   */
+  BoundingVolume.call(this);
+
+	/**
+	 * Center of the sphere
+	 * @field
+	 * @type Vector2
+	 * @default undefined
+	 * @since 0.0.0
+	 */
+	this.center = center || undefined;
+
+	/**
+	 * Half size used for collision detection
+	 * @field
+	 * @type Vector2
+	 * @default undefined
+	 * @since 0.0.0
+	 */
+	this.halfSize = halfSize || undefined;
+}
+BoundingBox.prototype = new BoundingVolume();
+
+/**
+ * @class Stores a potential contact to check later
+ * @constructor
+ * @param {RigidBody []} rigidBodies The rigid bodies that might be in contact
+ * @since 0.0.0
+ */
+function PotentialContact(rigidBodies) {
+
+	/**
+	 * The rigid bodies that might be in contact
+	 * @field
+	 * @type RigidBody []
+	 * @default undefined
+	 * @since 0.0.0
+	 */
+	this.center = rigidBodies || undefined;
+}
+
+/**
+ * @class A base class for nodes in a bounding volume hierarchy.  This class
+ *  uses a binary tree to store the bounding volumes.
+ * @constructor
+ * @param {BVHNode []} children The child nodes
+ * @param {BoundingVolume} volume Holds a single volume encompassing all the
+ *  descendents of this node.
+ * @param {RigidBody} rigidBody Holds the rigid body at this node of the
+ *  hierarchy. Only leaf nodes can have rigid body defined {@link BVHNode#isLeaf}.
+ *  Note that it is possible to rewrite the algorithms in this class to handle
+ *  objects at all levels of the hierarchy, but the code provided ignores this
+ *  vector unless firstChild is undefined.
+ * @since 0.0.0
+ */
+function BVHNode(children, volume, rigidBody) {
+
+	/**
+	 * The child nodes
+	 * @field
+	 * @type BVHNode []
+	 * @default undefined
+	 * @since 0.0.0
+	 */
+	this.children = children || undefined;
+
+	/**
+	 * Holds a single volume encompassing all the descendents of this node.
+	 * @field
+	 * @type BoundingVolume
+	 * @default undefined
+	 * @since 0.0.0
+	 */
+	this.volume = volume || undefined;
+
+	/**
+	 * Holds the rigid body at this node of the
+	 * hierarchy. Only leaf nodes can have rigid body defined {@link BVHNode#isLeaf}.
+	 * Note that it is possible to rewrite the algorithms in this class to handle
+	 * objects at all levels of the hierarchy, but the code provided ignores this
+	 * vector unless firstChild is undefined.
+	 * @field
+	 * @type RigidBody
+	 * @default undefined
+	 * @since 0.0.0
+	 */
+	this.rigidBody = rigidBody || undefined;
+
+	/**
+	 * Determines if this node is at the bottom of the hierarchy
+	 * @function
+	 * @returns {boolean} True if this node is at the bottom of the hierarchy
+	 * @since 0.0.0
+	 */
+	this.isLeaf = function() {
+		return (this.rigidBody != undefined);
+	}
+
+	/**
+	 * Inserts the given rigid body, with the given bounding volume,
+	 * into the hierarchy. This may involve the creation of
+	 * further bounding volume nodes.
+	 * @function
+	 * @param {RigidBody} rigidBody The rigid body to add
+	 * @param {BoundingVolume} volume The type of volume to add
+	 * @returns {void}
+	 * @since 0.0.0
+	 */
+	this.insert = function(rigidBody, volume) {
+		// If we are a leaf, then the only option is to spawn two
+		// new children and place the new body in one.
+		if (this.isLeaf()) {
+			this.children[0] = new BVHNode(
+				this, this.volume, this.rigidBody
+			);
+
+			this.children[1] = new BVHNode(
+				this, volume, rigidBody
+			);
+
+			this.rigidBody = undefined;
+			this.recalculateBoundingVolume();
+		} else {
+			// Otherwise we need to work out which child gets to keep
+			// the inserted body. We give it to whoever would grow the
+			// least to incorporate it.
+			if (this.children[0].volume.getGrowth(volume) <
+				this.children[1].volume.getGrowth(volume)) {
+				this.children[0].insert(rigidBody, volume);
+			} else {
+				this.children[1].insert(rigidBody, volume);
+			} // if
+		} // if
+	}
+
+	/**
+ 	 * Deletes this node, removing it first from the hierarchy, along
+	 * with its associated rigid body and child nodes. This method
+	 * deletes the node and all its children (but obviously not the
+	 * rigid bodies). This also has the effect of deleting the sibling
+	 * of this node, and changing the parent node so that it contains
+	 * the data currently in that sibling. Finally it forces the
+	 * hierarchy above the current node to reconsider its bounding
+	 * volume.
+	 * @function
+	 * @returns {void}
+	 * @since 0.0.0
+	 */
+	this.remove = function() {
+		// If we don't have a parent, then we ignore the sibling processing.
+		if (this.parent) {
+			var sibling = undefined;
+			if (this.parent.children[0] === this) {
+				sibling = this.parent.children[1];
+			} else {
+				sibling = this.parent.children[0];
+			} // if
+
+			this.parent.volume = sibling.volume;
+			this.parent.rigidBody = sibling.rigidBody;
+			this.parent.children[0] = sibling.children[0];
+			this.parent.children[1] = sibling.children[1];
+
+			sibling.parent = undefined;
+			sibling.rigidBody = undefined;
+			sibling.children[0] = undefined;
+			sibling.children[1] = undefined;
+			sibling.remove();
+
+			this.parent.recalculateBoundingVolume();
+		} // if
+
+		if (this.children[0]) {
+			this.children[0].parent = undefined;
+			this.children[0].remove();
+		} // if
+
+		if (this.children[1]) {
+			this.children[1].parent = undefined;
+			this.children[1].remove();
+		} // if
+	}
+
+	/**
+	 * Checks the potential contacts from this node downward in
+	 * the hierarchy, writing them to the given array (up to the
+	 * given limit). Returns the number of potential contacts it
+	 * found.
+	 * @function
+	 * @param {PotentialContact []} potentialContacts The array to append to
+	 * @param {int} limit The maximum number of contacts that may be generated
+	 * @returns {int} Number of potential contacts found
+	 * @since 0.0.0
+	 */
+	this.getPotentialContacts = function(potentialContacts, limit) {
+		if (this.isLeaf() || limit == 0) {
+			return 0;
+		} // if
+
+		return this.children[0].getPotentialContactsWith(
+			this.children[1], potentialContacts, limit
+		);
+	}
+
+	/**
+	 * Gets potential contacts between this node and the supplied node.
+	 * @function
+	 * @param {BVHNode} o The other node to use
+	 * @param {PotentialContact []} potentialContacts The array to append to
+	 * @param {int} limit The maximum number of contacts that may be generated
+	 * @returns {int} Number of potential contacts found
+	 * @since 0.0.0
+	 */
+	this.getPotentialContactsWith = function(o, potentialContacts, limit) {
+		if (!this.overlaps(o) || limit == 0) {
+			return 0;
+		} // if
+
+		if (this.isLeaf() && o.isLeaf()) {
+			var potentialContact = new PotentialContact([
+				this.rigidBody, o.rigidBody
+			]);
+			potentialContacts.push(potentialContact);
+			return 1;
+		} // if
+
+		// Determine which node to descend into. If either is
+		// a leaf, then we descend the other. If both are branches,
+		// then we use the one with the largest size.
+		if (o.isLeaf() ||
+		  (!this.isLeaf() && this.volume.getSize() >= o.volume.getSize())) {
+			// recurse onto self
+			var count = this.children[0].getPotentialContactsWith(
+				o, potentialContacts, limit
+			);
+
+			if (limit > count) {
+				return count + this.children[1].getPotentialContactsWith(
+					o, potentialContacts, limit
+				);
+			} else {
+				return count;
+			} // if
+		} else {
+			// recurse onto other
+			var count = o.children[0].getPotentialContactsWith(
+				o, potentialContacts, limit
+			);
+
+			if (limit > count) {
+				return count + o.children[1].getPotentialContactsWith(
+					o, potentialContacts, limit
+				);
+			} else {
+				return count;
+			} // if
+		} // if
+	}
+
+	/**
+	 * Checks if this node overlaps with the supplied node
+	 * @function
+	 * @param {BVHNode} o The other node to use
+	 * @returns {boolean} True if this node overlaps with the supplied node
+	 * @since 0.0.0
+	 */
+	this.overlaps = function(o) {
+		return this.volume.overlaps(o.volume);
+	}
+}
+
+/**
+ * @class BSP collision plane
+ * @constructor
+ * @param {Vector2} position Any position on the plane
+ * @param {Vector2} direction The direction perpendicular to the plane
+ * @since 0.0.0
+ */
+function Plane2(position, direction) {
+
+	/**
+	 * Any position on the plane
+	 * @field
+	 * @type Vector2
+	 * @default undefined
+	 * @since 0.0.0
+	 */
+	this.position = position || undefined;
+
+	/**
+	 * The direction perpendicular to the plane, this should be a normalized
+	 * vector
+	 * @field
+	 * @type Vector2
+	 * @default undefined
+	 * @since 0.0.0
+	 */
+	this.direction = direction || undefined;
+}
+
+/**
+ * BSP child can be of types NODE or OBJECTS
+ * @enum
+ * @since 0.0.0.4
+ */
+BSP_CHILD_TYPE = {
+  BSP_CHILD_NODE : 1,
+  BSP_CHILD_OBJECTS : 2
+};
+
+/**
+ * @class BSP collision child
+ * @constructor
+ * @param {int} type {@link BSP_CHILD_TYPE} Type of the child
+ * @since 0.0.0.4
+ */
+function BSPChild2(type) {
+
+	/**
+	 * {@link BSP_CHILD_TYPE} type of the child
+	 * @field
+	 * @type int
+	 * @default undefined
+	 * @since 0.0.0.4
+	 */
+	this.type = type || undefined;
+
+	/**
+	 * Node in case if type is {@link BSP_CHILD_TYPE.BSP_CHILD_NODE}
+	 * @field
+	 * @type BSPNode2
+	 * @default undefined
+	 * @since 0.0.0.4
+	 */
+	this.node = undefined;
+
+	/**
+	 * Array of objects if type is {@link BSP_CHILD_TYPE.BSP_CHILD_OBJECTS}
+	 * @field
+	 * @type Array
+	 * @default undefined
+	 * @since 0.0.0.4
+	 */
+	this.objects = undefined;
+}
+
+/**
+ * @class BSP collision node
+ * @constructor
+ * @param {Plane2} plane Collision plane
+ * @param {BSPNode2} front Node in front of the plane
+ * @param {BSPNode2} black Node behind the plane
+ * @since 0.0.0
+ */
+function BSPNode2(plane, front, back) {
+
+	/**
+	 * Collision plane
+	 * @field
+	 * @type Plane2
+	 * @default undefined
+	 * @since 0.0.0
+	 */
+	this.plane = plane || undefined;
+
+	/**
+	 * Child in front of the plane
+	 * @field
+	 * @type BSPChild
+	 * @default undefined
+	 * @since 0.0.0
+	 */
+	this.front = front || undefined;
+
+	/**
+	 * Child behind the plane
+	 * @field
+	 * @type BSPChild2
+	 * @default undefined
+	 * @since 0.0.0
+	 */
+	this.back = back || undefined;
+}
+
+/**
+ * @class 2D Quad node tree
+ * @constructor
+ * @param {Vector2} position Position of the quad tree node
+ * @since 0.0.0.4
+ */
+function QuadNodeTree2(position) {
+
+  /**
+	 * Position of the quad tree node
+	 * @field
+	 * @type Vector2
+	 * @default undefined
+	 * @since 0.0.0.4
+	 */
+	this.position = position || undefined;
+
+  /**
+	 * Quadrants of the tree node
+	 * @field
+	 * @type QuadNodeTree2 []
+	 * @default undefined
+	 * @since 0.0.0.4
+	 */
+	this.children = [];
+
+  /**
+	 * Gets the child index at the specified location
+	 * @function
+	 * @param {Vector2} o The object's position
+	 * @returns {int} The index of the object
+	 * @since 0.0.0.4
+	 */
+	this.getChildIndex = function(o) {
+    var index = 0;
+    if (o.x > this.position.x) {
+      index += 1;
+    } // if
+
+    if (o.y > this.position.y) {
+      index += 2;
+    } // if
+		return index;
+	}
+}
+
+/**
+ * @class 2D Grid
+ * @constructor
+ * @param {int} xExtent Number of cells in the X-direction of the grid
+ * @param {int} yExtent Number of cells in the Y-direction of the grid
+ * @param {Vector2} origin The origin of the grid
+ * @since 0.0.0.4
+ */
+function Grid2(xExtent, yExtent, origin) {
+
+  /**
+	 * Number of cells in the X-direction of the grid
+	 * @field
+	 * @type int
+	 * @default 0
+	 * @since 0.0.0.4
+	 */
+	this.xExtent = xExtent || 0;
+
+  /**
+	 * Number of cells in the Y-direction of the grid
+	 * @field
+	 * @type int
+	 * @default 0
+	 * @since 0.0.0.4
+	 */
+	this.yExtent = yExtent || 0;
+
+  /**
+	 * Cells of the grid
+	 * @field
+	 * @type Object []
+	 * @default []
+	 * @since 0.0.0.4
+	 */
+	this.locations = [];
+
+  /**
+	 * Origin of the grid
+	 * @field
+	 * @type Vector2
+	 * @default undefined
+	 * @since 0.0.0.4
+	 */
+  this.origin = origin || undefined;
+
+  /**
+	 * 1 over the size of each cell
+	 * @field
+	 * @type Vector2
+	 * @default undefined
+	 * @since 0.0.0.4
+	 */
+  this.oneOverCellSize = undefined;
+
+  /**
+	 * Gets the location index at the specified location
+	 * @function
+	 * @param {Vector2} o The object's location
+	 * @returns {int} The index of the location
+	 * @since 0.0.0.4
+	 */
+	this.getLocationIndex = function(o) {
+    var square = o.multScalar(
+      this.oneOverCellSize
+    );
+		return square.x + this.xExtent * square.y;
+	}
+}
+
+/**
+ * @class Collision 2D primitive base class
+ * @constructor
+ * @param {RigidBody} rigidBody The body encapsulated by this primitive
+ * @param {TransformationMatrix3} offset Translation and rotation from the rigid body
+ * @since 0.0.0.4
+ */
+function CollisionPrimitive2(rigidBody, offset) {
+
+  /**
+	 * The body encapsulated by this primitive
+	 * @field
+	 * @type RigidBody
+	 * @default undefined
+	 * @since 0.0.0.4
+	 */
+  this.rigidBody = rigidBody || undefined;
+
+  /**
+	 * Translation and rotation from the rigid body for this primitive
+	 * @field
+	 * @type TransformationMatrix3
+	 * @default undefined
+	 * @since 0.0.0.4
+	 */
+  this.offset = offset || undefined;
+}
+
+/**
+ * @class Collision circle
+ * @constructor
+ * @extends CollisionPrimitive2
+ * @param {RigidBody} rigidBody The body encapsulated by this primitive
+ * @param {TransformationMatrix3} offset Translation and rotation from the rigid body
+ * @since 0.0.0.4
+ */
+function CollisionCircle(rigidBody, offset, radius) {
+
+  /**
+   * Super constructor
+   */
+  CollisionPrimitive2.call(this, rigidBody, offset, radius);
+
+  /**
+	 * Radius of this circle
+	 * @field
+	 * @type float
+	 * @default 0.0
+	 * @since 0.0.0.4
+	 */
+  this.radius = radius || 0.0;
+}
+CollisionCircle.prototype = new CollisionPrimitive2();
+
+/**
+ * @class 2D collision detector
+ * @constructor
+ * @since 0.0.0.4
+ */
+function CollisionDetector2() {
+
+   /**
+    * Gets the child index at the specified location
+    * @function
+    * @param {CollisionCircle} one The first circle to use
+    * @param {CollisionCircle} two The second circle to use
+    * @param {Contact []} contacts Contacts to append to
+    * @param {int} limit Maximum number of contacts that may be added
+    * @returns {int} The number of contacts generated
+    * @since 0.0.0.4
+    */
+	this.circleAndCircle = function(one, two, contacts, limit) {
+    var positionOne = one.rigidBody.pos;
+    var positionTwo = two.rigidBody.pos;
+
+    var midline = positionOne.sub(positionTwo);
+    var size = midline.getMagnitude();
+
+    if (size <= 0 || size >= one.radius + two.radius) {
+      return 0;
+    } // if
+
+    var normal = midline.multScalar(1/size);
+    var contact = new Contact();
+    contact.contactNormal = normal;
+    contact.contactPoint = positionOne.add(
+      midline.multScalar(0.5)
+    );
+    contact.penetration = one.radius + two.radius - size;
+
+    contact.ridigBodies[0] = one.rigidBody;
+    contact.ridigBodies[1] = two.rigidBody;
+    //contact.restitution = data.restitution; // TODO: add restitution
+    //contact.friction = data.friction;
+
+    contacts.push(contact);
+
+    return 1;
+  }
+}
+
+/**
  * @class Visitor interface to visit the rigid body world
  * @constructor
  * @since 0.0.0.3

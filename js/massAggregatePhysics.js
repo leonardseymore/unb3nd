@@ -1478,7 +1478,7 @@ function ParticleContactGenerator() {
 	 * Adds contacts
 	 * @function
 	 * @abstract
-	 * @param {ParticleContacts []} contacts Contacts to append to
+	 * @param {ParticleContact []} contacts Contacts to append to
 	 * @param {int} limit Maximum number of contacts that may be added
 	 * @return {int} The number of contacts added
 	 * @since 0.0.0
