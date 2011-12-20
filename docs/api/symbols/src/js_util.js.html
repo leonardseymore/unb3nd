@@ -17,7 +17,7 @@
 <span class='line'> 10</span>  * @returns {long} Current time in milliseconds
 <span class='line'> 11</span>  * @since 0.0.0
 <span class='line'> 12</span>  */</span><span class="WHIT">
-<span class='line'> 13</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="NAME">unb3nd.getTime</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 14</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Date.now</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 15</span> </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'> 16</span> 
@@ -28,18 +28,18 @@
 <span class='line'> 21</span>  * @returns {float} Window Y-coordinate
 <span class='line'> 22</span>  * @since 0.0.0
 <span class='line'> 23</span>  */</span><span class="WHIT">
-<span class='line'> 24</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Y</span><span class="PUNC">(</span><span class="NAME">y</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="NAME">unb3nd.Y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">y</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 25</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">windowRect.height</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 26</span> </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'> 27</span> 
 <span class='line'> 28</span> </span><span class="COMM">/**
 <span class='line'> 29</span>  * From window position to world position
 <span class='line'> 30</span>  * @function
-<span class='line'> 31</span>  * @param {Vector2} point Window position
-<span class='line'> 32</span>  * @returns {Vector2} Window position
+<span class='line'> 31</span>  * @param {unb3nd.Vector2} point Window position
+<span class='line'> 32</span>  * @returns {unb3nd.Vector2} Window position
 <span class='line'> 33</span>  * @since 0.0.0.3
 <span class='line'> 34</span>  */</span><span class="WHIT">
-<span class='line'> 35</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">world</span><span class="PUNC">(</span><span class="NAME">point</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="NAME">unb3nd.world</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">point</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 36</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">worldPos</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">point.clone</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 37</span> </span><span class="WHIT">  </span><span class="NAME">worldPos.y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Y</span><span class="PUNC">(</span><span class="NAME">point.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 38</span> </span><span class="WHIT">  </span><span class="NAME">worldPos.multScalarMutate</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">ppm</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
@@ -49,11 +49,11 @@
 <span class='line'> 42</span> </span><span class="COMM">/**
 <span class='line'> 43</span>  * From world position to window position
 <span class='line'> 44</span>  * @function
-<span class='line'> 45</span>  * @param {Vector2} point World position
-<span class='line'> 46</span>  * @returns {Vector2} Window position
+<span class='line'> 45</span>  * @param {unb3nd.Vector2} point World position
+<span class='line'> 46</span>  * @returns {unb3nd.Vector2} Window position
 <span class='line'> 47</span>  * @since 0.0.0.3
 <span class='line'> 48</span>  */</span><span class="WHIT">
-<span class='line'> 49</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">window</span><span class="PUNC">(</span><span class="NAME">point</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="NAME">unb3nd.window</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">point</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 50</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">windowPos</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">point.clone</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 51</span> </span><span class="WHIT">  </span><span class="NAME">windowPos.multScalarMutate</span><span class="PUNC">(</span><span class="NAME">ppm</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 52</span> </span><span class="WHIT">  </span><span class="NAME">windowPos.y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Y</span><span class="PUNC">(</span><span class="NAME">windowPos.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
@@ -63,11 +63,11 @@
 <span class='line'> 56</span> </span><span class="COMM">/**
 <span class='line'> 57</span>  * From world vector to window vector
 <span class='line'> 58</span>  * @function
-<span class='line'> 59</span>  * @param {Vector2} vector World vector
-<span class='line'> 60</span>  * @returns {Vector2} Window vector
+<span class='line'> 59</span>  * @param {unb3nd.Vector2} vector World vector
+<span class='line'> 60</span>  * @returns {unb3nd.Vector2} Window vector
 <span class='line'> 61</span>  * @since 0.0.0.3
 <span class='line'> 62</span>  */</span><span class="WHIT">
-<span class='line'> 63</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">windowVector</span><span class="PUNC">(</span><span class="NAME">vector</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="NAME">unb3nd.windowVector</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">vector</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 64</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">windowVec</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">vector.clone</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 65</span> </span><span class="WHIT">  </span><span class="NAME">windowVec.y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NAME">vector.y</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 66</span> </span><span class="WHIT">  </span><span class="NAME">windowVec.multScalarMutate</span><span class="PUNC">(</span><span class="NAME">ppm</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">

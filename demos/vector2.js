@@ -52,7 +52,7 @@ function highlightPoint(point, radius) {
 	ctx.save();
 	ctx.translate(windowRect.width / 2, windowRect.height / 2);
 	ctx.beginPath();
-	ctx.arc(point.x, point.y, radius, 0, TWO_PI);
+	ctx.arc(point.x, point.y, radius, 0, unb3nd.constants.TWO_PI);
 	ctx.stroke();
 	ctx.restore();
 }
@@ -233,7 +233,7 @@ function renderGame() {
 }
 
 function drawVector(vector, name) {
-	var width = SETTINGS.PARTICLE_WIDTH;
+	var width = unb3nd.constants.PARTICLE_WIDTH;
 	ctx.save();
 	
 	ctx.beginPath();

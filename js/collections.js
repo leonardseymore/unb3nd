@@ -4,6 +4,8 @@
  * @since 0.0.0
  */
 
+"use strict";
+
 /**
  * @class A queue (FIFO) collection implementation
  * @constructor
@@ -28,7 +30,7 @@ function Queue() {
 	 */
 	this.getSize = function() {
 		return queue.length;
-	}
+	};
 	
 	/**
 	 * Determines if the queue is empty
@@ -38,7 +40,7 @@ function Queue() {
 	 */
 	this.isEmpty = function() {
 		return (queue.length == 0);
-	}
+	};
 	
 	/**
 	 * Enqueues the specified element in this queue
@@ -49,7 +51,7 @@ function Queue() {
 	 */
 	this.enqueue = function(element) {
 		return queue.push(element);
-	}
+	};
 	
 	/**
 	 * Dequeues the oldest element in the queue
@@ -59,7 +61,7 @@ function Queue() {
 	 */
 	this.dequeue = function() {
 		return queue.shift();
-	}
+	};
 	
 	/**
 	 * Gets all elements in this queue
@@ -69,7 +71,7 @@ function Queue() {
 	 */
 	this.getElements = function() {
 		return queue;
-	}
+	};
 }
 
 /**
@@ -106,7 +108,7 @@ function RingBuffer(size) {
 	 */
 	this.getSize = function() {
 		return queue.getSize();
-	}
+	};
 	
 	/**
 	 * Determines if the queue is empty
@@ -116,7 +118,7 @@ function RingBuffer(size) {
 	 */
 	this.isEmpty = function() {
 		return queue.isEmpty();
-	}
+	};
 	
 	/**
 	 * Enqueues the specified element in this queue
@@ -131,7 +133,7 @@ function RingBuffer(size) {
 		} // if
 		
 		return queue.enqueue(element);
-	}
+	};
 	
 	/**
 	 * Dequeues the oldest element in the queue
@@ -141,7 +143,7 @@ function RingBuffer(size) {
 	 */
 	this.dequeue = function() {
 		return queue.dequeue();
-	}
+	};
 	
 	/**
 	 * Gets all elements in this buffer
@@ -151,62 +153,5 @@ function RingBuffer(size) {
 	 */
 	this.getElements = function() {
 		return queue.getElements();
-	}
-}
-
-/**
- * @class A set of unique elements
- * @constructor
- * @since 0.0.0
- */
-function Set() {
-
-	/**
-	 * All elements in the set
-	 * @field
-	 * @type Object []
-	 * @default []
-	 * @since 0.0.0
-	 */
-	this.elements = [];
-	
-	/**
-	 * Add a new element to the set
-	 * @function
-	 * @param {Object} element The element to add
-	 * @returns {int} Number of elements
-	 * @since 0.0.0
-	 */
-	this.add = function(element) {
-		return this.elements.push(element);
-	}
-	
-	/**
-	 * Remove an element at the specified index
-	 * @function
-	 * @param {int} index The index of the element
-	 * @returns {Object} The removed element
-	 * @since 0.0.0
-	 */
-	this.removeEntityAtIndex = function(index) {
-		return this.elements.splice(index, 1);
-	}
-	
-	/**
-	 * Remove the specified element from the set
-	 * @function
-	 * @param {Object} element The element to remove
-	 * @returns {boolean} True if the element was removed
-	 * @since 0.0.0
-	 */
-	this.remove = function(element) {
-		for (i in this.elements) {
-			var el = this.elements[i];
-			if (el === element) {
-				this.removeElementAtIndex(i);
-				return true;
-			} // if
-		} // for
-		return false;
-	}
+	};
 }

@@ -70,8 +70,8 @@ function initGame() {
 		var particle = new Particle();
 		particle.setMass(1);
 		particle.damping = 0.995;
-		particle.pos = new Vector2(Math.random() * windowRect.width , Math.random() * windowRect.height);
-		particle.vel = new Vector2(Math.random() * 25, Math.random() * 25);
+		particle.pos = new unb3nd.Vector2(Math.random() * windowRect.width , Math.random() * windowRect.height);
+		particle.vel = new unb3nd.Vector2(Math.random() * 25, Math.random() * 25);
 		particles.push(particle);
 	} // for
  }

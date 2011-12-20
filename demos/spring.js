@@ -23,7 +23,7 @@ var numParticles;
 var particles;
 
 /**
- * @global Vector2
+ * @global unb3nd.Vector2
  * Fixed point / anchor
  */
 var fixedPoint;
@@ -74,7 +74,7 @@ var springType;
  * @global
  * Mouse anchor to anchor the last particle to the mouse
  */
-var mouseAnchor = new Vector2();
+var mouseAnchor = new unb3nd.Vector2();
 
 /**
  * @eventHandler
@@ -115,15 +115,15 @@ function initGame() {
 	document.getElementById("selType").disabled = true;
 	checkForces();
 	forceRegistry = new ParticleForceRegistry();
-	fixedPoint = new Vector2(windowRect.width / 2, windowRect.height / 2);
+	fixedPoint = new unb3nd.Vector2(windowRect.width / 2, windowRect.height / 2);
 	numParticles = document.getElementById("spnNumParticles").value;
 	particles = new Array();
 	for (i = 0; i < numParticles; i++) {
 		var particle = new Particle();
 		particle.setMass(1 + Math.random() * 3);
 		particle.damping = 0.995;
-		particle.pos = new Vector2(Math.random() * windowRect.width , Math.random() * windowRect.height);
-		particle.vel = new Vector2(Math.random() * 25, Math.random() * 25);
+		particle.pos = new unb3nd.Vector2(Math.random() * windowRect.width , Math.random() * windowRect.height);
+		particle.vel = new unb3nd.Vector2(Math.random() * 25, Math.random() * 25);
 		particles.push(particle);
 	} // for
 	

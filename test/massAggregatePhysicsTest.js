@@ -1,67 +1,68 @@
+"use strict";
+
 module("Mass Aggregate Physics");
 
 test("Test Particle", function() {
 	var uid = Particle.nextUid;
 	var p1 = new Particle();
-	equals(uid, p1.uid);
+	equal(uid, p1.uid);
 	
 	var TOL = 0.1;
-	var pos = new Vector2(1, 2);
+	var pos = new unb3nd.Vector2(1, 2);
 	p1.pos = pos.clone();
-	var point = new Vector2(2, 3);
+	var point = new unb3nd.Vector2(2, 3);
 	// distance from pos to point is sqrt(2)
 	// we want to make sure we can find the vector within
 	// a radius of sqrt(2) + TOL
 	ok(p1.isCloseToPoint(point, Math.sqrt(2) + TOL));
 	
 	p1.setMass(0);
-	equals(p1.inverseMass, 0);
+	equal(p1.inverseMass, 0);
 	ok(!p1.hasFiniteMass());
 	var mass = 5;
 	p1.setMass(mass);
-	equals(p1.inverseMass, 1 / mass);
+	equal(p1.inverseMass, 1 / mass);
 	ok(p1.hasFiniteMass());
 	
-	var f1 = new Vector2(1, 1);
+	var f1 = new unb3nd.Vector2(1, 1);
 	var oldAccum = p1.forceAccum.clone();
 	p1.applyForce(f1);
-	equals(p1.forceAccum.x, oldAccum.x + f1.x);
-	equals(p1.forceAccum.y, oldAccum.y + f1.y);
+	equal(p1.forceAccum.x, oldAccum.x + f1.x);
+	equal(p1.forceAccum.y, oldAccum.y + f1.y);
 	
 	p1.clearForceAccum();
-	equals(p1.forceAccum.x, 0);
-	equals(p1.forceAccum.y, 0);
+	equal(p1.forceAccum.x, 0);
+	equal(p1.forceAccum.y, 0);
 	
-	var oldVel = p1.vel.clone();
 	p1.applyForce(f1);
 	p1.integrate(1000);
-	equals(p1.vel.x, f1.x * p1.inverseMass);
-	equals(p1.vel.y, f1.y * p1.inverseMass);
+	equal(p1.vel.x, f1.x * p1.inverseMass);
+	equal(p1.vel.y, f1.y * p1.inverseMass);
 });
 
 test("Test ParticleForceRegistry", function() {
 	var reg = new ParticleForceRegistry();
-	equals(reg.entries.length, 0);
+	equal(reg.entries.length, 0);
 	
 	var p1 = new Particle();
 	p1.setMass(5);
 	var fg1 = new ParticleGravityForceGenerator();
 	reg.add(p1, fg1);
-	equals(reg.entries.length, 1);
-	equals(reg.getForceGenerators(p1)[0], fg1);
+	equal(reg.entries.length, 1);
+	equal(reg.getForceGenerators(p1)[0], fg1);
 	
 	reg.removeForceGenerators(p1);
-	equals(reg.getForceGenerators(p1), undefined);
+	equal(reg.getForceGenerators(p1), undefined);
 	
 	reg.add(p1, fg1);
-	equals(reg.getForceGenerators(p1)[0], fg1);
+	equal(reg.getForceGenerators(p1)[0], fg1);
 	reg.removeForceGenerator(fg1);
-	equals(reg.getForceGenerators(p1).length, 0);
+	equal(reg.getForceGenerators(p1).length, 0);
 	
 	reg.add(p1, fg1);
-	equals(reg.getForceGenerators(p1)[0], fg1);
-	equals(p1.forceAccum.x, 0);
-	equals(p1.forceAccum.y, 0);
+	equal(reg.getForceGenerators(p1)[0], fg1);
+	equal(p1.forceAccum.x, 0);
+	equal(p1.forceAccum.y, 0);
 	
 	var oldForceAccum = p1.forceAccum.clone();
 	deepEqual(p1.forceAccum, oldForceAccum);
@@ -136,7 +137,7 @@ test("Test ParticleForceGenerators - Anchored Spring", function() {
 	p1.pos.x = 9;
 	p1.pos.y = 12;
 	
-	var anchor = new Vector2();
+	var anchor = new unb3nd.Vector2();
 	
 	var springConstant = 1;
 	var restLength = 10;
@@ -204,7 +205,7 @@ test("Test ParticleForceGenerators - Anchored Bungee", function() {
 	p1.pos.x = 9;
 	p1.pos.y = 12;
 	
-	var anchor = new Vector2();
+	var anchor = new unb3nd.Vector2();
 	
 	var springConstant = 1;
 	var restLength = 20;
@@ -243,7 +244,7 @@ test("Test ParticleForceGenerators - Buoyancy", function() {
 	p1.pos.x = 9;
 	p1.pos.y = 12;
 	
-	var anchor = new Vector2();
+	var anchor = new unb3nd.Vector2();
 	
 	var maxDepth = 10;
 	var volume = 5;
@@ -268,44 +269,44 @@ test("Test ParticleForceGenerators - Buoyancy", function() {
 
 test("Test ParticleForceGeneratorFactory", function() {
 	var forceRegistry = new ParticleForceRegistry();
-	equals(forceRegistry.entries.length, 0);
+	equal(forceRegistry.entries.length, 0);
 	
 	var p1 = new Particle();
 	ParticleForceGeneratorFactory.createGravity(forceRegistry, p1);
-	equals(forceRegistry.getForceGenerators(p1).length, 1); 
+	equal(forceRegistry.getForceGenerators(p1).length, 1); 
 	ok(forceRegistry.getForceGenerators(p1)[0] instanceof ParticleGravityForceGenerator); 
 	
 	ParticleForceGeneratorFactory.createWind(forceRegistry, p1);
-	equals(forceRegistry.getForceGenerators(p1).length, 2); 
+	equal(forceRegistry.getForceGenerators(p1).length, 2); 
 	ok(forceRegistry.getForceGenerators(p1)[1] instanceof ParticleWindForceGenerator); 
 	
 	ParticleForceGeneratorFactory.createDrag(forceRegistry, p1);
-	equals(forceRegistry.getForceGenerators(p1).length, 3); 
+	equal(forceRegistry.getForceGenerators(p1).length, 3); 
 	ok(forceRegistry.getForceGenerators(p1)[2] instanceof ParticleDragForceGenerator); 
 	
 	var p2 = new Particle();
 	ParticleForceGeneratorFactory.createSpring(forceRegistry, p1, p2);
-	equals(forceRegistry.getForceGenerators(p1).length, 4); 
+	equal(forceRegistry.getForceGenerators(p1).length, 4); 
 	ok(forceRegistry.getForceGenerators(p1)[3] instanceof ParticleSpringForceGenerator); 
-	equals(forceRegistry.getForceGenerators(p2).length, 1); 
+	equal(forceRegistry.getForceGenerators(p2).length, 1); 
 	ok(forceRegistry.getForceGenerators(p2)[0] instanceof ParticleSpringForceGenerator); 
 	
-	var anchor = new Vector2();
+	var anchor = new unb3nd.Vector2();
 	ParticleForceGeneratorFactory.createAnchoredSpring(forceRegistry, p1, anchor);
-	equals(forceRegistry.getForceGenerators(p1).length, 5); 
+	equal(forceRegistry.getForceGenerators(p1).length, 5); 
 	ok(forceRegistry.getForceGenerators(p1)[4] instanceof ParticleAnchoredSpringForceGenerator); 
 	
 	ParticleForceGeneratorFactory.createBungee(forceRegistry, p1, p2);
-	equals(forceRegistry.getForceGenerators(p1).length, 6); 
+	equal(forceRegistry.getForceGenerators(p1).length, 6); 
 	ok(forceRegistry.getForceGenerators(p1)[5] instanceof ParticleBungeeForceGenerator); 
-	equals(forceRegistry.getForceGenerators(p2).length, 2); 
+	equal(forceRegistry.getForceGenerators(p2).length, 2); 
 	ok(forceRegistry.getForceGenerators(p2)[1] instanceof ParticleBungeeForceGenerator);
 
 	ParticleForceGeneratorFactory.createAnchoredBungee(forceRegistry, p1, anchor);
-	equals(forceRegistry.getForceGenerators(p1).length, 7); 
+	equal(forceRegistry.getForceGenerators(p1).length, 7); 
 	ok(forceRegistry.getForceGenerators(p1)[6] instanceof ParticleAnchoredBungeeForceGenerator);
 	
 	ParticleForceGeneratorFactory.createBuoyancy(forceRegistry, p1, anchor);
-	equals(forceRegistry.getForceGenerators(p1).length, 8); 
+	equal(forceRegistry.getForceGenerators(p1).length, 8); 
 	ok(forceRegistry.getForceGenerators(p1)[7] instanceof ParticleBuoyancyForceGenerator);
 });

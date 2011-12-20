@@ -4,322 +4,670 @@
  * @since 0.0.0
  */
 
+"use strict";
+
 /**
  * @class An object to register engine events to
  * @constructor
+ * @extends unb3nd.Observable
  * @since 0.0.0
  */
-var Engine = function() {
+unb3nd.Engine = function () {
 
-	/*
-	 * Call parent constructor
-	 */
-	Observable.call(this);
-	
-	/**
-	 * On reset event callback
-	 * @field
-	 * @type function
-	 * @default undefined
-	 * @since 0.0.0
-	 */
-	this.onreset = undefined;
-
-	/**
-	 * Reset callback invoker
-	 * @function
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.reset = function() {
-		if (this.onreset) {
-			this.onreset();
-		} // if
-		this.dispatchEvent("reset");
-	}
-	
-	/**
-	 * On init event callback
-	 * @field
-	 * @type function
-	 * @default undefined
-	 * @since 0.0.0
-	 */
-	this.oninit = undefined;
-
-	/**
-	 * Init callback invoker
-	 * @function
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.init = function() {
-		if (this.oninit) {
-			this.oninit();
-		} // if
-		this.dispatchEvent("init");
-	}
-	
-	/**
-	 * On mouse move event callback
-	 * @field
-	 * @type function
-	 * @default undefined
-	 * @since 0.0.0
-	 */
-	this.onmousemove = undefined;
-
-	/**
-	 * @method
-	 * Mouse move callback invoker
-	 * @return void
-	 */
-	this.mousemove = function(e) {		
-		if (this.onmousemove) {
-			this.onmousemove(e);
-		} // if
-		this.dispatchEvent("mousemove", e);
-	}
-	
-	/**
-	 * On mouse down event callback
-	 * @field
-	 * @type function
-	 * @default undefined
-	 * @since 0.0.0
-	 */
-	this.onmousedown = undefined;
-
-	/**
-	 * On mouse down callback invoker
-	 * @function
-	 * @param {MouseEvent} e The event object
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.mousedown = function(e) {		
-		if (this.onmousedown) {
-			this.onmousedown(e);
-		} // if
-		this.dispatchEvent("mousedown", e);
-	}
-	
-	/**
-	 * On mouse up event callback
-	 * @field
-	 * @type function
-	 * @default undefined
-	 * @since 0.0.0
-	 */
-	this.onmouseup = undefined;
-
-	/**
-	 * On mouse up callback invoker
-	 * @function
-	 * @param {MouseEvent} e The event object
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.mouseup = function(e) {		
-		if (this.onmouseup) {
-			this.onmouseup(e);
-		} // if
-		this.dispatchEvent("mouseup", e);
-	}
-	
-	/**
-	 * On mouse over event callback
-	 * @field
-	 * @type function
-	 * @default undefined
-	 * @since 0.0.0
-	 */
-	this.onmouseover = undefined;
-
-	/**
-	 * On mouse over callback invoker
-	 * @function
-	 * @param {MouseEvent} e The event object
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.mouseover = function(e) {		
-		if (this.onmouseover) {
-			this.onmouseover(e);
-		} // if
-		this.dispatchEvent("mouseover", e);
-	}
-	
-	/**
-	 * On mouse out event callback
-	 * @field
-	 * @type function
-	 * @default undefined
-	 * @since 0.0.0
-	 */
-	this.onmouseout = undefined;
-
-	/**
-	 * On mouse out callback invoker
-	 * @function
-	 * @param {MouseEvent} e The event object
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.mouseout = function(e) {		
-		if (this.onmouseout) {
-			this.onmouseout(e);
-		} // if
-		this.dispatchEvent("mouseout", e);
-	}
+  /*
+   * Call parent constructor
+   */
+  unb3nd.Observable.call(this);
 
   /**
-	 * On mouse wheel event callback
-	 * @field
-	 * @type function
-	 * @default undefined
-	 * @since 0.0.0.3
-	 */
-	this.onmousewheel = undefined;
+   * On reset event callback
+   * @field
+   * @type function
+   * @default undefined
+   * @since 0.0.0
+   */
+  this.onreset = undefined;
 
-	/**
-	 * On mouse wheel callback invoker
-	 * @function
-	 * @param {MouseEvent} e The event object
-	 * @returns {void}
-	 * @since 0.0.0.3
-	 */
-	this.mousewheel = function(e) {
-		if (this.onmousewheel) {
-			this.onmousewheel(e);
-		} // if
-		this.dispatchEvent("mousewheel", e);
-	}
-	
-	/**
-	 * On key down event callback
-	 * @field
-	 * @type function
-	 * @default undefined
-	 * @since 0.0.0
-	 */
-	this.onkeydown = undefined;
+  /**
+   * Reset callback invoker
+   * @function
+   * @returns {void}
+   * @since 0.0.0
+   */
+  this.reset = function () {
+    if (this.onreset) {
+      this.onreset();
+    } // if
+    this.dispatchEvent("reset", undefined);
+  };
 
-	/**
-	 * On key down callback invoker
-	 * @function
-	 * @param {KeyEvent} e The event object
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.keydown = function(e) {		
-		if (this.onkeydown) {
-			this.onkeydown(e);
-		} // if
-		this.dispatchEvent("keydown", e);
-	}
-	
-	/**
-	 * On key up event callback
-	 * @field
-	 * @type function
-	 * @default undefined
-	 * @since 0.0.0
-	 */
-	this.onkeyup = undefined;
+  /**
+   * On init event callback
+   * @field
+   * @type function
+   * @default undefined
+   * @since 0.0.0
+   */
+  this.oninit = undefined;
 
-	/**
-	 * On key up callback invoker
-	 * @function
-	 * @param {KeyEvent} e The event object
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.keyup = function(e) {		
-		if (this.onkeyup) {
-			this.onkeyup(e);
-		} // if
-		this.dispatchEvent("keyup", e);
-	}
-	
-	/**
-	 * On pause event callback
-	 * @field
-	 * @type function
-	 * @default undefined
-	 * @since 0.0.0
-	 */
-	this.onpause = undefined;
+  /**
+   * Init callback invoker
+   * @function
+   * @returns {void}
+   * @since 0.0.0
+   */
+  this.init = function () {
+    if (this.oninit) {
+      this.oninit();
+    } // if
+    this.dispatchEvent("init", undefined);
+  };
 
-	/**
-	 * On pause callback invoker
-	 * @function
-	 * @returns {void}
-	 * @since 0.0.0
-	 */
-	this.pause = function() {		
-		if (this.onpause) {
-			this.onpause();
-		} // if
-		this.dispatchEvent("pause");
-	}
+  /**
+   * On mouse move event callback
+   * @field
+   * @type function
+   * @default undefined
+   * @since 0.0.0
+   */
+  this.onmousemove = undefined;
+
+  /**
+   * @method
+   * Mouse move callback invoker
+   * @return void
+   */
+  this.mousemove = function (e) {
+    if (this.onmousemove) {
+      this.onmousemove(e);
+    } // if
+    this.dispatchEvent("mousemove", e);
+  };
+
+  /**
+   * On mouse down event callback
+   * @field
+   * @type function
+   * @default undefined
+   * @since 0.0.0
+   */
+  this.onmousedown = undefined;
+
+  /**
+   * On mouse down callback invoker
+   * @function
+   * @param {MouseEvent} e The event object
+   * @returns {void}
+   * @since 0.0.0
+   */
+  this.mousedown = function (e) {
+    if (this.onmousedown) {
+      this.onmousedown(e);
+    } // if
+    this.dispatchEvent("mousedown", e);
+  };
+
+  /**
+   * On mouse up event callback
+   * @field
+   * @type function
+   * @default undefined
+   * @since 0.0.0
+   */
+  this.onmouseup = undefined;
+
+  /**
+   * On mouse up callback invoker
+   * @function
+   * @param {MouseEvent} e The event object
+   * @returns {void}
+   * @since 0.0.0
+   */
+  this.mouseup = function (e) {
+    if (this.onmouseup) {
+      this.onmouseup(e);
+    } // if
+    this.dispatchEvent("mouseup", e);
+  };
+
+  /**
+   * On mouse over event callback
+   * @field
+   * @type function
+   * @default undefined
+   * @since 0.0.0
+   */
+  this.onmouseover = undefined;
+
+  /**
+   * On mouse over callback invoker
+   * @function
+   * @param {MouseEvent} e The event object
+   * @returns {void}
+   * @since 0.0.0
+   */
+  this.mouseover = function (e) {
+    if (this.onmouseover) {
+      this.onmouseover(e);
+    } // if
+    this.dispatchEvent("mouseover", e);
+  };
+
+  /**
+   * On mouse out event callback
+   * @field
+   * @type function
+   * @default undefined
+   * @since 0.0.0
+   */
+  this.onmouseout = undefined;
+
+  /**
+   * On mouse out callback invoker
+   * @function
+   * @param {MouseEvent} e The event object
+   * @returns {void}
+   * @since 0.0.0
+   */
+  this.mouseout = function (e) {
+    if (this.onmouseout) {
+      this.onmouseout(e);
+    } // if
+    this.dispatchEvent("mouseout", e);
+  };
+
+  /**
+   * On mouse wheel event callback
+   * @field
+   * @type function
+   * @default undefined
+   * @since 0.0.0.3
+   */
+  this.onmousewheel = undefined;
+
+  /**
+   * On mouse wheel callback invoker
+   * @function
+   * @param {MouseEvent} e The event object
+   * @returns {void}
+   * @since 0.0.0.3
+   */
+  this.mousewheel = function (e) {
+    if (this.onmousewheel) {
+      this.onmousewheel(e);
+    } // if
+    this.dispatchEvent("mousewheel", e);
+  };
+
+  /**
+   * On key down event callback
+   * @field
+   * @type function
+   * @default undefined
+   * @since 0.0.0
+   */
+  this.onkeydown = undefined;
+
+  /**
+   * On key down callback invoker
+   * @function
+   * @param {KeyboardEvent} e The event object
+   * @returns {void}
+   * @since 0.0.0
+   */
+  this.keydown = function (e) {
+    if (this.onkeydown) {
+      this.onkeydown(e);
+    } // if
+    this.dispatchEvent("keydown", e);
+  };
+
+  /**
+   * On key up event callback
+   * @field
+   * @type function
+   * @default undefined
+   * @since 0.0.0
+   */
+  this.onkeyup = undefined;
+
+  /**
+   * On key up callback invoker
+   * @function
+   * @param {KeyboardEvent} e The event object
+   * @returns {void}
+   * @since 0.0.0
+   */
+  this.keyup = function (e) {
+    if (this.onkeyup) {
+      this.onkeyup(e);
+    } // if
+    this.dispatchEvent("keyup", e);
+  };
+
+  /**
+   * On pause event callback
+   * @field
+   * @type function
+   * @default undefined
+   * @since 0.0.0
+   */
+  this.onpause = undefined;
+
+  /**
+   * On pause callback invoker
+   * @function
+   * @returns {void}
+   * @since 0.0.0
+   */
+  this.pause = function () {
+    if (this.onpause) {
+      this.onpause();
+    } // if
+    this.dispatchEvent("pause", undefined);
+  };
+
+  /**
+   * Target frame rate
+   * @public
+   * @constant
+   * @field
+   * @type Number
+   * @since 0.0.0
+   */
+  this.targetFps = 30;
+
+  /**
+   * Log debug flag
+   * @public
+   * @field
+   * @type boolean
+   * @since 0.0.0
+   */
+  this.debug = true;
+
+  /**
+   * Verbose log debug flag
+   * @public
+   * @field
+   * @type boolean
+   * @since 0.0.0
+   */
+  this.verbose = false;
+
+  /**
+   * Drawing surface
+   * @public
+   * @field
+   * @type CanvasContext
+   * @since 0.0.0
+   */
+  this.canvas = null;
+
+  /**
+   * Canvas rectangle
+   * @public
+   * @field
+   * @type Rectangle
+   * @since 0.0.0
+   */
+  this.windowRect = null;
+
+  /**
+   * Drawing context
+   * @public
+   * @field
+   * @type CanvasContext
+   * @since 0.0.0
+   */
+  this.ctx = null;
+
+  /**
+   * Last calculated frame rate
+   * @public
+   * @field
+   * @type int
+   * @since 0.0.0
+   */
+  this.fps = 0;
+
+  /**
+   * Last frame update time
+   * @public
+   * @field
+   * @type Number
+   * @since 0.0.0
+   */
+  this.lastFrame = 0;
+
+  /**
+   * Average frame rate
+   * @public
+   * @field
+   * @type Number
+   * @since 0.0.0.3
+   */
+  this.avgFps = 0;
+
+  /**
+   * Last frame rate update time
+   * @public
+   * @field
+   * @type Number
+   * @since 0.0.0
+   */
+  this.lastFPS = unb3nd.getTime();
+
+  /**
+   * Last sync time
+   * @public
+   * @field
+   * @type Number
+   * @since 0.0.0
+   */
+  this.lastSync = unb3nd.getTime();
+
+  /**
+   * Global running flag
+   * @public
+   * @field
+   * @type boolean
+   * @since 0.0.0
+   */
+  this.running = false;
+
+  /**
+   * Global paused flag
+   * @public
+   * @field
+   * @type boolean
+   * @since 0.0.0
+   */
+  this.paused = false;
+
+  /**
+   * Global scale (Pixels Per Meter) flag
+   * @public
+   * @field
+   * @type boolean
+   * @since 0.0.0.3
+   */
+  this.ppm = 1;
+
+  /**
+   * @function
+   * Initialize values on page load
+   *
+   * @return void
+   * @throws Error If required HTML5 support is unavailable
+   */
+  this.engineInit = function() {
+    if (this.debug) {
+      console.debug("Start. Initializing");
+    } // if
+
+    this.canvas = document.getElementById("canvas");
+    if (this.canvas.getContext) {
+      this.ctx = this.canvas.getContext("2d");
+
+      if (this.debug) {
+        console.debug("Found 2d context");
+      } // if
+      this.windowRect = new unb3nd.Rectangle(0, 0, this.canvas.width, this.canvas.height);
+
+      /**
+       * @eventHandler
+       * This handler links up the canvas mousemove event handler
+       * @param Event e mousemove event
+       */
+      this.canvas.onmousemove = function (e) {
+        engine.mousemove(e);
+      };
+
+      /**
+       * @eventHandler
+       * This handler links up the canvas mousedown event handler
+       * @param Event e mousedown event
+       */
+      this.canvas.onmousedown = function (e) {
+        engine.mousedown(e);
+      };
+
+      /**
+       * @eventHandler
+       * This handler links up the canvas mouseup event handler
+       * @param {Event} e mouseup event
+       */
+      this.canvas.onmouseup = function (e) {
+        engine.mouseup(e);
+      };
+
+      /**
+       * @eventHandler
+       * This handler links up the canvas mouseover event handler
+       * @param Event e mouseover event
+       */
+      this.canvas.onmouseover = function (e) {
+        engine.mouseover(e);
+      };
+
+      /**
+       * @eventHandler
+       * This handler links up the canvas mouseout event handler
+       * @param Event e mouseout event
+       */
+      this.canvas.onmouseout = function (e) {
+        engine.mouseout(e);
+      };
+
+      /**
+       * @eventHandler
+       * This handler links up the canvas mouseout event handler
+       * @param Event e mousewheel event
+       */
+      this.canvas.onmousewheel = function (e) {
+        engine.mousewheel(e);
+      };
+
+
+      var STYLE_DARK_EVENING = this.ctx.createLinearGradient(0, -75, 0, 75);
+      STYLE_DARK_EVENING.addColorStop(0, '#232256');
+      STYLE_DARK_EVENING.addColorStop(1, '#143778');
+
+      this.initGame();
+      this.init();
+    } else {
+      throw new Error("Canvas not supported");
+    } // if
+    if (this.debug) {
+      console.debug("Done. Initializing");
+    } // if
+  };
+
+  /**
+   * @function
+   * Reset all counters
+   * @return void
+   */
+  this.engineReset = function() {
+    this.fps = 0;
+    this.lastFrame = 0;
+    this.lastFPS = unb3nd.getTime();
+    this.lastSync = unb3nd.getTime();
+    this.reset();
+  };
+
+  /**
+   * @function
+   * Time delta
+   * @return int Time delta between time and last update time
+   */
+  this.getDelta = function() {
+    var time = unb3nd.getTime();
+    var delta = time - this.lastFrame;
+    this.lastFrame = time;
+
+    return delta;
+  };
+
+  /**
+   * @function
+   * Recalculate frame rate
+   * @return void
+   */
+  this.updateFPS = function() {
+    if (unb3nd.getTime() - this.lastFPS > 1000) {
+      this.avgFps = this.fps;
+      this.fps = 0;
+      this.lastFPS += 1000;
+    } // if
+    this.fps++;
+  };
+
+  /**
+   * @function
+   * Start the engine
+   * @return void
+   */
+  this.engineStart = function() {
+    this.engineReset();
+    this.getDelta(); // clear out delta
+    if (!this.running) {
+      this.running = true;
+      this.startGame();
+      this.engineMain();
+    } else {
+      console.warn("Start called, but already running");
+    } // if
+  };
+
+  /**
+   * @function
+   * Pause the engine
+   * @return void
+   */
+  this.enginePause = function() {
+    this.paused = true;
+    engine.pause();
+  };
+
+  /**
+   * @function
+   * Continue the engine
+   * @return void
+   */
+  this.engineContinue = function() {
+    this.paused = false;
+    engine.pause();
+    this.engineReset();
+    setTimeout(String | Function(this.engineMain), 0);
+  };
+
+  /**
+   * @function
+   * Stop the engine
+   * @return void
+   */
+  this.engineStop = function() {
+    if (this.running) {
+      this.running = false;
+      this.stopGame();
+    } else {
+      console.warn("Stop called, but not running");
+    } // if
+  };
+
+  /**
+   * @function
+   * Sync the framerate
+   * @return void
+   */
+  this.engineSync = function() {
+    var sleepTime = this.lastSync + (1000 / this.targetFps) - unb3nd.getTime();
+    setTimeout(String | Function(this.engineMain), sleepTime);
+    this.lastSync += (1000 / this.targetFps);
+  };
+
+  /**
+   * @function
+   * Main loop
+   * @return void
+   */
+  this.engineMain = function() {
+    if (this.running && !this.paused) {
+      var delta = this.getDelta();
+      this.updateGame(delta);
+      this.ctx.save();
+      this.renderGame(this.ctx);
+      this.ctx.restore();
+      this.updateFPS();
+      this.engineSync();
+    } // while
+  };
+
+  /**
+   * @function
+   * @abstract
+   * Initialize game elements here
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  this.initGame = function() {}
+
+  /**
+   * @function
+   * @abstract
+   * Initialize game start here
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  this.startGame = function() {}
+
+  /**
+   * @function
+   * @abstract
+   * Update all game elements
+   * @param int delta Delta time since last update
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  this.updateGame = function(delta) {}
+
+  /**
+   * @function
+   * @abstract
+   * Render a single frame
+   * @param {CanvasContext} ctx Rendering context
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  this.renderGame = function(ctx) {}
+
+  /**
+   * @function
+   * @abstract
+   * Stop the game
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  this.stopGame = function() {}
 }
-Engine.prototype = new Observable();
-var engine = new Engine();
-
-/**
- * @function
- * Reset all counters
- * @return void
- */
-function engineReset() {
-	fps = 0;
-	lastFrame = 0;
-	lastFPS = getTime();
-	lastSync = getTime();
-	engine.reset();
-}
-
-/**
- * @function
- * Time delta
- * @return int Time delta between time and last update time
- */
-function getDelta() {
-	var time = getTime();
-	var delta = time - lastFrame;
-	lastFrame = time;
-
-	return delta;	
-}
-
-/**
- * @function
- * Recalculate frame rate
- * @return void
- */
-function updateFPS() {
-	if (getTime() - lastFPS > 1000) {
-    avgFps = fps;
-		fps = 0;
-		lastFPS += 1000;
-	} // if
-	fps++;
-}
+unb3nd.Engine.prototype = new unb3nd.Observable();
+var engine = new unb3nd.Engine();
 
 /*
  * @eventHandler
  * This handler links up the document ready state to the
  * @link{#init} method
  */
-document.onreadystatechange = function() {
-	if (document.readyState == "complete") {
-		if (debug) {
-			console.debug("Document ready state changed to 'complete'");
-		} // if
-		
-		engineInit();
-	} // if
+document.onreadystatechange = function () {
+  if (document.readyState == "complete") {
+    if (engine.debug) {
+      console.debug("Document ready state changed to 'complete'");
+    } // if
+
+    engine.engineInit();
+  } // if
 }
 
 /*
@@ -327,14 +675,14 @@ document.onreadystatechange = function() {
  * This handler links up the document keydown event handler
  * @param Event e keydown event
  */
-document.onkeydown = function(e) {
-	// toggle debug 'D'
-	if (e.keyCode == 68) {
-		debug = !debug;
-		console.debug("Debug enabled: " + debug);
-	} // if
-	
-	engine.keydown(e);
+document.onkeydown = function (e) {
+  // toggle debug 'D'
+  if (e.keyCode == 68) {
+    engine.debug = !engine.debug;
+    console.debug("Debug enabled: " + engine.debug);
+  } // if
+
+  engine.keydown(e);
 }
 
 /*
@@ -342,177 +690,6 @@ document.onkeydown = function(e) {
  * This handler links up the document keyup event handler
  * @param Event e keyup event
  */
-document.onkeyup = function(e) {
-	engine.keyup(e);
-}
-
-/**
- * @function
- * Initialize values on page load
- *
- * @return void
- * @throws Error If required HTML5 support is unavailable
- */
-function engineInit() {
-	if (debug) {
-		console.debug("Start. Initializing");
-	} // if
-	
-	canvas = document.getElementById("canvas");
-	if (canvas.getContext) {
-    ctx = canvas.getContext("2d");
-		
-		if (debug) {
-			console.debug("Found 2d context");
-		} // if
-		windowRect = new Rectangle(0, 0, canvas.width, canvas.height);
-		
-		/**
-		 * @eventHandler
-		 * This handler links up the canvas mousemove event handler
-		 * @param Event e mousemove event
-		 */
-		canvas.onmousemove = function(e) {
-			engine.mousemove(e);
-		}
-		
-		/**
-		 * @eventHandler
-		 * This handler links up the canvas mousedown event handler
-		 * @param Event e mousedown event
-		 */
-		canvas.onmousedown = function(e) {
-			engine.mousedown(e);
-		}
-		
-		/**
-		 * @eventHandler
-		 * This handler links up the canvas mouseup event handler
-		 * @param Event e mouseup event
-		 */
-		canvas.onmouseup = function(e) {
-			engine.mouseup(e);
-		}
-		
-		/**
-		 * @eventHandler
-		 * This handler links up the canvas mouseover event handler
-		 * @param Event e mouseover event
-		 */
-		canvas.onmouseover = function(e) {
-			engine.mouseover(e);
-		}
-		
-		/**
-		 * @eventHandler
-		 * This handler links up the canvas mouseout event handler
-		 * @param Event e mouseout event
-		 */
-		canvas.onmouseout = function(e) {
-			engine.mouseout(e);
-		}
-
-    /**
-		 * @eventHandler
-		 * This handler links up the canvas mouseout event handler
-		 * @param Event e mousewheel event
-		 */
-		canvas.onmousewheel = function(e) {
-			engine.mousewheel(e);
-		}
-
-		
-		STYLE_DARK_EVENING = ctx.createLinearGradient(0,-75,0,75);
-		STYLE_DARK_EVENING.addColorStop(0, '#232256');
-		STYLE_DARK_EVENING.addColorStop(1, '#143778');
-		
-		initGame();
-		engine.init();
-	} else {
-		throw new Error("Canvas not supported");
-	} // if
-	if (debug) {
-		console.debug("Done. Initializing");
-	} // if
-}
-
-/**
- * @function
- * Start the engine
- * @return void
- */
-function engineStart() {
-	engineReset();
-	getDelta(); // clear out delta
-	if (!running) {
-		running = true;
-		startGame();
-		engineMain();
-	} else {
-		console.warn("Start called, but already running");
-	} // if
-}
-
-/**
- * @function
- * Pause the engine
- * @return void
- */
-function enginePause() {
-	paused = true;
-	engine.pause();
-}
-
-/**
- * @function
- * Continue the engine
- * @return void
- */
-function engineContinue() {
-	paused = false;
-	engine.pause();
-	engineReset();
-	setTimeout(engineMain, 0);
-}
-
-/**
- * @function
- * Stop the engine
- * @return void
- */
-function engineStop() {
-	if (running) {
-		running = false;
-		stopGame();
-	} else {
-		console.warn("Stop called, but not running");
-	} // if
-}
-
-/**
- * @function
- * Sync the framerate
- * @return void
- */
-function engineSync() {
-	var sleepTime = lastSync + (1000 / FPS) - getTime();
-	setTimeout(engineMain, sleepTime);
-	lastSync += (1000 / FPS);
-}
-
-/**
- * @function
- * Main loop
- * @return void
- */
-function engineMain() {
-	if (running && !paused) {
-		var delta = getDelta();
-		updateGame(delta);
-		ctx.save();
-		renderGame();
-		ctx.restore();
-		updateFPS();
-		engineSync();
-	} // while
+document.onkeyup = function (e) {
+  engine.keyup(e);
 }

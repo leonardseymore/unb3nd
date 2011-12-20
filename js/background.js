@@ -3,7 +3,9 @@
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
  * @since 0.0.0
  */
- 
+
+"use strict";
+
 /**
  * @class Background base class
  * @constructor
@@ -14,20 +16,23 @@ function Background() {
 	/**
 	 * Update the background
 	 * @function
-	 * @param {int} delta Delta time in milliseconds
+   * @abstract
+	 * @param {Number} delta Delta time in milliseconds
 	 * @returns {void}
 	 * @since 0.0.0
 	 */
-	this.update = function(delta) {}
+	this.update = function(delta) {};
 	
 	/**
 	 * Draw the background
 	 * @function
+   * @abstract
+   * @param {CanvasContext} ctx Rendering context
 	 * @param {Rectangle} area The area to draw the background on
 	 * @returns {void}
 	 * @since 0.0.0
 	 */
-	this.draw = function(area) {}
+	this.draw = function(ctx, area) {};
 }
 
 /**
@@ -52,11 +57,12 @@ function FillBackground(fillStyle) {
 	 * Draw the background
 	 * @function
 	 * @override
+   * @param {CanvasContext} ctx Rendering context
 	 * @param {Rectangle} area The area to draw the background on
 	 * @returns {void}
 	 * @since 0.0.0
 	 */
-	this.draw = function(area) {
+	this.draw = function(ctx, area) {
 		ctx.fillStyle = this.fillStyle;
 		ctx.fillRect(area.x, area.y, area.width, area.height);
 	}
@@ -67,7 +73,7 @@ FillBackground.prototype = new Background();
  * @class An animated starry sky background
  * @constructor
  * @extends Background
- * @param {int} numStars Number of stars
+ * @param {Number} numStars Number of stars
  * @param {FillStyle} fillStyle Basic fill style
  * @since 0.0.0
  */
@@ -76,9 +82,9 @@ function StarryBackground(numStars, fillStyle) {
 	/**
 	 * @class A star
 	 * @constructor
-	 * @param {float} x X-coordinate
-	 * @param {float} y Y-coordinate
-	 * @param {float} i Intensity 0 to 1
+	 * @param {Number} x X-coordinate
+	 * @param {Number} y Y-coordinate
+	 * @param {Number} i Intensity 0 to 1
 	 * @since 0.0.0
 	 */
 	function Star(x, y, i) {
@@ -86,7 +92,7 @@ function StarryBackground(numStars, fillStyle) {
 		/**
 		 * X-coordinate
 		 * @field 
-		 * @type float
+		 * @type Number
 		 * @default x
 		 * @since 0.0.0
 		 */
@@ -95,16 +101,16 @@ function StarryBackground(numStars, fillStyle) {
 		/**
 		 * Y-coordinate
 		 * @field 
-		 * @type float
+		 * @type Number
 		 * @default y
 		 * @since 0.0.0
 		 */
 		this.y = y;
 		
 		/**
-		 * Intensity 0.0 to 1.0
+		 * Numberensity 0.0 to 1.0
 		 * @field 
-		 * @type float
+		 * @type Number
 		 * @default i
 		 * @since 0.0.0
 		 */
@@ -113,7 +119,7 @@ function StarryBackground(numStars, fillStyle) {
 		/**
 		 * Star radius
 		 * @field 
-		 * @type float
+		 * @type Number
 		 * @default Random[2,6]
 		 * @since 0.0.0
 		 */
@@ -122,7 +128,7 @@ function StarryBackground(numStars, fillStyle) {
 		/**
 		 * Animate this star over the give time delta
 		 * @function
-		 * @param {int} delta Delta time in milliseconds
+		 * @param {Number} delta Delta time in milliseconds
 		 * @returns {void}
 		 * @since 0.0.0
 		 */
@@ -135,10 +141,11 @@ function StarryBackground(numStars, fillStyle) {
 		/**
 		 * Draw the star as a pixel
 		 * @function
+     * @param {CanvasContext} ctx Rendering context\
 		 * @returns {void}
 		 * @since 0.0.0
 		 */
-		this.draw = function() {
+		this.draw = function(ctx) {
 			ctx.fillStyle = "rgba(255, 255, 255, " + this.i + ")";
 			ctx.fillRect(this.x, this.y, 1, 1);
 		}
@@ -146,10 +153,11 @@ function StarryBackground(numStars, fillStyle) {
 		/**
 		 * Draw the star as a cartoon styled star
 		 * @function
+     * @param {CanvasContext} ctx Rendering context
 		 * @returns {void}
 		 * @since 0.0.0
 		 */
-		this.drawCartoon = function() {
+		this.drawCartoon = function(ctx) {
 			ctx.save();
 			ctx.fillStyle = "rgba(255, 255, 255, " + this.i + ")";
 			ctx.translate(this.x, this.y);
@@ -182,15 +190,15 @@ function StarryBackground(numStars, fillStyle) {
 	 * Fill style to flood the background
 	 * @field 
 	 * @type FillStyle
-	 * @default {@link STYLE_DARK_EVENING}
+	 * @default black
 	 * @since 0.0.0
 	 */ 
-	this.fillStyle = fillStyle || STYLE_DARK_EVENING;
+	this.fillStyle = fillStyle || "black";
 	
 	/**
 	 * Number of stars
 	 * @field 
-	 * @type int
+	 * @type Number
 	 * @default 50
 	 * @since 0.0.0
 	 */ 
@@ -206,16 +214,17 @@ function StarryBackground(numStars, fillStyle) {
 	this.shootingStar = undefined;
 	
 	/**
-	 * Star intensities
+	 * Star Numberensities
 	 * @field 
-	 * @type float []
+	 * @type Number []
 	 * @default []
 	 * @since 0.0.0
 	 */ 
 	this.stars = [];
-	for (i = 0; i < numStars; i++) {
-		var star = new Star(windowRect.width * Math.random(), 
-			windowRect.height * Math.random(), 
+  var i = numStars;
+	while(i--) {
+		var star = new Star(engine.windowRect.width * Math.random(),
+			engine.windowRect.height * Math.random(),
 			Math.random());
 		this.stars.push(star);
 	}
@@ -224,7 +233,7 @@ function StarryBackground(numStars, fillStyle) {
 	 * Update the background
 	 * @function
 	 * @override
-	 * @param {int} delta Delta time in milliseconds
+	 * @param {Number} delta Delta time in milliseconds
 	 * @returns {void}
 	 * @since 0.0.0
 	 */
@@ -232,12 +241,12 @@ function StarryBackground(numStars, fillStyle) {
 		var dt = delta / 1000;
 		if (!this.shootingStar) {
 			if (Math.random() < 0.002) {
-				this.shootingStar = new Star(0, Math.random() * windowRect.height, Math.random());
+				this.shootingStar = new Star(0, Math.random() * engine.windowRect.height, Math.random());
 			} // if
 		} else {
 			this.shootingStar.x += 500 * dt;
 			this.shootingStar.y += 300 * dt;
-			if (this.shootingStar.x > windowRect.width) {
+			if (this.shootingStar.x > engine.windowRect.width) {
 				this.shootingStar = undefined;
 			} // if
 		} // if
@@ -252,11 +261,12 @@ function StarryBackground(numStars, fillStyle) {
 	 * Draw the background
 	 * @function
 	 * @override
+   * @param {CanvasContext} ctx Rendering context
 	 * @param {Rectangle} area The area to draw the background on
 	 * @returns {void}
 	 * @since 0.0.0
 	 */
-	this.draw = function(area) {
+	this.draw = function(ctx, area) {
 		ctx.save();
 		ctx.fillStyle = this.fillStyle;
 		ctx.fillRect(area.x, area.y, area.width, area.height);
@@ -271,9 +281,9 @@ function StarryBackground(numStars, fillStyle) {
 		
 		if (this.shootingStar) {
 			if (this.cartoonify) {
-				this.shootingStar.drawCartoon();
+				this.shootingStar.drawCartoon(ctx);
 			} else {
-				this.shootingStar.draw();
+				this.shootingStar.draw(ctx);
 			} // if
 		} // if		
 		ctx.restore();

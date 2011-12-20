@@ -3,14 +3,16 @@
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
  * @since 0.0.0
  */
- 
+
+"use strict";
+
 /**
  * @class An observable object that can raise events to interrested listeners
  * @constructor
  * @abstract
  * @since 0.0.0
  */
-function Observable() {
+unb3nd.Observable = function() {
 
 	/**
 	 * All registered event listeners
@@ -35,7 +37,7 @@ function Observable() {
 			this.listeners[type] = [];
 		} // if
 		return this.listeners[type].push(listener);
-	}
+	};
 	
 	/**
 	 * Dispatch an event of specified type to all interrested listeners
@@ -46,11 +48,12 @@ function Observable() {
 	 * @since 0.0.0
 	 */
 	this.dispatchEvent = function(type, e) {
-		for (i in this.listeners[type]) {
+    var i = this.listeners.length;
+		while (i--) {
 			var listener = this.listeners[type][i];
 			listener.call(this, e);
 		} // for
-	}
+	};
 	
 	/**
 	 * Removes the specified event listener
@@ -66,13 +69,12 @@ function Observable() {
             for (var i=0, len=listeners.length; i < len; i++){
                 if (listeners[i] === listener){
                     return listeners.splice(i, 1);
-                    break;
                 } // if
             } // for
         } // if
 		return undefined;
-	}
-}
+	};
+};
 
 /**
  * Bind a property on one Observable property to a property on another object
@@ -86,7 +88,7 @@ function Observable() {
  * @return {void}
  * @since 0.0.0.3
  */
-function bind(eventType, target, targetProperty, source, sourceProperty, twoWay, conversionFunction) {
+unb3nd.bind = function(eventType, target, targetProperty, source, sourceProperty, twoWay, conversionFunction) {
   var value = source[sourceProperty];
   if (conversionFunction != undefined) {
     value = conversionFunction(value);
@@ -94,7 +96,7 @@ function bind(eventType, target, targetProperty, source, sourceProperty, twoWay,
   target[targetProperty] = value;
 
   source.addEventListener(eventType, function(e) {
-    if (debug && verbose) {
+    if (engine.debug && engine.verbose) {
       console.debug("%s event type, %o event, setting target %o.%s to source %o.%s", eventType, e, target, targetProperty, source, sourceProperty);
     } // if
 
@@ -106,6 +108,6 @@ function bind(eventType, target, targetProperty, source, sourceProperty, twoWay,
   });
 
   if (twoWay) {
-    bind(eventType, source, sourceProperty, target, targetProperty, false);
+    unb3nd.bind(eventType, source, sourceProperty, target, targetProperty, false);
   } // if
-}
+};

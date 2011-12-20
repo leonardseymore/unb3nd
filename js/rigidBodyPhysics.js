@@ -10,7 +10,7 @@
  *        greatly simplifies the mathematics involved in calculating the 
  *        relative velocities of each point in space occupied by the rigid body.
  * @constructor
- * @extends Observable
+ * @extends unb3nd.Observable
  * @param {float} mass Optional mass, 0.0 being infinite
  * @param {float} inertia Optional inertia, 0.0 being infinite
  * @since 0.0.0
@@ -20,7 +20,7 @@ function RigidBody(mass, inertia) {
 	/*
 	 * Super constructor
 	 */
-	Observable.call(this);
+  unb3nd.Observable.call(this);
 	
 	/**
 	 * Unique identifier to help track a single rigid body
@@ -37,11 +37,11 @@ function RigidBody(mass, inertia) {
 	 * {@link RigidBody#setOrientation} method
 	 * @field 
 	 * @private
-	 * @type Vector2
+	 * @type unb3nd.Vector2
 	 * @default X-unit vector
 	 * @since 0.0.0
 	 */
-	this.orientation = new Vector2(1, 0);
+	this.orientation = new unb3nd.Vector2(1, 0);
 
 	/**
 	 * The angular velocity (anti-clockwise) of the rigid body around the 
@@ -56,29 +56,29 @@ function RigidBody(mass, inertia) {
 	/**
 	 * The position of this rigid body's center of mass
 	 * @field 
-	 * @type Vector2
+	 * @type unb3nd.Vector2
 	 * @default Zero vector
 	 * @since 0.0.0
 	 */
-	this.pos = new Vector2();
+	this.pos = new unb3nd.Vector2();
 	
 	/**
 	 * The velocity of this rigid body's center of mass
 	 * @field
-	 * @type Vector2 
+	 * @type unb3nd.Vector2
 	 * @default Zero vector
 	 * @since 0.0.0
 	 */
-	this.vel = new Vector2();
+	this.vel = new unb3nd.Vector2();
 	
 	/**
 	 * The acceleration of this rigid body's center of mass
 	 * @field
-	 * @type Vector2 
+	 * @type unb3nd.Vector2
 	 * @default Zero vector
 	 * @since 0.0.0
 	 */
-	this.acc = new Vector2();
+	this.acc = new unb3nd.Vector2();
 	
 	/**
 	 * Damping is a simple yet special property involved in slowing down moving
@@ -130,11 +130,11 @@ function RigidBody(mass, inertia) {
 	 * The overall force accumulator
 	 * @private
 	 * @field
-	 * @type Vector2 
+	 * @type unb3nd.Vector2
 	 * @default Zero vector
 	 * @since 0.0.0
 	 */
-	this.forceAccum = new Vector2();
+	this.forceAccum = new unb3nd.Vector2();
 	
 	/**
 	 * The overall torque accumulator
@@ -230,7 +230,7 @@ function RigidBody(mass, inertia) {
 	/**
 	 * Gets the orientation of this object
 	 * @function
-	 * @returns {Vector2} The orientation of this object
+	 * @returns {unb3nd.Vector2} The orientation of this object
 	 * @since 0.0.0
 	 */
 	this.getOrientation = function() {
@@ -240,28 +240,28 @@ function RigidBody(mass, inertia) {
 	/**
 	 * Converts a point relative to this center of gravity to world coordinates
 	 * @function 
-	 * @param {Vector2} point Point to transform
-	 * @returns {Vector2} The transformed point
+	 * @param {unb3nd.Vector2} point Point to transform
+	 * @returns {unb3nd.Vector2} The transformed point
 	 * @since 0.0.0
 	 */
 	 this.getPointInWorldSpace = function(point) {
      var v3 = new Vector3(point.x, point.y, 1);
 		 v3 = this.transformMatrix.multVector(v3);
-     return new Vector2(v3.x, v3.y);
+     return new unb3nd.Vector2(v3.x, v3.y);
 	 }
 	 
 	/**
 	 * Converts a point in world coordinates to a point relative to this body's local 
 	 * coordinates
 	 * @function 
-	 * @param {Vector2} point Point to transform
-	 * @returns {Vector2} The transformed point
+	 * @param {unb3nd.Vector2} point Point to transform
+	 * @returns {unb3nd.Vector2} The transformed point
 	 * @since 0.0.0
 	 */
 	 this.getPointInLocalSpace = function(point) {
      var v3 = new Vector3(point.x, point.y, 1);
 		 v3 = this.transformMatrix.getInverse().multVector(v3);
-     return new Vector2(v3.x, v3.y);
+     return new unb3nd.Vector2(v3.x, v3.y);
 	 }
 	
 	/**
@@ -277,7 +277,7 @@ function RigidBody(mass, inertia) {
 	/**
 	 * Adds an external force to the center of mass of this rigid body
 	 * @function 
-	 * @param {Vector2} force The force to add to this rigid body
+	 * @param {unb3nd.Vector2} force The force to add to this rigid body
 	 * @returns {void}
 	 * @since 0.0.0
 	 */
@@ -293,8 +293,8 @@ function RigidBody(mass, inertia) {
 	 * body.
 	 *
 	 * @function 
-	 * @param {Vector2} force The force to add to this rigid body
-	 * @param {Vector2} point The location at which to apply the force in world coordinates
+	 * @param {unb3nd.Vector2} force The force to add to this rigid body
+	 * @param {unb3nd.Vector2} point The location at which to apply the force in world coordinates
 	 * @returns {void}
 	 * @since 0.0.0
 	 */
@@ -306,8 +306,8 @@ function RigidBody(mass, inertia) {
 	/**
 	 * Adds the given force to this body at the relative point
 	 * @function 
-	 * @param {Vector2} force The force to add to this rigid body
-	 * @param {Vector2} point The location at which to apply the force in local coordinates
+	 * @param {unb3nd.Vector2} force The force to add to this rigid body
+	 * @param {unb3nd.Vector2} point The location at which to apply the force in local coordinates
 	 * @returns {void}
 	 * @since 0.0.0
 	 */
@@ -527,7 +527,7 @@ function RigidBody(mass, inertia) {
 		return "uid=" + this.uid;
 	}
 }
-RigidBody.prototype = new Observable();
+RigidBody.prototype = new unb3nd.Observable();
 
 /**
  * Next uid counter
@@ -598,7 +598,7 @@ function ForceGenerator() {
  * @class A gravitational force generator
  * @constructor
  * @extends ForceGenerator
- * @param {Vector2} gravition Gravitational force, defaults {@link DEFAULT_GRAVITATIONAL_CONSTANT}
+ * @param {unb3nd.Vector2} gravition Gravitational force, defaults {@link unb3nd.constants.DEFAULT_GRAVITATIONAL_CONSTANT}
  * @since 0.0.0
  */
 function GravityForceGenerator(gravitation) {
@@ -606,11 +606,11 @@ function GravityForceGenerator(gravitation) {
 	/**
 	 * The gravitational pull
 	 * @field 
-	 * @type Vector2
-	 * @default Vector with {@link DEFAULT_GRAVITATIONAL_CONSTANT} as Y-axis
+	 * @type unb3nd.Vector2
+	 * @default Vector with {@link unb3nd.constants.DEFAULT_GRAVITATIONAL_CONSTANT} as Y-axis
 	 * @since 0.0.0
 	 */
-	this.gravitation = gravitation || new Vector2(0, DEFAULT_GRAVITATIONAL_CONSTANT);
+	this.gravitation = gravitation || new unb3nd.Vector2(0, unb3nd.constants.DEFAULT_GRAVITATIONAL_CONSTANT);
 	
 	/**
 	 * Apply gravity to the given mass over the delta time
@@ -660,10 +660,10 @@ GravityForceGenerator.prototype = new ForceGenerator();
  * @class A spring force generator
  * @constructor
  * @extends ForceGenerator
- * @param {Vector2} connectionPoint The connection point of the spring, in
+ * @param {unb3nd.Vector2} connectionPoint The connection point of the spring, in
  *        local coordinates of this rigid body
  * @param {RigidBody} rigidBodyOther Rigid body at the other end of the spring
- * @param {Vector2} connectionPointOther The connection point of the spring,
+ * @param {unb3nd.Vector2} connectionPointOther The connection point of the spring,
  *        in that object's local coordinates of the {@link #rigidBodyOther}
  * @param {float} springConstant Holds the spring constant
  * @param {float} restLength Holds the spring's rest length
@@ -810,8 +810,8 @@ ConstantTorqueForceGenerator.prototype = new ForceGenerator();
  * @constructor
  * @extends ForceGenerator
  * @param {Matrix2} tensor The aerodynamic tensor for the surface in body space
- * @param {Vector2} position The relative position of the aerodynamic surface in body coordinates
- * @param {Vector2} windspeed The wind speed
+ * @param {unb3nd.Vector2} position The relative position of the aerodynamic surface in body coordinates
+ * @param {unb3nd.Vector2} windspeed The wind speed
  * @since 0.0.0.3
  */
 function AeroForceGenerator(tensor, position, windspeed) {
@@ -828,7 +828,7 @@ function AeroForceGenerator(tensor, position, windspeed) {
   /**
 	 * The relative position of the aerodynamic surface in body coordinates
 	 * @field
-	 * @type Vector2
+	 * @type unb3nd.Vector2
 	 * @default undefined
 	 * @since 0.0.0.3
 	 */
@@ -841,7 +841,7 @@ function AeroForceGenerator(tensor, position, windspeed) {
 	 * @default 0.0
 	 * @since 0.0.0.3
 	 */
-	this.windspeed = windspeed || new Vector2(0, 0);
+	this.windspeed = windspeed || new unb3nd.Vector2(0, 0);
 
 	/**
 	 * Converts the class to a string representation
@@ -864,8 +864,8 @@ AeroForceGenerator.prototype = new ForceGenerator();
  * @param {Matrix2} baseTensor The aerodynamic tensor for the surface in body space
  * @param {Matrix2} minTensor The aerodynamic tensor for the surface in body space (at min)
  * @param {Matrix2} maxTensor The aerodynamic tensor for the surface in body space (at max)
- * @param {Vector2} position The relative position of the aerodynamic surface in body coordinates
- * @param {Vector2} windspeed The wind speed
+ * @param {unb3nd.Vector2} position The relative position of the aerodynamic surface in body coordinates
+ * @param {unb3nd.Vector2} windspeed The wind speed
  * @since 0.0.0.3
  */
 function AeroControlForceGenerator(baseTensor, minTensor, maxTensor, position, windspeed) {
@@ -907,7 +907,7 @@ function AeroControlForceGenerator(baseTensor, minTensor, maxTensor, position, w
   /**
 	 * The relative position of the aerodynamic surface in body coordinates
 	 * @method
-	 * @type Vector2
+	 * @type unb3nd.Vector2
 	 * @returns {Matrix2} Aero dynamic tensor to use for current control setting
 	 * @since 0.0.0.3
 	 */
@@ -1007,10 +1007,10 @@ ForceGeneratorFactory.createConstantTorque = function(forceRegistry, rigidBody, 
  * @static
  * @param {ForceRegistry} forceRegistry The force registry to add the generator to
  * @param {RigidBody} rigidBody The rigidBody to add the generator to
- * @param {Vector2} connectionPoint The connection point of the spring, in
+ * @param {unb3nd.Vector2} connectionPoint The connection point of the spring, in
  *        local coordinates of this rigid body
  * @param {RigidBody} rigidBodyOther Rigid body at the other end of the spring
- * @param {Vector2} connectionPointOther The connection point of the spring,
+ * @param {unb3nd.Vector2} connectionPointOther The connection point of the spring,
  *        in that object's local coordinates of the {@link #rigidBodyOther}
  * @param {float} springConstant Holds the spring constant
  * @param {float} restLength Holds the spring's rest length
@@ -1207,7 +1207,7 @@ function Contact() {
 	/**
 	 * Holds the position of the contact in world coordinates
 	 * @field
-	 * @type Vector2
+	 * @type unb3nd.Vector2
 	 * @default undefined
 	 * @since 0.0.0.4
 	 */
@@ -1216,7 +1216,7 @@ function Contact() {
 	/**
 	 * Holds the direction of the contact in world coordinates
 	 * @field
-	 * @type Vector2
+	 * @type unb3nd.Vector2
 	 * @default undefined
 	 * @since 0.0.0.4
 	 */
@@ -1378,7 +1378,7 @@ function BoundingVolume() {
  * @class A bounding sphere
  * @constructor
  * @extends BoundingVolume
- * @param {Vector2} center Center of the sphere
+ * @param {unb3nd.Vector2} center Center of the sphere
  * @param {float} radius Radius of the sphere
  * @since 0.0.0
  */
@@ -1392,7 +1392,7 @@ function BoundingSphere(center, radius) {
 	/**
 	 * Center of the sphere
 	 * @field
-	 * @type Vector2
+	 * @type unb3nd.Vector2
 	 * @default undefined
 	 * @since 0.0.0
 	 */
@@ -1417,7 +1417,7 @@ function BoundingSphere(center, radius) {
 	 * @since 0.0.0
 	 */
 	this.overlaps = function(o) {
-    return Vector2.isWithin(this.center, o.center, this.radius + o.radius);
+    return unb3nd.Vector2.isWithin(this.center, o.center, this.radius + o.radius);
 	}
 }
 BoundingSphere.prototype = new BoundingVolume();
@@ -1448,8 +1448,8 @@ BoundingSphere.enclose = function(bs1, bs2) {
  * @class A bounding box
  * @constructor
  * @extends BoundingVolume
- * @param {Vector2} center Center of the sphere
- * @param {Vector2} halfSize Half size used for collision detection
+ * @param {unb3nd.Vector2} center Center of the sphere
+ * @param {unb3nd.Vector2} halfSize Half size used for collision detection
  * @since 0.0.0
  */
 function BoundingBox(center, halfSize) {
@@ -1462,7 +1462,7 @@ function BoundingBox(center, halfSize) {
 	/**
 	 * Center of the sphere
 	 * @field
-	 * @type Vector2
+	 * @type unb3nd.Vector2
 	 * @default undefined
 	 * @since 0.0.0
 	 */
@@ -1471,7 +1471,7 @@ function BoundingBox(center, halfSize) {
 	/**
 	 * Half size used for collision detection
 	 * @field
-	 * @type Vector2
+	 * @type unb3nd.Vector2
 	 * @default undefined
 	 * @since 0.0.0
 	 */
@@ -1730,8 +1730,8 @@ function BVHNode(children, volume, rigidBody) {
 /**
  * @class BSP collision plane
  * @constructor
- * @param {Vector2} position Any position on the plane
- * @param {Vector2} direction The direction perpendicular to the plane
+ * @param {unb3nd.Vector2} position Any position on the plane
+ * @param {unb3nd.Vector2} direction The direction perpendicular to the plane
  * @since 0.0.0
  */
 function Plane2(position, direction) {
@@ -1739,7 +1739,7 @@ function Plane2(position, direction) {
 	/**
 	 * Any position on the plane
 	 * @field
-	 * @type Vector2
+	 * @type unb3nd.Vector2
 	 * @default undefined
 	 * @since 0.0.0
 	 */
@@ -1749,7 +1749,7 @@ function Plane2(position, direction) {
 	 * The direction perpendicular to the plane, this should be a normalized
 	 * vector
 	 * @field
-	 * @type Vector2
+	 * @type unb3nd.Vector2
 	 * @default undefined
 	 * @since 0.0.0
 	 */
@@ -1843,7 +1843,7 @@ function BSPNode2(plane, front, back) {
 /**
  * @class 2D Quad node tree
  * @constructor
- * @param {Vector2} position Position of the quad tree node
+ * @param {unb3nd.Vector2} position Position of the quad tree node
  * @since 0.0.0.4
  */
 function QuadNodeTree2(position) {
@@ -1851,7 +1851,7 @@ function QuadNodeTree2(position) {
   /**
 	 * Position of the quad tree node
 	 * @field
-	 * @type Vector2
+	 * @type unb3nd.Vector2
 	 * @default undefined
 	 * @since 0.0.0.4
 	 */
@@ -1869,7 +1869,7 @@ function QuadNodeTree2(position) {
   /**
 	 * Gets the child index at the specified location
 	 * @function
-	 * @param {Vector2} o The object's position
+	 * @param {unb3nd.Vector2} o The object's position
 	 * @returns {int} The index of the object
 	 * @since 0.0.0.4
 	 */
@@ -1891,7 +1891,7 @@ function QuadNodeTree2(position) {
  * @constructor
  * @param {int} xExtent Number of cells in the X-direction of the grid
  * @param {int} yExtent Number of cells in the Y-direction of the grid
- * @param {Vector2} origin The origin of the grid
+ * @param {unb3nd.Vector2} origin The origin of the grid
  * @since 0.0.0.4
  */
 function Grid2(xExtent, yExtent, origin) {
@@ -1926,7 +1926,7 @@ function Grid2(xExtent, yExtent, origin) {
   /**
 	 * Origin of the grid
 	 * @field
-	 * @type Vector2
+	 * @type unb3nd.Vector2
 	 * @default undefined
 	 * @since 0.0.0.4
 	 */
@@ -1935,7 +1935,7 @@ function Grid2(xExtent, yExtent, origin) {
   /**
 	 * 1 over the size of each cell
 	 * @field
-	 * @type Vector2
+	 * @type unb3nd.Vector2
 	 * @default undefined
 	 * @since 0.0.0.4
 	 */
@@ -1944,7 +1944,7 @@ function Grid2(xExtent, yExtent, origin) {
   /**
 	 * Gets the location index at the specified location
 	 * @function
-	 * @param {Vector2} o The object's location
+	 * @param {unb3nd.Vector2} o The object's location
 	 * @returns {int} The index of the location
 	 * @since 0.0.0.4
 	 */
@@ -2272,7 +2272,7 @@ function World() {
 	/**
 	 * Adds a global gravity force
 	 * @function
-	 * @param {Vector2} gravitation Optional gravitational pull
+	 * @param {unb3nd.Vector2} gravitation Optional gravitational pull
 	 * @returns {void}
 	 * @since 0.0.0
 	 */

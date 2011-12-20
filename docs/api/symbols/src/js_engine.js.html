@@ -14,512 +14,640 @@
 <span class='line'>  7</span> </span><span class="COMM">/**
 <span class='line'>  8</span>  * @class An object to register engine events to
 <span class='line'>  9</span>  * @constructor
-<span class='line'> 10</span>  * @since 0.0.0
-<span class='line'> 11</span>  */</span><span class="WHIT">
-<span class='line'> 12</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">Engine</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 13</span> 
-<span class='line'> 14</span> </span><span class="WHIT">	</span><span class="COMM">/*
-<span class='line'> 15</span> 	 * Call parent constructor
-<span class='line'> 16</span> 	 */</span><span class="WHIT">
-<span class='line'> 17</span> </span><span class="WHIT">	</span><span class="NAME">Observable.call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 18</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'> 19</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 20</span> 	 * On reset event callback
-<span class='line'> 21</span> 	 * @field
-<span class='line'> 22</span> 	 * @type function
-<span class='line'> 23</span> 	 * @default undefined
-<span class='line'> 24</span> 	 * @since 0.0.0
-<span class='line'> 25</span> 	 */</span><span class="WHIT">
-<span class='line'> 26</span> </span><span class="WHIT">	</span><span class="NAME">this.onreset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 27</span> 
-<span class='line'> 28</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 29</span> 	 * Reset callback invoker
-<span class='line'> 30</span> 	 * @function
-<span class='line'> 31</span> 	 * @returns {void}
-<span class='line'> 32</span> 	 * @since 0.0.0
-<span class='line'> 33</span> 	 */</span><span class="WHIT">
-<span class='line'> 34</span> </span><span class="WHIT">	</span><span class="NAME">this.reset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 35</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onreset</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 36</span> </span><span class="WHIT">			</span><span class="NAME">this.onreset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 37</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'> 38</span> </span><span class="WHIT">		</span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"reset"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 39</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 40</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'> 41</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 42</span> 	 * On init event callback
-<span class='line'> 43</span> 	 * @field
-<span class='line'> 44</span> 	 * @type function
-<span class='line'> 45</span> 	 * @default undefined
-<span class='line'> 46</span> 	 * @since 0.0.0
-<span class='line'> 47</span> 	 */</span><span class="WHIT">
-<span class='line'> 48</span> </span><span class="WHIT">	</span><span class="NAME">this.oninit</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 49</span> 
-<span class='line'> 50</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 51</span> 	 * Init callback invoker
-<span class='line'> 52</span> 	 * @function
-<span class='line'> 53</span> 	 * @returns {void}
-<span class='line'> 54</span> 	 * @since 0.0.0
-<span class='line'> 55</span> 	 */</span><span class="WHIT">
-<span class='line'> 56</span> </span><span class="WHIT">	</span><span class="NAME">this.init</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 57</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.oninit</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 58</span> </span><span class="WHIT">			</span><span class="NAME">this.oninit</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 59</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'> 60</span> </span><span class="WHIT">		</span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"init"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 61</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'> 63</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 64</span> 	 * On mouse move event callback
-<span class='line'> 65</span> 	 * @field
-<span class='line'> 66</span> 	 * @type function
-<span class='line'> 67</span> 	 * @default undefined
-<span class='line'> 68</span> 	 * @since 0.0.0
-<span class='line'> 69</span> 	 */</span><span class="WHIT">
-<span class='line'> 70</span> </span><span class="WHIT">	</span><span class="NAME">this.onmousemove</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 71</span> 
-<span class='line'> 72</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 73</span> 	 * @method
-<span class='line'> 74</span> 	 * Mouse move callback invoker
-<span class='line'> 75</span> 	 * @return void
-<span class='line'> 76</span> 	 */</span><span class="WHIT">
-<span class='line'> 77</span> </span><span class="WHIT">	</span><span class="NAME">this.mousemove</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'> 78</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onmousemove</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 79</span> </span><span class="WHIT">			</span><span class="NAME">this.onmousemove</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 80</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'> 81</span> </span><span class="WHIT">		</span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"mousemove"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 82</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 83</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'> 84</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 85</span> 	 * On mouse down event callback
-<span class='line'> 86</span> 	 * @field
-<span class='line'> 87</span> 	 * @type function
-<span class='line'> 88</span> 	 * @default undefined
-<span class='line'> 89</span> 	 * @since 0.0.0
-<span class='line'> 90</span> 	 */</span><span class="WHIT">
-<span class='line'> 91</span> </span><span class="WHIT">	</span><span class="NAME">this.onmousedown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 92</span> 
-<span class='line'> 93</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 94</span> 	 * On mouse down callback invoker
-<span class='line'> 95</span> 	 * @function
-<span class='line'> 96</span> 	 * @param {MouseEvent} e The event object
-<span class='line'> 97</span> 	 * @returns {void}
-<span class='line'> 98</span> 	 * @since 0.0.0
-<span class='line'> 99</span> 	 */</span><span class="WHIT">
-<span class='line'>100</span> </span><span class="WHIT">	</span><span class="NAME">this.mousedown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>101</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onmousedown</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>102</span> </span><span class="WHIT">			</span><span class="NAME">this.onmousedown</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>103</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>104</span> </span><span class="WHIT">		</span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"mousedown"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>105</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>106</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>107</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>108</span> 	 * On mouse up event callback
-<span class='line'>109</span> 	 * @field
-<span class='line'>110</span> 	 * @type function
-<span class='line'>111</span> 	 * @default undefined
-<span class='line'>112</span> 	 * @since 0.0.0
-<span class='line'>113</span> 	 */</span><span class="WHIT">
-<span class='line'>114</span> </span><span class="WHIT">	</span><span class="NAME">this.onmouseup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>115</span> 
-<span class='line'>116</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>117</span> 	 * On mouse up callback invoker
-<span class='line'>118</span> 	 * @function
-<span class='line'>119</span> 	 * @param {MouseEvent} e The event object
-<span class='line'>120</span> 	 * @returns {void}
-<span class='line'>121</span> 	 * @since 0.0.0
-<span class='line'>122</span> 	 */</span><span class="WHIT">
-<span class='line'>123</span> </span><span class="WHIT">	</span><span class="NAME">this.mouseup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>124</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onmouseup</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>125</span> </span><span class="WHIT">			</span><span class="NAME">this.onmouseup</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>126</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>127</span> </span><span class="WHIT">		</span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"mouseup"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>128</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>129</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>130</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>131</span> 	 * On mouse over event callback
-<span class='line'>132</span> 	 * @field
-<span class='line'>133</span> 	 * @type function
-<span class='line'>134</span> 	 * @default undefined
-<span class='line'>135</span> 	 * @since 0.0.0
-<span class='line'>136</span> 	 */</span><span class="WHIT">
-<span class='line'>137</span> </span><span class="WHIT">	</span><span class="NAME">this.onmouseover</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>138</span> 
-<span class='line'>139</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>140</span> 	 * On mouse over callback invoker
-<span class='line'>141</span> 	 * @function
-<span class='line'>142</span> 	 * @param {MouseEvent} e The event object
-<span class='line'>143</span> 	 * @returns {void}
-<span class='line'>144</span> 	 * @since 0.0.0
-<span class='line'>145</span> 	 */</span><span class="WHIT">
-<span class='line'>146</span> </span><span class="WHIT">	</span><span class="NAME">this.mouseover</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>147</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onmouseover</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>148</span> </span><span class="WHIT">			</span><span class="NAME">this.onmouseover</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>149</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>150</span> </span><span class="WHIT">		</span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"mouseover"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>151</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>152</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>153</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>154</span> 	 * On mouse out event callback
-<span class='line'>155</span> 	 * @field
-<span class='line'>156</span> 	 * @type function
-<span class='line'>157</span> 	 * @default undefined
-<span class='line'>158</span> 	 * @since 0.0.0
-<span class='line'>159</span> 	 */</span><span class="WHIT">
-<span class='line'>160</span> </span><span class="WHIT">	</span><span class="NAME">this.onmouseout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>161</span> 
-<span class='line'>162</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>163</span> 	 * On mouse out callback invoker
-<span class='line'>164</span> 	 * @function
-<span class='line'>165</span> 	 * @param {MouseEvent} e The event object
-<span class='line'>166</span> 	 * @returns {void}
-<span class='line'>167</span> 	 * @since 0.0.0
-<span class='line'>168</span> 	 */</span><span class="WHIT">
-<span class='line'>169</span> </span><span class="WHIT">	</span><span class="NAME">this.mouseout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>170</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onmouseout</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>171</span> </span><span class="WHIT">			</span><span class="NAME">this.onmouseout</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>172</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>173</span> </span><span class="WHIT">		</span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"mouseout"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>174</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>175</span> 
-<span class='line'>176</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>177</span> 	 * On mouse wheel event callback
-<span class='line'>178</span> 	 * @field
-<span class='line'>179</span> 	 * @type function
-<span class='line'>180</span> 	 * @default undefined
-<span class='line'>181</span> 	 * @since 0.0.0.3
-<span class='line'>182</span> 	 */</span><span class="WHIT">
-<span class='line'>183</span> </span><span class="WHIT">	</span><span class="NAME">this.onmousewheel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>184</span> 
-<span class='line'>185</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>186</span> 	 * On mouse wheel callback invoker
-<span class='line'>187</span> 	 * @function
-<span class='line'>188</span> 	 * @param {MouseEvent} e The event object
-<span class='line'>189</span> 	 * @returns {void}
-<span class='line'>190</span> 	 * @since 0.0.0.3
-<span class='line'>191</span> 	 */</span><span class="WHIT">
-<span class='line'>192</span> </span><span class="WHIT">	</span><span class="NAME">this.mousewheel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>193</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onmousewheel</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>194</span> </span><span class="WHIT">			</span><span class="NAME">this.onmousewheel</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>195</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>196</span> </span><span class="WHIT">		</span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"mousewheel"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>197</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>198</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>199</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>200</span> 	 * On key down event callback
-<span class='line'>201</span> 	 * @field
-<span class='line'>202</span> 	 * @type function
-<span class='line'>203</span> 	 * @default undefined
-<span class='line'>204</span> 	 * @since 0.0.0
-<span class='line'>205</span> 	 */</span><span class="WHIT">
-<span class='line'>206</span> </span><span class="WHIT">	</span><span class="NAME">this.onkeydown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>207</span> 
-<span class='line'>208</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>209</span> 	 * On key down callback invoker
-<span class='line'>210</span> 	 * @function
-<span class='line'>211</span> 	 * @param {KeyEvent} e The event object
-<span class='line'>212</span> 	 * @returns {void}
-<span class='line'>213</span> 	 * @since 0.0.0
-<span class='line'>214</span> 	 */</span><span class="WHIT">
-<span class='line'>215</span> </span><span class="WHIT">	</span><span class="NAME">this.keydown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>216</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onkeydown</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>217</span> </span><span class="WHIT">			</span><span class="NAME">this.onkeydown</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>218</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>219</span> </span><span class="WHIT">		</span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"keydown"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>220</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>221</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>222</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>223</span> 	 * On key up event callback
-<span class='line'>224</span> 	 * @field
-<span class='line'>225</span> 	 * @type function
-<span class='line'>226</span> 	 * @default undefined
-<span class='line'>227</span> 	 * @since 0.0.0
-<span class='line'>228</span> 	 */</span><span class="WHIT">
-<span class='line'>229</span> </span><span class="WHIT">	</span><span class="NAME">this.onkeyup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>230</span> 
-<span class='line'>231</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>232</span> 	 * On key up callback invoker
-<span class='line'>233</span> 	 * @function
-<span class='line'>234</span> 	 * @param {KeyEvent} e The event object
-<span class='line'>235</span> 	 * @returns {void}
-<span class='line'>236</span> 	 * @since 0.0.0
-<span class='line'>237</span> 	 */</span><span class="WHIT">
-<span class='line'>238</span> </span><span class="WHIT">	</span><span class="NAME">this.keyup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>239</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onkeyup</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>240</span> </span><span class="WHIT">			</span><span class="NAME">this.onkeyup</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>241</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>242</span> </span><span class="WHIT">		</span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"keyup"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>243</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>244</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>245</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>246</span> 	 * On pause event callback
-<span class='line'>247</span> 	 * @field
-<span class='line'>248</span> 	 * @type function
-<span class='line'>249</span> 	 * @default undefined
-<span class='line'>250</span> 	 * @since 0.0.0
-<span class='line'>251</span> 	 */</span><span class="WHIT">
-<span class='line'>252</span> </span><span class="WHIT">	</span><span class="NAME">this.onpause</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>253</span> 
-<span class='line'>254</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>255</span> 	 * On pause callback invoker
-<span class='line'>256</span> 	 * @function
-<span class='line'>257</span> 	 * @returns {void}
-<span class='line'>258</span> 	 * @since 0.0.0
-<span class='line'>259</span> 	 */</span><span class="WHIT">
-<span class='line'>260</span> </span><span class="WHIT">	</span><span class="NAME">this.pause</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>261</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onpause</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>262</span> </span><span class="WHIT">			</span><span class="NAME">this.onpause</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>263</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>264</span> </span><span class="WHIT">		</span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"pause"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>265</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>266</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>267</span> </span><span class="NAME">Engine.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Observable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>268</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">engine</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Engine</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>269</span> 
-<span class='line'>270</span> </span><span class="COMM">/**
-<span class='line'>271</span>  * @function
-<span class='line'>272</span>  * Reset all counters
-<span class='line'>273</span>  * @return void
-<span class='line'>274</span>  */</span><span class="WHIT">
-<span class='line'>275</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">engineReset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>276</span> </span><span class="WHIT">	</span><span class="NAME">fps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>277</span> </span><span class="WHIT">	</span><span class="NAME">lastFrame</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>278</span> </span><span class="WHIT">	</span><span class="NAME">lastFPS</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>279</span> </span><span class="WHIT">	</span><span class="NAME">lastSync</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>280</span> </span><span class="WHIT">	</span><span class="NAME">engine.reset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>281</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>282</span> 
-<span class='line'>283</span> </span><span class="COMM">/**
-<span class='line'>284</span>  * @function
-<span class='line'>285</span>  * Time delta
-<span class='line'>286</span>  * @return int Time delta between time and last update time
-<span class='line'>287</span>  */</span><span class="WHIT">
-<span class='line'>288</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">getDelta</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>289</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">time</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>290</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">delta</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">time</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">lastFrame</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>291</span> </span><span class="WHIT">	</span><span class="NAME">lastFrame</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">time</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>292</span> 
-<span class='line'>293</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">delta</span><span class="PUNC">;</span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>294</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 10</span>  * @extends unb3nd.Observable
+<span class='line'> 11</span>  * @since 0.0.0
+<span class='line'> 12</span>  */</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="NAME">unb3nd.Engine</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 14</span> 
+<span class='line'> 15</span> </span><span class="WHIT">  </span><span class="COMM">/*
+<span class='line'> 16</span>    * Call parent constructor
+<span class='line'> 17</span>    */</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">  </span><span class="NAME">unb3nd.Observable.call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 19</span> 
+<span class='line'> 20</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 21</span>    * On reset event callback
+<span class='line'> 22</span>    * @field
+<span class='line'> 23</span>    * @type function
+<span class='line'> 24</span>    * @default undefined
+<span class='line'> 25</span>    * @since 0.0.0
+<span class='line'> 26</span>    */</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">  </span><span class="NAME">this.onreset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> 
+<span class='line'> 29</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 30</span>    * Reset callback invoker
+<span class='line'> 31</span>    * @function
+<span class='line'> 32</span>    * @returns {void}
+<span class='line'> 33</span>    * @since 0.0.0
+<span class='line'> 34</span>    */</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">  </span><span class="NAME">this.reset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onreset</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">      </span><span class="NAME">this.onreset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">    </span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"reset"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> 
+<span class='line'> 42</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 43</span>    * On init event callback
+<span class='line'> 44</span>    * @field
+<span class='line'> 45</span>    * @type function
+<span class='line'> 46</span>    * @default undefined
+<span class='line'> 47</span>    * @since 0.0.0
+<span class='line'> 48</span>    */</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">  </span><span class="NAME">this.oninit</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> 
+<span class='line'> 51</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 52</span>    * Init callback invoker
+<span class='line'> 53</span>    * @function
+<span class='line'> 54</span>    * @returns {void}
+<span class='line'> 55</span>    * @since 0.0.0
+<span class='line'> 56</span>    */</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">  </span><span class="NAME">this.init</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.oninit</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">      </span><span class="NAME">this.oninit</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">    </span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"init"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> 
+<span class='line'> 64</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 65</span>    * On mouse move event callback
+<span class='line'> 66</span>    * @field
+<span class='line'> 67</span>    * @type function
+<span class='line'> 68</span>    * @default undefined
+<span class='line'> 69</span>    * @since 0.0.0
+<span class='line'> 70</span>    */</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">  </span><span class="NAME">this.onmousemove</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 72</span> 
+<span class='line'> 73</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 74</span>    * @method
+<span class='line'> 75</span>    * Mouse move callback invoker
+<span class='line'> 76</span>    * @return void
+<span class='line'> 77</span>    */</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">  </span><span class="NAME">this.mousemove</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onmousemove</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">      </span><span class="NAME">this.onmousemove</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">    </span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"mousemove"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 84</span> 
+<span class='line'> 85</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 86</span>    * On mouse down event callback
+<span class='line'> 87</span>    * @field
+<span class='line'> 88</span>    * @type function
+<span class='line'> 89</span>    * @default undefined
+<span class='line'> 90</span>    * @since 0.0.0
+<span class='line'> 91</span>    */</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">  </span><span class="NAME">this.onmousedown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> 
+<span class='line'> 94</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 95</span>    * On mouse down callback invoker
+<span class='line'> 96</span>    * @function
+<span class='line'> 97</span>    * @param {MouseEvent} e The event object
+<span class='line'> 98</span>    * @returns {void}
+<span class='line'> 99</span>    * @since 0.0.0
+<span class='line'>100</span>    */</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">  </span><span class="NAME">this.mousedown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onmousedown</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">      </span><span class="NAME">this.onmousedown</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">    </span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"mousedown"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> 
+<span class='line'>108</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>109</span>    * On mouse up event callback
+<span class='line'>110</span>    * @field
+<span class='line'>111</span>    * @type function
+<span class='line'>112</span>    * @default undefined
+<span class='line'>113</span>    * @since 0.0.0
+<span class='line'>114</span>    */</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">  </span><span class="NAME">this.onmouseup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> 
+<span class='line'>117</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>118</span>    * On mouse up callback invoker
+<span class='line'>119</span>    * @function
+<span class='line'>120</span>    * @param {MouseEvent} e The event object
+<span class='line'>121</span>    * @returns {void}
+<span class='line'>122</span>    * @since 0.0.0
+<span class='line'>123</span>    */</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">  </span><span class="NAME">this.mouseup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onmouseup</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">      </span><span class="NAME">this.onmouseup</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">    </span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"mouseup"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> 
+<span class='line'>131</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>132</span>    * On mouse over event callback
+<span class='line'>133</span>    * @field
+<span class='line'>134</span>    * @type function
+<span class='line'>135</span>    * @default undefined
+<span class='line'>136</span>    * @since 0.0.0
+<span class='line'>137</span>    */</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">  </span><span class="NAME">this.onmouseover</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>139</span> 
+<span class='line'>140</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>141</span>    * On mouse over callback invoker
+<span class='line'>142</span>    * @function
+<span class='line'>143</span>    * @param {MouseEvent} e The event object
+<span class='line'>144</span>    * @returns {void}
+<span class='line'>145</span>    * @since 0.0.0
+<span class='line'>146</span>    */</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">  </span><span class="NAME">this.mouseover</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onmouseover</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">      </span><span class="NAME">this.onmouseover</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">    </span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"mouseover"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> 
+<span class='line'>154</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>155</span>    * On mouse out event callback
+<span class='line'>156</span>    * @field
+<span class='line'>157</span>    * @type function
+<span class='line'>158</span>    * @default undefined
+<span class='line'>159</span>    * @since 0.0.0
+<span class='line'>160</span>    */</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">  </span><span class="NAME">this.onmouseout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>162</span> 
+<span class='line'>163</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>164</span>    * On mouse out callback invoker
+<span class='line'>165</span>    * @function
+<span class='line'>166</span>    * @param {MouseEvent} e The event object
+<span class='line'>167</span>    * @returns {void}
+<span class='line'>168</span>    * @since 0.0.0
+<span class='line'>169</span>    */</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">  </span><span class="NAME">this.mouseout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onmouseout</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">      </span><span class="NAME">this.onmouseout</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">    </span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"mouseout"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span> 
+<span class='line'>177</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>178</span>    * On mouse wheel event callback
+<span class='line'>179</span>    * @field
+<span class='line'>180</span>    * @type function
+<span class='line'>181</span>    * @default undefined
+<span class='line'>182</span>    * @since 0.0.0.3
+<span class='line'>183</span>    */</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">  </span><span class="NAME">this.onmousewheel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span> 
+<span class='line'>186</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>187</span>    * On mouse wheel callback invoker
+<span class='line'>188</span>    * @function
+<span class='line'>189</span>    * @param {MouseEvent} e The event object
+<span class='line'>190</span>    * @returns {void}
+<span class='line'>191</span>    * @since 0.0.0.3
+<span class='line'>192</span>    */</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">  </span><span class="NAME">this.mousewheel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onmousewheel</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">      </span><span class="NAME">this.onmousewheel</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">    </span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"mousewheel"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span> 
+<span class='line'>200</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>201</span>    * On key down event callback
+<span class='line'>202</span>    * @field
+<span class='line'>203</span>    * @type function
+<span class='line'>204</span>    * @default undefined
+<span class='line'>205</span>    * @since 0.0.0
+<span class='line'>206</span>    */</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">  </span><span class="NAME">this.onkeydown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> 
+<span class='line'>209</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>210</span>    * On key down callback invoker
+<span class='line'>211</span>    * @function
+<span class='line'>212</span>    * @param {KeyboardEvent} e The event object
+<span class='line'>213</span>    * @returns {void}
+<span class='line'>214</span>    * @since 0.0.0
+<span class='line'>215</span>    */</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">  </span><span class="NAME">this.keydown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onkeydown</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">      </span><span class="NAME">this.onkeydown</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">    </span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"keydown"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span> 
+<span class='line'>223</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>224</span>    * On key up event callback
+<span class='line'>225</span>    * @field
+<span class='line'>226</span>    * @type function
+<span class='line'>227</span>    * @default undefined
+<span class='line'>228</span>    * @since 0.0.0
+<span class='line'>229</span>    */</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">  </span><span class="NAME">this.onkeyup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>231</span> 
+<span class='line'>232</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>233</span>    * On key up callback invoker
+<span class='line'>234</span>    * @function
+<span class='line'>235</span>    * @param {KeyboardEvent} e The event object
+<span class='line'>236</span>    * @returns {void}
+<span class='line'>237</span>    * @since 0.0.0
+<span class='line'>238</span>    */</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">  </span><span class="NAME">this.keyup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onkeyup</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">      </span><span class="NAME">this.onkeyup</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">    </span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"keyup"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>245</span> 
+<span class='line'>246</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>247</span>    * On pause event callback
+<span class='line'>248</span>    * @field
+<span class='line'>249</span>    * @type function
+<span class='line'>250</span>    * @default undefined
+<span class='line'>251</span>    * @since 0.0.0
+<span class='line'>252</span>    */</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">  </span><span class="NAME">this.onpause</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>254</span> 
+<span class='line'>255</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>256</span>    * On pause callback invoker
+<span class='line'>257</span>    * @function
+<span class='line'>258</span>    * @returns {void}
+<span class='line'>259</span>    * @since 0.0.0
+<span class='line'>260</span>    */</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">  </span><span class="NAME">this.pause</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onpause</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">      </span><span class="NAME">this.onpause</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>265</span> </span><span class="WHIT">    </span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="STRN">"pause"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>267</span> 
+<span class='line'>268</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>269</span>    * Target frame rate
+<span class='line'>270</span>    * @public
+<span class='line'>271</span>    * @constant
+<span class='line'>272</span>    * @field
+<span class='line'>273</span>    * @type Number
+<span class='line'>274</span>    * @since 0.0.0
+<span class='line'>275</span>    */</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">  </span><span class="NAME">this.FPS</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">30</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>277</span> 
+<span class='line'>278</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>279</span>    * Log debug flag
+<span class='line'>280</span>    * @public
+<span class='line'>281</span>    * @field
+<span class='line'>282</span>    * @type boolean
+<span class='line'>283</span>    * @since 0.0.0
+<span class='line'>284</span>    */</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">  </span><span class="NAME">this.debug</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>286</span> 
+<span class='line'>287</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>288</span>    * Verbose log debug flag
+<span class='line'>289</span>    * @public
+<span class='line'>290</span>    * @field
+<span class='line'>291</span>    * @type boolean
+<span class='line'>292</span>    * @since 0.0.0
+<span class='line'>293</span>    */</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">  </span><span class="NAME">this.verbose</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>295</span> 
-<span class='line'>296</span> </span><span class="COMM">/**
-<span class='line'>297</span>  * @function
-<span class='line'>298</span>  * Recalculate frame rate
-<span class='line'>299</span>  * @return void
-<span class='line'>300</span>  */</span><span class="WHIT">
-<span class='line'>301</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">updateFPS</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>302</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">lastFPS</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">1000</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>303</span> </span><span class="WHIT">    </span><span class="NAME">avgFps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fps</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>304</span> </span><span class="WHIT">		</span><span class="NAME">fps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>305</span> </span><span class="WHIT">		</span><span class="NAME">lastFPS</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1000</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>306</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>307</span> </span><span class="WHIT">	</span><span class="NAME">fps</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>308</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>309</span> 
-<span class='line'>310</span> </span><span class="COMM">/*
-<span class='line'>311</span>  * @eventHandler
-<span class='line'>312</span>  * This handler links up the document ready state to the
-<span class='line'>313</span>  * @link{#init} method
-<span class='line'>314</span>  */</span><span class="WHIT">
-<span class='line'>315</span> </span><span class="NAME">document.onreadystatechange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>316</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">document.readyState</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"complete"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>317</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">debug</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>318</span> </span><span class="WHIT">			</span><span class="NAME">console.debug</span><span class="PUNC">(</span><span class="STRN">"Document ready state changed to 'complete'"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>319</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>320</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>321</span> </span><span class="WHIT">		</span><span class="NAME">engineInit</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>322</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>323</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>324</span> 
-<span class='line'>325</span> </span><span class="COMM">/*
-<span class='line'>326</span>  * @eventHandler
-<span class='line'>327</span>  * This handler links up the document keydown event handler
-<span class='line'>328</span>  * @param Event e keydown event
-<span class='line'>329</span>  */</span><span class="WHIT">
-<span class='line'>330</span> </span><span class="NAME">document.onkeydown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>331</span> </span><span class="WHIT">	</span><span class="COMM">// toggle debug 'D'</span><span class="WHIT">
-<span class='line'>332</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e.keyCode</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">68</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>333</span> </span><span class="WHIT">		</span><span class="NAME">debug</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">debug</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>334</span> </span><span class="WHIT">		</span><span class="NAME">console.debug</span><span class="PUNC">(</span><span class="STRN">"Debug enabled: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">debug</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>335</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>336</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>337</span> </span><span class="WHIT">	</span><span class="NAME">engine.keydown</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>338</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>339</span> 
-<span class='line'>340</span> </span><span class="COMM">/*
-<span class='line'>341</span>  * @eventHandler
-<span class='line'>342</span>  * This handler links up the document keyup event handler
-<span class='line'>343</span>  * @param Event e keyup event
-<span class='line'>344</span>  */</span><span class="WHIT">
-<span class='line'>345</span> </span><span class="NAME">document.onkeyup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>346</span> </span><span class="WHIT">	</span><span class="NAME">engine.keyup</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>347</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>348</span> 
-<span class='line'>349</span> </span><span class="COMM">/**
-<span class='line'>350</span>  * @function
-<span class='line'>351</span>  * Initialize values on page load
-<span class='line'>352</span>  *
-<span class='line'>353</span>  * @return void
-<span class='line'>354</span>  * @throws Error If required HTML5 support is unavailable
-<span class='line'>355</span>  */</span><span class="WHIT">
-<span class='line'>356</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">engineInit</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>357</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">debug</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>358</span> </span><span class="WHIT">		</span><span class="NAME">console.debug</span><span class="PUNC">(</span><span class="STRN">"Start. Initializing"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>359</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>360</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>361</span> </span><span class="WHIT">	</span><span class="NAME">canvas</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="PUNC">(</span><span class="STRN">"canvas"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>362</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">canvas.getContext</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>363</span> </span><span class="WHIT">    </span><span class="NAME">ctx</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.getContext</span><span class="PUNC">(</span><span class="STRN">"2d"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>364</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>365</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">debug</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>366</span> </span><span class="WHIT">			</span><span class="NAME">console.debug</span><span class="PUNC">(</span><span class="STRN">"Found 2d context"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>367</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>368</span> </span><span class="WHIT">		</span><span class="NAME">windowRect</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Rectangle</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">canvas.width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">canvas.height</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>369</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>370</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>371</span> 		 * @eventHandler
-<span class='line'>372</span> 		 * This handler links up the canvas mousemove event handler
-<span class='line'>373</span> 		 * @param Event e mousemove event
-<span class='line'>374</span> 		 */</span><span class="WHIT">
-<span class='line'>375</span> </span><span class="WHIT">		</span><span class="NAME">canvas.onmousemove</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>376</span> </span><span class="WHIT">			</span><span class="NAME">engine.mousemove</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>377</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>378</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>379</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>380</span> 		 * @eventHandler
-<span class='line'>381</span> 		 * This handler links up the canvas mousedown event handler
-<span class='line'>382</span> 		 * @param Event e mousedown event
-<span class='line'>383</span> 		 */</span><span class="WHIT">
-<span class='line'>384</span> </span><span class="WHIT">		</span><span class="NAME">canvas.onmousedown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>385</span> </span><span class="WHIT">			</span><span class="NAME">engine.mousedown</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>386</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>387</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>388</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>389</span> 		 * @eventHandler
-<span class='line'>390</span> 		 * This handler links up the canvas mouseup event handler
-<span class='line'>391</span> 		 * @param Event e mouseup event
-<span class='line'>392</span> 		 */</span><span class="WHIT">
-<span class='line'>393</span> </span><span class="WHIT">		</span><span class="NAME">canvas.onmouseup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>394</span> </span><span class="WHIT">			</span><span class="NAME">engine.mouseup</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>395</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>396</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>397</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>398</span> 		 * @eventHandler
-<span class='line'>399</span> 		 * This handler links up the canvas mouseover event handler
-<span class='line'>400</span> 		 * @param Event e mouseover event
-<span class='line'>401</span> 		 */</span><span class="WHIT">
-<span class='line'>402</span> </span><span class="WHIT">		</span><span class="NAME">canvas.onmouseover</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>403</span> </span><span class="WHIT">			</span><span class="NAME">engine.mouseover</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>404</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>405</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>406</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>407</span> 		 * @eventHandler
-<span class='line'>408</span> 		 * This handler links up the canvas mouseout event handler
-<span class='line'>409</span> 		 * @param Event e mouseout event
-<span class='line'>410</span> 		 */</span><span class="WHIT">
-<span class='line'>411</span> </span><span class="WHIT">		</span><span class="NAME">canvas.onmouseout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>412</span> </span><span class="WHIT">			</span><span class="NAME">engine.mouseout</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>413</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>414</span> 
-<span class='line'>415</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'>416</span> 		 * @eventHandler
-<span class='line'>417</span> 		 * This handler links up the canvas mouseout event handler
-<span class='line'>418</span> 		 * @param Event e mousewheel event
-<span class='line'>419</span> 		 */</span><span class="WHIT">
-<span class='line'>420</span> </span><span class="WHIT">		</span><span class="NAME">canvas.onmousewheel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>421</span> </span><span class="WHIT">			</span><span class="NAME">engine.mousewheel</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>422</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>423</span> 
-<span class='line'>424</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>425</span> </span><span class="WHIT">		</span><span class="NAME">STYLE_DARK_EVENING</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ctx.createLinearGradient</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="PUNC">-</span><span class="NUMB">75</span><span class="PUNC">,</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="NUMB">75</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>426</span> </span><span class="WHIT">		</span><span class="NAME">STYLE_DARK_EVENING.addColorStop</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'#232256'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>427</span> </span><span class="WHIT">		</span><span class="NAME">STYLE_DARK_EVENING.addColorStop</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'#143778'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>428</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>429</span> </span><span class="WHIT">		</span><span class="NAME">initGame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>430</span> </span><span class="WHIT">		</span><span class="NAME">engine.init</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>431</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>432</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">"Canvas not supported"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>433</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>434</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">debug</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>435</span> </span><span class="WHIT">		</span><span class="NAME">console.debug</span><span class="PUNC">(</span><span class="STRN">"Done. Initializing"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>436</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>437</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>438</span> 
-<span class='line'>439</span> </span><span class="COMM">/**
-<span class='line'>440</span>  * @function
-<span class='line'>441</span>  * Start the engine
-<span class='line'>442</span>  * @return void
-<span class='line'>443</span>  */</span><span class="WHIT">
-<span class='line'>444</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">engineStart</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>445</span> </span><span class="WHIT">	</span><span class="NAME">engineReset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>446</span> </span><span class="WHIT">	</span><span class="NAME">getDelta</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// clear out delta</span><span class="WHIT">
-<span class='line'>447</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">running</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>448</span> </span><span class="WHIT">		</span><span class="NAME">running</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>449</span> </span><span class="WHIT">		</span><span class="NAME">startGame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>450</span> </span><span class="WHIT">		</span><span class="NAME">engineMain</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>451</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>452</span> </span><span class="WHIT">		</span><span class="NAME">console.warn</span><span class="PUNC">(</span><span class="STRN">"Start called, but already running"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>453</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>454</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>455</span> 
-<span class='line'>456</span> </span><span class="COMM">/**
-<span class='line'>457</span>  * @function
-<span class='line'>458</span>  * Pause the engine
-<span class='line'>459</span>  * @return void
-<span class='line'>460</span>  */</span><span class="WHIT">
-<span class='line'>461</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">enginePause</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>462</span> </span><span class="WHIT">	</span><span class="NAME">paused</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>463</span> </span><span class="WHIT">	</span><span class="NAME">engine.pause</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>464</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>465</span> 
-<span class='line'>466</span> </span><span class="COMM">/**
-<span class='line'>467</span>  * @function
-<span class='line'>468</span>  * Continue the engine
-<span class='line'>469</span>  * @return void
-<span class='line'>470</span>  */</span><span class="WHIT">
-<span class='line'>471</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">engineContinue</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>472</span> </span><span class="WHIT">	</span><span class="NAME">paused</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>473</span> </span><span class="WHIT">	</span><span class="NAME">engine.pause</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>474</span> </span><span class="WHIT">	</span><span class="NAME">engineReset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>475</span> </span><span class="WHIT">	</span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="NAME">engineMain</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>476</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>477</span> 
-<span class='line'>478</span> </span><span class="COMM">/**
-<span class='line'>479</span>  * @function
-<span class='line'>480</span>  * Stop the engine
-<span class='line'>481</span>  * @return void
-<span class='line'>482</span>  */</span><span class="WHIT">
-<span class='line'>483</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">engineStop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>484</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">running</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>485</span> </span><span class="WHIT">		</span><span class="NAME">running</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>486</span> </span><span class="WHIT">		</span><span class="NAME">stopGame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>487</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>488</span> </span><span class="WHIT">		</span><span class="NAME">console.warn</span><span class="PUNC">(</span><span class="STRN">"Stop called, but not running"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>489</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
-<span class='line'>490</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>491</span> 
-<span class='line'>492</span> </span><span class="COMM">/**
-<span class='line'>493</span>  * @function
-<span class='line'>494</span>  * Sync the framerate
-<span class='line'>495</span>  * @return void
-<span class='line'>496</span>  */</span><span class="WHIT">
-<span class='line'>497</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">engineSync</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>498</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sleepTime</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">lastSync</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">1000</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">FPS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>499</span> </span><span class="WHIT">	</span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="NAME">engineMain</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sleepTime</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>500</span> </span><span class="WHIT">	</span><span class="NAME">lastSync</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">1000</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">FPS</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>501</span> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>502</span> 
-<span class='line'>503</span> </span><span class="COMM">/**
-<span class='line'>504</span>  * @function
-<span class='line'>505</span>  * Main loop
-<span class='line'>506</span>  * @return void
-<span class='line'>507</span>  */</span><span class="WHIT">
-<span class='line'>508</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">engineMain</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>509</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">running</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">paused</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>510</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">delta</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getDelta</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>511</span> </span><span class="WHIT">		</span><span class="NAME">updateGame</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>512</span> </span><span class="WHIT">		</span><span class="NAME">ctx.save</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>513</span> </span><span class="WHIT">		</span><span class="NAME">renderGame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>514</span> </span><span class="WHIT">		</span><span class="NAME">ctx.restore</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>515</span> </span><span class="WHIT">		</span><span class="NAME">updateFPS</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>516</span> </span><span class="WHIT">		</span><span class="NAME">engineSync</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>517</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// while</span><span class="WHIT">
-<span class='line'>518</span> </span><span class="PUNC">}</span></pre></body></html>
+<span class='line'>296</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>297</span>    * Drawing surface
+<span class='line'>298</span>    * @public
+<span class='line'>299</span>    * @field
+<span class='line'>300</span>    * @type CanvasContext
+<span class='line'>301</span>    * @since 0.0.0
+<span class='line'>302</span>    */</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="WHIT">  </span><span class="NAME">this.canvas</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>304</span> 
+<span class='line'>305</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>306</span>    * Canvas rectangle
+<span class='line'>307</span>    * @public
+<span class='line'>308</span>    * @field
+<span class='line'>309</span>    * @type Rectangle
+<span class='line'>310</span>    * @since 0.0.0
+<span class='line'>311</span>    */</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="WHIT">  </span><span class="NAME">this.windowRect</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>313</span> 
+<span class='line'>314</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>315</span>    * Drawing context
+<span class='line'>316</span>    * @public
+<span class='line'>317</span>    * @field
+<span class='line'>318</span>    * @type CanvasContext
+<span class='line'>319</span>    * @since 0.0.0
+<span class='line'>320</span>    */</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">  </span><span class="NAME">this.ctx</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>322</span> 
+<span class='line'>323</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>324</span>    * Last calculated frame rate
+<span class='line'>325</span>    * @public
+<span class='line'>326</span>    * @field
+<span class='line'>327</span>    * @type int
+<span class='line'>328</span>    * @since 0.0.0
+<span class='line'>329</span>    */</span><span class="WHIT">
+<span class='line'>330</span> </span><span class="WHIT">  </span><span class="NAME">this.fps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>331</span> 
+<span class='line'>332</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>333</span>    * Last frame update time
+<span class='line'>334</span>    * @public
+<span class='line'>335</span>    * @field
+<span class='line'>336</span>    * @type Number
+<span class='line'>337</span>    * @since 0.0.0
+<span class='line'>338</span>    */</span><span class="WHIT">
+<span class='line'>339</span> </span><span class="WHIT">  </span><span class="NAME">this.lastFrame</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>340</span> 
+<span class='line'>341</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>342</span>    * Average frame rate
+<span class='line'>343</span>    * @public
+<span class='line'>344</span>    * @field
+<span class='line'>345</span>    * @type Number
+<span class='line'>346</span>    * @since 0.0.0.3
+<span class='line'>347</span>    */</span><span class="WHIT">
+<span class='line'>348</span> </span><span class="WHIT">  </span><span class="NAME">this.avgFps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>349</span> 
+<span class='line'>350</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>351</span>    * Last frame rate update time
+<span class='line'>352</span>    * @public
+<span class='line'>353</span>    * @field
+<span class='line'>354</span>    * @type Number
+<span class='line'>355</span>    * @since 0.0.0
+<span class='line'>356</span>    */</span><span class="WHIT">
+<span class='line'>357</span> </span><span class="WHIT">  </span><span class="NAME">this.lastFPS</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">unb3nd.getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>358</span> 
+<span class='line'>359</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>360</span>    * Last sync time
+<span class='line'>361</span>    * @public
+<span class='line'>362</span>    * @field
+<span class='line'>363</span>    * @type Number
+<span class='line'>364</span>    * @since 0.0.0
+<span class='line'>365</span>    */</span><span class="WHIT">
+<span class='line'>366</span> </span><span class="WHIT">  </span><span class="NAME">this.lastSync</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">unb3nd.getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>367</span> 
+<span class='line'>368</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>369</span>    * Global running flag
+<span class='line'>370</span>    * @public
+<span class='line'>371</span>    * @field
+<span class='line'>372</span>    * @type boolean
+<span class='line'>373</span>    * @since 0.0.0
+<span class='line'>374</span>    */</span><span class="WHIT">
+<span class='line'>375</span> </span><span class="WHIT">  </span><span class="NAME">this.running</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>376</span> 
+<span class='line'>377</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>378</span>    * Global paused flag
+<span class='line'>379</span>    * @public
+<span class='line'>380</span>    * @field
+<span class='line'>381</span>    * @type boolean
+<span class='line'>382</span>    * @since 0.0.0
+<span class='line'>383</span>    */</span><span class="WHIT">
+<span class='line'>384</span> </span><span class="WHIT">  </span><span class="NAME">this.paused</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>385</span> 
+<span class='line'>386</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>387</span>    * Global scale (Pixels Per Meter) flag
+<span class='line'>388</span>    * @public
+<span class='line'>389</span>    * @field
+<span class='line'>390</span>    * @type boolean
+<span class='line'>391</span>    * @since 0.0.0.3
+<span class='line'>392</span>    */</span><span class="WHIT">
+<span class='line'>393</span> </span><span class="WHIT">  </span><span class="NAME">this.ppm</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>394</span> 
+<span class='line'>395</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>396</span>    * @function
+<span class='line'>397</span>    * Reset all counters
+<span class='line'>398</span>    * @return void
+<span class='line'>399</span>    */</span><span class="WHIT">
+<span class='line'>400</span> </span><span class="WHIT">  </span><span class="NAME">this.engineReset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>401</span> </span><span class="WHIT">    </span><span class="NAME">this.fps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">    </span><span class="NAME">this.lastFrame</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>403</span> </span><span class="WHIT">    </span><span class="NAME">this.lastFPS</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">unb3nd.getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>404</span> </span><span class="WHIT">    </span><span class="NAME">this.lastSync</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">unb3nd.getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>405</span> </span><span class="WHIT">    </span><span class="NAME">this.reset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>406</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>407</span> 
+<span class='line'>408</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>409</span>    * @function
+<span class='line'>410</span>    * Time delta
+<span class='line'>411</span>    * @return int Time delta between time and last update time
+<span class='line'>412</span>    */</span><span class="WHIT">
+<span class='line'>413</span> </span><span class="WHIT">  </span><span class="NAME">this.getDelta</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>414</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">time</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">unb3nd.getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>415</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">delta</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">time</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">lastFrame</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>416</span> </span><span class="WHIT">    </span><span class="NAME">this.lastFrame</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">time</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>417</span> 
+<span class='line'>418</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">delta</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>419</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>420</span> 
+<span class='line'>421</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>422</span>    * @function
+<span class='line'>423</span>    * Recalculate frame rate
+<span class='line'>424</span>    * @return void
+<span class='line'>425</span>    */</span><span class="WHIT">
+<span class='line'>426</span> </span><span class="WHIT">  </span><span class="NAME">this.updateFPS</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>427</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">unb3nd.getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">this.lastFPS</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">1000</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>428</span> </span><span class="WHIT">      </span><span class="NAME">this.avgFps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.fps</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>429</span> </span><span class="WHIT">      </span><span class="NAME">this.fps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>430</span> </span><span class="WHIT">      </span><span class="NAME">this.lastFPS</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1000</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>431</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>432</span> </span><span class="WHIT">    </span><span class="NAME">this.fps</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>433</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>434</span> 
+<span class='line'>435</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>436</span>    * @function
+<span class='line'>437</span>    * Start the engine
+<span class='line'>438</span>    * @return void
+<span class='line'>439</span>    */</span><span class="WHIT">
+<span class='line'>440</span> </span><span class="WHIT">  </span><span class="NAME">this.engineStart</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>441</span> </span><span class="WHIT">    </span><span class="NAME">this.engineReset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>442</span> </span><span class="WHIT">    </span><span class="NAME">this.getDelta</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// clear out delta</span><span class="WHIT">
+<span class='line'>443</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.running</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>444</span> </span><span class="WHIT">      </span><span class="NAME">this.running</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>445</span> </span><span class="WHIT">      </span><span class="NAME">this.startGame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>446</span> </span><span class="WHIT">      </span><span class="NAME">this.engineMain</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>447</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>448</span> </span><span class="WHIT">      </span><span class="NAME">console.warn</span><span class="PUNC">(</span><span class="STRN">"Start called, but already running"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>449</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>450</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>451</span> 
+<span class='line'>452</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>453</span>    * @function
+<span class='line'>454</span>    * Pause the engine
+<span class='line'>455</span>    * @return void
+<span class='line'>456</span>    */</span><span class="WHIT">
+<span class='line'>457</span> </span><span class="WHIT">  </span><span class="NAME">this.enginePause</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>458</span> </span><span class="WHIT">    </span><span class="NAME">this.paused</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>459</span> </span><span class="WHIT">    </span><span class="NAME">engine.pause</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>460</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>461</span> 
+<span class='line'>462</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>463</span>    * @function
+<span class='line'>464</span>    * Continue the engine
+<span class='line'>465</span>    * @return void
+<span class='line'>466</span>    */</span><span class="WHIT">
+<span class='line'>467</span> </span><span class="WHIT">  </span><span class="NAME">this.engineContinue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>468</span> </span><span class="WHIT">    </span><span class="NAME">this.paused</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>469</span> </span><span class="WHIT">    </span><span class="NAME">engine.pause</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>470</span> </span><span class="WHIT">    </span><span class="NAME">this.engineReset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>471</span> </span><span class="WHIT">    </span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="NAME">String</span><span class="WHIT"> </span><span class="PUNC">|</span><span class="WHIT"> </span><span class="NAME">Function</span><span class="PUNC">(</span><span class="NAME">this.engineMain</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>472</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>473</span> 
+<span class='line'>474</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>475</span>    * @function
+<span class='line'>476</span>    * Stop the engine
+<span class='line'>477</span>    * @return void
+<span class='line'>478</span>    */</span><span class="WHIT">
+<span class='line'>479</span> </span><span class="WHIT">  </span><span class="NAME">this.engineStop</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>480</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.running</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>481</span> </span><span class="WHIT">      </span><span class="NAME">this.running</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>482</span> </span><span class="WHIT">      </span><span class="NAME">this.stopGame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>483</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>484</span> </span><span class="WHIT">      </span><span class="NAME">console.warn</span><span class="PUNC">(</span><span class="STRN">"Stop called, but not running"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>485</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>486</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>487</span> 
+<span class='line'>488</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>489</span>    * @function
+<span class='line'>490</span>    * Sync the framerate
+<span class='line'>491</span>    * @return void
+<span class='line'>492</span>    */</span><span class="WHIT">
+<span class='line'>493</span> </span><span class="WHIT">  </span><span class="NAME">this.engineSync</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>494</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sleepTime</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.lastSync</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">1000</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">FPS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">unb3nd.getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>495</span> </span><span class="WHIT">    </span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="NAME">String</span><span class="WHIT"> </span><span class="PUNC">|</span><span class="WHIT"> </span><span class="NAME">Function</span><span class="PUNC">(</span><span class="NAME">this.engineMain</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sleepTime</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>496</span> </span><span class="WHIT">    </span><span class="NAME">this.lastSync</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">1000</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">FPS</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>497</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>498</span> 
+<span class='line'>499</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>500</span>    * @function
+<span class='line'>501</span>    * Main loop
+<span class='line'>502</span>    * @return void
+<span class='line'>503</span>    */</span><span class="WHIT">
+<span class='line'>504</span> </span><span class="WHIT">  </span><span class="NAME">this.engineMain</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>505</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.running</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">this.paused</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>506</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">delta</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getDelta</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>507</span> </span><span class="WHIT">      </span><span class="NAME">this.updateGame</span><span class="PUNC">(</span><span class="NAME">delta</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>508</span> </span><span class="WHIT">      </span><span class="NAME">ctx.save</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>509</span> </span><span class="WHIT">      </span><span class="NAME">this.renderGame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>510</span> </span><span class="WHIT">      </span><span class="NAME">ctx.restore</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>511</span> </span><span class="WHIT">      </span><span class="NAME">this.updateFPS</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>512</span> </span><span class="WHIT">      </span><span class="NAME">this.engineSync</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>513</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// while</span><span class="WHIT">
+<span class='line'>514</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>515</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>516</span> </span><span class="NAME">unb3nd.Engine.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">unb3nd.Observable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>517</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">engine</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">unb3nd.Engine</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>518</span> 
+<span class='line'>519</span> </span><span class="COMM">/*
+<span class='line'>520</span>  * @eventHandler
+<span class='line'>521</span>  * This handler links up the document ready state to the
+<span class='line'>522</span>  * @link{#init} method
+<span class='line'>523</span>  */</span><span class="WHIT">
+<span class='line'>524</span> </span><span class="NAME">document.onreadystatechange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>525</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">document.readyState</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"complete"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>526</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">engine.debug</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>527</span> </span><span class="WHIT">      </span><span class="NAME">console.debug</span><span class="PUNC">(</span><span class="STRN">"Document ready state changed to 'complete'"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>528</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>529</span> 
+<span class='line'>530</span> </span><span class="WHIT">    </span><span class="NAME">engine.engineInit</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>531</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>532</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>533</span> 
+<span class='line'>534</span> </span><span class="COMM">/*
+<span class='line'>535</span>  * @eventHandler
+<span class='line'>536</span>  * This handler links up the document keydown event handler
+<span class='line'>537</span>  * @param Event e keydown event
+<span class='line'>538</span>  */</span><span class="WHIT">
+<span class='line'>539</span> </span><span class="NAME">document.onkeydown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>540</span> </span><span class="WHIT">  </span><span class="COMM">// toggle debug 'D'</span><span class="WHIT">
+<span class='line'>541</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e.keyCode</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">68</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>542</span> </span><span class="WHIT">    </span><span class="NAME">engine.debug</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">engine.debug</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>543</span> </span><span class="WHIT">    </span><span class="NAME">console.debug</span><span class="PUNC">(</span><span class="STRN">"Debug enabled: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">engine.debug</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>544</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>545</span> 
+<span class='line'>546</span> </span><span class="WHIT">  </span><span class="NAME">engine.keydown</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>547</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>548</span> 
+<span class='line'>549</span> </span><span class="COMM">/*
+<span class='line'>550</span>  * @eventHandler
+<span class='line'>551</span>  * This handler links up the document keyup event handler
+<span class='line'>552</span>  * @param Event e keyup event
+<span class='line'>553</span>  */</span><span class="WHIT">
+<span class='line'>554</span> </span><span class="NAME">document.onkeyup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>555</span> </span><span class="WHIT">  </span><span class="NAME">engine.keyup</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>556</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>557</span> 
+<span class='line'>558</span> </span><span class="COMM">/**
+<span class='line'>559</span>  * @function
+<span class='line'>560</span>  * Initialize values on page load
+<span class='line'>561</span>  *
+<span class='line'>562</span>  * @return void
+<span class='line'>563</span>  * @throws Error If required HTML5 support is unavailable
+<span class='line'>564</span>  */</span><span class="WHIT">
+<span class='line'>565</span> </span><span class="NAME">this.engineInit</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>566</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">debug</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>567</span> </span><span class="WHIT">    </span><span class="NAME">console.debug</span><span class="PUNC">(</span><span class="STRN">"Start. Initializing"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>568</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>569</span> 
+<span class='line'>570</span> </span><span class="WHIT">  </span><span class="NAME">canvas</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="PUNC">(</span><span class="STRN">"canvas"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>571</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">canvas.getContext</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>572</span> </span><span class="WHIT">    </span><span class="NAME">ctx</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas.getContext</span><span class="PUNC">(</span><span class="STRN">"2d"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>573</span> 
+<span class='line'>574</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">debug</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>575</span> </span><span class="WHIT">      </span><span class="NAME">console.debug</span><span class="PUNC">(</span><span class="STRN">"Found 2d context"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>576</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>577</span> </span><span class="WHIT">    </span><span class="NAME">windowRect</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">unb3nd.Rectangle</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">canvas.width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">canvas.height</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>578</span> 
+<span class='line'>579</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>580</span>      * @eventHandler
+<span class='line'>581</span>      * This handler links up the canvas mousemove event handler
+<span class='line'>582</span>      * @param Event e mousemove event
+<span class='line'>583</span>      */</span><span class="WHIT">
+<span class='line'>584</span> </span><span class="WHIT">    </span><span class="NAME">canvas.onmousemove</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>585</span> </span><span class="WHIT">      </span><span class="NAME">engine.mousemove</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>586</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>587</span> 
+<span class='line'>588</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>589</span>      * @eventHandler
+<span class='line'>590</span>      * This handler links up the canvas mousedown event handler
+<span class='line'>591</span>      * @param Event e mousedown event
+<span class='line'>592</span>      */</span><span class="WHIT">
+<span class='line'>593</span> </span><span class="WHIT">    </span><span class="NAME">canvas.onmousedown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>594</span> </span><span class="WHIT">      </span><span class="NAME">engine.mousedown</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>595</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>596</span> 
+<span class='line'>597</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>598</span>      * @eventHandler
+<span class='line'>599</span>      * This handler links up the canvas mouseup event handler
+<span class='line'>600</span>      * @param Event e mouseup event
+<span class='line'>601</span>      */</span><span class="WHIT">
+<span class='line'>602</span> </span><span class="WHIT">    </span><span class="NAME">canvas.onmouseup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>603</span> </span><span class="WHIT">      </span><span class="NAME">engine.mouseup</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>604</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>605</span> 
+<span class='line'>606</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>607</span>      * @eventHandler
+<span class='line'>608</span>      * This handler links up the canvas mouseover event handler
+<span class='line'>609</span>      * @param Event e mouseover event
+<span class='line'>610</span>      */</span><span class="WHIT">
+<span class='line'>611</span> </span><span class="WHIT">    </span><span class="NAME">canvas.onmouseover</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>612</span> </span><span class="WHIT">      </span><span class="NAME">engine.mouseover</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>613</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>614</span> 
+<span class='line'>615</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>616</span>      * @eventHandler
+<span class='line'>617</span>      * This handler links up the canvas mouseout event handler
+<span class='line'>618</span>      * @param Event e mouseout event
+<span class='line'>619</span>      */</span><span class="WHIT">
+<span class='line'>620</span> </span><span class="WHIT">    </span><span class="NAME">canvas.onmouseout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>621</span> </span><span class="WHIT">      </span><span class="NAME">engine.mouseout</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>622</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>623</span> 
+<span class='line'>624</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>625</span>      * @eventHandler
+<span class='line'>626</span>      * This handler links up the canvas mouseout event handler
+<span class='line'>627</span>      * @param Event e mousewheel event
+<span class='line'>628</span>      */</span><span class="WHIT">
+<span class='line'>629</span> </span><span class="WHIT">    </span><span class="NAME">canvas.onmousewheel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>630</span> </span><span class="WHIT">      </span><span class="NAME">engine.mousewheel</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>631</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>632</span> 
+<span class='line'>633</span> 
+<span class='line'>634</span> </span><span class="WHIT">    </span><span class="NAME">STYLE_DARK_EVENING</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ctx.createLinearGradient</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">75</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">75</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>635</span> </span><span class="WHIT">    </span><span class="NAME">STYLE_DARK_EVENING.addColorStop</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'#232256'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>636</span> </span><span class="WHIT">    </span><span class="NAME">STYLE_DARK_EVENING.addColorStop</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'#143778'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>637</span> 
+<span class='line'>638</span> </span><span class="WHIT">    </span><span class="NAME">engine.initGame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>639</span> </span><span class="WHIT">    </span><span class="NAME">engine.init</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>640</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>641</span> </span><span class="WHIT">    </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">"Canvas not supported"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>642</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>643</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">debug</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>644</span> </span><span class="WHIT">    </span><span class="NAME">console.debug</span><span class="PUNC">(</span><span class="STRN">"Done. Initializing"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>645</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if</span><span class="WHIT">
+<span class='line'>646</span> </span><span class="PUNC">}</span></pre></body></html>

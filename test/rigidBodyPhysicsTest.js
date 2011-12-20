@@ -1,11 +1,13 @@
+"use strict";
+
 module("Rigid Physics");
 
 test("Test RigidBody", function() {
 	var uid = RigidBody.nextUid;
 	var b1 = new RigidBody();
-	equals(uid, b1.uid);
-	equals(b1.getOrientation().x, 1);
-	equals(b1.getOrientation().y, 0);
+	equal(uid, b1.uid);
+	equal(b1.getOrientation().x, 1);
+	equal(b1.getOrientation().y, 0);
 	
 	var TOL = 0.01;
 

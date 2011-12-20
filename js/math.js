@@ -7,18 +7,18 @@
 /**
  * @class Rectangle helper object
  * @constructor
- * @param {float} x X-Coordinate of the rectangle
- * @param {float} y Y-Coordinate of the rectangle
- * @param {float} width Width of the rectangle 
- * @param {float} height Height of the rectangle
+ * @param {Number} x X-Coordinate of the rectangle
+ * @param {Number} y Y-Coordinate of the rectangle
+ * @param {Number} width Width of the rectangle 
+ * @param {Number} height Height of the rectangle
  * @since 0.0.0
  */
-function Rectangle(x, y, width, height) {
+unb3nd.Rectangle = function(x, y, width, height) {
 
 	/**
 	 * X position of this rectangle
 	 * @field 
-	 * @type float
+	 * @type Number
 	 * @default 0
 	 * @since 0.0.0
 	 */
@@ -27,7 +27,7 @@ function Rectangle(x, y, width, height) {
 	/**
 	 * Y position of this rectangle
 	 * @field 
-	 * @type float
+	 * @type Number
 	 * @default 0
 	 * @since 0.0.0
 	 */
@@ -36,7 +36,7 @@ function Rectangle(x, y, width, height) {
 	/**
 	 * Width of this rectangle
 	 * @field 
-	 * @type float
+	 * @type Number
 	 * @default 0
 	 * @since 0.0.0
 	 */
@@ -45,7 +45,7 @@ function Rectangle(x, y, width, height) {
 	/**
 	 * Height of this rectangle
 	 * @field 
-	 * @type float
+	 * @type Number
 	 * @default 0
 	 * @since 0.0.0
 	 */
@@ -102,7 +102,7 @@ function Rectangle(x, y, width, height) {
 	/**
 	 * Shrinks the rectangle by the given amount
 	 * @function
-	 * @param {float} amount The amount by which to shrink this rectangle
+	 * @param {Number} amount The amount by which to shrink this rectangle
 	 * @return {Rectangle} The shrunked version of this rectangle
 	 * @since 0.0.0
 	 */
@@ -115,7 +115,7 @@ function Rectangle(x, y, width, height) {
 	/**
 	 * Shrinks the rectangle by the given amount
 	 * @function
-	 * @param {float} amount The amount by which to shrink this rectangle
+	 * @param {Number} amount The amount by which to shrink this rectangle
 	 * @return {void}
 	 * @since 0.0.0
 	 */
@@ -133,7 +133,7 @@ function Rectangle(x, y, width, height) {
 	 * @since 0.0.0
 	 */
 	this.clone = function() {
-		return new Rectangle(this.x, this.y, this.width, this.height);
+		return new unb3nd.Rectangle(this.x, this.y, this.width, this.height);
 	}
 
   /**
@@ -155,16 +155,16 @@ function Rectangle(x, y, width, height) {
  * @link{#addMutate}.  In this example add creates a new vector and leaves the current
  * unchanged, whereas @link{#addMutate} modifies this vector and returns nothing.
  * @constructor
- * @param {float} x X-coordinate
- * @param {float} y Y-coordinate
+ * @param {Number} x X-coordinate
+ * @param {Number} y Y-coordinate
  * @since 0.0.0
  */
-function Vector2(x, y) {
+unb3nd.Vector2 = function(x, y) {
 
 	/**
 	 * X coordinate of this rectangle
 	 * @field
-	 * @type float
+	 * @type Number
 	 * @default 0
 	 * @since 0.0.0
 	 */
@@ -173,7 +173,7 @@ function Vector2(x, y) {
 	/**
 	 * Y coordinate of this rectangle
 	 * @field
-	 * @type float
+	 * @type Number
 	 * @default 0
 	 * @since 0.0.0
 	 */
@@ -238,7 +238,7 @@ function Vector2(x, y) {
 	 * @since 0.0.0.3
 	 */
 	this.inverse = function() {
-		return new Vector2(-this.x, -this.y);
+		return new unb3nd.Vector2(-this.x, -this.y);
 	}
 
   /**
@@ -255,7 +255,7 @@ function Vector2(x, y) {
 	/**
 	 * Multiply by a scalar value
 	 * @function
-	 * @param {float} s Scalar to multiply by
+	 * @param {Number} s Scalar to multiply by
 	 * @returns {Vector2} The newly created vector
 	 * @since 0.0.0
 	 */
@@ -269,7 +269,7 @@ function Vector2(x, y) {
 	/**
 	 * Multiply by a scalar value
 	 * @function
-	 * @param {float} s Scalar to multiply by
+	 * @param {Number} s Scalar to multiply by
 	 * @returns {void}
 	 * @since 0.0.0
 	 */
@@ -282,7 +282,7 @@ function Vector2(x, y) {
 	 * Calculate the dot product with another vector
 	 * @function
 	 * @param {Vector2} other The vector to perform the calculation with
-	 * @returns {float} The dot product
+	 * @returns {Number} The dot product
 	 * @since 0.0.0
 	 */
 	this.dotProduct = function(other) {
@@ -303,7 +303,7 @@ function Vector2(x, y) {
 	/**
 	 * Calculate the magnitude of this vector
 	 * @function
-	 * @returns {float} The magnitude
+	 * @returns {Number} The magnitude
 	 * @since 0.0.0
 	 */
 	this.getMagnitude = function() {
@@ -313,7 +313,7 @@ function Vector2(x, y) {
 	/**
 	 * Calculate the squared magnitude of this vector
 	 * @function
-	 * @returns {float} The square magnitude
+	 * @returns {Number} The square magnitude
 	 * @since 0.0.0
 	 */
 	this.getMagnitudeSquare = function() {
@@ -363,7 +363,7 @@ function Vector2(x, y) {
 	 * @since 0.0.0
 	 */
 	this.clone = function() {
-		return new Vector2(this.x, this.y);
+		return new unb3nd.Vector2(this.x, this.y);
 	}
 
 	/**
@@ -425,10 +425,10 @@ function Vector2(x, y) {
  * @static
  * @param {Vector2} v1 The first vector
  * @param {Vector2} v2 The second vector
- * @returns {float} The angle between the two vectors
+ * @returns {Number} The angle between the two vectors
  * @since 0.0.0
  */
-Vector2.getAngle = function(v1, v2) {
+unb3nd.Vector2.getAngle = function(v1, v2) {
 	return Math.acos(v1.normalize().dotProduct(v2.normalize()));
 }
 
@@ -438,10 +438,10 @@ Vector2.getAngle = function(v1, v2) {
  * @static
  * @param {Vector2} v1 The first vector
  * @param {Vector2} v2 The second vector
- * @returns {float} The distance between the two vectors
+ * @returns {Number} The distance between the two vectors
  * @since 0.0.0.3
  */
-Vector2.getDistance = function(v1, v2) {
+unb3nd.Vector2.getDistance = function(v1, v2) {
 	return v1.sub(v2).getMagnitude();
 }
 
@@ -453,10 +453,10 @@ Vector2.getDistance = function(v1, v2) {
  * @static
  * @param {Vector2} v1 The first vector
  * @param {Vector2} v2 The second vector
- * @returns {float} The distance squared between the two vectors
+ * @returns {Number} The distance squared between the two vectors
  * @since 0.0.0.3
  */
-Vector2.getDistanceSquare = function(v1, v2) {
+unb3nd.Vector2.getDistanceSquare = function(v1, v2) {
 	return v1.sub(v2).getMagnitudeSquare();
 }
 
@@ -466,11 +466,11 @@ Vector2.getDistanceSquare = function(v1, v2) {
  * @static
  * @param {Vector2} v1 The first vector
  * @param {Vector2} v2 The second vector
- * @param {float} distance The distance to test for
+ * @param {Number} distance The distance to test for
  * @returns {boolean} True if the vectors are within specified distance
  * @since 0.0.0.3
  */
-Vector2.isWithin = function(v1, v2, distance) {
+unb3nd.Vector2.isWithin = function(v1, v2, distance) {
 	return Vector2.getDistanceSquare(v1, v2) <= distance * distance;
 }
 
@@ -480,11 +480,11 @@ Vector2.isWithin = function(v1, v2, distance) {
  * @static
  * @param {Vector2} v1 The first vector
  * @param {Vector2} v2 The second vector
- * @param {float} distance The distance to test for
+ * @param {Number} distance The distance to test for
  * @returns {boolean} True if the vectors are strictly within specified distance
  * @since 0.0.0.3
  */
-Vector2.isWithinStrict = function(v1, v2, distance) {
+unb3nd.Vector2.isWithinStrict = function(v1, v2, distance) {
 	return Vector2.getDistanceSquare(v1, v2) < distance * distance;
 }
 
@@ -496,17 +496,17 @@ Vector2.isWithinStrict = function(v1, v2, distance) {
  * @link{#addMutate}.  In this example add creates a new vector and leaves the current
  * unchanged, whereas @link{#addMutate} modifies this vector and returns nothing.
  * @constructor
- * @param {float} x X-coordinate
- * @param {float} y Y-coordinate
- * @param {float} z Z-coordinate
+ * @param {Number} x X-coordinate
+ * @param {Number} y Y-coordinate
+ * @param {Number} z Z-coordinate
  * @since 0.0.0.3
  */
-function Vector3(x, y, z) {
+unb3nd.Vector3 = function(x, y, z) {
 
 	/**
 	 * X coordinate of this rectangle
 	 * @field
-	 * @type float
+	 * @type Number
 	 * @default 0
 	 * @since 0.0.0.3
 	 */
@@ -515,7 +515,7 @@ function Vector3(x, y, z) {
 	/**
 	 * Y coordinate of this rectangle
 	 * @field
-	 * @type float
+	 * @type Number
 	 * @default 0
 	 * @since 0.0.0.3
 	 */
@@ -524,7 +524,7 @@ function Vector3(x, y, z) {
   /**
 	 * Z coordinate of this rectangle
 	 * @field
-	 * @type float
+	 * @type Number
 	 * @default 0
 	 * @since 0.0.0.3
 	 */
@@ -600,7 +600,7 @@ function Vector3(x, y, z) {
 	/**
 	 * Multiply by a scalar value
 	 * @function
-	 * @param {float} s Scalar to multiply by
+	 * @param {Number} s Scalar to multiply by
 	 * @returns {Vector3} The newly created vector
 	 * @since 0.0.0.3
 	 */
@@ -615,7 +615,7 @@ function Vector3(x, y, z) {
 	/**
 	 * Multiply by a scalar value
 	 * @function
-	 * @param {float} s Scalar to multiply by
+	 * @param {Number} s Scalar to multiply by
 	 * @returns {void}
 	 * @since 0.0.0.3
 	 */
@@ -629,7 +629,7 @@ function Vector3(x, y, z) {
 	 * Calculate the dot product with another vector
 	 * @function
 	 * @param {Vector3} o The vector to perform the calculation with
-	 * @returns {float} The dot product
+	 * @returns {Number} The dot product
 	 * @since 0.0.0.3
 	 */
 	this.dotProduct = function(o) {
@@ -639,7 +639,7 @@ function Vector3(x, y, z) {
 	/**
 	 * Calculate the magnitude of this vector
 	 * @function
-	 * @returns {float} The magnitude
+	 * @returns {Number} The magnitude
 	 * @since 0.0.0.3
 	 */
 	this.getMagnitude = function() {
@@ -649,7 +649,7 @@ function Vector3(x, y, z) {
 	/**
 	 * Calculate the squared magnitude of this vector
 	 * @function
-	 * @returns {float} The square magnitude
+	 * @returns {Number} The square magnitude
 	 * @since 0.0.0.3
 	 */
 	this.getMagnitudeSquare = function() {
@@ -717,18 +717,18 @@ function Vector3(x, y, z) {
 /**
  * @class 2x2 matrix
  * @constructor
- * @param {float} data1 Matrix data entry
- * @param {float} data2 Matrix data entry
- * @param {float} data3 Matrix data entry
- * @param {float} data4 Matrix data entry
+ * @param {Number} data1 Matrix data entry
+ * @param {Number} data2 Matrix data entry
+ * @param {Number} data3 Matrix data entry
+ * @param {Number} data4 Matrix data entry
  * @since 0.0.0
  */
-function Matrix2(data1, data2, data3, data4, inverse) {
+unb3nd.Matrix2 = function(data1, data2, data3, data4, inverse) {
 
 	/**
 	 * Matrix entries
 	 * @field
-	 * @type float []
+	 * @type Number []
 	 * @default [0.0, 0.0, 0.0, 0.0]
 	 * @since 0.0.0
 	 */
@@ -739,7 +739,7 @@ function Matrix2(data1, data2, data3, data4, inverse) {
 	/**
 	 * Matrix determinant
 	 * @field
-	 * @type float
+	 * @type Number
 	 * @default 0.0
 	 * @since 0.0.0
 	 */
@@ -780,7 +780,7 @@ function Matrix2(data1, data2, data3, data4, inverse) {
 		} // if
 		
 		var inverseDet = 1 / this.det;
-		var i = new Matrix2(
+		var i = new unb3nd.Matrix2(
 			inverseDet * this.e[3],
 			-inverseDet * this.e[1],
 			-inverseDet * this.e[2],
@@ -798,7 +798,7 @@ function Matrix2(data1, data2, data3, data4, inverse) {
 	 * @since 0.0.0
 	 */
 	this.multVector = function(v) {
-		return new Vector2(
+		return new unb3nd.Vector2(
 			v.x * this.e[0] + v.y * this.e[1],
 			v.x * this.e[2] + v.y * this.e[3]
 		);
@@ -824,7 +824,7 @@ function Matrix2(data1, data2, data3, data4, inverse) {
 	 * @since 0.0.0
 	 */
 	this.mult = function(o) {
-		return new Matrix2(
+		return new unb3nd.Matrix2(
 			this.e[0] * o.e[0] + this.e[1] * o.e[2],
 			this.e[0] * o.e[1] + this.e[1] * o.e[3],
 			this.e[2] * o.e[0] + this.e[3] * o.e[2],
@@ -840,7 +840,7 @@ function Matrix2(data1, data2, data3, data4, inverse) {
 	 * @since 0.0.0
 	 */
 	this.add = function(o) {
-		return new Matrix2(
+		return new unb3nd.Matrix2(
 			this.e[0] + o.e[0],
 			this.e[1] + o.e[1],
 			this.e[2] + o.e[2],
@@ -867,7 +867,7 @@ function Matrix2(data1, data2, data3, data4, inverse) {
 	 * @function
 	 * @param {int} i The row number, 0 being row 1
 	 * @param {int} j The column number, 0 being column 1
-	 * @returns {float} The entry at row i and column j
+	 * @returns {Number} The entry at row i and column j
 	 * @since 0.0.0
 	 */
 	this.getEntry = function(i, j) {
@@ -877,7 +877,7 @@ function Matrix2(data1, data2, data3, data4, inverse) {
 	/**
 	 * Gets the determinant of this matrix
 	 * @function
-	 * @returns {float} The determinant of this matrix
+	 * @returns {Number} The determinant of this matrix
 	 * @since 0.0.0
 	 */
 	this.getDeterminant = function() {
@@ -956,7 +956,7 @@ function Matrix2(data1, data2, data3, data4, inverse) {
 	 * @since 0.0.0
 	 */
 	this.clone = function() {
-		return new Matrix2(this.e[0], this.e[1], this.e[2], this.e[3]);
+		return new unb3nd.Matrix2(this.e[0], this.e[1], this.e[2], this.e[3]);
 	}
 }
 
@@ -965,14 +965,14 @@ function Matrix2(data1, data2, data3, data4, inverse) {
  * @constructor
  * @since 0.0.0
  */
-function Identity2() {
+unb3nd.Identity2 = function() {
 	
 	/*
 	 * Super constructor
 	 */
-	Matrix2.call(this, 1, 0, 0, 1);
+	unb3nd.Matrix2.call(this, 1, 0, 0, 1);
 }
-Identity2.prototype = new Matrix2();
+unb3nd.Identity2.prototype = new unb3nd.Matrix2();
 
 /**
  * 2x2 Identity matrix reusable singleton
@@ -982,7 +982,7 @@ Identity2.prototype = new Matrix2();
  * @default new Identity2()
  * @since 0.0.0
  */
-Identity2.instance = new Identity2();
+unb3nd.Identity2.instance = new unb3nd.Identity2();
 
 /**
  * @class 2-Dimensional rotation matrix
@@ -992,39 +992,39 @@ Identity2.instance = new Identity2();
  * | sin(theta), cos(theta)  |
  * </p>
  * @constructor
- * @param {float} theta The angle of this rotation matrix
+ * @param {Number} theta The angle of this rotation matrix
  * @since 0.0.0
  */
-function RotationMatrix2(theta) {
+unb3nd.RotationMatrix2 = function(theta) {
 
   /*
 	 * Super constructor
 	 */
-  Matrix2.call(this, Math.cos(theta), -Math.sin(theta),
+  unb3nd.Matrix2.call(this, Math.cos(theta), -Math.sin(theta),
     Math.sin(theta), Math.cos(theta));
 }
-RotationMatrix2.prototype = new Matrix2();
+unb3nd.RotationMatrix2.prototype = new unb3nd.Matrix2();
 
 /**
  * @class 3x3 matrix
  * @constructor
- * @param {float} data1 Matrix data entry
- * @param {float} data2 Matrix data entry
- * @param {float} data3 Matrix data entry
- * @param {float} data4 Matrix data entry
- * @param {float} data5 Matrix data entry
- * @param {float} data6 Matrix data entry
- * @param {float} data7 Matrix data entry
- * @param {float} data8 Matrix data entry
- * @param {float} data9 Matrix data entry
+ * @param {Number} data1 Matrix data entry
+ * @param {Number} data2 Matrix data entry
+ * @param {Number} data3 Matrix data entry
+ * @param {Number} data4 Matrix data entry
+ * @param {Number} data5 Matrix data entry
+ * @param {Number} data6 Matrix data entry
+ * @param {Number} data7 Matrix data entry
+ * @param {Number} data8 Matrix data entry
+ * @param {Number} data9 Matrix data entry
  * @since 0.0.0.3
  */
-function Matrix3(data1, data2, data3, data4, data5, data6, data7, data8, data9) {
+unb3nd.Matrix3 = function(data1, data2, data3, data4, data5, data6, data7, data8, data9) {
 
 	/**
 	 * Matrix entries
 	 * @field
-	 * @type float []
+	 * @type Number []
 	 * @default [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 	 * @since 0.0.0.3
 	 */
@@ -1037,7 +1037,7 @@ function Matrix3(data1, data2, data3, data4, data5, data6, data7, data8, data9) 
 	/**
 	 * Matrix determinant
 	 * @field
-	 * @type float
+	 * @type Number
 	 * @default 0.0
 	 * @since 0.0.0.3
 	 */
@@ -1155,7 +1155,7 @@ function Matrix3(data1, data2, data3, data4, data5, data6, data7, data8, data9) 
 	 * @since 0.0.0.3
 	 */
 	this.add = function(o) {
-		return new Matrix2(
+		return new unb3nd.Matrix2(
 			this.e[0] + o.e[0],
 			this.e[1] + o.e[1],
 			this.e[2] + o.e[2],
@@ -1192,7 +1192,7 @@ function Matrix3(data1, data2, data3, data4, data5, data6, data7, data8, data9) 
 	 * @function
 	 * @param {int} i The row number, 0 being row 1
 	 * @param {int} j The column number, 0 being column 1
-	 * @returns {float} The entry at row i and column j
+	 * @returns {Number} The entry at row i and column j
 	 * @since 0.0.0.3
 	 */
 	this.getEntry = function(i, j) {
@@ -1202,7 +1202,7 @@ function Matrix3(data1, data2, data3, data4, data5, data6, data7, data8, data9) 
 	/**
 	 * Gets the determinant of this matrix
 	 * @function
-	 * @returns {float} The determinant of this matrix
+	 * @returns {Number} The determinant of this matrix
 	 * @since 0.0.0.3
 	 */
 	this.getDeterminant = function() {
@@ -1296,18 +1296,18 @@ function Matrix3(data1, data2, data3, data4, data5, data6, data7, data8, data9) 
  * | 0         , 0         , 1 |
  * </p>
  * @constructor
- * @param {float} theta The angle of this rotation matrix
- * @param {float} x The translation in the X-direction
- * @param {float} y The translation in the Y-direction
+ * @param {Number} theta The angle of this rotation matrix
+ * @param {Number} x The translation in the X-direction
+ * @param {Number} y The translation in the Y-direction
  * @since 0.0.0.3
  */
-function TransformationMatrix3(theta, x, y) {
+unb3nd.TransformationMatrix3 = function(theta, x, y) {
 
   /*
 	 * Super constructor
 	 */
-  Matrix3.call(this, Math.cos(theta), -Math.sin(theta), x,
+  unb3nd.Matrix3.call(this, Math.cos(theta), -Math.sin(theta), x,
     Math.sin(theta), Math.cos(theta), y,
     0, 0, 1);
 }
-TransformationMatrix3.prototype = new Matrix3();
+unb3nd.TransformationMatrix3.prototype = new unb3nd.Matrix3();

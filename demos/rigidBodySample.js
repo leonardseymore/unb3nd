@@ -58,13 +58,13 @@ var rigidBodyWorld = undefined;
    );
 
    ForceGeneratorFactory.createSpring(
-     rigidBodyWorld.forceRegistry, rigidBodies[0], new Vector2(0, 10),
-     rigidBodies[1], new Vector2(0, 0),
+     rigidBodyWorld.forceRegistry, rigidBodies[0], new unb3nd.Vector2(0, 10),
+     rigidBodies[1], new unb3nd.Vector2(0, 0),
      0.05, 1);
 
    ForceGeneratorFactory.createSpring(
-     rigidBodyWorld.forceRegistry, rigidBodies[1], new Vector2(0, 40),
-     rigidBodies[2], new Vector2(0, 50),
+     rigidBodyWorld.forceRegistry, rigidBodies[1], new unb3nd.Vector2(0, 40),
+     rigidBodies[2], new unb3nd.Vector2(0, 50),
      0.5, 0.1);
 
    renderGame();

@@ -3,6 +3,9 @@
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
  * @since 0.0.0
  */
+
+"use strict";
+
 /**
  * @class A fancy mouse using the mouse move deltas to draw a cool mouse
  * @constructor
@@ -23,7 +26,7 @@ function FancyMouse() {
 	/**
 	 * Last mouse moves
 	 * @field
-	 * @type Vector2 []
+	 * @type unb3nd.Vector2 []
 	 * @default new RingBuffer(MAX_MOUSE_MOVES)
 	 * @since 0.0.0
 	 */
@@ -35,7 +38,7 @@ function FancyMouse() {
 	 * 
 	 */
 	engine.addEventListener("mousemove", function(e) {
-		mouseMoves.enqueue(new Vector2(e.offsetX, e.offsetY));
+		mouseMoves.enqueue(new unb3nd.Vector2(e.offsetX, e.offsetY));
 	});
 	
 	/**
@@ -61,22 +64,24 @@ function FancyMouse() {
 			mouseMoves.dequeue();
 			this.lastDelta = 0;
 		} // if
-	}
+	};
 
 	/**
 	 * Draw
 	 * @function
+   * @param {CanvasContext} ctx Rendering context
 	 * @returns {void}
 	 * @since 0.0.0
 	 */
-	this.draw = function() {
+	this.draw = function(ctx) {
 		ctx.save();
 
 		ctx.fillStyle = "black";
 		ctx.beginPath();
 
 		var moves = mouseMoves.getElements();
-		for (i in moves) {		
+    var i =  moves.length;
+		while (i--) {
 			if (i > 1) {
 			
 				ctx.moveTo(moves[i - 1].x, moves[i - 1].y);

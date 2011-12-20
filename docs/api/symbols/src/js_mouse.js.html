@@ -30,7 +30,7 @@
 <span class='line'> 23</span> </span><span class="WHIT">	</span><span class="COMM">/**
 <span class='line'> 24</span> 	 * Last mouse moves
 <span class='line'> 25</span> 	 * @field
-<span class='line'> 26</span> 	 * @type Vector2 []
+<span class='line'> 26</span> 	 * @type unb3nd.Vector2 []
 <span class='line'> 27</span> 	 * @default new RingBuffer(MAX_MOUSE_MOVES)
 <span class='line'> 28</span> 	 * @since 0.0.0
 <span class='line'> 29</span> 	 */</span><span class="WHIT">
@@ -42,7 +42,7 @@
 <span class='line'> 35</span> 	 * 
 <span class='line'> 36</span> 	 */</span><span class="WHIT">
 <span class='line'> 37</span> </span><span class="WHIT">	</span><span class="NAME">engine.addEventListener</span><span class="PUNC">(</span><span class="STRN">"mousemove"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 38</span> </span><span class="WHIT">		</span><span class="NAME">mouseMoves.enqueue</span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Vector2</span><span class="PUNC">(</span><span class="NAME">e.offsetX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e.offsetY</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">		</span><span class="NAME">mouseMoves.enqueue</span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">unb3nd.Vector2</span><span class="PUNC">(</span><span class="NAME">e.offsetX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e.offsetY</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 39</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 40</span> </span><span class="WHIT">	</span><span class="WHIT">
 <span class='line'> 41</span> </span><span class="WHIT">	</span><span class="COMM">/**
