@@ -8,10 +8,16 @@
 "use strict";
 
 /**
+ * unb3nd maths namespace
+ * @since 0.0.0.4
+ */
+var math = {};
+
+/**
  * unb3nd 2D vector namespace
  * @since 0.0.0.4
  */
-unb3nd.v2 = {
+math.v2 = {
 
   /**
    * Creates a new 2D vector
@@ -288,7 +294,7 @@ unb3nd.v2 = {
  * unb3nd 3D vector namespace
  * @since 0.0.0.4
  */
-unb3nd.v3 = {
+math.v3 = {
 
   /**
    * Creates a new 3D vector
@@ -574,7 +580,7 @@ unb3nd.v3 = {
  * unb3nd 2x2 matrix namespace
  * @since 0.0.0.4
  */
-unb3nd.m2 = {
+math.m2 = {
 
   /**
    * Creates a new 2x2 matrix

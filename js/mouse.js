@@ -26,7 +26,7 @@ function FancyMouse() {
 	/**
 	 * Last mouse moves
 	 * @field
-	 * @type unb3nd.Vector2 []
+	 * @type RingBuffer
 	 * @default new RingBuffer(MAX_MOUSE_MOVES)
 	 * @since 0.0.0
 	 */
@@ -37,8 +37,8 @@ function FancyMouse() {
 	 * @event
 	 * 
 	 */
-	engine.addEventListener("mousemove", function(e) {
-		mouseMoves.enqueue(new unb3nd.Vector2(e.offsetX, e.offsetY));
+  Engine.getInstance().addEventListener("mousemove", function(e) {
+		mouseMoves.enqueue(new Vector2(e.offsetX, e.offsetY));
 	});
 	
 	/**
@@ -80,7 +80,7 @@ function FancyMouse() {
 		ctx.beginPath();
 
 		var moves = mouseMoves.getElements();
-    var i =  moves.length;
+    var i = moves.length;
 		while (i--) {
 			if (i > 1) {
 			

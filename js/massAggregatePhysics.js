@@ -9,7 +9,7 @@
 /**
  * @class A particle is an object which has a position but no orientation
  * @constructor
- * @extends unb3nd.Observable
+ * @extends Observable
  * @param {Number} mass Optional mass
  * @since 0.0.0
  */
@@ -18,7 +18,7 @@ function Particle(mass) {
 	/*
 	 * Super constructor
 	 */
-	unb3nd.Observable.call(this);
+    Observable.call(this);
 	
 	/**
 	 * Unique identifier to help track a single particle
@@ -33,29 +33,29 @@ function Particle(mass) {
 	/**
 	 * The position of this particle
 	 * @field 
-	 * @type unb3nd.Vector2
+	 * @type Vector2
 	 * @default Zero vector
 	 * @since 0.0.0
 	 */
-	this.pos = new unb3nd.Vector2();
+	this.pos = new Vector2();
 	
 	/**
 	 * The velocity of this particle
 	 * @field
-	 * @type unb3nd.Vector2 
+	 * @type Vector2 
 	 * @default Zero vector
 	 * @since 0.0.0
 	 */
-	this.vel = new unb3nd.Vector2();
+	this.vel = new Vector2();
 	
 	/**
 	 * The acceleration of this particle
 	 * @field
-	 * @type unb3nd.Vector2 
+	 * @type Vector2 
 	 * @default Zero vector
 	 * @since 0.0.0
 	 */
-	this.acc = new unb3nd.Vector2();
+	this.acc = new Vector2();
 	
 	/**
 	 * Damping is a simple yet special property involved in slowing down moving objects 0 - 1, where 0 is full damping and 1 is no damping
@@ -83,22 +83,22 @@ function Particle(mass) {
 	 * The overall force accumulator
 	 * @private
 	 * @field
-	 * @type unb3nd.Vector2 
+	 * @type Vector2 
 	 * @default Zero vector
 	 * @since 0.0.0
 	 */
-	this.forceAccum = new unb3nd.Vector2();
+	this.forceAccum = new Vector2();
 	
 	/**
 	 * Determines if point is near this particle
 	 * @function 
-	 * @param {unb3nd.Vector2} point Point to test
+	 * @param {Vector2} point Point to test
 	 * @param {Number} distance Distance to test
 	 * @returns {boolean} true if supplied point is near this particle
 	 * @since 0.0.0
 	 */
 	 this.isCloseToPoint = function(point, distance) {
-    return unb3nd.Vector2.isWithin(this.pos, point, distance);
+    return Vector2.isWithin(this.pos, point, distance);
 	 };
 	
 	/**
@@ -114,7 +114,7 @@ function Particle(mass) {
 	/**
 	 * Adds an external force to this particle
 	 * @function 
-	 * @param {unb3nd.Vector2} force The force to add to this particle
+	 * @param {Vector2} force The force to add to this particle
 	 * @returns {void}
 	 * @since 0.0.0
 	 */
@@ -244,7 +244,7 @@ function Particle(mass) {
 		return "uid=" + this.uid;
 	};
 };
-Particle.prototype = new unb3nd.Observable();
+Particle.prototype = new Observable();
 
 /**
  * Next uid counter
@@ -461,7 +461,7 @@ function ParticleForceGenerator() {
  * @class A gravitational force generator
  * @constructor
  * @extends ParticleForceGenerator
- * @param {unb3nd.Vector2} gravition Gravitational force, defaults {@link unb3nd.constants.DEFAULT_GRAVITATIONAL_CONSTANT}
+ * @param {Vector2} gravition Gravitational force, defaults {@link constants.DEFAULT_GRAVITATIONAL_CONSTANT}
  * @since 0.0.0
  */
 function ParticleGravityForceGenerator(gravitation) {
@@ -469,11 +469,11 @@ function ParticleGravityForceGenerator(gravitation) {
 	/**
 	 * The gravitational pull
 	 * @field 
-	 * @type unb3nd.Vector2
-	 * @default Vector with {@link unb3nd.constants.DEFAULT_GRAVITATIONAL_CONSTANT} as Y-axis
+	 * @type Vector2
+	 * @default Vector with {@link constants.DEFAULT_GRAVITATIONAL_CONSTANT} as Y-axis
 	 * @since 0.0.0
 	 */
-	this.gravitation = gravitation || new unb3nd.Vector2(0, unb3nd.constants.DEFAULT_GRAVITATIONAL_CONSTANT);
+	this.gravitation = gravitation || new Vector2(0, constants.DEFAULT_GRAVITATIONAL_CONSTANT);
 	
 	/**
 	 * Apply gravity to the given mass over the delta time
@@ -523,7 +523,7 @@ ParticleGravityForceGenerator.prototype = new ParticleForceGenerator();
  * @class A wind force generator
  * @constructor
  * @extends ParticleForceGenerator
- * @param {unb3nd.Vector2} direction Wind direction and strength
+ * @param {Vector2} direction Wind direction and strength
  * @since 0.0.0
  */
 function ParticleWindForceGenerator(direction) {
@@ -531,11 +531,11 @@ function ParticleWindForceGenerator(direction) {
 	/**
 	 * The wind direction and strength
 	 * @field 
-	 * @type unb3nd.Vector2
+	 * @type Vector2
 	 * @default Zero vector
 	 * @since 0.0.0
 	 */
-	this.direction = direction || new unb3nd.Vector2();
+	this.direction = direction || new Vector2();
 	
 	/**
 	 * Apply force to the given mass over the delta time
@@ -595,19 +595,19 @@ function ParticleDragForceGenerator(k1, k2) {
 	 * Velocity drag coefficient
 	 * @field
 	 * @type Number
-	 * @default Defaults to {@link unb3nd.constants.DEFAULT_DRAG_VELOCITY_COEFF}
+	 * @default Defaults to {@link constants.DEFAULT_DRAG_VELOCITY_COEFF}
 	 * @since 0.0.0
 	 */
-	this.k1 = k1 || unb3nd.constants.DEFAULT_DRAG_VELOCITY_COEFF;
+	this.k1 = k1 || constants.DEFAULT_DRAG_VELOCITY_COEFF;
 	
 	/**
 	 * Velocity squared drag coefficient
 	 * @field 
 	 * @type Number
-	 * @default Defaults to {@link unb3nd.constants.DEFAULT_DRAG_VELOCITY_SQUARED_COEFF}
+	 * @default Defaults to {@link constants.DEFAULT_DRAG_VELOCITY_SQUARED_COEFF}
 	 * @since 0.0.0
 	 */
-	this.k2 = k2 || unb3nd.constants.DEFAULT_DRAG_VELOCITY_SQUARED_COEFF;
+	this.k2 = k2 || constants.DEFAULT_DRAG_VELOCITY_SQUARED_COEFF;
 	
 	/**
 	 * Apply gravity to the given mass over the delta time
@@ -629,7 +629,7 @@ function ParticleDragForceGenerator(k1, k2) {
 	 * @function
 	 * @param {Particle} particle The particle to apply the force to
 	 * @param {int} delta The delta time in milliseconds
-	 * @returns {unb3nd.Vector2} The force to apply to this particle
+	 * @returns {Vector2} The force to apply to this particle
 	 * @since 0.0.0
 	 */
 	this.calculateForce = function(particle, delta) {
@@ -737,7 +737,7 @@ ParticleSpringForceGenerator.prototype = new ParticleForceGenerator();
  * @class A spring force generator
  * @constructor
  * @extends ParticleForceGenerator
- * @param {unb3nd.Vector2} anchor Fixed point
+ * @param {Vector2} anchor Fixed point
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
  * @since 0.0.0
@@ -747,7 +747,7 @@ function ParticleAnchoredSpringForceGenerator(anchor, springConstant, restLength
 	/**
 	 * Anchor to which particle must be connected
 	 * @field
-	 * @type unb3nd.Vector2
+	 * @type Vector2
 	 * @default anchor
 	 * @since 0.0.0
 	 */
@@ -882,7 +882,7 @@ ParticleBungeeForceGenerator.prototype = new ParticleForceGenerator();
  * @class An anchored bungee force generator applies a spring force only when extended
  * @constructor
  * @extends ParticleForceGenerator
- * @param {unb3nd.Vector2} anchor Fixed point
+ * @param {Vector2} anchor Fixed point
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
  * @since 0.0.0
@@ -892,7 +892,7 @@ function ParticleAnchoredBungeeForceGenerator(anchor, springConstant, restLength
 	/**
 	 * Anchor to which particle must be connected
 	 * @field
-	 * @type unb3nd.Vector2
+	 * @type Vector2
 	 * @default anchor
 	 * @since 0.0.0
 	 */
@@ -958,7 +958,7 @@ ParticleAnchoredBungeeForceGenerator.prototype = new ParticleForceGenerator();
  * @class 
  * @constructor
  * @extends ParticleForceGenerator
- * @param {unb3nd.Vector2} anchor Fixed point on the water surface
+ * @param {Vector2} anchor Fixed point on the water surface
  * @param {Number} maxDepth The maximum submersion depth before object is completely submerged
  * @param {Number} volume The volume of the object
  * @param {Number} liquidDensity The density of the liquid. Pure water has 1000 kg per cubic meter.
@@ -969,7 +969,7 @@ function ParticleBuoyancyForceGenerator(anchor, maxDepth, volume, liquidDensity)
 	/**
 	 * Fixed point
 	 * @field 
-	 * @type unb3nd.Vector2
+	 * @type Vector2
 	 * @default anchor
 	 * @since 0.0.0
 	 */
@@ -1017,7 +1017,7 @@ function ParticleBuoyancyForceGenerator(anchor, maxDepth, volume, liquidDensity)
 			return;
 		} // if
 		
-		var force = new unb3nd.Vector2();
+		var force = new Vector2();
 		if (depth > this.maxDepth) {
 			force.y = this.liquidDensity * this.volume;
 			particle.applyForce(force);
@@ -1068,7 +1068,7 @@ ParticleForceGeneratorFactory.createGravity = function(forceRegistry, particle) 
  * @static
  * @param {ParticleForceRegistry} forceRegistry The force registry to add the generator to
  * @param {Particle} particle The particle to add the generator to
- * @param {unb3nd.Vector2} direction The direction and strength of the force
+ * @param {Vector2} direction The direction and strength of the force
  * @returns {void}
  * @since 0.0.0
  */
@@ -1131,7 +1131,7 @@ ParticleForceGeneratorFactory.createSpring = function(forceRegistry, p1, p2, spr
  * @static
  * @param {ParticleForceRegistry} forceRegistry The force registry to add the generator to
  * @param {Particle} particle The first particle
- * @param {unb3nd.Vector2} anchor The anchor point
+ * @param {Vector2} anchor The anchor point
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
  * @returns {void}
@@ -1181,7 +1181,7 @@ ParticleForceGeneratorFactory.createBungee = function(forceRegistry, p1, p2, spr
  * @static
  * @param {ParticleForceRegistry} forceRegistry The force registry to add the generator to
  * @param {Particle} particle The first particle
- * @param {unb3nd.Vector2} anchor The anchor point
+ * @param {Vector2} anchor The anchor point
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
  * @returns {void}
@@ -1197,7 +1197,7 @@ ParticleForceGeneratorFactory.createAnchoredBungee = function(forceRegistry, par
  * @static
  * @param {ParticleForceRegistry} forceRegistry The force registry to add the generator to
  * @param {Particle} particle The first particle
- * @param {unb3nd.Vector2} anchor The anchor point
+ * @param {Vector2} anchor The anchor point
  * @param {Number} maxDepth
  * @param {Number} volume 
  * @param {Number} liquidDensity 
@@ -1261,11 +1261,11 @@ function ParticleContact() {
 	/**
 	 * Holds the contact normal
 	 * @field 
-	 * @type unb3nd.Vector2
+	 * @type Vector2
 	 * @default Zero vector
 	 * @since 0.0.0
 	 */
-	this.contactNormal = new unb3nd.Vector2();
+	this.contactNormal = new Vector2();
 	
 	/**
 	 * Penetration depth in the direction of the contact normal
@@ -1663,7 +1663,7 @@ ParticleCableContactGenerator.prototype = new ParticleLinkContactGenerator();
  * @constructor
  * @extends ParticleContactGenerator
  * @param {Particle} particle Particle fixed to this anchor
- * @param {unb3nd.Vector2} anchor Fixed point
+ * @param {Vector2} anchor Fixed point
  * @param {Number} maxLength Maximum length of the cable
  * @param {Number} restitution Restitution (bounciness) of the cable
  * @since 0.0.0.3
@@ -1688,7 +1688,7 @@ function ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, rest
   /**
 	 * Anchor to which particle must be connected
 	 * @field
-	 * @type unb3nd.Vector2
+	 * @type Vector2
 	 * @default anchor
 	 * @since 0.0.0.3
 	 */
@@ -1853,7 +1853,7 @@ ParticleRodContactGenerator.prototype = new ParticleLinkContactGenerator();
  * @constructor
  * @extends ParticleContactGenerator
  * @param {Particle} particle Particle fixed to this anchor
- * @param {unb3nd.Vector2} anchor Fixed point
+ * @param {Vector2} anchor Fixed point
  * @param {Number} length Length of this rod
  * @since 0.0.0.3
  */
@@ -1877,7 +1877,7 @@ function ParticleAnchoredRodContactGenerator(particle, anchor, length) {
   /**
 	 * Anchor to which particle must be connected
 	 * @field
-	 * @type unb3nd.Vector2
+	 * @type Vector2
 	 * @default anchor
 	 * @since 0.0.0.3
 	 */
@@ -2092,7 +2092,7 @@ function ParticleBoxContactGenerator(box, collisionRadius) {
 			
 			var particle = this.particles[i];
 			if (!box.shrink(this.collisionRadius).isPointInside(particle.pos)) {
-				var normal = new unb3nd.Vector2();
+				var normal = new Vector2();
 				var depth = 0;
 				if (particle.pos.x < this.box.x + this.collisionRadius) {
 					normal.x = 1;
@@ -2122,7 +2122,7 @@ function ParticleBoxContactGenerator(box, collisionRadius) {
 				particleContact.particles[0] = particle;
 				particleContact.contactNormal = normal;
 				particleContact.penetration = depth;
-				particleContact.restitution = unb3nd.constants.DEFAULT_COLLISION_RESTITUTION;
+				particleContact.restitution = constants.DEFAULT_COLLISION_RESTITUTION;
 				contacts.push(particleContact);
 				usedContacts++;
 			} // if
@@ -2210,7 +2210,7 @@ ParticleContactGeneratorFactory.createCable = function(particleWorld, particle, 
  * @static
  * @param {ParticleWorld} particleWorld The particle world to add the generator to
  * @param {Particle} particle The first particle
- * @param {unb3nd.Vector2} anchor The anchor to attach the particle to
+ * @param {Vector2} anchor The anchor to attach the particle to
  * @param {Number} maxLength The maximum length of the cable
  * @param {Number} restitution The cable's restitution
  * @returns {void}
@@ -2246,7 +2246,7 @@ ParticleContactGeneratorFactory.createRod = function(particleWorld, particle, pa
  * @static
  * @param {ParticleWorld} particleWorld The particle world to add the generator to
  * @param {Particle} particle The first particle
- * @param {unb3nd.Vector2} anchor The anchor to attach the particle to
+ * @param {Vector2} anchor The anchor to attach the particle to
  * @param {Number} length The length of the rod
  * @returns {void}
  * @since 0.0.0.3
@@ -2519,7 +2519,7 @@ function ParticleWorldVisitor() {
 /**
  * @class Keeps track of all particles
  * @constructor
- * @extends unb3nd.Observable
+ * @extends Observable
  * @param {int} flags Initial value flags
  * @since 0.0.0
  */
@@ -2528,7 +2528,7 @@ function ParticleWorld(flags) {
 	/*
 	 * Super constructor
 	 */
-  unb3nd.Observable.call(this);
+  Observable.call(this);
 	
 	/**
 	 * Flag to indicate if contact events are enabled
@@ -2722,7 +2722,7 @@ function ParticleWorld(flags) {
 	/**
 	 * Gets the first particle within the specified radius in world space
 	 * @function
-	 * @param {unb3nd.Vector2} point The world point at which to look
+	 * @param {Vector2} point The world point at which to look
 	 * @param {Number} radius The search radius
 	 * @returns {Particle} The particle, undefined if none were found
 	 * @since 0.0.0
@@ -2741,7 +2741,7 @@ function ParticleWorld(flags) {
   /**
 	 * Gets the first particle within the specified radius in window space
 	 * @function
-	 * @param {unb3nd.Vector2} point The window point at which to look
+	 * @param {Vector2} point The window point at which to look
 	 * @param {Number} radius The search radius
 	 * @returns {Particle} The particle, undefined if none were found
 	 * @since 0.0.0.3
@@ -2750,7 +2750,7 @@ function ParticleWorld(flags) {
     var i = this.particles.length;
     while(i--) {
 			var particle = this.particles[i];
-			if (unb3nd.Vector2.isWithin(window(particle.pos), point, radius)) {
+			if (Vector2.isWithin(window(particle.pos), point, radius)) {
 				return particle;
 			} // if
 		} // for
@@ -2881,7 +2881,7 @@ function ParticleWorld(flags) {
 	/**
 	 * Adds a global gravity force
 	 * @function
-	 * @param {unb3nd.Vector2} gravitation Optional gravitational pull
+	 * @param {Vector2} gravitation Optional gravitational pull
 	 * @returns {void}
 	 * @since 0.0.0
 	 */
@@ -2985,4 +2985,4 @@ function ParticleWorld(flags) {
 		} // for
   }
 }
-ParticleWorld.prototype = new unb3nd.Observable();
+ParticleWorld.prototype = new Observable();

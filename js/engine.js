@@ -9,15 +9,15 @@
 /**
  * @class An object to register engine events to
  * @constructor
- * @extends unb3nd.Observable
+ * @extends Observable
  * @since 0.0.0
  */
-unb3nd.Engine = function () {
+function Engine() {
 
   /*
    * Call parent constructor
    */
-  unb3nd.Observable.call(this);
+  Observable.call(this);
 
   /**
    * On reset event callback
@@ -356,7 +356,7 @@ unb3nd.Engine = function () {
    * @type Number
    * @since 0.0.0
    */
-  this.lastFPS = unb3nd.getTime();
+  this.lastFPS = getTime();
 
   /**
    * Last sync time
@@ -365,7 +365,7 @@ unb3nd.Engine = function () {
    * @type Number
    * @since 0.0.0
    */
-  this.lastSync = unb3nd.getTime();
+  this.lastSync = getTime();
 
   /**
    * Global running flag
@@ -413,7 +413,7 @@ unb3nd.Engine = function () {
       if (this.debug) {
         console.debug("Found 2d context");
       } // if
-      this.windowRect = new unb3nd.Rectangle(0, 0, this.canvas.width, this.canvas.height);
+      this.windowRect = new Rectangle(0, 0, this.canvas.width, this.canvas.height);
 
       /**
        * @eventHandler
@@ -421,7 +421,7 @@ unb3nd.Engine = function () {
        * @param Event e mousemove event
        */
       this.canvas.onmousemove = function (e) {
-        engine.mousemove(e);
+        Engine.getInstance().mousemove(e);
       };
 
       /**
@@ -430,7 +430,7 @@ unb3nd.Engine = function () {
        * @param Event e mousedown event
        */
       this.canvas.onmousedown = function (e) {
-        engine.mousedown(e);
+        Engine.getInstance().mousedown(e);
       };
 
       /**
@@ -439,7 +439,7 @@ unb3nd.Engine = function () {
        * @param {Event} e mouseup event
        */
       this.canvas.onmouseup = function (e) {
-        engine.mouseup(e);
+        Engine.getInstance().mouseup(e);
       };
 
       /**
@@ -448,7 +448,7 @@ unb3nd.Engine = function () {
        * @param Event e mouseover event
        */
       this.canvas.onmouseover = function (e) {
-        engine.mouseover(e);
+        Engine.getInstance().mouseover(e);
       };
 
       /**
@@ -457,7 +457,7 @@ unb3nd.Engine = function () {
        * @param Event e mouseout event
        */
       this.canvas.onmouseout = function (e) {
-        engine.mouseout(e);
+        Engine.getInstance().mouseout(e);
       };
 
       /**
@@ -466,9 +466,8 @@ unb3nd.Engine = function () {
        * @param Event e mousewheel event
        */
       this.canvas.onmousewheel = function (e) {
-        engine.mousewheel(e);
+        Engine.getInstance().mousewheel(e);
       };
-
 
       var STYLE_DARK_EVENING = this.ctx.createLinearGradient(0, -75, 0, 75);
       STYLE_DARK_EVENING.addColorStop(0, '#232256');
@@ -492,8 +491,8 @@ unb3nd.Engine = function () {
   this.engineReset = function() {
     this.fps = 0;
     this.lastFrame = 0;
-    this.lastFPS = unb3nd.getTime();
-    this.lastSync = unb3nd.getTime();
+    this.lastFPS = getTime();
+    this.lastSync = getTime();
     this.reset();
   };
 
@@ -503,7 +502,7 @@ unb3nd.Engine = function () {
    * @return int Time delta between time and last update time
    */
   this.getDelta = function() {
-    var time = unb3nd.getTime();
+    var time = getTime();
     var delta = time - this.lastFrame;
     this.lastFrame = time;
 
@@ -516,7 +515,7 @@ unb3nd.Engine = function () {
    * @return void
    */
   this.updateFPS = function() {
-    if (unb3nd.getTime() - this.lastFPS > 1000) {
+    if (getTime() - this.lastFPS > 1000) {
       this.avgFps = this.fps;
       this.fps = 0;
       this.lastFPS += 1000;
@@ -548,7 +547,7 @@ unb3nd.Engine = function () {
    */
   this.enginePause = function() {
     this.paused = true;
-    engine.pause();
+    this.pause();
   };
 
   /**
@@ -558,9 +557,9 @@ unb3nd.Engine = function () {
    */
   this.engineContinue = function() {
     this.paused = false;
-    engine.pause();
+    this.pause();
     this.engineReset();
-    setTimeout(String | Function(this.engineMain), 0);
+    setTimeout(Engine.getInstance().engineMain, 0);
   };
 
   /**
@@ -583,8 +582,8 @@ unb3nd.Engine = function () {
    * @return void
    */
   this.engineSync = function() {
-    var sleepTime = this.lastSync + (1000 / this.targetFps) - unb3nd.getTime();
-    setTimeout(String | Function(this.engineMain), sleepTime);
+    var sleepTime = this.lastSync + (1000 / this.targetFps) - getTime();
+    setTimeout(Engine.getInstance().engineMain, sleepTime);
     this.lastSync += (1000 / this.targetFps);
   };
 
@@ -594,14 +593,15 @@ unb3nd.Engine = function () {
    * @return void
    */
   this.engineMain = function() {
-    if (this.running && !this.paused) {
-      var delta = this.getDelta();
-      this.updateGame(delta);
-      this.ctx.save();
-      this.renderGame(this.ctx);
-      this.ctx.restore();
-      this.updateFPS();
-      this.engineSync();
+    var instance = Engine.getInstance();
+    if (instance.running && !instance.paused) {
+      var delta = instance.getDelta();
+      instance.updateGame(delta);
+      instance.ctx.save();
+      instance.renderGame(this.ctx);
+      instance.ctx.restore();
+      instance.updateFPS();
+      instance.engineSync();
     } // while
   };
 
@@ -652,8 +652,16 @@ unb3nd.Engine = function () {
    */
   this.stopGame = function() {}
 }
-unb3nd.Engine.prototype = new unb3nd.Observable();
-var engine = new unb3nd.Engine();
+Engine.prototype = new Observable();
+
+/**
+ * @function
+ * @abstract
+ * Factory method to return instance of the engine
+ * @returns {Engine} Instance of the engine
+ * @since 0.0.0.4
+ */
+Engine.getInstance = function() {}
 
 /*
  * @eventHandler
@@ -662,11 +670,11 @@ var engine = new unb3nd.Engine();
  */
 document.onreadystatechange = function () {
   if (document.readyState == "complete") {
-    if (engine.debug) {
+    if (Engine.getInstance().debug) {
       console.debug("Document ready state changed to 'complete'");
     } // if
 
-    engine.engineInit();
+    Engine.getInstance().engineInit();
   } // if
 }
 
@@ -678,11 +686,11 @@ document.onreadystatechange = function () {
 document.onkeydown = function (e) {
   // toggle debug 'D'
   if (e.keyCode == 68) {
-    engine.debug = !engine.debug;
-    console.debug("Debug enabled: " + engine.debug);
+    Engine.getInstance().debug = !Engine.getInstance().debug;
+    console.debug("Debug enabled: " + Engine.getInstance().debug);
   } // if
 
-  engine.keydown(e);
+  Engine.getInstance().keydown(e);
 }
 
 /*
@@ -691,5 +699,5 @@ document.onkeydown = function (e) {
  * @param Event e keyup event
  */
 document.onkeyup = function (e) {
-  engine.keyup(e);
+  Engine.getInstance().keyup(e);
 }

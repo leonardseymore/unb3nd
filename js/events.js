@@ -12,7 +12,7 @@
  * @abstract
  * @since 0.0.0
  */
-unb3nd.Observable = function() {
+function Observable() {
 
 	/**
 	 * All registered event listeners
@@ -48,7 +48,11 @@ unb3nd.Observable = function() {
 	 * @since 0.0.0
 	 */
 	this.dispatchEvent = function(type, e) {
-    var i = this.listeners.length;
+    if (typeof this.listeners[type] == "undefined") {
+      return;
+    } // if
+
+    var i = this.listeners[type].length;
 		while (i--) {
 			var listener = this.listeners[type][i];
 			listener.call(this, e);
@@ -74,7 +78,7 @@ unb3nd.Observable = function() {
         } // if
 		return undefined;
 	};
-};
+}
 
 /**
  * Bind a property on one Observable property to a property on another object
@@ -88,7 +92,7 @@ unb3nd.Observable = function() {
  * @return {void}
  * @since 0.0.0.3
  */
-unb3nd.bind = function(eventType, target, targetProperty, source, sourceProperty, twoWay, conversionFunction) {
+function bind(eventType, target, targetProperty, source, sourceProperty, twoWay, conversionFunction) {
   var value = source[sourceProperty];
   if (conversionFunction != undefined) {
     value = conversionFunction(value);
@@ -96,7 +100,7 @@ unb3nd.bind = function(eventType, target, targetProperty, source, sourceProperty
   target[targetProperty] = value;
 
   source.addEventListener(eventType, function(e) {
-    if (engine.debug && engine.verbose) {
+    if (Engine.getInstance().debug && Engine.getInstance().verbose) {
       console.debug("%s event type, %o event, setting target %o.%s to source %o.%s", eventType, e, target, targetProperty, source, sourceProperty);
     } // if
 
@@ -108,6 +112,6 @@ unb3nd.bind = function(eventType, target, targetProperty, source, sourceProperty
   });
 
   if (twoWay) {
-    unb3nd.bind(eventType, source, sourceProperty, target, targetProperty, false);
+    bind(eventType, source, sourceProperty, target, targetProperty, false);
   } // if
-};
+}

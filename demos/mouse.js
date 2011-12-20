@@ -5,15 +5,15 @@
 
 /**
  * @class Mouse game implementation
- * @extends unb3nd.Engine
+ * @extends Engine
  * @since 0.0.0.4
  */
-unb3nd.MouseGame = function() {
+MouseGame = function() {
 
   /**
    * Super constructor
    */
-  unb3nd.Engine.call(this);
+  Engine.call(this);
 
   /**
    * @field
@@ -56,8 +56,8 @@ unb3nd.MouseGame = function() {
    * @return void
    */
   this.renderGame = function() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.mouse.draw();
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.mouse.draw(this.ctx);
   };
 
   /**
@@ -66,21 +66,26 @@ unb3nd.MouseGame = function() {
    * @return void
    */
   this.stopGame = function() {
-    ctx.save();
-    ctx.globalAlpha = 0.3;
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    this.ctx.save();
+    this.ctx.globalAlpha = 0.3;
+    this.ctx.fillStyle = "black";
+    this.ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = "white";
+    this.ctx.globalAlpha = 1;
+    this.ctx.fillStyle = "white";
 
     var stoppedText = "Stopped";
-    ctx.fillText(stoppedText,
-      (windowRect.width - ctx.measureText(stoppedText).width) / 2, windowRect.height / 2
+    this.ctx.fillText(stoppedText,
+      (this.windowRect.width - this.ctx.measureText(stoppedText).width) / 2, this.windowRect.height / 2
     );
-    ctx.restore();
+    this.ctx.restore();
   };
 };
-unb3nd.MouseGame.prototype = new unb3nd.Engine();
-mouseGame = new unb3nd.MouseGame();
+MouseGame.prototype = new Engine();
+
+var mouseGame = new MouseGame();
+Engine.getInstance = function() {
+  return mouseGame;
+}
+
 

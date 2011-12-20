@@ -13,7 +13,7 @@
  * @param {Number} height Height of the rectangle
  * @since 0.0.0
  */
-unb3nd.Rectangle = function(x, y, width, height) {
+Rectangle = function(x, y, width, height) {
 
 	/**
 	 * X position of this rectangle
@@ -133,7 +133,7 @@ unb3nd.Rectangle = function(x, y, width, height) {
 	 * @since 0.0.0
 	 */
 	this.clone = function() {
-		return new unb3nd.Rectangle(this.x, this.y, this.width, this.height);
+		return new Rectangle(this.x, this.y, this.width, this.height);
 	}
 
   /**
@@ -159,7 +159,7 @@ unb3nd.Rectangle = function(x, y, width, height) {
  * @param {Number} y Y-coordinate
  * @since 0.0.0
  */
-unb3nd.Vector2 = function(x, y) {
+Vector2 = function(x, y) {
 
 	/**
 	 * X coordinate of this rectangle
@@ -238,7 +238,7 @@ unb3nd.Vector2 = function(x, y) {
 	 * @since 0.0.0.3
 	 */
 	this.inverse = function() {
-		return new unb3nd.Vector2(-this.x, -this.y);
+		return new Vector2(-this.x, -this.y);
 	}
 
   /**
@@ -363,7 +363,7 @@ unb3nd.Vector2 = function(x, y) {
 	 * @since 0.0.0
 	 */
 	this.clone = function() {
-		return new unb3nd.Vector2(this.x, this.y);
+		return new Vector2(this.x, this.y);
 	}
 
 	/**
@@ -428,7 +428,7 @@ unb3nd.Vector2 = function(x, y) {
  * @returns {Number} The angle between the two vectors
  * @since 0.0.0
  */
-unb3nd.Vector2.getAngle = function(v1, v2) {
+Vector2.getAngle = function(v1, v2) {
 	return Math.acos(v1.normalize().dotProduct(v2.normalize()));
 }
 
@@ -441,7 +441,7 @@ unb3nd.Vector2.getAngle = function(v1, v2) {
  * @returns {Number} The distance between the two vectors
  * @since 0.0.0.3
  */
-unb3nd.Vector2.getDistance = function(v1, v2) {
+Vector2.getDistance = function(v1, v2) {
 	return v1.sub(v2).getMagnitude();
 }
 
@@ -456,7 +456,7 @@ unb3nd.Vector2.getDistance = function(v1, v2) {
  * @returns {Number} The distance squared between the two vectors
  * @since 0.0.0.3
  */
-unb3nd.Vector2.getDistanceSquare = function(v1, v2) {
+Vector2.getDistanceSquare = function(v1, v2) {
 	return v1.sub(v2).getMagnitudeSquare();
 }
 
@@ -470,7 +470,7 @@ unb3nd.Vector2.getDistanceSquare = function(v1, v2) {
  * @returns {boolean} True if the vectors are within specified distance
  * @since 0.0.0.3
  */
-unb3nd.Vector2.isWithin = function(v1, v2, distance) {
+Vector2.isWithin = function(v1, v2, distance) {
 	return Vector2.getDistanceSquare(v1, v2) <= distance * distance;
 }
 
@@ -484,7 +484,7 @@ unb3nd.Vector2.isWithin = function(v1, v2, distance) {
  * @returns {boolean} True if the vectors are strictly within specified distance
  * @since 0.0.0.3
  */
-unb3nd.Vector2.isWithinStrict = function(v1, v2, distance) {
+Vector2.isWithinStrict = function(v1, v2, distance) {
 	return Vector2.getDistanceSquare(v1, v2) < distance * distance;
 }
 
@@ -501,7 +501,7 @@ unb3nd.Vector2.isWithinStrict = function(v1, v2, distance) {
  * @param {Number} z Z-coordinate
  * @since 0.0.0.3
  */
-unb3nd.Vector3 = function(x, y, z) {
+Vector3 = function(x, y, z) {
 
 	/**
 	 * X coordinate of this rectangle
@@ -723,7 +723,7 @@ unb3nd.Vector3 = function(x, y, z) {
  * @param {Number} data4 Matrix data entry
  * @since 0.0.0
  */
-unb3nd.Matrix2 = function(data1, data2, data3, data4, inverse) {
+Matrix2 = function(data1, data2, data3, data4, inverse) {
 
 	/**
 	 * Matrix entries
@@ -780,7 +780,7 @@ unb3nd.Matrix2 = function(data1, data2, data3, data4, inverse) {
 		} // if
 		
 		var inverseDet = 1 / this.det;
-		var i = new unb3nd.Matrix2(
+		var i = new Matrix2(
 			inverseDet * this.e[3],
 			-inverseDet * this.e[1],
 			-inverseDet * this.e[2],
@@ -798,7 +798,7 @@ unb3nd.Matrix2 = function(data1, data2, data3, data4, inverse) {
 	 * @since 0.0.0
 	 */
 	this.multVector = function(v) {
-		return new unb3nd.Vector2(
+		return new Vector2(
 			v.x * this.e[0] + v.y * this.e[1],
 			v.x * this.e[2] + v.y * this.e[3]
 		);
@@ -824,7 +824,7 @@ unb3nd.Matrix2 = function(data1, data2, data3, data4, inverse) {
 	 * @since 0.0.0
 	 */
 	this.mult = function(o) {
-		return new unb3nd.Matrix2(
+		return new Matrix2(
 			this.e[0] * o.e[0] + this.e[1] * o.e[2],
 			this.e[0] * o.e[1] + this.e[1] * o.e[3],
 			this.e[2] * o.e[0] + this.e[3] * o.e[2],
@@ -840,7 +840,7 @@ unb3nd.Matrix2 = function(data1, data2, data3, data4, inverse) {
 	 * @since 0.0.0
 	 */
 	this.add = function(o) {
-		return new unb3nd.Matrix2(
+		return new Matrix2(
 			this.e[0] + o.e[0],
 			this.e[1] + o.e[1],
 			this.e[2] + o.e[2],
@@ -956,7 +956,7 @@ unb3nd.Matrix2 = function(data1, data2, data3, data4, inverse) {
 	 * @since 0.0.0
 	 */
 	this.clone = function() {
-		return new unb3nd.Matrix2(this.e[0], this.e[1], this.e[2], this.e[3]);
+		return new Matrix2(this.e[0], this.e[1], this.e[2], this.e[3]);
 	}
 }
 
@@ -965,14 +965,14 @@ unb3nd.Matrix2 = function(data1, data2, data3, data4, inverse) {
  * @constructor
  * @since 0.0.0
  */
-unb3nd.Identity2 = function() {
+Identity2 = function() {
 	
 	/*
 	 * Super constructor
 	 */
-	unb3nd.Matrix2.call(this, 1, 0, 0, 1);
+	Matrix2.call(this, 1, 0, 0, 1);
 }
-unb3nd.Identity2.prototype = new unb3nd.Matrix2();
+Identity2.prototype = new Matrix2();
 
 /**
  * 2x2 Identity matrix reusable singleton
@@ -982,7 +982,7 @@ unb3nd.Identity2.prototype = new unb3nd.Matrix2();
  * @default new Identity2()
  * @since 0.0.0
  */
-unb3nd.Identity2.instance = new unb3nd.Identity2();
+Identity2.instance = new Identity2();
 
 /**
  * @class 2-Dimensional rotation matrix
@@ -995,15 +995,15 @@ unb3nd.Identity2.instance = new unb3nd.Identity2();
  * @param {Number} theta The angle of this rotation matrix
  * @since 0.0.0
  */
-unb3nd.RotationMatrix2 = function(theta) {
+RotationMatrix2 = function(theta) {
 
   /*
 	 * Super constructor
 	 */
-  unb3nd.Matrix2.call(this, Math.cos(theta), -Math.sin(theta),
+  Matrix2.call(this, Math.cos(theta), -Math.sin(theta),
     Math.sin(theta), Math.cos(theta));
 }
-unb3nd.RotationMatrix2.prototype = new unb3nd.Matrix2();
+RotationMatrix2.prototype = new Matrix2();
 
 /**
  * @class 3x3 matrix
@@ -1019,7 +1019,7 @@ unb3nd.RotationMatrix2.prototype = new unb3nd.Matrix2();
  * @param {Number} data9 Matrix data entry
  * @since 0.0.0.3
  */
-unb3nd.Matrix3 = function(data1, data2, data3, data4, data5, data6, data7, data8, data9) {
+Matrix3 = function(data1, data2, data3, data4, data5, data6, data7, data8, data9) {
 
 	/**
 	 * Matrix entries
@@ -1155,7 +1155,7 @@ unb3nd.Matrix3 = function(data1, data2, data3, data4, data5, data6, data7, data8
 	 * @since 0.0.0.3
 	 */
 	this.add = function(o) {
-		return new unb3nd.Matrix2(
+		return new Matrix2(
 			this.e[0] + o.e[0],
 			this.e[1] + o.e[1],
 			this.e[2] + o.e[2],
@@ -1301,13 +1301,13 @@ unb3nd.Matrix3 = function(data1, data2, data3, data4, data5, data6, data7, data8
  * @param {Number} y The translation in the Y-direction
  * @since 0.0.0.3
  */
-unb3nd.TransformationMatrix3 = function(theta, x, y) {
+TransformationMatrix3 = function(theta, x, y) {
 
   /*
 	 * Super constructor
 	 */
-  unb3nd.Matrix3.call(this, Math.cos(theta), -Math.sin(theta), x,
+  Matrix3.call(this, Math.cos(theta), -Math.sin(theta), x,
     Math.sin(theta), Math.cos(theta), y,
     0, 0, 1);
 }
-unb3nd.TransformationMatrix3.prototype = new unb3nd.Matrix3();
+TransformationMatrix3.prototype = new Matrix3();

@@ -92,9 +92,9 @@ function ParticleWorldRenderVisitor() {
     } // if
 
 		ctx.save();
-		ctx.fillStyle = unb3nd.constants.PARTICLE_COLOR;
+		ctx.fillStyle = constants.PARTICLE_COLOR;
     ctx.translate(particleScreenPos.x, particleScreenPos.y);
-    var width = unb3nd.constants.PARTICLE_WIDTH;
+    var width = constants.PARTICLE_WIDTH;
     ctx.fillRect(
       -width, -width, width * 2, width * 2
     );
@@ -116,7 +116,7 @@ function ParticleWorldRenderVisitor() {
     } // if
 
 		ctx.save();
-		ctx.strokeStyle = unb3nd.constants.GRAVITY_COLOR;
+		ctx.strokeStyle = constants.GRAVITY_COLOR;
 		ctx.beginPath();
 		ctx.translate(particleScreenPos.x, particleScreenPos.y);
 		ctx.moveTo(0, 0);
@@ -139,7 +139,7 @@ function ParticleWorldRenderVisitor() {
     } // if
 
     ctx.save();
-		ctx.strokeStyle = unb3nd.constants.WIND_COLOR;
+		ctx.strokeStyle = constants.WIND_COLOR;
 		ctx.beginPath();
 		ctx.translate(particleScreenPos.x, particleScreenPos.y);
 		ctx.moveTo(0, 0);
@@ -164,7 +164,7 @@ function ParticleWorldRenderVisitor() {
     } // if
 
 		ctx.save();
-		ctx.strokeStyle = unb3nd.constants.DRAG_COLOR;
+		ctx.strokeStyle = constants.DRAG_COLOR;
 		ctx.beginPath();
 		ctx.translate(particleScreenPos.x, particleScreenPos.y);
 		ctx.moveTo(0, 0);
@@ -188,7 +188,7 @@ function ParticleWorldRenderVisitor() {
     } // if
 
 		ctx.save();
-		ctx.strokeStyle = unb3nd.constants.SPRING_COLOR;
+		ctx.strokeStyle = constants.SPRING_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(particleScreenPos.x, particleScreenPos.y);
 		ctx.lineTo(particleOtherScreenPos.x, particleOtherScreenPos.y);
@@ -211,7 +211,7 @@ function ParticleWorldRenderVisitor() {
     } // if
 
 		ctx.save();
-		ctx.strokeStyle = unb3nd.constants.ANCHORED_SPRING_COLOR;
+		ctx.strokeStyle = constants.ANCHORED_SPRING_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(particleScreenPos.x, particleScreenPos.y);
 		ctx.lineTo(anchorScreenPos.x, anchorScreenPos.y);
@@ -234,7 +234,7 @@ function ParticleWorldRenderVisitor() {
     } // if
 
 		ctx.save();
-		ctx.strokeStyle = unb3nd.constants.BUNGEE_COLOR;
+		ctx.strokeStyle = constants.BUNGEE_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(particleScreenPos.x, particleScreenPos.y);
 		ctx.lineTo(particleOtherScreenPos.x, particleOtherScreenPos.y);
@@ -257,7 +257,7 @@ function ParticleWorldRenderVisitor() {
     } // if
 
 		ctx.save();
-		ctx.strokeStyle = unb3nd.constants.ANCHORED_BUNGEE_COLOR;
+		ctx.strokeStyle = constants.ANCHORED_BUNGEE_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(particleScreenPos.x, particleScreenPos.y);
 		ctx.lineTo(anchorScreenPos.x, anchorScreenPos.y);
@@ -280,7 +280,7 @@ function ParticleWorldRenderVisitor() {
     } // if
 
     ctx.save();
-		ctx.strokeStyle = unb3nd.constants.CABLE_COLOR;
+		ctx.strokeStyle = constants.CABLE_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(p1ScreenPos.x, p1ScreenPos.y);
 		ctx.lineTo(p2ScreenPos.x, p2ScreenPos.y);
@@ -303,7 +303,7 @@ function ParticleWorldRenderVisitor() {
     } // if
 
     ctx.save();
-		ctx.strokeStyle = unb3nd.constants.ANCHORED_CABLE_COLOR;
+		ctx.strokeStyle = constants.ANCHORED_CABLE_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(p1ScreenPos.x, p1ScreenPos.y);
 		ctx.lineTo(anchorScreenPos.x, anchorScreenPos.y);
@@ -326,7 +326,7 @@ function ParticleWorldRenderVisitor() {
     } // if
 
     ctx.save();
-		ctx.strokeStyle = unb3nd.constants.ROD_COLOR;
+		ctx.strokeStyle = constants.ROD_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(p1ScreenPos.x, p1ScreenPos.y);
 		ctx.lineTo(p2ScreenPos.x, p2ScreenPos.y);
@@ -349,7 +349,7 @@ function ParticleWorldRenderVisitor() {
     } // if
 
     ctx.save();
-		ctx.strokeStyle = unb3nd.constants.ANCHORED_ROD_COLOR;
+		ctx.strokeStyle = constants.ANCHORED_ROD_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(p1ScreenPos.x, p1ScreenPos.y);
 		ctx.lineTo(anchorScreenPos.x, anchorScreenPos.y);
@@ -364,14 +364,14 @@ function ParticleWorldRenderVisitor() {
 	 */
 	this.visitCollisionContactGenerator = function(contactGenerator) {
     ctx.save();
-		ctx.strokeStyle = unb3nd.constants.COLLISION_DETECTION_COLOR;
+		ctx.strokeStyle = constants.COLLISION_DETECTION_COLOR;
 		for (i in contactGenerator.particles) {
 			var particle = contactGenerator.particles[i];
       var particleScreenPos = window(particle.pos);
 
       if (this.isPointInScreen(particleScreenPos)) {
         ctx.beginPath();
-        ctx.arc(particleScreenPos.x, particleScreenPos.y, contactGenerator.collisionRadius, 0, unb3nd.constants.TWO_PI);
+        ctx.arc(particleScreenPos.x, particleScreenPos.y, contactGenerator.collisionRadius, 0, constants.TWO_PI);
         ctx.stroke();
       } // if
 		} // for
@@ -386,9 +386,9 @@ function ParticleWorldRenderVisitor() {
 	 */
 	this.visitBoxCollisionContactGenerator = function(contactGenerator) {
     ctx.save();
-		ctx.strokeStyle = unb3nd.constants.COLLISION_BOX_COLOR;
+		ctx.strokeStyle = constants.COLLISION_BOX_COLOR;
 		ctx.strokeRect(contactGenerator.box.x, contactGenerator.box.y, contactGenerator.box.width, contactGenerator.box.height);
-		ctx.strokeStyle = unb3nd.constants.COLLISION_BOX_TOL_COLOR;
+		ctx.strokeStyle = constants.COLLISION_BOX_TOL_COLOR;
 		ctx.strokeRect(contactGenerator.box.x + contactGenerator.collisionRadius,
       contactGenerator.box.y + contactGenerator.collisionRadius,
       contactGenerator.box.width - contactGenerator.collisionRadius * 2,
@@ -437,9 +437,9 @@ function WorldRenderVisitor() {
 	this.visitRigidBody = function(rigidBody) {
     var screenPos = window(rigidBody.pos);
 		ctx.save();
-		ctx.fillStyle = unb3nd.constants.PARTICLE_COLOR;
+		ctx.fillStyle = constants.PARTICLE_COLOR;
     ctx.translate(screenPos.x, screenPos.y);
-    var width = unb3nd.constants.PARTICLE_WIDTH;
+    var width = constants.PARTICLE_WIDTH;
     ctx.fillRect(
       -width, -width, width * 2, width * 2
     );
@@ -454,7 +454,7 @@ function WorldRenderVisitor() {
 	this.visitGravityForceGenerator = function(forceGenerator, rigidBody) {
     var screenPos = window(rigidBody.pos);
 		ctx.save();
-		ctx.strokeStyle = unb3nd.constants.GRAVITY_COLOR;
+		ctx.strokeStyle = constants.GRAVITY_COLOR;
 		ctx.beginPath();
 		ctx.translate(screenPos.x, screenPos.y);
 		ctx.moveTo(0, 0);
@@ -476,7 +476,7 @@ function WorldRenderVisitor() {
 
 		ctx.save();
 
-		ctx.strokeStyle = unb3nd.constants.SPRING_COLOR;
+		ctx.strokeStyle = constants.SPRING_COLOR;
 		ctx.beginPath();
 		ctx.moveTo(screenPos.x, screenPos.y);
 		ctx.lineTo(screenPosOther.x, screenPosOther.y);
@@ -496,7 +496,7 @@ function WorldRenderVisitor() {
     var force = forceGenerator.getTensor().multVector(forceGenerator.windspeed);
 
 		ctx.save();
-		ctx.strokeStyle = unb3nd.constants.AERO_COLOR;
+		ctx.strokeStyle = constants.AERO_COLOR;
 		ctx.beginPath();
 		ctx.translate(screenPos.x, screenPos.y);
 		ctx.moveTo(0, 0);

@@ -7,18 +7,12 @@
 "use strict";
 
 /**
- * unb3nd global namespace
- * @since 0.0.0.4
- */
-var unb3nd = {};
-
-/**
  * Current time in milliseconds
  * @function
  * @returns {Number} Current time in milliseconds
  * @since 0.0.0
  */
-unb3nd.getTime = function() {
+function getTime() {
 	return Date.now();
 };
 
@@ -29,20 +23,20 @@ unb3nd.getTime = function() {
  * @returns {Number} Window Y-coordinate
  * @since 0.0.0
  */
-unb3nd.Y = function(y) {
+function Y(y) {
 	return engine.windowRect.height - y;
 };
 
 /**
  * From window position to world position
  * @function
- * @param {unb3nd.Vector2} point Window position
- * @returns {unb3nd.Vector2} Window position
+ * @param {Vector2} point Window position
+ * @returns {Vector2} Window position
  * @since 0.0.0.3
  */
-unb3nd.world = function(point) {
+function world(point) {
   var worldPos = point.clone();
-  worldPos.y = unb3nd.Y(point.y);
+  worldPos.y = Y(point.y);
   worldPos.multScalarMutate(1 / ppm);
   return worldPos;
 };
@@ -50,25 +44,25 @@ unb3nd.world = function(point) {
 /**
  * From world position to window position
  * @function
- * @param {unb3nd.Vector2} point World position
- * @returns {unb3nd.Vector2} Window position
+ * @param {Vector2} point World position
+ * @returns {Vector2} Window position
  * @since 0.0.0.3
  */
-unb3nd.window = function(point) {
+function window(point) {
   var windowPos = point.clone();
   windowPos.multScalarMutate(ppm);
-  windowPos.y = unb3nd.Y(windowPos.y);
+  windowPos.y = Y(windowPos.y);
   return windowPos;
 };
 
 /**
  * From world vector to window vector
  * @function
- * @param {unb3nd.Vector2} vector World vector
- * @returns {unb3nd.Vector2} Window vector
+ * @param {Vector2} vector World vector
+ * @returns {Vector2} Window vector
  * @since 0.0.0.3
  */
-unb3nd.windowVector = function(vector) {
+function windowVector(vector) {
   var windowVec = vector.clone();
   windowVec.y = -vector.y;
   windowVec.multScalarMutate(ppm);
@@ -79,7 +73,7 @@ unb3nd.windowVector = function(vector) {
  * unb3nd constants namespace
  * @since 0.0.0.4
  */
-unb3nd.constants = {
+var constants = {
 
   /**
    * Colors

@@ -1,54 +1,72 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>unb3nd - Mass Aggregate Demo</title>
-		<link rel="stylesheet" href="../css/unb3nd.css" type="text/css" media="screen" />
+<head>
+    <title>unb3nd - Mass Aggregate Demo</title>
+    <link rel="stylesheet" href="../css/unb3nd.css" type="text/css" media="screen"/>
     <style type="text/css">
-      input {
-        width: 24px;
-        height: 24px;
-      }
+        input {
+            width: 24px;
+            height: 24px;
+        }
 
-      #btnPlay {
-        width: 48px;
-        height: 48px;
-      }
+        #btnPlay {
+            width: 48px;
+            height: 48px;
+        }
     </style>
     <script type="text/javascript" src="../js/util.js"></script>
     <script type="text/javascript" src="../js/collections.js"></script>
-		<script type="text/javascript" src="../js/math.js"></script>
-		<script type="text/javascript" src="../js/events.js"></script>
-		<script type="text/javascript" src="../js/engine.js"></script>
-		<script type="text/javascript" src="../js/resources.js"></script>
+    <script type="text/javascript" src="../js/math.js"></script>
+    <script type="text/javascript" src="../js/events.js"></script>
+    <script type="text/javascript" src="../js/engine.js"></script>
+    <script type="text/javascript" src="../js/resources.js"></script>
     <script type="text/javascript" src="../js/massAggregatePhysics.js"></script>
     <script type="text/javascript" src="../js/rigidBodyPhysics.js"></script>
-		<script type="text/javascript" src="../js/render.js"></script>
-		<script type="text/javascript" src="massAggregate.js"></script>
-	</head>
-	<body>
-		<center>
-      <input id="btnPlay" type="image" onclick="playButton_click();" src="../img/playButton.png" />
-      <br/>
-      <input id="btnEnableSelect" type="image" title="Select" value="Select" onclick="enableTool(SelectTool.instance);" src="../img/pickup.png" />
-      <input id="btnEnableRemove" type="image" title="Remove" value="Remove" onclick="enableTool(RemoveTool.instance);" src="../img/remove.png" /> |
-      <input id="btnAddParticle" type="image" title="Add Particle" value="Add Particle" onclick="enableTool(CreateParticleTool.instance);" src="../img/particles.png" />
-      <input id="btnAddAnchor" type="image" title="Add Anchor" value="Add Anchor" onclick="enableTool(CreateAnchorTool.instance);" src="../img/anchor.png" />
-      <input id="btnAddRope" type="image" title="Add Rope" value="Add Rope" onclick="enableTool(CreateRopeTool.instance);" src="../img/rope.png" /> |
-      <input id="btnAddGravity" type="image" title="Add Gravity" value="Add Gravity" onclick="enableTool(CreateGravityTool.instance);" src="../img/gravity.png" />
-      <input id="btnAddDrag" type="image" title="Add Drag" value="Add Drag" onclick="enableTool(CreateDragTool.instance);" ();" src="../img/drag.png" />
-      <input id="btnAddWind" type="image" title="Add Wind" value="Add Wind" onclick="enableTool(CreateWindTool.instance);" ();" src="../img/wind.png" /> |
-      <input id="btnAddCollisionDetection"  type="image" title="Add Collision Detection" value="Add Collision Detection" onclick="enableTool(CreateCollisionDetectionTool.instance);" src="../img/interCollision.png" />
-      <input id="btnAddCollisionBox" type="image" title="Add Collision Box" value="Add Collision Box" onclick="enableTool(CreateCollisionBoxTool.instance);" src="../img/collision.png" /> |
-      <input id="btnAddSpring" type="image" title="Add Spring" value="Add Spring" onclick="enableTool(CreateSpringTool.instance);" src="../img/spring.png" />
-      <input id="btnAddAnchoredSpring" type="image" title="Add Anchored Spring" value="Add Anchored Spring" onclick="enableTool(CreateAnchoredSpringTool.instance);" src="../img/springAnchored.png" />
-      <input id="btnAddBungee" type="image" title="Add Bungee" value="Add Bungee" onclick="enableTool(CreateBungeeTool.instance);" src="../img/rubber.png" />
-      <input id="btnAddAnchoredBungee" type="image" title="Add Anchored Bungee" value="Add Anchored Bungee" onclick="enableTool(CreateAnchoredBungeeTool.instance);" src="../img/rubberAnchored.png" />
-      <input id="btnAddCable" type="image" title="Add Cable" value="Add Cable" onclick="enableTool(CreateCableTool.instance);" src="../img/cable.png" />
-      <input id="btnAddAnchoredCable" type="image" title="Add Anchored Cable" value="Add Anchored Cable" onclick="enableTool(CreateAnchoredCableTool.instance);" src="../img/cableAnchored.png" />
-      <input id="btnAddRod" type="image" title="Add Rod" value="Add Rod" onclick="enableTool(CreateRodTool.instance);" src="../img/rod.png" />
-      <input id="btnAddAnchoredRod" type="image" title="Add Anchored Rod" value="Add Anchored Rod" onclick="enableTool(CreateAnchoredRodTool.instance);" src="../img/rodAnchored.png" />
-      <hr/>
-      <canvas id="canvas" width="400" height="400"></canvas>
-		</center>
-	</body>
+    <script type="text/javascript" src="../js/render.js"></script>
+    <script type="text/javascript" src="massAggregate.js"></script>
+</head>
+<body>
+<center>
+    <input id="btnPlay" type="image" onclick="playButton_click();" src="../img/playButton.png"/>
+    <br/>
+    <input id="btnEnableSelect" type="image" title="Select" value="Select" onclick="enableTool(SelectTool.instance);"
+           src="../img/pickup.png"/>
+    <input id="btnEnableRemove" type="image" title="Remove" value="Remove" onclick="enableTool(RemoveTool.instance);"
+           src="../img/remove.png"/> |
+    <input id="btnAddParticle" type="image" title="Add Particle" value="Add Particle"
+           onclick="enableTool(CreateParticleTool.instance);" src="../img/particles.png"/>
+    <input id="btnAddAnchor" type="image" title="Add Anchor" value="Add Anchor"
+           onclick="enableTool(CreateAnchorTool.instance);" src="../img/anchor.png"/>
+    <input id="btnAddRope" type="image" title="Add Rope" value="Add Rope" onclick="enableTool(CreateRopeTool.instance);"
+           src="../img/rope.png"/> |
+    <input id="btnAddGravity" type="image" title="Add Gravity" value="Add Gravity"
+           onclick="enableTool(CreateGravityTool.instance);" src="../img/gravity.png"/>
+    <input id="btnAddDrag" type="image" title="Add Drag" value="Add Drag" onclick="enableTool(CreateDragTool.instance);"
+    ();" src="../img/drag.png" />
+    <input id="btnAddWind" type="image" title="Add Wind" value="Add Wind" onclick="enableTool(CreateWindTool.instance);"
+    ();" src="../img/wind.png" /> |
+    <input id="btnAddCollisionDetection" type="image" title="Add Collision Detection" value="Add Collision Detection"
+           onclick="enableTool(CreateCollisionDetectionTool.instance);" src="../img/interCollision.png"/>
+    <input id="btnAddCollisionBox" type="image" title="Add Collision Box" value="Add Collision Box"
+           onclick="enableTool(CreateCollisionBoxTool.instance);" src="../img/collision.png"/> |
+    <input id="btnAddSpring" type="image" title="Add Spring" value="Add Spring"
+           onclick="enableTool(CreateSpringTool.instance);" src="../img/spring.png"/>
+    <input id="btnAddAnchoredSpring" type="image" title="Add Anchored Spring" value="Add Anchored Spring"
+           onclick="enableTool(CreateAnchoredSpringTool.instance);" src="../img/springAnchored.png"/>
+    <input id="btnAddBungee" type="image" title="Add Bungee" value="Add Bungee"
+           onclick="enableTool(CreateBungeeTool.instance);" src="../img/rubber.png"/>
+    <input id="btnAddAnchoredBungee" type="image" title="Add Anchored Bungee" value="Add Anchored Bungee"
+           onclick="enableTool(CreateAnchoredBungeeTool.instance);" src="../img/rubberAnchored.png"/>
+    <input id="btnAddCable" type="image" title="Add Cable" value="Add Cable"
+           onclick="enableTool(CreateCableTool.instance);" src="../img/cable.png"/>
+    <input id="btnAddAnchoredCable" type="image" title="Add Anchored Cable" value="Add Anchored Cable"
+           onclick="enableTool(CreateAnchoredCableTool.instance);" src="../img/cableAnchored.png"/>
+    <input id="btnAddRod" type="image" title="Add Rod" value="Add Rod" onclick="enableTool(CreateRodTool.instance);"
+           src="../img/rod.png"/>
+    <input id="btnAddAnchoredRod" type="image" title="Add Anchored Rod" value="Add Anchored Rod"
+           onclick="enableTool(CreateAnchoredRodTool.instance);" src="../img/rodAnchored.png"/>
+    <hr/>
+    <canvas id="canvas" width="400" height="400"></canvas>
+</center>
+</body>
 </html>

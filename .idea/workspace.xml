@@ -2,80 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="58f4b6f7-1b8b-4736-954d-5da3608cc9c2" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/highPerfMathTest.js" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\css\funsics.css" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\dist\funsics-0.0.0.3.zip" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\funsics.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\Thumbs.db" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\anchor.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\anchor16.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\bomb.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\cable.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\cableAnchored.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\collision.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\drag.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\funsicsLogo.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\gravity.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\icon_128.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\icon_16.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\interCollision.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\particles.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\pauseButton.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\pickup.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\playButton.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\remove.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\rod.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\rodAnchored.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\rope.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\rubber.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\rubberAnchored.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\spring.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\springAnchored.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\img\wind.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\js\funsics.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\js\unb3nd.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\manifest.json" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\anchor.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\cable.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\cableAnchored.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\collision.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\drag.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\funsicsLogo.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\gravity.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\interCollision.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\particles.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\playButton.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\remove.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\rod.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\rodAnchored.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\rope.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\rubber.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\rubberAnchored.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\select.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\spring.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\springAnchored.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\res\wind.ai" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\site\screenshot1.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\site\screenshot2.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\site\screenshot3.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\site\screenshot4.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\site\screenshot5.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\games\funsics\site\sync_data_age.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\js\globals.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\test\globalsTest.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\leonard\src\pet.projects\html5\unb3nd\test\skeleton.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.bat" afterPath="$PROJECT_DIR$/build.bat" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demos/massAggregate.html" afterPath="$PROJECT_DIR$/demos/massAggregate.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demos/massAggregate.js" afterPath="$PROJECT_DIR$/demos/massAggregate.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demos/mouse.html" afterPath="$PROJECT_DIR$/demos/mouse.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demos/mouse.js" afterPath="$PROJECT_DIR$/demos/mouse.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demos/rigidBodySample.js" afterPath="$PROJECT_DIR$/demos/rigidBodySample.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demos/simulation.js" afterPath="$PROJECT_DIR$/demos/simulation.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demos/spring.js" afterPath="$PROJECT_DIR$/demos/spring.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demos/vector2.js" afterPath="$PROJECT_DIR$/demos/vector2.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/background.js" afterPath="$PROJECT_DIR$/js/background.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/collections.js" afterPath="$PROJECT_DIR$/js/collections.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/engine.js" afterPath="$PROJECT_DIR$/js/engine.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/events.js" afterPath="$PROJECT_DIR$/js/events.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/highPerfMath.js" afterPath="$PROJECT_DIR$/js/highPerfMath.js" />
@@ -85,13 +15,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/render.js" afterPath="$PROJECT_DIR$/js/render.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/rigidBodyPhysics.js" afterPath="$PROJECT_DIR$/js/rigidBodyPhysics.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/util.js" afterPath="$PROJECT_DIR$/js/util.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/collectionsTest.js" afterPath="$PROJECT_DIR$/test/collectionsTest.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/engineTest.js" afterPath="$PROJECT_DIR$/test/engineTest.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/index.html" afterPath="$PROJECT_DIR$/test/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/massAggregatePhysicsTest.js" afterPath="$PROJECT_DIR$/test/massAggregatePhysicsTest.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/mathTest.js" afterPath="$PROJECT_DIR$/test/mathTest.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/rigidBodyPhysicsTest.js" afterPath="$PROJECT_DIR$/test/rigidBodyPhysicsTest.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/utilTest.js" afterPath="$PROJECT_DIR$/test/utilTest.js" />
     </list>
     <ignored path="unb3nd.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -152,7 +75,46 @@
     <favorites_list name="unb3nd" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="engine.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/engine.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="597" column="26" selection-start="11331" selection-end="11331" vertical-scroll-proportion="63.12">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mouse.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/demos/mouse.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="85" column="0" selection-start="1589" selection-end="1677" vertical-scroll-proportion="0.55987054">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="events.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/events.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="102" column="58" selection-start="3086" selection-end="3086" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mouse.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/mouse.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="82" column="12" selection-start="1494" selection-end="1494" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -170,30 +132,30 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/test/highPerfMathTest.js" />
-        <option value="$PROJECT_DIR$/test/massAggregatePhysicsTest.js" />
-        <option value="$PROJECT_DIR$/js/math.js" />
-        <option value="$PROJECT_DIR$/test/mathTest.js" />
-        <option value="$PROJECT_DIR$/test/rigidBodyPhysicsTest.js" />
-        <option value="$PROJECT_DIR$/test/index.html" />
         <option value="$PROJECT_DIR$/test/utilTest.js" />
-        <option value="$PROJECT_DIR$/js/engine.js" />
         <option value="$PROJECT_DIR$/games/funsics/js/funsics.js" />
-        <option value="$PROJECT_DIR$/js/events.js" />
-        <option value="$PROJECT_DIR$/js/highPerfMath.js" />
-        <option value="$PROJECT_DIR$/js/mouse.js" />
+        <option value="$PROJECT_DIR$/js/background.js" />
+        <option value="$PROJECT_DIR$/js/math.js" />
+        <option value="$PROJECT_DIR$/js/render.js" />
         <option value="$PROJECT_DIR$/js/rigidBodyPhysics.js" />
         <option value="$PROJECT_DIR$/js/util.js" />
-        <option value="$PROJECT_DIR$/js/background.js" />
+        <option value="$PROJECT_DIR$/js/highPerfMath.js" />
         <option value="$PROJECT_DIR$/js/massAggregatePhysics.js" />
+        <option value="$PROJECT_DIR$/demos/massAggregate.js" />
+        <option value="$PROJECT_DIR$/demos/massAggregate.html" />
+        <option value="$PROJECT_DIR$/demos/mouse.html" />
+        <option value="$PROJECT_DIR$/js/mouse.js" />
+        <option value="$PROJECT_DIR$/js/engine.js" />
+        <option value="$PROJECT_DIR$/demos/mouse.js" />
+        <option value="$PROJECT_DIR$/js/events.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1696" />
-    <option name="height" value="1026" />
+    <option name="x" value="384" />
+    <option name="y" value="173" />
+    <option name="width" value="1152" />
+    <option name="height" value="692" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -221,6 +183,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -239,26 +202,70 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="unb3nd" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="unb3nd" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="unb3nd" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="unb3nd" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demos" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.last.edited" value="Modules" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="79" />
     <property name="project.structure.proportion" value="0.15" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="96" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="options.lastSelected" value="preferences.sourceCode.JavaScript" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="96" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="98" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="771" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="772" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="96" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="95" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="options.lastSelected" value="preferences.sourceCode.General" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -305,6 +312,7 @@
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
@@ -316,31 +324,6 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -402,23 +385,23 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
+    <frame x="384" y="173" width="1152" height="692" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32965687" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.52880186" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5280899" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39631337" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25842696" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32771537" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24938725" sideWeight="0.23617512" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24938725" sideWeight="0.60368663" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24908088" sideWeight="0.67228466" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -478,49 +461,7 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test/qunit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="306" column="2" selection-start="8024" selection-end="8024" vertical-scroll-proportion="0.020166073">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/rigidBodyPhysicsTest.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="7" selection-start="195" selection-end="195" vertical-scroll-proportion="0.18149467">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/utilTest.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="13" selection-start="13" selection-end="13" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="0" selection-start="1091" selection-end="1091" vertical-scroll-proportion="0.30021143">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/collections.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="1" selection-start="3157" selection-end="3157" vertical-scroll-proportion="1.7374749">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/funsics/js/funsics.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="3" selection-start="138" selection-end="138" vertical-scroll-proportion="-4.769539">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/entity.js">
+    <entry file="file://$PROJECT_DIR$/js/resources.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding>
@@ -529,53 +470,53 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/events.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="31" selection-start="2991" selection-end="2991" vertical-scroll-proportion="0.31863728">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/highPerfMath.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="434" column="24" selection-start="10156" selection-end="10157" vertical-scroll-proportion="-0.3747495">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/rigidBodyPhysics.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="3" selection-start="131" selection-end="131" vertical-scroll-proportion="0.13627255">
+        <state line="16" column="44" selection-start="626" selection-end="626" vertical-scroll-proportion="-4.76">
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/demos/rigidBodyConstantTorque.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="4" selection-start="364" selection-end="364" vertical-scroll-proportion="0.32023576">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/util.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="2" selection-start="1768" selection-end="1768" vertical-scroll-proportion="0.23046093">
+        <state line="6" column="13" selection-start="138" selection-end="138" vertical-scroll-proportion="0.20039293">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/background.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="192" column="19" selection-start="3814" selection-end="3819" vertical-scroll-proportion="0.33266532">
+        <state line="26" column="20" selection-start="460" selection-end="460" vertical-scroll-proportion="0.13359529">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/engine.js">
+    <entry file="file://$PROJECT_DIR$/js/collections.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="639" column="3" selection-start="12050" selection-end="12096" vertical-scroll-proportion="0.33333334">
+        <state line="139" column="28" selection-start="2797" selection-end="2797" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/highPerfMath.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="25" selection-start="268" selection-end="268" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/math.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="510" column="38" selection-start="11673" selection-end="11673" vertical-scroll-proportion="0.57114226">
+        <state line="161" column="0" selection-start="3604" selection-end="3604" vertical-scroll-proportion="0.32023576">
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
@@ -584,15 +525,59 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/massAggregatePhysics.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="445" column="25" selection-start="9817" selection-end="9817" vertical-scroll-proportion="-0.58717436">
+        <state line="82" column="34" selection-start="1565" selection-end="1565" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demos/massAggregate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="94" column="7" selection-start="1675" selection-end="1675" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demos/massAggregate.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="4" selection-start="366" selection-end="1060" vertical-scroll-proportion="0.30769232">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demos/mouse.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="49" selection-start="807" selection-end="807" vertical-scroll-proportion="0.49275362">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/mouse.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="14" selection-start="1520" selection-end="1520" vertical-scroll-proportion="0.38677356">
+        <state line="82" column="12" selection-start="1494" selection-end="1494" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/engine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="597" column="26" selection-start="11331" selection-end="11331" vertical-scroll-proportion="63.12">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/events.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="102" column="58" selection-start="3086" selection-end="3086" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demos/mouse.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="85" column="0" selection-start="1589" selection-end="1677" vertical-scroll-proportion="0.55987054">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
