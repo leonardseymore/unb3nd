@@ -29,42 +29,42 @@ function Y(y) {
 /**
  * From window position to world position
  * @function
- * @param {Vector2} point Window position
- * @returns {Vector2} Window position
+ * @param {Array} point Window position
+ * @returns {Array} Window position
  * @since 0.0.0.3
  */
 function world(point) {
-  var worldPos = point.clone();
-  worldPos.y = Y(point.y);
-  worldPos.multScalarMutate(1 / EngineInstance.ppm);
+  var worldPos = math.v2.create(point);
+  worldPos.y = Y(point[1]);
+  math.v2.multScalarMutate(worldPos, 1 / EngineInstance.ppm);
   return worldPos;
 }
 
 /**
  * From world position to window position
  * @function
- * @param {Vector2} point World position
- * @returns {Vector2} Window position
+ * @param {Array} point World position
+ * @returns {Array} Window position
  * @since 0.0.0.3
  */
 function window(point) {
-  var windowPos = point.clone();
-  windowPos.multScalarMutate(EngineInstance.ppm);
-  windowPos.y = Y(windowPos.y);
+  var windowPos = math.v2.create(point);
+  math.v2.multScalarMutate(windowPos, EngineInstance.ppm);
+  windowPos[1] = Y(windowPos[1]);
   return windowPos;
 }
 
 /**
  * From world vector to window vector
  * @function
- * @param {Vector2} vector World vector
- * @returns {Vector2} Window vector
+ * @param {Array} vector World vector
+ * @returns {Array} Window vector
  * @since 0.0.0.3
  */
 function windowVector(vector) {
-  var windowVec = vector.clone();
-  windowVec.y = -vector.y;
-  windowVec.multScalarMutate(EngineInstance.ppm);
+  var windowVec = math.v2.create(vector);
+  windowVec[1] = -vector[1];
+  math.v2.multScalarMutate(windowVec, EngineInstance.ppm);
   return windowVec;
 }
 

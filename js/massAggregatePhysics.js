@@ -33,29 +33,29 @@ function Particle(mass) {
   /**
    * The position of this particle
    * @field
-   * @type Vector2
+   * @type Array
    * @default Zero vector
    * @since 0.0.0
    */
-  this.pos = new Vector2();
+  this.pos = math.v2.create();
 
   /**
    * The velocity of this particle
    * @field
-   * @type Vector2
+   * @type Array
    * @default Zero vector
    * @since 0.0.0
    */
-  this.vel = new Vector2();
+  this.vel = math.v2.create();
 
   /**
    * The acceleration of this particle
    * @field
-   * @type Vector2
+   * @type Array
    * @default Zero vector
    * @since 0.0.0
    */
-  this.acc = new Vector2();
+  this.acc = math.v2.create();
 
   /**
    * Damping is a simple yet special property involved in slowing down moving objects 0 - 1, where 0 is full damping and 1 is no damping
@@ -83,22 +83,22 @@ function Particle(mass) {
    * The overall force accumulator
    * @private
    * @field
-   * @type Vector2
+   * @type Array
    * @default Zero vector
    * @since 0.0.0
    */
-  this.forceAccum = new Vector2();
+  this.forceAccum = math.v2.create();
 
   /**
    * Determines if point is near this particle
    * @function
-   * @param {Vector2} point Point to test
+   * @param {Array} point Point to test
    * @param {Number} distance Distance to test
    * @returns {boolean} true if supplied point is near this particle
    * @since 0.0.0
    */
   this.isCloseToPoint = function (point, distance) {
-    return Vector2.isWithin(this.pos, point, distance);
+    return math.v2.isWithin(this.pos, point, distance);
   };
 
   /**
@@ -114,12 +114,12 @@ function Particle(mass) {
   /**
    * Adds an external force to this particle
    * @function
-   * @param {Vector2} force The force to add to this particle
+   * @param {Array} force The force to add to this particle
    * @returns {void}
    * @since 0.0.0
    */
   this.applyForce = function (force) {
-    this.forceAccum.addMutate(force);
+    this.math.v2.addMutate(this.forceAccum, force);
   };
 
   /**
@@ -129,7 +129,7 @@ function Particle(mass) {
    * @since 0.0.0
    */
   this.clearForceAccum = function () {
-    this.forceAccum.zeroMutate();
+    math.v2.zeroMutate(this.forceAccum);
   };
 
   /**
@@ -183,19 +183,23 @@ function Particle(mass) {
   this.integrate = function (delta) {
     var dt = delta / 1000;
 
-    this.pos.addMutate(
-      this.vel.multScalar(dt)
+    math.v2.addMutate(
+      this.pos,
+      math.v2.multScalar(this.vel, dt)
     );
 
-    var resultingAcc = this.acc.add(
-      this.forceAccum.multScalar(this.inverseMass)
+    var resultingAcc = math.v2.add(
+      this.acc,
+      math.v2.multScalar(this.forceAccum, this.inverseMass)
     );
 
-    this.vel.addMutate(
-      resultingAcc.multScalar(dt)
+    math.v2.addMutate(
+      this.vel,
+      math.v2.multScalar(resultingAcc, dt)
     );
 
-    this.vel.multScalarMutate(
+    math.v2.multScalarMutate(
+      this.vel,
       Math.pow(this.damping, dt)
     );
 
@@ -465,7 +469,7 @@ function ParticleForceGenerator() {
  * @class A gravitational force generator
  * @constructor
  * @extends ParticleForceGenerator
- * @param {Vector2} gravition Gravitational force, defaults {@link constants.DEFAULT_GRAVITATIONAL_CONSTANT}
+ * @param {Array} gravition Gravitational force, defaults {@link constants.DEFAULT_GRAVITATIONAL_CONSTANT}
  * @since 0.0.0
  */
 function ParticleGravityForceGenerator(gravitation) {
@@ -473,11 +477,11 @@ function ParticleGravityForceGenerator(gravitation) {
   /**
    * The gravitational pull
    * @field
-   * @type Vector2
+   * @type Array
    * @default Vector with {@link constants.DEFAULT_GRAVITATIONAL_CONSTANT} as Y-axis
    * @since 0.0.0
    */
-  this.gravitation = gravitation || new Vector2(0, constants.DEFAULT_GRAVITATIONAL_CONSTANT);
+  this.gravitation = gravitation || math.v2.create([0, constants.DEFAULT_GRAVITATIONAL_CONSTANT]);
 
   /**
    * Apply gravity to the given mass over the delta time
@@ -497,8 +501,10 @@ function ParticleGravityForceGenerator(gravitation) {
     } // if
 
     particle.applyForce(
-      // scale force, since gravity is constant regardless of mass
-      this.gravitation.multScalar(particle.getMass())
+      math.v2.multScalar(
+        this.gravitation,
+        particle.getMass()
+      )
     );
   };
 
@@ -528,7 +534,7 @@ ParticleGravityForceGenerator.prototype = new ParticleForceGenerator();
  * @class A wind force generator
  * @constructor
  * @extends ParticleForceGenerator
- * @param {Vector2} direction Wind direction and strength
+ * @param {Array} direction Wind direction and strength
  * @since 0.0.0
  */
 function ParticleWindForceGenerator(direction) {
@@ -536,11 +542,11 @@ function ParticleWindForceGenerator(direction) {
   /**
    * The wind direction and strength
    * @field
-   * @type Vector2
+   * @type Array
    * @default Zero vector
    * @since 0.0.0
    */
-  this.direction = direction || new Vector2();
+  this.direction = direction || math.v2.create();
 
   /**
    * Apply force to the given mass over the delta time
@@ -561,7 +567,10 @@ function ParticleWindForceGenerator(direction) {
 
     particle.applyForce(
       // scale force, since gravity is constant regardless of mass
-      this.direction.multScalar(particle.getMass())
+      math.v2.multScalar(
+        this.direction,
+        particle.getMass()
+      )
     );
   };
 
@@ -635,15 +644,17 @@ function ParticleDragForceGenerator(k1, k2) {
    * @function
    * @param {Particle} particle The particle to apply the force to
    * @param {int} delta The delta time in milliseconds
-   * @returns {Vector2} The force to apply to this particle
+   * @returns {Array} The force to apply to this particle
    * @since 0.0.0
    */
   this.calculateForce = function (particle, delta) {
-    var dragCoeff = particle.vel.getMagnitude();
+
+    var dragCoeff = math.v2.getMagnitude(particle.vel);
     dragCoeff = this.k1 * dragCoeff + this.k2 * dragCoeff * dragCoeff;
 
-    var force = particle.vel.normalize();
-    force.multScalarMutate(-dragCoeff);
+
+    var force = math.v2.normalize(particle.vel);
+    math.v2.multScalarMutate(force, -dragCoeff);
     return force;
   };
 
@@ -717,15 +728,15 @@ function ParticleSpringForceGenerator(particleOther, springConstant, restLength)
    * @since 0.0.0
    */
   this.applyForce = function (particle, delta) {
-    var force = particle.pos.clone();
-    force.subMutate(this.particleOther.pos);
+    var force = math.v2.create(particle.pos);
+    math.v2.subMutate(force, this.particleOther.pos);
 
-    var magnitude = force.getMagnitude();
+    var magnitude = math.v2.getMagnitude(force);
     magnitude = Math.abs(magnitude - this.restLength);
     magnitude *= this.springConstant;
 
-    force.normalizeMutate();
-    force.multScalarMutate(-magnitude);
+    math.v2.normalizeMutate(force);
+    math.v2.multScalarMutate(force, -magnitude);
     particle.applyForce(force);
   };
 
@@ -745,7 +756,7 @@ ParticleSpringForceGenerator.prototype = new ParticleForceGenerator();
  * @class A spring force generator
  * @constructor
  * @extends ParticleForceGenerator
- * @param {Vector2} anchor Fixed point
+ * @param {Array} anchor Fixed point
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
  * @since 0.0.0
@@ -755,7 +766,7 @@ function ParticleAnchoredSpringForceGenerator(anchor, springConstant, restLength
   /**
    * Anchor to which particle must be connected
    * @field
-   * @type Vector2
+   * @type Array
    * @default anchor
    * @since 0.0.0
    */
@@ -789,15 +800,15 @@ function ParticleAnchoredSpringForceGenerator(anchor, springConstant, restLength
    * @since 0.0.0
    */
   this.applyForce = function (particle, delta) {
-    var force = particle.pos.clone();
-    force.subMutate(this.anchor);
+    var force = math.v2.create(particle.pos);
+    math.v2.subMutate(force, this.anchor);
 
-    var magnitude = force.getMagnitude();
+    var magnitude = math.v2.getMagnitude(force);
     magnitude = Math.abs(magnitude - this.restLength);
     magnitude *= this.springConstant;
 
-    force.normalizeMutate();
-    force.multScalarMutate(-magnitude);
+    math.v2.normalizeMutate(force);
+    math.v2.multScalarMutate(force, -magnitude);
     particle.applyForce(force);
   };
 
@@ -861,18 +872,18 @@ function ParticleBungeeForceGenerator(particleOther, springConstant, restLength)
    * @since 0.0.0
    */
   this.applyForce = function (particle, delta) {
-    var force = particle.pos.clone();
-    force.subMutate(this.particleOther.pos);
+    var force = math.v2.create(particle.pos);
+    math.v2.subMutate(force, this.particleOther.pos);
 
-    var magnitude = force.getMagnitude();
+    var magnitude = math.v2.getMagnitude(force);
     if (magnitude <= this.restLength) {
       return;
     } // if
 
     magnitude = this.springConstant * (magnitude - this.restLength);
 
-    force.normalizeMutate();
-    force.multScalarMutate(-magnitude);
+    math.v2.normalizeMutate(force);
+    math.v2.multScalarMutate(force, -magnitude);
     particle.applyForce(force);
   };
 
@@ -892,7 +903,7 @@ ParticleBungeeForceGenerator.prototype = new ParticleForceGenerator();
  * @class An anchored bungee force generator applies a spring force only when extended
  * @constructor
  * @extends ParticleForceGenerator
- * @param {Vector2} anchor Fixed point
+ * @param {Array} anchor Fixed point
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
  * @since 0.0.0
@@ -902,7 +913,7 @@ function ParticleAnchoredBungeeForceGenerator(anchor, springConstant, restLength
   /**
    * Anchor to which particle must be connected
    * @field
-   * @type Vector2
+   * @type Array
    * @default anchor
    * @since 0.0.0
    */
@@ -936,17 +947,17 @@ function ParticleAnchoredBungeeForceGenerator(anchor, springConstant, restLength
    * @since 0.0.0
    */
   this.applyForce = function (particle, delta) {
-    var force = particle.pos.clone();
-    force.subMutate(this.anchor);
+    var force = math.v2.create(particle.pos);
+    math.v2.subMutate(force, this.anchor);
 
-    var magnitude = force.getMagnitude();
+    var magnitude = math.v2.getMagnitude(force);
     if (magnitude <= this.restLength) {
       return;
     } // if
     magnitude = this.springConstant * (magnitude - this.restLength);
 
-    force.normalizeMutate();
-    force.multScalarMutate(-magnitude);
+    math.v2.normalizeMutate(force);
+    math.v2.multScalarMutate(force, -magnitude);
     particle.applyForce(force);
   };
 
@@ -969,7 +980,7 @@ ParticleAnchoredBungeeForceGenerator.prototype = new ParticleForceGenerator();
  * @class
  * @constructor
  * @extends ParticleForceGenerator
- * @param {Vector2} anchor Fixed point on the water surface
+ * @param {Array} anchor Fixed point on the water surface
  * @param {Number} maxDepth The maximum submersion depth before object is completely submerged
  * @param {Number} volume The volume of the object
  * @param {Number} liquidDensity The density of the liquid. Pure water has 1000 kg per cubic meter.
@@ -980,7 +991,7 @@ function ParticleBuoyancyForceGenerator(anchor, maxDepth, volume, liquidDensity)
   /**
    * Fixed point
    * @field
-   * @type Vector2
+   * @type Array
    * @default anchor
    * @since 0.0.0
    */
@@ -1023,14 +1034,14 @@ function ParticleBuoyancyForceGenerator(anchor, maxDepth, volume, liquidDensity)
    * @since 0.0.0
    */
   this.applyForce = function (particle, delta) {
-    var depth = this.anchor.y - particle.pos.y;
+    var depth = this.anchor[1] - particle.pos[1];
     if (depth <= -this.maxDepth) {
       return;
     } // if
 
-    var force = new Vector2();
+    var force = math.v2.create();
     if (depth > this.maxDepth) {
-      force.y = this.liquidDensity * this.volume;
+      force[1] = this.liquidDensity * this.volume;
       particle.applyForce(force);
 
       return;
@@ -1081,7 +1092,7 @@ ParticleForceGeneratorFactory.createGravity = function (forceRegistry, particle)
  * @static
  * @param {ParticleForceRegistry} forceRegistry The force registry to add the generator to
  * @param {Particle} particle The particle to add the generator to
- * @param {Vector2} direction The direction and strength of the force
+ * @param {Array} direction The direction and strength of the force
  * @returns {void}
  * @since 0.0.0
  */
@@ -1144,7 +1155,7 @@ ParticleForceGeneratorFactory.createSpring = function (forceRegistry, p1, p2, sp
  * @static
  * @param {ParticleForceRegistry} forceRegistry The force registry to add the generator to
  * @param {Particle} particle The first particle
- * @param {Vector2} anchor The anchor point
+ * @param {Array} anchor The anchor point
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
  * @returns {void}
@@ -1194,7 +1205,7 @@ ParticleForceGeneratorFactory.createBungee = function (forceRegistry, p1, p2, sp
  * @static
  * @param {ParticleForceRegistry} forceRegistry The force registry to add the generator to
  * @param {Particle} particle The first particle
- * @param {Vector2} anchor The anchor point
+ * @param {Array} anchor The anchor point
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
  * @returns {void}
@@ -1210,7 +1221,7 @@ ParticleForceGeneratorFactory.createAnchoredBungee = function (forceRegistry, pa
  * @static
  * @param {ParticleForceRegistry} forceRegistry The force registry to add the generator to
  * @param {Particle} particle The first particle
- * @param {Vector2} anchor The anchor point
+ * @param {Array} anchor The anchor point
  * @param {Number} maxDepth
  * @param {Number} volume
  * @param {Number} liquidDensity
@@ -1274,11 +1285,11 @@ function ParticleContact() {
   /**
    * Holds the contact normal
    * @field
-   * @type Vector2
+   * @type Array
    * @default Zero vector
    * @since 0.0.0
    */
-  this.contactNormal = new Vector2();
+  this.contactNormal = math.v2.create();
 
   /**
    * Penetration depth in the direction of the contact normal
@@ -1310,13 +1321,14 @@ function ParticleContact() {
    * @since 0.0.0
    */
   this.calculateSeparatingVelocity = function () {
-    var relativeVelocity = this.particles[0].vel.clone();
+    var relativeVelocity = math.v2.create(this.particles[0].vel);
     if (this.particles[1]) {
-      relativeVelocity.subMutate(
+      math.v2.subMutate(
+        relativeVelocity,
         this.particles[1].vel
       );
     } // if
-    return relativeVelocity.dotProduct(this.contactNormal);
+    return math.v2.dotProduct(relativeVelocity, this.contactNormal);
   };
 
   /**
@@ -1339,11 +1351,14 @@ function ParticleContact() {
     // ~PHYLIMIT keep to objects in resting contact
     // micro-collision approach
     // check velocity build up due to acceleration only
-    var accCausedVelocity = this.particles[0].acc.clone();
+    var accCausedVelocity = math.v2.create(this.particles[0].acc);
     if (this.particles[1]) {
-      accCausedVelocity.subMutate(this.particles[1].acc);
+      math.v2.subMutate(
+        accCausedVelocity,
+        this.particles[1].acc
+      );
     } // if
-    var accCausedSepVelocity = accCausedVelocity.dotProduct(this.contactNormal) * dt;
+    var accCausedSepVelocity = math.v2.dotProduct(accCausedVelocity, this.contactNormal) * dt;
 
     // If we've got a closing velocity due to acceleration build-up,
     // remove it from the new separating velocity.
@@ -1370,17 +1385,19 @@ function ParticleContact() {
     } // if
 
     var impulse = deltaVelocity / totalInverseMass;
-    var impulsePerIMass = this.contactNormal.multScalar(impulse);
+    var impulsePerIMass = math.v2.multScalar(this.contactNormal, impulse);
 
     // apply impulses proportional to inverse mass
     // in the direction of the contact
-    this.particles[0].vel.addMutate(
-      impulsePerIMass.multScalar(this.particles[0].inverseMass)
+    math.v2.addMutate(
+      this.particles[0].vel,
+      math.v2.multScalar(impulsePerIMass, this.particles[0].inverseMass)
     );
 
     if (this.particles[1]) {
-      this.particles[1].vel.addMutate(
-        impulsePerIMass.multScalar(-this.particles[1].inverseMass)
+      math.v2.addMutate(
+        this.particles[1].vel,
+        math.v2.multScalar(impulsePerIMass, -this.particles[1].inverseMass)
       );
     } // if
   };
@@ -1408,16 +1425,19 @@ function ParticleContact() {
     } // if
 
     // find penetration resolution relative to inverse mass
-    var movePerIMass = this.contactNormal.multScalar(
+    var movePerIMass = math.v2.multScalar(
+      this.contactNormal,
       -this.penetration / totalInverseMass
     );
 
-    this.particles[0].pos.addMutate(
+    math.v2.addMutate(
+      this.particles[0].pos,
       movePerIMass.multScalar(this.particles[0].inverseMass)
     );
 
     if (this.particles[1]) {
-      this.particles[1].pos.addMutate(
+      math.v2.addMutate(
+        this.particles[1].pos,
         movePerIMass.multScalar(this.particles[1].inverseMass)
       );
     } // if
@@ -1560,10 +1580,7 @@ function ParticleLinkContactGenerator() {
    * @since 0.0.0
    */
   this.getCurrentLength = function () {
-    var relativePos = this.particles[0].pos.sub(
-      this.particles[1].pos
-    );
-    return relativePos.getMagnitude();
+    return math.v2.getDistance(this.particles[0].pos, this.particles[1].pos);
   }
 
   /**
@@ -1646,7 +1663,8 @@ function ParticleCableContactGenerator(maxLength, restitution) {
     contact.particles[0] = this.particles[0];
     contact.particles[1] = this.particles[1];
 
-    var normal = this.particles[1].pos.sub(
+    var normal = math.v2.sub(
+      this.particles[1].pos,
       this.particles[0].pos
     );
     normal.normalizeMutate();
@@ -1679,7 +1697,7 @@ ParticleCableContactGenerator.prototype = new ParticleLinkContactGenerator();
  * @constructor
  * @extends ParticleContactGenerator
  * @param {Particle} particle Particle fixed to this anchor
- * @param {Vector2} anchor Fixed point
+ * @param {Array} anchor Fixed point
  * @param {Number} maxLength Maximum length of the cable
  * @param {Number} restitution Restitution (bounciness) of the cable
  * @since 0.0.0.3
@@ -1704,7 +1722,7 @@ function ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, rest
   /**
    * Anchor to which particle must be connected
    * @field
-   * @type Vector2
+   * @type Array
    * @default anchor
    * @since 0.0.0.3
    */
@@ -1737,7 +1755,8 @@ function ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, rest
    * @since 0.0.0.3
    */
   this.getCurrentLength = function () {
-    var relativePos = this.particle.pos.sub(
+    var relativePos = math.v2.sub(
+      this.particle.pos,
       this.anchor
     );
     return relativePos.getMagnitude();
@@ -1759,11 +1778,13 @@ function ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, rest
 
     var contact = new ParticleContact();
     contact.particles[0] = this.particle;
-    var normal = this.particle.pos.sub(
+    var normal = math.v2.sub(
+      this.particle.pos,
       this.anchor
     );
-    normal.inverseMutate();
-    normal.normalizeMutate();
+    math.v2.inverseMutate(normal);
+    math.v2.normalizeMutate(normal);
+
     contact.contactNormal = normal;
     contact.penetration = this.maxLength - length;
     contact.restitution = this.restitution;
@@ -1829,7 +1850,8 @@ function ParticleRodContactGenerator(length) {
     contact.particles[0] = this.particles[0];
     contact.particles[1] = this.particles[1];
 
-    var normal = this.particles[1].pos.sub(
+    var normal = math.v2.sub(
+      this.particles[1].pos,
       this.particles[0].pos
     );
     normal.normalizeMutate();
@@ -1838,7 +1860,7 @@ function ParticleRodContactGenerator(length) {
       contact.contactNormal = normal;
       contact.penetration = this.length - currentLength;
     } else {
-      contact.contactNormal = normal.multScalar(-1);
+      contact.contactNormal = math.v2.multScalar(normal, -1);
       contact.penetration = currentLength - this.length;
     } // if
 
@@ -1869,7 +1891,7 @@ ParticleRodContactGenerator.prototype = new ParticleLinkContactGenerator();
  * @constructor
  * @extends ParticleContactGenerator
  * @param {Particle} particle Particle fixed to this anchor
- * @param {Vector2} anchor Fixed point
+ * @param {Array} anchor Fixed point
  * @param {Number} length Length of this rod
  * @since 0.0.0.3
  */
@@ -1893,7 +1915,7 @@ function ParticleAnchoredRodContactGenerator(particle, anchor, length) {
   /**
    * Anchor to which particle must be connected
    * @field
-   * @type Vector2
+   * @type Array
    * @default anchor
    * @since 0.0.0.3
    */
@@ -1917,10 +1939,7 @@ function ParticleAnchoredRodContactGenerator(particle, anchor, length) {
    * @since 0.0.0.3
    */
   this.getCurrentLength = function () {
-    var relativePos = this.particle.pos.sub(
-      this.anchor
-    );
-    return relativePos.getMagnitude();
+    return math.v2.getDistance(this.particle.pos, this.anchor);
   }
 
   /**
@@ -1935,13 +1954,14 @@ function ParticleAnchoredRodContactGenerator(particle, anchor, length) {
 
     var contact = new ParticleContact();
     contact.particles[0] = this.particle;
-    var normal = this.particle.pos.sub(
+    var normal = math.v2.sub(
+      this.particle.pos,
       this.anchor
     );
-    normal.normalizeMutate();
+    math.v2.normalizeMutate(normal);
 
     if (currentLength > this.length) {
-      contact.contactNormal = normal.inverse();
+      contact.contactNormal = math.v2.inverse(normal);
       contact.penetration = this.length - currentLength;
     } else {
       contact.contactNormal = normal;
@@ -2018,10 +2038,10 @@ function ParticleCollisionContactGenerator(collisionRadius) {
         } // if
 
         var particleOther = this.particles[j];
-        var normal = particle.pos.sub(particleOther.pos);
-        var distance = normal.getMagnitude();
+        var normal = math.v2.sub(particle.pos, particleOther.pos);
+        var distance = math.v2.getMagnitude(normal);
         if (distance < this.collisionRadius) {
-          normal.normalizeMutate();
+          math.v2.normalizeMutate(normal);
           var particleContact = new ParticleContact();
           particleContact.particles[0] = particle;
           particleContact.particles[1] = particleOther;
@@ -2108,30 +2128,30 @@ function ParticleBoxContactGenerator(box, collisionRadius) {
 
       var particle = this.particles[i];
       if (!box.shrink(this.collisionRadius).isPointInside(particle.pos)) {
-        var normal = new Vector2();
+        var normal = math.v2.create();
         var depth = 0;
-        if (particle.pos.x < this.box.x + this.collisionRadius) {
+        if (particle.pos[0] < this.box.x + this.collisionRadius) {
           normal.x = 1;
           normal.y = 0;
-          depth = particle.pos.x - this.box.x - this.collisionRadius;
+          depth = particle.pos[0] - this.box.x - this.collisionRadius;
         } // if
 
-        if (particle.pos.x > this.box.x + this.box.width + this.collisionRadius) {
+        if (particle.pos[0] > this.box.x + this.box.width + this.collisionRadius) {
           normal.x = -1;
           normal.y = 0;
-          depth = this.box.x + this.box.width + this.collisionRadius - particle.pos.x;
+          depth = this.box.x + this.box.width + this.collisionRadius - particle.pos[0];
         } // if
 
-        if (particle.pos.y < this.box.y + this.collisionRadius) {
+        if (particle.pos[1] < this.box.y + this.collisionRadius) {
           normal.x = 0;
           normal.y = 1;
-          depth = particle.pos.y - this.box.y - this.collisionRadius;
+          depth = particle.pos[1] - this.box.y - this.collisionRadius;
         } // if
 
-        if (particle.pos.y > this.box.y + this.box.height + this.collisionRadius) {
+        if (particle.pos[1] > this.box.y + this.box.height + this.collisionRadius) {
           normal.x = 0;
           normal.y = -1;
-          depth = this.box.y + this.box.height + this.collisionRadius - particle.pos.y;
+          depth = this.box.y + this.box.height + this.collisionRadius - particle.pos[1];
         } // if
 
         var particleContact = new ParticleContact();
@@ -2226,7 +2246,7 @@ ParticleContactGeneratorFactory.createCable = function (particleWorld, particle,
  * @static
  * @param {ParticleWorld} particleWorld The particle world to add the generator to
  * @param {Particle} particle The first particle
- * @param {Vector2} anchor The anchor to attach the particle to
+ * @param {Array} anchor The anchor to attach the particle to
  * @param {Number} maxLength The maximum length of the cable
  * @param {Number} restitution The cable's restitution
  * @returns {void}
@@ -2262,7 +2282,7 @@ ParticleContactGeneratorFactory.createRod = function (particleWorld, particle, p
  * @static
  * @param {ParticleWorld} particleWorld The particle world to add the generator to
  * @param {Particle} particle The first particle
- * @param {Vector2} anchor The anchor to attach the particle to
+ * @param {Array} anchor The anchor to attach the particle to
  * @param {Number} length The length of the rod
  * @returns {void}
  * @since 0.0.0.3
@@ -2738,7 +2758,7 @@ function ParticleWorld(flags) {
   /**
    * Gets the first particle within the specified radius in world space
    * @function
-   * @param {Vector2} point The world point at which to look
+   * @param {Array} point The world point at which to look
    * @param {Number} radius The search radius
    * @returns {Particle} The particle, undefined if none were found
    * @since 0.0.0
@@ -2757,7 +2777,7 @@ function ParticleWorld(flags) {
   /**
    * Gets the first particle within the specified radius in window space
    * @function
-   * @param {Vector2} point The window point at which to look
+   * @param {Array} point The window point at which to look
    * @param {Number} radius The search radius
    * @returns {Particle} The particle, undefined if none were found
    * @since 0.0.0.3
@@ -2766,7 +2786,7 @@ function ParticleWorld(flags) {
     var i = this.particles.length;
     while (i--) {
       var particle = this.particles[i];
-      if (Vector2.isWithin(window(particle.pos), point, radius)) {
+      if (math.v2.isWithin(window(particle.pos), point, radius)) {
         return particle;
       } // if
     } // for
@@ -2897,7 +2917,7 @@ function ParticleWorld(flags) {
   /**
    * Adds a global gravity force
    * @function
-   * @param {Vector2} gravitation Optional gravitational pull
+   * @param {Array} gravitation Optional gravitational pull
    * @returns {void}
    * @since 0.0.0
    */
@@ -2988,7 +3008,7 @@ function ParticleWorld(flags) {
 
     var k = this.contactGenerators.length;
     while (k--) {
-      var contactGenerator = this.contactGenerators[j];
+      var contactGenerator = this.contactGenerators[k];
       contactGenerator.accept(visitor);
     } // for
 

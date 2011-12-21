@@ -73,10 +73,10 @@ function ParticleWorldRenderVisitor(ctx) {
    * @since 0.0.0.4
    */
   this.isPointInScreen = function(point) {
-    return point.x >= 0
-           && point.x < EngineInstance.windowRect.width
-           && point.y >= 0
-           && point.y < EngineInstance.windowRect.height;
+    return point[0] >= 0
+           && point[0] < EngineInstance.windowRect.width
+           && point[1] >= 0
+           && point[1] < EngineInstance.windowRect.height;
   }
 
 	/**
@@ -101,7 +101,7 @@ function ParticleWorldRenderVisitor(ctx) {
 
 		ctx.save();
 		ctx.fillStyle = constants.PARTICLE_COLOR;
-    ctx.translate(particleScreenPos.x, particleScreenPos.y);
+    ctx.translate(particleScreenPos[0], particleScreenPos[1]);
     var width = constants.PARTICLE_WIDTH;
     ctx.fillRect(
       -width, -width, width * 2, width * 2
@@ -126,9 +126,9 @@ function ParticleWorldRenderVisitor(ctx) {
 		ctx.save();
 		ctx.strokeStyle = constants.GRAVITY_COLOR;
 		ctx.beginPath();
-		ctx.translate(particleScreenPos.x, particleScreenPos.y);
+		ctx.translate(particleScreenPos[0], particleScreenPos[1]);
 		ctx.moveTo(0, 0);
-		ctx.lineTo(gravityVectorScreenPos.x, gravityVectorScreenPos.y);
+		ctx.lineTo(gravityVectorScreenPos[0], gravityVectorScreenPos[1]);
 		ctx.stroke();
 		ctx.restore();
 	}
@@ -149,9 +149,9 @@ function ParticleWorldRenderVisitor(ctx) {
     ctx.save();
 		ctx.strokeStyle = constants.WIND_COLOR;
 		ctx.beginPath();
-		ctx.translate(particleScreenPos.x, particleScreenPos.y);
+		ctx.translate(particleScreenPos[0], particleScreenPos[1]);
 		ctx.moveTo(0, 0);
-		ctx.lineTo(windVector.x, windVector.y);
+		ctx.lineTo(windVector[0], windVector[1]);
 		ctx.stroke();
 		ctx.restore();
 	}
@@ -174,9 +174,9 @@ function ParticleWorldRenderVisitor(ctx) {
 		ctx.save();
 		ctx.strokeStyle = constants.DRAG_COLOR;
 		ctx.beginPath();
-		ctx.translate(particleScreenPos.x, particleScreenPos.y);
+		ctx.translate(particleScreenPos[0], particleScreenPos[1]);
 		ctx.moveTo(0, 0);
-		ctx.lineTo(dragVectorScreenPos.x, dragVectorScreenPos.y);
+		ctx.lineTo(dragVectorScreenPos[0], dragVectorScreenPos[1]);
 		ctx.stroke();
 		ctx.restore();
 	}
@@ -198,8 +198,8 @@ function ParticleWorldRenderVisitor(ctx) {
 		ctx.save();
 		ctx.strokeStyle = constants.SPRING_COLOR;
 		ctx.beginPath();
-		ctx.moveTo(particleScreenPos.x, particleScreenPos.y);
-		ctx.lineTo(particleOtherScreenPos.x, particleOtherScreenPos.y);
+		ctx.moveTo(particleScreenPos[0], particleScreenPos[1]);
+		ctx.lineTo(particleOtherScreenPos[0], particleOtherScreenPos[1]);
 		ctx.stroke();
 		ctx.restore();
 	}
@@ -221,8 +221,8 @@ function ParticleWorldRenderVisitor(ctx) {
 		ctx.save();
 		ctx.strokeStyle = constants.ANCHORED_SPRING_COLOR;
 		ctx.beginPath();
-		ctx.moveTo(particleScreenPos.x, particleScreenPos.y);
-		ctx.lineTo(anchorScreenPos.x, anchorScreenPos.y);
+		ctx.moveTo(particleScreenPos[0], particleScreenPos[1]);
+		ctx.lineTo(anchorScreenPos[0], anchorScreenPos[1]);
 		ctx.stroke();
 		ctx.restore();
 	}
@@ -244,8 +244,8 @@ function ParticleWorldRenderVisitor(ctx) {
 		ctx.save();
 		ctx.strokeStyle = constants.BUNGEE_COLOR;
 		ctx.beginPath();
-		ctx.moveTo(particleScreenPos.x, particleScreenPos.y);
-		ctx.lineTo(particleOtherScreenPos.x, particleOtherScreenPos.y);
+		ctx.moveTo(particleScreenPos[0], particleScreenPos[1]);
+		ctx.lineTo(particleOtherScreenPos[0], particleOtherScreenPos[1]);
 		ctx.stroke();
 		ctx.restore();
 	}
@@ -267,8 +267,8 @@ function ParticleWorldRenderVisitor(ctx) {
 		ctx.save();
 		ctx.strokeStyle = constants.ANCHORED_BUNGEE_COLOR;
 		ctx.beginPath();
-		ctx.moveTo(particleScreenPos.x, particleScreenPos.y);
-		ctx.lineTo(anchorScreenPos.x, anchorScreenPos.y);
+		ctx.moveTo(particleScreenPos[0], particleScreenPos[1]);
+		ctx.lineTo(anchorScreenPos[0], anchorScreenPos[1]);
 		ctx.stroke();
 		ctx.restore();
 	}
@@ -290,8 +290,8 @@ function ParticleWorldRenderVisitor(ctx) {
     ctx.save();
 		ctx.strokeStyle = constants.CABLE_COLOR;
 		ctx.beginPath();
-		ctx.moveTo(p1ScreenPos.x, p1ScreenPos.y);
-		ctx.lineTo(p2ScreenPos.x, p2ScreenPos.y);
+		ctx.moveTo(p1ScreenPos[0], p1ScreenPos[1]);
+		ctx.lineTo(p2ScreenPos[0], p2ScreenPos[1]);
 		ctx.stroke();
 		ctx.restore();
 	}
@@ -313,8 +313,8 @@ function ParticleWorldRenderVisitor(ctx) {
     ctx.save();
 		ctx.strokeStyle = constants.ANCHORED_CABLE_COLOR;
 		ctx.beginPath();
-		ctx.moveTo(p1ScreenPos.x, p1ScreenPos.y);
-		ctx.lineTo(anchorScreenPos.x, anchorScreenPos.y);
+		ctx.moveTo(p1ScreenPos[0], p1ScreenPos[1]);
+		ctx.lineTo(anchorScreenPos[0], anchorScreenPos[1]);
 		ctx.stroke();
 		ctx.restore();
 	}
@@ -336,8 +336,8 @@ function ParticleWorldRenderVisitor(ctx) {
     ctx.save();
 		ctx.strokeStyle = constants.ROD_COLOR;
 		ctx.beginPath();
-		ctx.moveTo(p1ScreenPos.x, p1ScreenPos.y);
-		ctx.lineTo(p2ScreenPos.x, p2ScreenPos.y);
+		ctx.moveTo(p1ScreenPos[0], p1ScreenPos[1]);
+		ctx.lineTo(p2ScreenPos[0], p2ScreenPos[1]);
 		ctx.stroke();
 		ctx.restore();
 	}
@@ -359,8 +359,8 @@ function ParticleWorldRenderVisitor(ctx) {
     ctx.save();
 		ctx.strokeStyle = constants.ANCHORED_ROD_COLOR;
 		ctx.beginPath();
-		ctx.moveTo(p1ScreenPos.x, p1ScreenPos.y);
-		ctx.lineTo(anchorScreenPos.x, anchorScreenPos.y);
+		ctx.moveTo(p1ScreenPos[0], p1ScreenPos[1]);
+		ctx.lineTo(anchorScreenPos[0], anchorScreenPos[1]);
 		ctx.stroke();
 		ctx.restore();
 	}
@@ -379,7 +379,7 @@ function ParticleWorldRenderVisitor(ctx) {
 
       if (this.isPointInScreen(particleScreenPos)) {
         ctx.beginPath();
-        ctx.arc(particleScreenPos.x, particleScreenPos.y, contactGenerator.collisionRadius, 0, constants.TWO_PI);
+        ctx.arc(particleScreenPos[0], particleScreenPos[1], contactGenerator.collisionRadius, 0, constants.TWO_PI);
         ctx.stroke();
       } // if
 		} // for
@@ -395,10 +395,10 @@ function ParticleWorldRenderVisitor(ctx) {
 	this.visitBoxCollisionContactGenerator = function(contactGenerator) {
     ctx.save();
 		ctx.strokeStyle = constants.COLLISION_BOX_COLOR;
-		ctx.strokeRect(contactGenerator.box.x, contactGenerator.box.y, contactGenerator.box.width, contactGenerator.box.height);
+		ctx.strokeRect(contactGenerator.box[0], contactGenerator.box[1], contactGenerator.box.width, contactGenerator.box.height);
 		ctx.strokeStyle = constants.COLLISION_BOX_TOL_COLOR;
-		ctx.strokeRect(contactGenerator.box.x + contactGenerator.collisionRadius,
-      contactGenerator.box.y + contactGenerator.collisionRadius,
+		ctx.strokeRect(contactGenerator.box[0] + contactGenerator.collisionRadius,
+      contactGenerator.box[1] + contactGenerator.collisionRadius,
       contactGenerator.box.width - contactGenerator.collisionRadius * 2,
       contactGenerator.box.height - contactGenerator.collisionRadius * 2);
 		ctx.restore();
@@ -446,7 +446,7 @@ function WorldRenderVisitor() {
     var screenPos = window(rigidBody.pos);
 		ctx.save();
 		ctx.fillStyle = constants.PARTICLE_COLOR;
-    ctx.translate(screenPos.x, screenPos.y);
+    ctx.translate(screenPos[0], screenPos[1]);
     var width = constants.PARTICLE_WIDTH;
     ctx.fillRect(
       -width, -width, width * 2, width * 2
@@ -464,11 +464,11 @@ function WorldRenderVisitor() {
 		ctx.save();
 		ctx.strokeStyle = constants.GRAVITY_COLOR;
 		ctx.beginPath();
-		ctx.translate(screenPos.x, screenPos.y);
+		ctx.translate(screenPos[0], screenPos[1]);
 		ctx.moveTo(0, 0);
 		var gravityVector = forceGenerator.gravitation.multScalar(rigidBody.getMass())
     var gravityVectorScreenPos = windowVector(gravityVector);
-		ctx.lineTo(gravityVectorScreenPos.x, gravityVectorScreenPos.y);
+		ctx.lineTo(gravityVectorScreenPos[0], gravityVectorScreenPos[1]);
 		ctx.stroke();
 		ctx.restore();
 	}
@@ -486,8 +486,8 @@ function WorldRenderVisitor() {
 
 		ctx.strokeStyle = constants.SPRING_COLOR;
 		ctx.beginPath();
-		ctx.moveTo(screenPos.x, screenPos.y);
-		ctx.lineTo(screenPosOther.x, screenPosOther.y);
+		ctx.moveTo(screenPos[0], screenPos[1]);
+		ctx.lineTo(screenPosOther[0], screenPosOther[1]);
 		ctx.stroke();
 
 		ctx.restore();
@@ -506,10 +506,10 @@ function WorldRenderVisitor() {
 		ctx.save();
 		ctx.strokeStyle = constants.AERO_COLOR;
 		ctx.beginPath();
-		ctx.translate(screenPos.x, screenPos.y);
+		ctx.translate(screenPos[0], screenPos[1]);
 		ctx.moveTo(0, 0);
         var forceScreenPos = windowVector(force);
-		ctx.lineTo(forceScreenPos.x, forceScreenPos.y);
+		ctx.lineTo(forceScreenPos[0], forceScreenPos[1]);
 		ctx.stroke();
 		ctx.restore()
 	}

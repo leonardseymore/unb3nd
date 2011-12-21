@@ -86,7 +86,7 @@ function MassAggregateGame() {
       var x = e.offsetX;
       var y = e.offsetY;
 
-      tool.use(new Vector2(x, y));
+      tool.use(math.v2.create([x, y]));
     });
 
     this.addEventListener("mouseover", function () {
@@ -145,7 +145,7 @@ function MassAggregateGame() {
     while (i--) {
       var anchor = anchors[i];
       var anchorScreenPos = window(anchor);
-      ctx.drawImage(anchorImage, anchorScreenPos.x - anchorImage.width / 2, anchorScreenPos.y - anchorImage.height / 2);
+      ctx.drawImage(anchorImage, anchorScreenPos[0] - anchorImage.width / 2, anchorScreenPos[1] - anchorImage.height / 2);
     } // for
 
     if (this.debug) {
@@ -153,8 +153,8 @@ function MassAggregateGame() {
       ctx.fillText("Num Particles: " + particleWorld.particles.length, 10, Y(80));
       ctx.fillText("Num Force Generators: " + particleWorld.forceRegistry.entries.length, 10, Y(70));
       ctx.fillText("Num Contact Generators: " + particleWorld.contactGenerators.length, 10, Y(60));
-      ctx.fillText("Mouse Screen: (" + lastMouseMoveScreen.x + "," + lastMouseMoveScreen.y + ")", 10, Y(50));
-      ctx.fillText("Mouse World: (" + lastMouseMoveWorld.x + "," + lastMouseMoveWorld.y + ")", 10, Y(40));
+      ctx.fillText("Mouse Screen: (" + lastMouseMoveScreen[0] + "," + lastMouseMoveScreen[1] + ")", 10, Y(50));
+      ctx.fillText("Mouse World: (" + lastMouseMoveWorld[0] + "," + lastMouseMoveWorld[1] + ")", 10, Y(40));
       ctx.fillText("Pixels Per Meter: " + this.ppm, 10, Y(30));
       ctx.fillText("FPS: " + this.avgFps, 10, Y(20));
       ctx.save();
@@ -205,16 +205,16 @@ var particleWorld;
 var tool;
 
 /**
- * @global Vector2
+ * @global Array
  * Last mouse move screen position
  */
-var lastMouseMoveScreen = new Vector2();
+var lastMouseMoveScreen = math.v2.create();
 
 /**
- * @global Vector2
+ * @global Array
  * Last mouse move world position
  */
-var lastMouseMoveWorld = new Vector2();
+var lastMouseMoveWorld = math.v2.create();
 
 /**
  * @global boolean
@@ -223,7 +223,7 @@ var lastMouseMoveWorld = new Vector2();
 var mouseInScreen = false;
 
 /**
- * @global Vector2
+ * @global Array []
  * All anchors
  */
 var anchors = [];
@@ -264,7 +264,7 @@ function enableTool(t) {
 /**
  * @function
  * Removes the specified anchor
- * @param {Vector2} anchor The anchor to remove
+ * @param {Array} anchor The anchor to remove
  * @returns {void}
  */
 function removeAnchor(anchor) {
@@ -281,16 +281,16 @@ function removeAnchor(anchor) {
 /**
  * @method
  * Gets the first anchor within the specified radius
- * @param {Vector2} point The point at which to look
+ * @param {Array} point The point at which to look
  * @param {Number} radius The search radius
- * @return {Vector2} The anchor, undefined if none were found
+ * @return {Array} The anchor, undefined if none were found
  */
 function getFirstAnchorWithin(point, radius) {
   var i = anchors.length;
   while (i--) {
     var anchor = anchors[i];
     var anchorScreenPos = window(anchor);
-    if (Vector2.isWithin(anchorScreenPos, point, radius)) {
+    if (math.v2.isWithin(anchorScreenPos, point, radius)) {
       return anchor;
     } // if
   } // for
@@ -300,7 +300,7 @@ function getFirstAnchorWithin(point, radius) {
 /**
  * @function
  * Highlights all particles around a point
- * @param {Vector2} point The point
+ * @param {Array} point The point
  * @param {Number} radius The radius around the point
  * @returns {void}
  */
@@ -309,7 +309,7 @@ function highlightParticles(point, radius) {
   while (i--) {
     var particle = particleWorld.particles[i];
     var particleScreenPos = window(particle.pos);
-    if (Vector2.isWithin(point, particleScreenPos, radius)) {
+    if (math.v2.isWithin(point, particleScreenPos, radius)) {
       highlightPoint(particleScreenPos, radius);
     } // if
   } // for
@@ -318,7 +318,7 @@ function highlightParticles(point, radius) {
 /**
  * @function
  * Highlights all anchors around a point
- * @param {Vector2} point The point
+ * @param {Array} point The point
  * @param {Number} radius The radius around the point
  * @returns {void}
  */
@@ -327,7 +327,7 @@ function highlightAnchors(point, radius) {
   while (i--) {
     var anchor = anchors[i];
     var anchorScreenPos = window(anchor);
-    if (Vector2.isWithin(point, anchorScreenPos, radius)) {
+    if (math.v2.isWithin(point, anchorScreenPos, radius)) {
       highlightPoint(anchorScreenPos, radius);
     } // if
   } // for
@@ -336,7 +336,7 @@ function highlightAnchors(point, radius) {
 /**
  * @function
  * Highlights a single particle
- * @param {Vector2} point The point
+ * @param {Array} point The point
  * @param {Number} radius The radius around the point
  * @returns {void}
  */
@@ -415,7 +415,7 @@ function Tool() {
    * @method
    * @abstract
    * Use this tool at position x, y
-   * @param {Vector2} point Point in screen coordinates
+   * @param {Array} point Point in screen coordinates
    * @returns {void}
    */
   this.use = function (point) {
@@ -424,7 +424,7 @@ function Tool() {
   /**
    * @method
    * Draws the tool icon at the specified point
-   * @param {Vector2} point The point to draw the icon at
+   * @param {Array} point The point to draw the icon at
    * @returns {void}
    */
   this.drawIcon = function (point) {
@@ -433,7 +433,7 @@ function Tool() {
 
     var x = 5;
     var y = 5;
-    if (point.x > x + icon.width) {
+    if (point[0] > x + icon.width) {
       ctx.drawImage(icon, x, y);
     } else {
       ctx.save();
@@ -447,7 +447,7 @@ function Tool() {
    * @method
    * @abstract
    * Draw tool visual helpers
-   * @param {Vector2} point Point in screen coordinates
+   * @param {Array} point Point in screen coordinates
    * @returns {void}
    */
   this.drawHandles = function (point) {
@@ -506,7 +506,7 @@ function SelectTool() {
       var mouseMoveListener = function (e) {
         var x = e.offsetX;
         var y = e.offsetY;
-        var newWindowPos = new Vector2(x, y);
+        var newWindowPos = math.v2.create([x, y]);
         particle.pos = world(newWindowPos);
       };
 
@@ -658,7 +658,7 @@ function CreateAnchorTool() {
    * Creates a new particle
    */
   this.use = function (point) {
-    var anchor = point.clone();
+    var anchor = math.v2.create(point);
     anchors.push(world(anchor));
   };
 
@@ -827,11 +827,11 @@ function CreateWindTool() {
 
     if (particle) {
       ParticleForceGeneratorFactory.createWind(
-        particleWorld.forceRegistry, particle, new Vector2(4, 0)
+        particleWorld.forceRegistry, particle, math.v2.create([4, 0])
       );
     } else {
       particleWorld.addGlobalForce(
-        new ParticleWindForceGenerator(new Vector2(4, 0))
+        new ParticleWindForceGenerator(math.v2.create([4, 0]))
       );
     } // if
   };
@@ -850,7 +850,7 @@ function CreateWindTool() {
 
     this.drawIcon(point);
     if (!particle) {
-      EngineInstance.ctx.fillText("Add global wind", point.x + 20, point.y);
+      EngineInstance.ctx.fillText("Add global wind", point[0] + 20, point[1]);
     } // if
   };
 }
@@ -939,16 +939,16 @@ function Particle2ParticleTool() {
 
       ctx.strokeStyle = "lightgrey";
       ctx.beginPath();
-      ctx.moveTo(p1WindowPos.x, p1WindowPos.y);
+      ctx.moveTo(p1WindowPos[0], p1WindowPos[1]);
 
       var p2 = particleWorld.getFirstParticleWithinWindow(
         point, this.selectRadius
       );
       if (p2) {
         var p2WindowPos = window(p2.pos);
-        ctx.lineTo(p2WindowPos.x, p2WindowPos.y);
+        ctx.lineTo(p2WindowPos[0], p2WindowPos[1]);
       } else {
-        ctx.lineTo(point.x, point.y);
+        ctx.lineTo(point[0], point[1]);
       } // if
       ctx.stroke();
       ctx.restore();
@@ -985,7 +985,7 @@ function Anchor2ParticleTool() {
   this.selectRadius = 5;
 
   /**
-   * @field Vector2
+   * @field Array
    * Anchor the anchor
    */
   this.anchor = undefined;
@@ -1023,7 +1023,7 @@ function Anchor2ParticleTool() {
   /**
    * @method
    * Creates the actual force
-   * @param {Vector2} anchor The anchor to connect
+   * @param {Array} anchor The anchor to connect
    * @param {Particle} particle The particle to connect
    * @returns {void}
    */
@@ -1046,18 +1046,18 @@ function Anchor2ParticleTool() {
 
       ctx.strokeStyle = "darkgrey";
       ctx.beginPath();
-      ctx.moveTo(anchorScreenPos.x, anchorScreenPos.y);
+      ctx.moveTo(anchorScreenPos[0], anchorScreenPos[1]);
 
       var particle = particleWorld.getFirstParticleWithinWindow(
         point, this.selectRadius
       );
       if (particle) {
         var particleScreenPos = window(particle.pos);
-        ctx.lineTo(particleScreenPos.x, particleScreenPos.y);
+        ctx.lineTo(particleScreenPos[0], particleScreenPos[1]);
         ctx.stroke();
         highlightPoint(particleScreenPos, this.selectRadius);
       } else {
-        ctx.lineTo(point.x, point.y);
+        ctx.lineTo(point[0], point[1]);
         ctx.stroke();
       } // if
       ctx.restore();
@@ -1134,19 +1134,21 @@ function CreateRopeTool(numParts) {
   this.createForce = function (p1, particle) {
     var pointMass = 1;
 
-    var dir = particle.pos.sub(p1.pos);
-    var distance = dir.getMagnitude();
-    dir.normalizeMutate();
+    var dir = math.v2.sub(particle.pos, p1.pos);
+    var distance = math.v2.getMagnitude(dir);
+    math.v2.normalizeMutate(dir);
 
     var prevParticle = p1;
     var partLength = distance / this.numParts;
     for (var i = 0; i < this.numParts - 1; i++) {
       var nextParticle = new Particle();
       nextParticle.setMass(pointMass);
-      nextParticle.pos = dir.multScalar(
+      nextParticle.pos = math.v2.multScalar(
+        dir,
         partLength * (i + 1)
       );
-      nextParticle.pos.addMutate(
+      math.v2.addMutate(
+        nextParticle.pos,
         p1.pos
       );
       particleWorld.addParticle(nextParticle);
@@ -1222,7 +1224,7 @@ function CreateAnchoredSpringTool() {
    * @method
    * @override
    * Creates the actual force
-   * @param {Vector2} anchor The anchor to connect
+   * @param {Array} anchor The anchor to connect
    * @param {Particle} particle The particle to connect
    * @returns {void}
    */
@@ -1258,7 +1260,7 @@ function CreateAnchoredBungeeTool() {
    * @method
    * @override CreateSpringTool#createForce(Particle, Particle)
    * Creates the actual force
-   * @param {Vector2} anchor The anchor to connect
+   * @param {Array} anchor The anchor to connect
    * @param {Particle} particle The particle to connect
    * @returns {void}
    */
@@ -1296,7 +1298,7 @@ function CreateCableTool() {
    * @return void
    */
   this.createForce = function (p1, particle) {
-    var distance = p1.pos.sub(particle.pos).getMagnitude();
+    var distance = math.v2.getDistance(p1.pos, particle.pos);
     var resitution = 0.1;
     ParticleContactGeneratorFactory.createCable(
       particleWorld, p1, particle, distance, resitution
@@ -1330,12 +1332,12 @@ function CreateAnchoredCableTool() {
    * @method
    * @override CreateSpringTool#createForce(Particle, Particle)
    * Creates the actual force
-   * @param {Vector2} anchor The anchor to connect
+   * @param {Array} anchor The anchor to connect
    * @param {Particle} particle The particle to connect
    * @returns {void}
    */
   this.createForce = function (anchor, particle) {
-    var distance = this.anchor.sub(particle.pos).getMagnitude();
+    var distance = math.v2.getDistance(this.anchor, particle.pos);
     var resitution = 0.1;
     ParticleContactGeneratorFactory.createAnchoredCable(
       particleWorld, particle, anchor, distance, resitution
@@ -1370,7 +1372,7 @@ function CreateRodTool() {
    * @return void
    */
   this.createForce = function (p1, particle) {
-    var distance = p1.pos.sub(particle.pos).getMagnitude();
+    var distance = math.v2.getDistance(p1.pos, particle.pos);
     ParticleContactGeneratorFactory.createRod(
       particleWorld, p1, particle, distance
     );
@@ -1403,12 +1405,12 @@ function CreateAnchoredRodTool() {
    * @method
    * @override CreateSpringTool#createForce(Particle, Particle)
    * Creates the actual force
-   * @param {Vector2} anchor The anchor to connect
+   * @param {Array} anchor The anchor to connect
    * @param {Particle} particle The particle to connect
    * @returns {void}
    */
   this.createForce = function (anchor, particle) {
-    var distance = this.anchor.sub(particle.pos).getMagnitude();
+    var distance = math.v2.getDistance(this.anchor, particle.pos);
     var resitution = 0.1;
     ParticleContactGeneratorFactory.createAnchoredRod(
       particleWorld, particle, anchor, distance
