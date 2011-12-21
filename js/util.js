@@ -13,9 +13,8 @@
  * @since 0.0.0
  */
 function getTime() {
-	return Date.now();
-};
-
+  return Date.now();
+}
 /**
  * Calculate window Y-coordinate based on world Y-coordinate
  * @function
@@ -24,8 +23,8 @@ function getTime() {
  * @since 0.0.0
  */
 function Y(y) {
-	return engine.windowRect.height - y;
-};
+  return Engine.getInstance().windowRect.height - y;
+}
 
 /**
  * From window position to world position
@@ -39,7 +38,7 @@ function world(point) {
   worldPos.y = Y(point.y);
   worldPos.multScalarMutate(1 / ppm);
   return worldPos;
-};
+}
 
 /**
  * From world position to window position
@@ -53,7 +52,7 @@ function window(point) {
   windowPos.multScalarMutate(ppm);
   windowPos.y = Y(windowPos.y);
   return windowPos;
-};
+}
 
 /**
  * From world vector to window vector
@@ -67,7 +66,7 @@ function windowVector(vector) {
   windowVec.y = -vector.y;
   windowVec.multScalarMutate(ppm);
   return windowVec;
-};
+}
 
 /**
  * unb3nd constants namespace
@@ -78,27 +77,27 @@ var constants = {
   /**
    * Colors
    */
-  PARTICLE_COLOR : "lightblue",
-  PARTICLE_STRING_COLOR : "black",
-  PARTICLE_WIDTH : 3,
-  RIGID_BODY_COLOR : "lightblue",
-  RIGID_BODY_STRING_COLOR : "black",
-  RIGID_BODY_WIDTH : 3,
-  GRAVITY_COLOR : "orange",
-  WIND_COLOR : "orange",
-  DRAG_COLOR : "lightblue",
-  SPRING_COLOR : "lightgreen",
-  ANCHORED_SPRING_COLOR : "darkgreen",
-  BUNGEE_COLOR : "pink",
-  ANCHORED_BUNGEE_COLOR : "magenta",
-  AERO_COLOR : "purple",
-  CABLE_COLOR : "grey",
-  ANCHORED_CABLE_COLOR : "#333333",
-  ROD_COLOR : "black",
-  ANCHORED_ROD_COLOR : "#333333",
-  COLLISION_DETECTION_COLOR : "purple",
-  COLLISION_BOX_COLOR : "purple",
-  COLLISION_BOX_TOL_COLOR : "pink",
+  PARTICLE_COLOR:"lightblue",
+  PARTICLE_STRING_COLOR:"black",
+  PARTICLE_WIDTH:3,
+  RIGID_BODY_COLOR:"lightblue",
+  RIGID_BODY_STRING_COLOR:"black",
+  RIGID_BODY_WIDTH:3,
+  GRAVITY_COLOR:"orange",
+  WIND_COLOR:"orange",
+  DRAG_COLOR:"lightblue",
+  SPRING_COLOR:"lightgreen",
+  ANCHORED_SPRING_COLOR:"darkgreen",
+  BUNGEE_COLOR:"pink",
+  ANCHORED_BUNGEE_COLOR:"magenta",
+  AERO_COLOR:"purple",
+  CABLE_COLOR:"grey",
+  ANCHORED_CABLE_COLOR:"#333333",
+  ROD_COLOR:"black",
+  ANCHORED_ROD_COLOR:"#333333",
+  COLLISION_DETECTION_COLOR:"purple",
+  COLLISION_BOX_COLOR:"purple",
+  COLLISION_BOX_TOL_COLOR:"pink",
 
   /**
    * Earth's gravitational constant
@@ -108,7 +107,7 @@ var constants = {
    * @type Number
    * @since 0.0.0
    */
-  EARTH_GRAVITATIONAL_CONSTANT : -9.81,
+  EARTH_GRAVITATIONAL_CONSTANT:-9.81,
 
   /**
    * Default gravitational constant used throughout
@@ -118,7 +117,7 @@ var constants = {
    * @type Number
    * @since 0.0.0
    */
-  DEFAULT_GRAVITATIONAL_CONSTANT : this.EARTH_GRAVITATIONAL_CONSTANT,
+  DEFAULT_GRAVITATIONAL_CONSTANT:-9.81,
 
   /**
    * Default drag velocity coefficient
@@ -128,7 +127,7 @@ var constants = {
    * @type Number
    * @since 0.0.0
    */
-  DEFAULT_DRAG_VELOCITY_COEFF : 0.5,
+  DEFAULT_DRAG_VELOCITY_COEFF:0.5,
 
   /**
    * Default drag velocity squared coefficient
@@ -138,7 +137,7 @@ var constants = {
    * @type Number
    * @since 0.0.0
    */
-  DEFAULT_DRAG_VELOCITY_SQUARED_COEFF : 0.05,
+  DEFAULT_DRAG_VELOCITY_SQUARED_COEFF:0.05,
 
   /**
    * Default collision restitution
@@ -148,7 +147,7 @@ var constants = {
    * @type Number
    * @since 0.0.0
    */
-  DEFAULT_COLLISION_RESTITUTION : 0.5,
+  DEFAULT_COLLISION_RESTITUTION:0.5,
 
   /**
    * Useful for drawing full circles
@@ -158,6 +157,6 @@ var constants = {
    * @type Number
    * @since 0.0.0
    */
-  TWO_PI : Math.PI * 2
+  TWO_PI:Math.PI * 2
 };
 

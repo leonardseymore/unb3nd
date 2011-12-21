@@ -31,44 +31,44 @@ var rigidBodyStructure = [
  * @since 0.0.0.3
  */
 var rigidBodyWorld = undefined;
- 
- /**
-  * Initialize game elements here
-  * @function
-  * @returns {void}
-  * @since 0.0.0.3
-  */
- function initGame() {
-	 rigidBodyWorld = new World();
 
-   initRigidBody(0, 1, 5, 50, 25);
-   initRigidBody(1, 1, 500, 150, 150);
-   initRigidBody(2, 0, 1000, 200, 300);
+/**
+ * Initialize game elements here
+ * @function
+ * @returns {void}
+ * @since 0.0.0.3
+ */
+function initGame() {
+  rigidBodyWorld = new World();
 
-   for (var i in rigidBodies) {
-     var rigidBody = rigidBodies[i];
-     rigidBodyWorld.addRigidBody(rigidBody);
-   } // for
+  initRigidBody(0, 1, 5, 50, 25);
+  initRigidBody(1, 1, 500, 150, 150);
+  initRigidBody(2, 0, 1000, 200, 300);
 
-   ForceGeneratorFactory.createGravity(
-     rigidBodyWorld.forceRegistry, rigidBodies[1]
-   );
-   ForceGeneratorFactory.createGravity(
-     rigidBodyWorld.forceRegistry, rigidBodies[0]
-   );
+  for (var i in rigidBodies) {
+    var rigidBody = rigidBodies[i];
+    rigidBodyWorld.addRigidBody(rigidBody);
+  } // for
 
-   ForceGeneratorFactory.createSpring(
-     rigidBodyWorld.forceRegistry, rigidBodies[0], new unb3nd.Vector2(0, 10),
-     rigidBodies[1], new unb3nd.Vector2(0, 0),
-     0.05, 1);
+  ForceGeneratorFactory.createGravity(
+    rigidBodyWorld.forceRegistry, rigidBodies[1]
+  );
+  ForceGeneratorFactory.createGravity(
+    rigidBodyWorld.forceRegistry, rigidBodies[0]
+  );
 
-   ForceGeneratorFactory.createSpring(
-     rigidBodyWorld.forceRegistry, rigidBodies[1], new unb3nd.Vector2(0, 40),
-     rigidBodies[2], new unb3nd.Vector2(0, 50),
-     0.5, 0.1);
+  ForceGeneratorFactory.createSpring(
+    rigidBodyWorld.forceRegistry, rigidBodies[0], new Vector2(0, 10),
+    rigidBodies[1], new Vector2(0, 0),
+    0.05, 1);
 
-   renderGame();
- }
+  ForceGeneratorFactory.createSpring(
+    rigidBodyWorld.forceRegistry, rigidBodies[1], new Vector2(0, 40),
+    rigidBodies[2], new Vector2(0, 50),
+    0.5, 0.1);
+
+  renderGame();
+}
 
 /**
  * Initializes the rigid body
@@ -88,17 +88,17 @@ function initRigidBody(index, mass, inertia, x, y) {
   rigidBodies[index].angularDamping = 0.5;
   rigidBodies[index].calculateDerivedData();
 }
- 
- /**
-  * Start game
-  * @function
-  * @returns {void}
-  * @since 0.0.0.3
-  */
- function startGame() {
-	
- }
- 
+
+/**
+ * Start game
+ * @function
+ * @returns {void}
+ * @since 0.0.0.3
+ */
+function startGame() {
+
+}
+
 /**
  * Update all game elements
  * @function
@@ -107,7 +107,7 @@ function initRigidBody(index, mass, inertia, x, y) {
  * @since 0.0.0.3
  */
 function updateGame(delta) {
-	rigidBodyWorld.update(delta);
+  rigidBodyWorld.update(delta);
 }
 
 /**
@@ -117,7 +117,7 @@ function updateGame(delta) {
  * @since 0.0.0.3
  */
 function renderGame() {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   drawRigidBody(rigidBodies[0], "green");
   drawRigidBody(rigidBodies[1], "red");

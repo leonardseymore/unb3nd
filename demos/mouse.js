@@ -3,12 +3,14 @@
  * Mouse
  ****************************/
 
+"use strict";
+
 /**
  * @class Mouse game implementation
  * @extends Engine
  * @since 0.0.0.4
  */
-MouseGame = function() {
+function MouseGame() {
 
   /**
    * Super constructor
@@ -27,7 +29,7 @@ MouseGame = function() {
    * Initialize game elements here
    * @return void
    */
-  this.initGame = function() {
+  this.initGame = function () {
 
   };
 
@@ -36,7 +38,7 @@ MouseGame = function() {
    * Initialize game start here
    * @return void
    */
-  this.startGame = function() {
+  this.startGame = function () {
     this.mouse = new FancyMouse();
   };
 
@@ -46,7 +48,7 @@ MouseGame = function() {
    * @param {Number} delta Delta time since last update
    * @return void
    */
-  this.updateGame = function(delta) {
+  this.updateGame = function (delta) {
     this.mouse.update(delta);
   };
 
@@ -55,7 +57,7 @@ MouseGame = function() {
    * Render a single frame
    * @return void
    */
-  this.renderGame = function() {
+  this.renderGame = function () {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.mouse.draw(this.ctx);
   };
@@ -65,11 +67,11 @@ MouseGame = function() {
    * Stop the game
    * @return void
    */
-  this.stopGame = function() {
+  this.stopGame = function () {
     this.ctx.save();
     this.ctx.globalAlpha = 0.3;
     this.ctx.fillStyle = "black";
-    this.ctx.fillRect(0, 0, canvas.width, canvas.height);
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.ctx.globalAlpha = 1;
     this.ctx.fillStyle = "white";
@@ -80,12 +82,15 @@ MouseGame = function() {
     );
     this.ctx.restore();
   };
-};
+}
 MouseGame.prototype = new Engine();
 
+/**
+ * Engine instance
+ */
 var mouseGame = new MouseGame();
-Engine.getInstance = function() {
+Engine.getInstance = function () {
   return mouseGame;
-}
+};
 
 
