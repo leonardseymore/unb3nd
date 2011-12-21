@@ -3,8 +3,7 @@
  * Mass Aggregate Engine Demo
  ****************************/
 
-ppm = 10;
-FPS = 64;
+"use strict";
 
 /**
  * All icons
@@ -32,7 +31,187 @@ var ICONS = {
   CABLE_ANCHORED:"cableAnchored.png",
   ROD:"rod.png",
   ROD_ANCHORED:"rodAnchored.png"
+};
+
+/**
+ * @class Mass aggreagte game implementation
+ * @extends Engine
+ * @since 0.0.0.4
+ */
+function MassAggregateGame() {
+
+  /**
+   * Super constructor
+   */
+  Engine.call(this);
+
+  /**
+   * @field
+   * @type FancyMouse
+   * @since 0.0.0.4
+   */
+  this.mouse = undefined;
+
+  /**
+   * @field Particle world renderer
+   * @type ParticleWorldRenderVisitor
+   * @since 0.0.0.4
+   */
+  this.particleWorldRenderer = undefined;
+
+  /**
+   * @function
+   * @override
+   */
+  this.initGame = function () {
+    this.particleWorldRenderer = new ParticleWorldRenderVisitor(this.ctx);
+    this.mouse = new FancyMouse();
+    this.ppm = 10;
+    this.targetFps = 64;
+
+    this.addEventListener("mousemove", function (e) {
+      var x = e.offsetX;
+      var y = e.offsetY;
+
+      lastMouseMoveScreen.x = x;
+      lastMouseMoveScreen.y = y;
+
+      lastMouseMoveWorld.x = x;
+      lastMouseMoveWorld.y = Y(y);
+
+      this.renderGame();
+    });
+
+    this.addEventListener("mousedown", function (e) {
+      var x = e.offsetX;
+      var y = e.offsetY;
+
+      tool.use(new Vector2(x, y));
+    });
+
+    this.addEventListener("mouseover", function () {
+      mouseInScreen = true;
+      this.renderGame();
+    });
+
+    this.addEventListener("mouseout", function () {
+      mouseInScreen = false;
+      this.renderGame();
+    });
+
+    this.addEventListener("mousewheel", function (e) {
+      if (e.wheelDelta > 0) {
+        this.ppm *= 2;
+      } else {
+        this.ppm /= 2;
+      } // if
+      this.renderGame();
+    });
+
+    particleWorld = new ParticleWorld();
+    tool = SelectTool.instance;
+    this.renderGame();
+  };
+
+  /**
+   * @function
+   * @override
+   */
+  this.startGame = function () {
+
+  };
+
+  /**
+   * @function
+   * @override
+   */
+  this.updateGame = function (delta) {
+    this.mouse.update(delta);
+    particleWorld.startFrame();
+    particleWorld.runPhysics(delta);
+  };
+
+  /**
+   * @function
+   * @override
+   */
+  this.renderGame = function() {
+    var ctx = this.ctx;
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    particleWorld.accept(this.particleWorldRenderer);
+
+    var i = anchors.length;
+    while (i--) {
+      var anchor = anchors[i];
+      var anchorScreenPos = window(anchor);
+      ctx.drawImage(anchorImage, anchorScreenPos.x - anchorImage.width / 2, anchorScreenPos.y - anchorImage.height / 2);
+    } // for
+
+    if (this.debug) {
+      ctx.fillText("Global Forces: " + particleWorld.globalForceGenerators, 10, Y(90));
+      ctx.fillText("Num Particles: " + particleWorld.particles.length, 10, Y(80));
+      ctx.fillText("Num Force Generators: " + particleWorld.forceRegistry.entries.length, 10, Y(70));
+      ctx.fillText("Num Contact Generators: " + particleWorld.contactGenerators.length, 10, Y(60));
+      ctx.fillText("Mouse Screen: (" + lastMouseMoveScreen.x + "," + lastMouseMoveScreen.y + ")", 10, Y(50));
+      ctx.fillText("Mouse World: (" + lastMouseMoveWorld.x + "," + lastMouseMoveWorld.y + ")", 10, Y(40));
+      ctx.fillText("Pixels Per Meter: " + this.ppm, 10, Y(30));
+      ctx.fillText("FPS: " + this.avgFps, 10, Y(20));
+      ctx.save();
+      ctx.beginPath();
+      ctx.strokeStyle = "red";
+      ctx.translate(10, Y(10));
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, -3);
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(this.ppm, 0);
+      ctx.lineTo(this.ppm, -3);
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.moveTo(0, 0);
+      ctx.lineTo(this.ppm, 0);
+      ctx.stroke();
+      ctx.restore();
+    } // if
+
+    if (mouseInScreen) {
+      tool.drawHandles(lastMouseMoveScreen, lastMouseMoveWorld);
+    } // if
+
+    //this.mouse.draw(ctx);
+  };
+
+  /**
+   * @function
+   * @override
+   */
+  this.stopGame = function () {
+    var ctx = this.ctx;
+    ctx.save();
+    ctx.globalAlpha = 0.3;
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "white";
+
+    var stoppedText = "Stopped";
+    ctx.fillText(stoppedText,
+      (this.windowRect.width - ctx.measureText(stoppedText).width) / 2, this.windowRect.height / 2
+    );
+    ctx.restore();
+  };
 }
+MassAggregateGame.prototype = new Engine();
+EngineInstance = new MassAggregateGame();
 
 /**
  * @global ParticleWorld
@@ -79,82 +258,15 @@ var anchorImage = Resources.loadImage("anchor16.png");
 /**
  * Play button click event handler
  */
-function playButton_click() {
-  if (engine.running) {
-    engine.engineStop();
+function playButton_click(btnPlay) {
+  if (EngineInstance.running) {
+    EngineInstance.engineStop();
     btnPlay.src = Resources.configuration.IMG_PATH + "playButton.png";
   } else {
-    engine.engineStart();
+    EngineInstance.engineStart();
     btnPlay.src = Resources.configuration.IMG_PATH + "pauseButton.png";
   } // if
 }
-
-function MassAggregateGame() {
-
-  /**
-   * Su
-   */
-  Engine.call(this);
-}
-
-/**
- * @eventHandler
- * Mouse move handler
- */
-engine.addEventListener("mousemove", function (e) {
-  var x = e.offsetX;
-  var y = e.offsetY;
-
-  lastMouseMoveScreen.x = x;
-  lastMouseMoveScreen.y = y;
-
-  lastMouseMoveWorld.x = x;
-  lastMouseMoveWorld.y = Y(y);
-
-  renderGame();
-});
-
-/**
- * @eventHandler
- * Mouse down handler
- */
-engine.addEventListener("mousedown", function (e) {
-  var x = e.offsetX;
-  var y = e.offsetY;
-
-  tool.use(new Vector2(x, y));
-});
-
-/**
- * @eventHandler
- * Mouse over handler
- */
-engine.addEventListener("mouseover", function (e) {
-  mouseInScreen = true;
-  renderGame();
-});
-
-/**
- * @eventHandler
- * Mouse out handler
- */
-engine.addEventListener("mouseout", function (e) {
-  mouseInScreen = false;
-  renderGame();
-});
-
-/**
- * @eventHandler
- * Mouse wheel handler
- */
-engine.addEventListener("mousewheel", function (e) {
-  if (e.wheelDelta > 0) {
-    ppm *= 2;
-  } else {
-    ppm /= 2;
-  } // if
-  renderGame();
-});
 
 /**
  * @function
@@ -173,14 +285,16 @@ function enableTool(t) {
 /**
  * @function
  * Removes the specified anchor
- * @param Vector2 anchor The anchor to remove
- * @return Vector2 The removed anchor
+ * @param {Vector2} anchor The anchor to remove
+ * @returns {void}
  */
 function removeAnchor(anchor) {
-  for (i in anchors) {
+  var i = anchors.length;
+  while (i--) {
     var a = anchors[i];
     if (a === anchor) {
-      return anchors.splice(i, 1);
+      anchors.splice(i, 1);
+      break;
     } // if
   } // for
 }
@@ -188,12 +302,13 @@ function removeAnchor(anchor) {
 /**
  * @method
  * Gets the first anchor within the specified radius
- * @param Vector2 point The point at which to look
- * @param float radius The search radius
- * @return Vector2 The anchor, undefined if none were found
+ * @param {Vector2} point The point at which to look
+ * @param {Number} radius The search radius
+ * @return {Vector2} The anchor, undefined if none were found
  */
 function getFirstAnchorWithin(point, radius) {
-  for (i in anchors) {
+  var i = anchors.length;
+  while (i--) {
     var anchor = anchors[i];
     var anchorScreenPos = window(anchor);
     if (Vector2.isWithin(anchorScreenPos, point, radius)) {
@@ -205,98 +320,14 @@ function getFirstAnchorWithin(point, radius) {
 
 /**
  * @function
- * Initialize game elements here
- * @return void
- */
-function initGame() {
-  particleWorld = new ParticleWorld();
-  tool = SelectTool.instance;
-  renderGame();
-}
-
-/**
- * @function
- * Initialize game start here
- * @return void
- */
-function startGame() {
-
-}
-
-/**
- * @function
- * Update all game elements
- * @param int delta Delta time since last update
- * @return void
- */
-function updateGame(delta) {
-  particleWorld.startFrame();
-  particleWorld.runPhysics(delta);
-}
-
-/**
- * @function
- * Render a single frame
- * @return void
- */
-function renderGame() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  Renderer.instance.renderParticleWorld(particleWorld);
-
-  for (i in anchors) {
-    var anchor = anchors[i];
-    var anchorScreenPos = window(anchor);
-    ctx.drawImage(anchorImage, anchorScreenPos.x - anchorImage.width / 2, anchorScreenPos.y - anchorImage.height / 2);
-  } // for
-
-  if (debug) {
-    ctx.fillText("Global Forces: " + particleWorld.globalForceGenerators, 10, Y(90));
-    ctx.fillText("Num Particles: " + particleWorld.particles.length, 10, Y(80));
-    ctx.fillText("Num Force Generators: " + particleWorld.forceRegistry.entries.length, 10, Y(70));
-    ctx.fillText("Num Contact Generators: " + particleWorld.contactGenerators.length, 10, Y(60));
-    ctx.fillText("Mouse Screen: (" + lastMouseMoveScreen.x + "," + lastMouseMoveScreen.y + ")", 10, Y(50));
-    ctx.fillText("Mouse World: (" + lastMouseMoveWorld.x + "," + lastMouseMoveWorld.y + ")", 10, Y(40));
-    ctx.fillText("Pixels Per Meter: " + ppm, 10, Y(30));
-    ctx.fillText("FPS: " + avgFps, 10, Y(20));
-    ctx.save();
-    ctx.beginPath();
-    ctx.strokeStyle = "red";
-    ctx.translate(10, Y(10));
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(0, -3);
-    ctx.stroke();
-    ctx.restore();
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(ppm, 0);
-    ctx.lineTo(ppm, -3);
-    ctx.stroke();
-    ctx.restore();
-
-    ctx.moveTo(0, 0);
-    ctx.lineTo(ppm, 0);
-    ctx.stroke();
-    ctx.restore();
-  } // if
-
-  if (mouseInScreen) {
-    tool.drawHandles(lastMouseMoveScreen, lastMouseMoveWorld);
-  } // if
-}
-
-/**
- * @function
  * Highlights all particles around a point
- * @param Vector2 point The point
- * @param float radius The radius around the point
+ * @param {Vector2} point The point
+ * @param {Number} radius The radius around the point
+ * @returns {void}
  */
 function highlightParticles(point, radius) {
-  for (i in particleWorld.particles) {
+  var i = particleWorld.particles.length;
+  while (i--) {
     var particle = particleWorld.particles[i];
     var particleScreenPos = window(particle.pos);
     if (Vector2.isWithin(point, particleScreenPos, radius)) {
@@ -308,11 +339,13 @@ function highlightParticles(point, radius) {
 /**
  * @function
  * Highlights all anchors around a point
- * @param Vector2 point The point
- * @param float radius The radius around the point
+ * @param {Vector2} point The point
+ * @param {Number} radius The radius around the point
+ * @returns {void}
  */
 function highlightAnchors(point, radius) {
-  for (i in anchors) {
+  var i = anchors.length;
+  while (i--) {
     var anchor = anchors[i];
     var anchorScreenPos = window(anchor);
     if (Vector2.isWithin(point, anchorScreenPos, radius)) {
@@ -324,44 +357,15 @@ function highlightAnchors(point, radius) {
 /**
  * @function
  * Highlights a single particle
- * @param Vector2 point The point
- * @param float radius The radius around the point
+ * @param {Vector2} point The point
+ * @param {Number} radius The radius around the point
+ * @returns {void}
  */
 function highlightPoint(point, radius) {
+  var ctx = EngineInstance.ctx;
   ctx.beginPath();
   ctx.arc(point.x, point.y, radius, 0, constants.TWO_PI);
   ctx.stroke();
-}
-
-/**
- * @function
- * Stop the game
- * @return void
- */
-function stopGame() {
-  //fadeOut("Stopped");
-}
-
-/**
- * @function
- * Fade out screen
- * @param string message The message to display
- * @return void
- */
-function fadeOut(message) {
-  ctx.save();
-  ctx.globalAlpha = 0.3;
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.globalAlpha = 1;
-  ctx.fillStyle = "white";
-
-  var stoppedText = message;
-  ctx.fillText(stoppedText,
-    (windowRect.width - ctx.measureText(stoppedText).width) / 2, windowRect.height / 2
-  );
-  ctx.restore();
 }
 
 /**
@@ -390,23 +394,23 @@ function Tool() {
   /**
    * @method
    * Sets the icon filename
-   * @param string icon The icon filename
-   * @return void
+   * @param {String} icon The icon filename
+   * @returns {void}
    */
   this.setIcon = function (icon) {
     this.icon = Resources.loadImage(icon);
-  }
+  };
 
   /**
    * Sets the cursor
    * @function
-   * @param {string} cursor The name of the cursor
+   * @param {String} cursor The name of the cursor
    * @returns {void}
    * @since 0.0.0
    */
   this.setCursor = function (cursor) {
     this.cursor = cursor;
-  }
+  };
 
   /**
    * Call this on tool activation
@@ -415,8 +419,8 @@ function Tool() {
    * @since 0.0.0
    */
   this.activate = function () {
-    canvas.style.setProperty("cursor", this.cursor);
-  }
+    EngineInstance.canvas.style.setProperty("cursor", this.cursor);
+  };
 
   /**
    * Call this on tool deactivation
@@ -425,57 +429,60 @@ function Tool() {
    * @since 0.0.0
    */
   this.deactivate = function () {
-    canvas.style.removeProperty("cursor");
-  }
+    EngineInstance.canvas.style.removeProperty("cursor");
+  };
 
   /**
    * @method
    * @abstract
    * Use this tool at position x, y
-   * @param Vector2 point Point in screen coordinates
-   * @return void
+   * @param {Vector2} point Point in screen coordinates
+   * @returns {void}
    */
   this.use = function (point) {
-  }
+  };
 
   /**
    * @method
    * Draws the tool icon at the specified point
-   * @param Vector2 point The point to draw the icon at
-   * @return void
+   * @param {Vector2} point The point to draw the icon at
+   * @returns {void}
    */
   this.drawIcon = function (point) {
+    var ctx = EngineInstance.ctx;
+    var icon = this.icon;
+
     var x = 5;
     var y = 5;
-    if (point.x > x + this.icon.width) {
-      ctx.drawImage(this.icon, x, y);
+    if (point.x > x + icon.width) {
+      ctx.drawImage(icon, x, y);
     } else {
       ctx.save();
       ctx.globalAlpha = 0.5;
-      ctx.drawImage(this.icon, x, y);
+      ctx.drawImage(icon, x, y);
       ctx.restore();
     } // if
-  }
+  };
 
   /**
    * @method
    * @abstract
    * Draw tool visual helpers
-   * @param Vector2 point Point in screen coordinates
-   * @return void
+   * @param {Vector2} point Point in screen coordinates
+   * @returns {void}
    */
   this.drawHandles = function (point) {
-  }
+  };
 
   /**
    * @method
    * @abstract
    * Cancel this tool
    * TODO: link into keyboard ESC to cancel tool
-   * @return void
+   * @returns {void}
    */
   this.cancel = function () {
-  }
+  };
 }
 
 /**
@@ -513,25 +520,24 @@ function SelectTool() {
     );
 
     if (particle) {
-      if (debug) {
+      if (EngineInstance.debug) {
         console.debug("Selected particle %o", particle);
       } // if
 
-      function mouseMoveListener(e) {
+      var mouseMoveListener = function (e) {
         var x = e.offsetX;
         var y = e.offsetY;
         var newWindowPos = new Vector2(x, y);
-        var newWorldPos = world(newWindowPos);
-        particle.pos = newWorldPos;
-      }
+        particle.pos = world(newWindowPos);
+      };
 
-      engine.addEventListener("mousemove", mouseMoveListener);
-      engine.addEventListener("mouseup", function () {
-        engine.removeEventListener("mouseup", this);
-        engine.removeEventListener("mousemove", mouseMoveListener);
+      EngineInstance.addEventListener("mousemove", mouseMoveListener);
+      EngineInstance.addEventListener("mouseup", function () {
+        EngineInstance.removeEventListener("mouseup", this);
+        EngineInstance.removeEventListener("mousemove", mouseMoveListener);
       });
     } // if
-  }
+  };
 
   /**
    * @method
@@ -541,7 +547,7 @@ function SelectTool() {
   this.drawHandles = function (point) {
     highlightParticles(point, this.selectRadius);
     this.drawIcon(point);
-  }
+  };
 }
 SelectTool.prototype = new Tool();
 SelectTool.instance = new SelectTool();
@@ -591,7 +597,7 @@ function RemoveTool() {
     if (anchor) {
       removeAnchor(anchor);
     } // if
-  }
+  };
 
   /**
    * @method
@@ -602,7 +608,7 @@ function RemoveTool() {
     highlightAnchors(point, this.selectRadius);
     highlightParticles(point, this.selectRadius);
     this.drawIcon(point);
-  }
+  };
 }
 RemoveTool.prototype = new Tool();
 RemoveTool.instance = new RemoveTool();
@@ -635,7 +641,7 @@ function CreateParticleTool() {
     particle.setMass(1);
     particle.pos = world(point);
     particleWorld.addParticle(particle);
-  }
+  };
 
   /**
    * @method
@@ -644,7 +650,7 @@ function CreateParticleTool() {
    */
   this.drawHandles = function (point) {
     this.drawIcon(point);
-  }
+  };
 }
 CreateParticleTool.prototype = new Tool();
 CreateParticleTool.instance = new CreateParticleTool();
@@ -675,7 +681,7 @@ function CreateAnchorTool() {
   this.use = function (point) {
     var anchor = point.clone();
     anchors.push(world(anchor));
-  }
+  };
 
   /**
    * @method
@@ -684,7 +690,7 @@ function CreateAnchorTool() {
    */
   this.drawHandles = function (point) {
     this.drawIcon(point);
-  }
+  };
 }
 CreateAnchorTool.prototype = new Tool();
 CreateAnchorTool.instance = new CreateAnchorTool();
@@ -727,7 +733,7 @@ function CreateGravityTool() {
         new ParticleGravityForceGenerator()
       );
     } // if
-  }
+  };
 
   /**
    * @method
@@ -743,9 +749,9 @@ function CreateGravityTool() {
 
     this.drawIcon(point);
     if (!particle) {
-      ctx.fillText("Add global gravity", point.x + 20, point.y);
+      EngineInstance.ctx.fillText("Add global gravity", point.x + 20, point.y);
     } // if
-  }
+  };
 }
 CreateGravityTool.prototype = new Tool();
 CreateGravityTool.instance = new CreateGravityTool();
@@ -788,7 +794,7 @@ function CreateDragTool() {
         new ParticleDragForceGenerator(0.5, 0.05)
       );
     } // if
-  }
+  };
 
   /**
    * @method
@@ -804,9 +810,9 @@ function CreateDragTool() {
 
     this.drawIcon(point);
     if (!particle) {
-      ctx.fillText("Add global drag", point.x + 20, point.y);
+      EngineInstance.ctx.fillText("Add global drag", point.x + 20, point.y);
     } // if
-  }
+  };
 }
 CreateDragTool.prototype = new Tool();
 CreateDragTool.instance = new CreateDragTool();
@@ -849,7 +855,7 @@ function CreateWindTool() {
         new ParticleWindForceGenerator(new Vector2(4, 0))
       );
     } // if
-  }
+  };
 
   /**
    * @method
@@ -865,9 +871,9 @@ function CreateWindTool() {
 
     this.drawIcon(point);
     if (!particle) {
-      ctx.fillText("Add global wind", point.x + 20, point.y);
+      EngineInstance.ctx.fillText("Add global wind", point.x + 20, point.y);
     } // if
-  }
+  };
 }
 CreateWindTool.prototype = new Tool();
 CreateWindTool.instance = new CreateWindTool();
@@ -914,20 +920,20 @@ function Particle2ParticleTool() {
     );
 
     if (particle) {
-      if (this.p1) {
-        if (this.p1 === particle) {
-          this.p1 = undefined;
+      var p1 = this.p1;
+      if (p1) {
+        if (p1 === particle) {
+          p1 = undefined;
           return;
         } // if
 
-        this.createForce(this.p1, particle);
-        this.p1 = undefined;
+        this.createForce(p1, particle);
+        p1 = undefined;
       } else {
-        this.p1 = particle;
+        p1 = particle;
       }
-      ;
     } // if
-  }
+  };
 
   /**
    * @method
@@ -936,7 +942,7 @@ function Particle2ParticleTool() {
    * @return void
    */
   this.createForce = function (p1, particle) {
-  }
+  };
 
   /**
    * @method
@@ -945,6 +951,8 @@ function Particle2ParticleTool() {
    */
   this.drawHandles = function (point) {
     if (this.p1) {
+      var ctx = EngineInstance.ctx;
+
       ctx.save();
       ctx.strokeStyle = "green";
       var p1WindowPos = window(this.p1.pos);
@@ -968,7 +976,7 @@ function Particle2ParticleTool() {
     } // if
     highlightParticles(point, this.selectRadius);
     this.drawIcon(point);
-  }
+  };
 }
 Particle2ParticleTool.prototype = new Tool();
 
@@ -1031,17 +1039,17 @@ function Anchor2ParticleTool() {
       this.createForce(this.anchor, particle);
       this.anchor = undefined;
     } // if
-  }
+  };
 
   /**
    * @method
    * Creates the actual force
-   * @param Anchor anchor The anchor to connect
-   * @param Particle particle The particle to connect
-   * @return void
+   * @param {Vector2} anchor The anchor to connect
+   * @param {Particle} particle The particle to connect
+   * @returns {void}
    */
   this.createForce = function (anchor, particle) {
-  }
+  };
 
   /**
    * @method
@@ -1050,6 +1058,8 @@ function Anchor2ParticleTool() {
    */
   this.drawHandles = function (point) {
     if (this.anchor) {
+      var ctx = EngineInstance.ctx;
+
       ctx.save();
       ctx.strokeStyle = "green";
       var anchorScreenPos = window(this.anchor);
@@ -1076,7 +1086,7 @@ function Anchor2ParticleTool() {
       highlightAnchors(point, this.selectRadius);
     } // if
     this.drawIcon(point);
-  }
+  };
 }
 Anchor2ParticleTool.prototype = new Tool();
 
@@ -1233,9 +1243,9 @@ function CreateAnchoredSpringTool() {
    * @method
    * @override
    * Creates the actual force
-   * @param Anchor anchor The anchor to connect
-   * @param Particle particle The particle to connect
-   * @return void
+   * @param {Vector2} anchor The anchor to connect
+   * @param {Particle} particle The particle to connect
+   * @returns {void}
    */
   this.createForce = function (anchor, particle) {
     ParticleForceGeneratorFactory.createAnchoredSpring(
@@ -1269,9 +1279,9 @@ function CreateAnchoredBungeeTool() {
    * @method
    * @override CreateSpringTool#createForce(Particle, Particle)
    * Creates the actual force
-   * @param Anchor anchor The anchor to connect
-   * @param Particle particle The particle to connect
-   * @return void
+   * @param {Vector2} anchor The anchor to connect
+   * @param {Particle} particle The particle to connect
+   * @returns {void}
    */
   this.createForce = function (anchor, particle) {
     ParticleForceGeneratorFactory.createAnchoredBungee(
@@ -1341,9 +1351,9 @@ function CreateAnchoredCableTool() {
    * @method
    * @override CreateSpringTool#createForce(Particle, Particle)
    * Creates the actual force
-   * @param Anchor anchor The anchor to connect
-   * @param Particle particle The particle to connect
-   * @return void
+   * @param {Vector2} anchor The anchor to connect
+   * @param {Particle} particle The particle to connect
+   * @returns {void}
    */
   this.createForce = function (anchor, particle) {
     var distance = this.anchor.sub(particle.pos).getMagnitude();
@@ -1414,9 +1424,9 @@ function CreateAnchoredRodTool() {
    * @method
    * @override CreateSpringTool#createForce(Particle, Particle)
    * Creates the actual force
-   * @param Anchor anchor The anchor to connect
-   * @param Particle particle The particle to connect
-   * @return void
+   * @param {Vector2} anchor The anchor to connect
+   * @param {Particle} particle The particle to connect
+   * @returns {void}
    */
   this.createForce = function (anchor, particle) {
     var distance = this.anchor.sub(particle.pos).getMagnitude();
@@ -1457,7 +1467,7 @@ function CreateCollisionDetectionTool() {
     ParticleContactGeneratorFactory.createCollisionDetection(
       particleWorld, particleWorld.particles, 10
     );
-  }
+  };
 
   /**
    * @method
@@ -1466,8 +1476,8 @@ function CreateCollisionDetectionTool() {
    */
   this.drawHandles = function (point) {
     this.drawIcon(point);
-    ctx.fillText("Add global collsion detection", point.x + 20, point.y);
-  }
+    EngineInstance.ctx.fillText("Add global collsion detection", point.x + 20, point.y);
+  };
 }
 CreateCollisionDetectionTool.prototype = new Tool();
 CreateCollisionDetectionTool.instance = new CreateCollisionDetectionTool();
@@ -1497,11 +1507,11 @@ function CreateCollisionBoxTool() {
    * Use this tool at position x, y
    */
   this.use = function (point) {
-    var collisionBox = windowRect.shrink(0);
+    var collisionBox = EngineInstance.windowRect.shrink(0);
     ParticleContactGeneratorFactory.createCollisionBox(
       particleWorld, particleWorld.particles, collisionBox
     );
-  }
+  };
 
   /**
    * @method
@@ -1510,8 +1520,8 @@ function CreateCollisionBoxTool() {
    */
   this.drawHandles = function (point) {
     this.drawIcon(point);
-    ctx.fillText("Add global collsion box", point.x + 20, point.y);
-  }
+    EngineInstance.ctx.fillText("Add global collsion box", point.x + 20, point.y);
+  };
 }
 CreateCollisionBoxTool.prototype = new Tool();
 CreateCollisionBoxTool.instance = new CreateCollisionBoxTool();

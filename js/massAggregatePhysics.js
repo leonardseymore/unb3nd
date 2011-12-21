@@ -490,7 +490,7 @@ function ParticleGravityForceGenerator(gravitation) {
    */
   this.applyForce = function (particle, delta) {
     if (!particle.hasFiniteMass()) {
-      if (Engine.getInstance().debug && Engine.getInstance().verbose) {
+      if (EngineInstance.debug && EngineInstance.verbose) {
         console.debug("Particle %o has zero mass", particle);
       } // if
       return;
@@ -553,7 +553,7 @@ function ParticleWindForceGenerator(direction) {
    */
   this.applyForce = function (particle, delta) {
     if (!particle.hasFiniteMass()) {
-      if (Engine.getInstance().debug && Engine.getInstance().verbose) {
+      if (EngineInstance.debug && EngineInstance.verbose) {
         console.debug("Particle %o has zero mass, will not apply wind", particle);
       } // if
       return;
@@ -1120,7 +1120,7 @@ ParticleForceGeneratorFactory.createSpring = function (forceRegistry, p1, p2, sp
   var p1F = new ParticleSpringForceGenerator(p2, springConstant, restLength);
   forceRegistry.add(p1, p1F);
   p2.addEventListener("die", function () {
-    if (Engine.getInstance().debug) {
+    if (EngineInstance.debug) {
       console.debug("Removing force generator for dead particle %s", this.toString());
     } // if
 
@@ -1130,7 +1130,7 @@ ParticleForceGeneratorFactory.createSpring = function (forceRegistry, p1, p2, sp
   var p2F = new ParticleSpringForceGenerator(p1, springConstant, restLength);
   forceRegistry.add(p2, p2F);
   p1.addEventListener("die", function () {
-    if (Engine.getInstance().debug) {
+    if (EngineInstance.debug) {
       console.debug("Removing force generator for dead particle %s", this.toString());
     } // if
 
@@ -1170,7 +1170,7 @@ ParticleForceGeneratorFactory.createBungee = function (forceRegistry, p1, p2, sp
   var p1F = new ParticleBungeeForceGenerator(p2, springConstant, restLength);
   forceRegistry.add(p1, p1F);
   p2.addEventListener("die", function () {
-    if (Engine.getInstance().debug) {
+    if (EngineInstance.debug) {
       console.debug("Removing bungee force generator for dead particle %s", this.toString());
     } // if
 
@@ -1180,7 +1180,7 @@ ParticleForceGeneratorFactory.createBungee = function (forceRegistry, p1, p2, sp
   var p2F = new ParticleBungeeForceGenerator(p1, springConstant, restLength);
   forceRegistry.add(p2, p2F);
   p1.addEventListener("die", function () {
-    if (Engine.getInstance().getInstance().debug) {
+    if (EngineInstance.getInstance().debug) {
       console.debug("Removing bungee force generator for dead particle %s", this.toString());
     } // if
 
@@ -2717,7 +2717,7 @@ function ParticleWorld(flags) {
     while (i--) {
       var el = this.particles[i];
       if (el === particle) {
-        if (Engine.getInstance().debug) {
+        if (EngineInstance.debug) {
           console.debug("Removing particle %s", particle.toString());
         } // if
 
@@ -2725,7 +2725,7 @@ function ParticleWorld(flags) {
         particle.die();
         this.forceRegistry.removeForceGenerators(particle);
 
-        if (Engine.getInstance().debug) {
+        if (EngineInstance.debug) {
           console.debug("Removing particle %d", i);
         } // if
 
@@ -2930,7 +2930,7 @@ function ParticleWorld(flags) {
    */
   this.addWindowCollisionBox = function (collisionRadius) {
     ParticleContactGeneratorFactory.createCollisionBox(
-      this, this.particles, Engine.getInstance().windowRect
+      this, this.particles, EngineInstance.windowRect
     );
   }
 
@@ -2940,28 +2940,28 @@ function ParticleWorld(flags) {
   if (this.flags & PARTICLE_WORLD_GRAVITY) {
     this.addGlobalGravityForce();
 
-    if (Engine.getInstance().debug) {
+    if (EngineInstance.debug) {
       console.debug("Added global gravity force");
     } // if
   } // if
   if (this.flags & PARTICLE_WORLD_DRAG) {
     this.addGlobalDragForce();
 
-    if (Engine.getInstance().debug) {
+    if (EngineInstance.debug) {
       console.debug("Added global drag force");
     } // if
   } // if
   if (this.flags & PARTICLE_WORLD_WINDOW_COLLISION) {
     this.addWindowCollisionBox();
 
-    if (Engine.getInstance().debug) {
+    if (EngineInstance.debug) {
       console.debug("Added window collision box");
     } // if
   } // if
   if (this.flags & PARTICLE_WORLD_CONTACT_EVENTS) {
     this.contactEventsEnabled = true;
 
-    if (Engine.getInstance().debug) {
+    if (EngineInstance.debug) {
       console.debug("Contact events enabled");
     } // if
   } // if

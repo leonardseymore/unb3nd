@@ -23,7 +23,7 @@ function getTime() {
  * @since 0.0.0
  */
 function Y(y) {
-  return Engine.getInstance().windowRect.height - y;
+  return EngineInstance.windowRect.height - y;
 }
 
 /**
@@ -36,7 +36,7 @@ function Y(y) {
 function world(point) {
   var worldPos = point.clone();
   worldPos.y = Y(point.y);
-  worldPos.multScalarMutate(1 / ppm);
+  worldPos.multScalarMutate(1 / EngineInstance.ppm);
   return worldPos;
 }
 
@@ -49,7 +49,7 @@ function world(point) {
  */
 function window(point) {
   var windowPos = point.clone();
-  windowPos.multScalarMutate(ppm);
+  windowPos.multScalarMutate(EngineInstance.ppm);
   windowPos.y = Y(windowPos.y);
   return windowPos;
 }
@@ -64,7 +64,7 @@ function window(point) {
 function windowVector(vector) {
   var windowVec = vector.clone();
   windowVec.y = -vector.y;
-  windowVec.multScalarMutate(ppm);
+  windowVec.multScalarMutate(EngineInstance.ppm);
   return windowVec;
 }
 

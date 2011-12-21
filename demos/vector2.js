@@ -21,7 +21,7 @@ function Vector2Game() {
   /**
    * Vectors
    * @field
-   * @type Vector2 []
+   * @type Array []
    * @default []
    * @since 0.0.0
    */
@@ -30,7 +30,7 @@ function Vector2Game() {
   /**
    * Currently selected vector
    * @field
-   * @type Vector2
+   * @type Array
    * @default undefined
    * @since 0.0.0
    */
@@ -41,34 +41,34 @@ function Vector2Game() {
    * @override
    */
   this.initGame = function () {
-    vectors.push(new Vector2(100, 10));
-    vectors.push(new Vector2(10, 100));
+    vectors.push(math.v2.create([100, 10]));
+    vectors.push(math.v2.create([10, 100]));
     this.renderGame();
 
     this.addEventListener("mousemove", function (e) {
       var x = e.offsetX - this.windowRect.width / 2;
-      var y = Y(e.offsetY) - this.windowRect.height / 2;
-      var point = new Vector2(x, y);
+      var y = e.offsetY - this.windowRect.height / 2;
+      var point = math.v2.create([x, y]);
 
       this.renderGame();
       if (selectedVector) {
-        selectedVector.x = x;
-        selectedVector.y = y;
+        selectedVector[0] = x;
+        selectedVector[1] = y;
         return;
       } // if
 
-      var vector = getFirstVectorWithin(point, 5);
+      var vector = this.getFirstVectorWithin(point, 5);
       if (vector) {
-        highlightPoint(vector, 5);
+        this.highlightPoint(vector, 5);
       } // if
     });
 
     this.addEventListener("mousedown", function (e) {
       var x = e.offsetX - this.windowRect.width / 2;
-      var y = Y(e.offsetY) - this.windowRect.height / 2;
+      var y = e.offsetY - this.windowRect.height / 2;
 
-      var point = new Vector2(x, y);
-      var vector = getFirstVectorWithin(point, 5);
+      var point = math.v2.create([x, y]);
+      var vector = this.getFirstVectorWithin(point, 5);
       if (vector) {
         selectedVector = vector;
       } // if
@@ -134,44 +134,44 @@ function Vector2Game() {
     this.drawVector(vectors[1], "v2");
 
     this.ctx.beginPath();
-    var angle = Vector2.getAngle(vectors[0], vectors[1]);
+    var angle = math.v2.getAngle(vectors[0], vectors[1]);
     this.ctx.fillText("Angle: " + angle * 180 / Math.PI, 10, 10);
 
-    var vSub = vectors[0].sub(vectors[1]);
+    var vSub = math.v2.sub(vectors[0], vectors[1]);
     this.ctx.beginPath();
     this.ctx.strokeStyle = "green";
     this.ctx.fillStyle = "green";
-    this.ctx.moveTo(vectors[0].x, vectors[0].y);
-    this.ctx.lineTo(vSub.x, vSub.y);
+    this.ctx.moveTo(vectors[0][0], vectors[0][1]);
+    this.ctx.lineTo(vSub[0], vSub[1]);
     this.ctx.stroke();
-    this.ctx.fillText("v1 - v2", vSub.x, vSub.y);
+    this.ctx.fillText("v1 - v2", vSub[0], vSub[1]);
 
-    var vSubO = vectors[1].sub(vectors[0]);
+    var vSubO = math.v2.sub(vectors[1], vectors[0]);
     this.ctx.beginPath();
     this.ctx.strokeStyle = "lightgreen";
     this.ctx.fillStyle = "lightgreen";
-    this.ctx.moveTo(vectors[1].x, vectors[1].y);
-    this.ctx.lineTo(vSubO.x, vSubO.y);
+    this.ctx.moveTo(vectors[1][0], vectors[1][1]);
+    this.ctx.lineTo(vSubO[0], vSubO[1]);
     this.ctx.stroke();
-    this.ctx.fillText("v2 - v1", vSubO.x, vSubO.y);
+    this.ctx.fillText("v2 - v1", vSubO[0], vSubO[1]);
 
-    var vAdd = vectors[0].add(vectors[1]);
+    var vAdd = math.v2.add(vectors[0], vectors[1]);
     this.ctx.beginPath();
     this.ctx.strokeStyle = "blue";
     this.ctx.fillStyle = "blue";
-    this.ctx.moveTo(vectors[0].x, vectors[0].y);
-    this.ctx.lineTo(vAdd.x, vAdd.y);
+    this.ctx.moveTo(vectors[0][0], vectors[0][1]);
+    this.ctx.lineTo(vAdd[0], vAdd[1]);
     this.ctx.stroke();
-    this.ctx.fillText("v1 + v2", vAdd.x, vAdd.y);
+    this.ctx.fillText("v1 + v2", vAdd[0], vAdd[1]);
 
-    var vAddO = vectors[1].add(vectors[0]);
+    var vAddO = math.v2.add(vectors[1], vectors[0]);
     this.ctx.beginPath();
     this.ctx.strokeStyle = "lightblue";
     this.ctx.fillStyle = "lightblue";
-    this.ctx.moveTo(vectors[1].x, vectors[1].y);
-    this.ctx.lineTo(vAddO.x, vAddO.y);
+    this.ctx.moveTo(vectors[1][0], vectors[1][1]);
+    this.ctx.lineTo(vAddO[0], vAddO[1]);
     this.ctx.stroke();
-    this.ctx.fillText("v2 + v1", vSubO.x, vSubO.y);
+    this.ctx.fillText("v2 + v1", vSubO[0], vSubO[1]);
 
     this.ctx.restore();
   };
@@ -179,45 +179,47 @@ function Vector2Game() {
   /**
    * Gets the first anchor within the specified radius
    * @function
-   * @param {Vector2} point The point at which to look
-   * @param {float} radius The search radius
-   * @returns {Vector2} The vector, undefined if none were found
-   * @since 0.0.0
+   * @param {Array} point The point at which to look
+   * @param {Number} radius The search radius
+   * @returns {Array} The vector, undefined if none were found
+   * @since 0.0.0.4
    */
-  function getFirstVectorWithin(point, radius) {
+  this.getFirstVectorWithin = function(point, radius) {
     var i = vectors.length;
     while (i--) {
       var vector = vectors[i];
-      if (vector.sub(point).getMagnitude() <= radius) {
+      if (this.debug && this.verbose) {
+        console.debug("Testing if %s is close to %s", vector.toString(), point.toString());
+      } // if
+      if (math.v2.isWithin(vector, point, radius)) {
         return vector;
       } // if
     } // for
     return undefined;
-  }
+  };
 
   /**
    * Highlights a single point
    * @function
-   * @param {Vector2} point The point
-   * @param {float} radius The radius around the point
+   * @param {Array} point The point
+   * @param {Number} radius The radius around the point
    * @returns {void}
-   * @since 0.0.0
+   * @since 0.0.0.4
    */
-  function highlightPoint(point, radius) {
+  this.highlightPoint = function(point, radius) {
     this.ctx.save();
     this.ctx.translate(this.windowRect.width / 2, this.windowRect.height / 2);
     this.ctx.beginPath();
-    this.ctx.arc(point.x, point.y, radius, 0, constants.TWO_PI);
+    this.ctx.arc(point[0], point[1], radius, 0, constants.TWO_PI);
     this.ctx.stroke();
     this.ctx.restore();
-  }
+  };
 
   /**
    * @private
    * @function
    * Draws a single vector
-   * @param {CanvasContext} ctx Rendering context
-   * @param {Vector2} vector The vector to draw
+   * @param {Array} vector The vector to draw
    * @param {String} name The name of the vector
    * @returns {void}
    */
@@ -227,10 +229,10 @@ function Vector2Game() {
 
     this.ctx.beginPath();
     this.ctx.moveTo(0, 0);
-    this.ctx.lineTo(vector.x, vector.y);
+    this.ctx.lineTo(vector[0], vector[1]);
     this.ctx.stroke();
 
-    this.ctx.translate(vector.x, vector.y);
+    this.ctx.translate(vector[0], vector[1]);
     this.ctx.fillRect(
       -width, -width, width * 2, width * 2
     );
@@ -247,13 +249,5 @@ function Vector2Game() {
 
   };
 }
-;
 Vector2Game.prototype = new Engine();
-
-/**
- * Engine instance
- */
-var vector2Game = new Vector2Game();
-Engine.getInstance = function () {
-  return vector2Game;
-};
+EngineInstance = new Vector2Game();

@@ -421,7 +421,7 @@ function Engine() {
        * @param Event e mousemove event
        */
       this.canvas.onmousemove = function (e) {
-        Engine.getInstance().mousemove(e);
+        EngineInstance.mousemove(e);
       };
 
       /**
@@ -430,7 +430,7 @@ function Engine() {
        * @param Event e mousedown event
        */
       this.canvas.onmousedown = function (e) {
-        Engine.getInstance().mousedown(e);
+        EngineInstance.mousedown(e);
       };
 
       /**
@@ -439,7 +439,7 @@ function Engine() {
        * @param {Event} e mouseup event
        */
       this.canvas.onmouseup = function (e) {
-        Engine.getInstance().mouseup(e);
+        EngineInstance.mouseup(e);
       };
 
       /**
@@ -448,7 +448,7 @@ function Engine() {
        * @param Event e mouseover event
        */
       this.canvas.onmouseover = function (e) {
-        Engine.getInstance().mouseover(e);
+        EngineInstance.mouseover(e);
       };
 
       /**
@@ -457,7 +457,7 @@ function Engine() {
        * @param Event e mouseout event
        */
       this.canvas.onmouseout = function (e) {
-        Engine.getInstance().mouseout(e);
+        EngineInstance.mouseout(e);
       };
 
       /**
@@ -466,7 +466,7 @@ function Engine() {
        * @param Event e mousewheel event
        */
       this.canvas.onmousewheel = function (e) {
-        Engine.getInstance().mousewheel(e);
+        EngineInstance.mousewheel(e);
       };
 
       var STYLE_DARK_EVENING = this.ctx.createLinearGradient(0, -75, 0, 75);
@@ -559,7 +559,7 @@ function Engine() {
     this.paused = false;
     this.pause();
     this.engineReset();
-    setTimeout(Engine.getInstance().engineMain, 0);
+    setTimeout(EngineInstance.engineMain, 0);
   };
 
   /**
@@ -583,7 +583,7 @@ function Engine() {
    */
   this.engineSync = function() {
     var sleepTime = this.lastSync + (1000 / this.targetFps) - getTime();
-    setTimeout(Engine.getInstance().engineMain, sleepTime);
+    setTimeout(EngineInstance.engineMain, sleepTime);
     this.lastSync += (1000 / this.targetFps);
   };
 
@@ -593,7 +593,7 @@ function Engine() {
    * @return void
    */
   this.engineMain = function() {
-    var instance = Engine.getInstance();
+    var instance = EngineInstance;
     if (instance.running && !instance.paused) {
       var delta = instance.getDelta();
       instance.updateGame(delta);
@@ -637,11 +637,10 @@ function Engine() {
    * @function
    * @abstract
    * Render a single frame
-   * @param {CanvasContext} ctx Rendering context
    * @returns {void}
    * @since 0.0.0.4
    */
-  this.renderGame = function(ctx) {}
+  this.renderGame = function() {}
 
   /**
    * @function
@@ -655,13 +654,12 @@ function Engine() {
 Engine.prototype = new Observable();
 
 /**
- * @function
- * @abstract
- * Factory method to return instance of the engine
- * @returns {Engine} Instance of the engine
+ * @global
+ * Singleton reference to the game engine.
+ * @type {Engine} Instance of the engine
  * @since 0.0.0.4
  */
-Engine.getInstance = function() {}
+var EngineInstance = undefined;
 
 /*
  * @eventHandler
@@ -670,11 +668,11 @@ Engine.getInstance = function() {}
  */
 document.onreadystatechange = function () {
   if (document.readyState == "complete") {
-    if (Engine.getInstance().debug) {
+    if (EngineInstance.debug) {
       console.debug("Document ready state changed to 'complete'");
     } // if
 
-    Engine.getInstance().engineInit();
+    EngineInstance.engineInit();
   } // if
 }
 
@@ -686,11 +684,11 @@ document.onreadystatechange = function () {
 document.onkeydown = function (e) {
   // toggle debug 'D'
   if (e.keyCode == 68) {
-    Engine.getInstance().debug = !Engine.getInstance().debug;
-    console.debug("Debug enabled: " + Engine.getInstance().debug);
+    EngineInstance.debug = !EngineInstance.debug;
+    console.debug("Debug enabled: " + EngineInstance.debug);
   } // if
 
-  Engine.getInstance().keydown(e);
+  EngineInstance.keydown(e);
 }
 
 /*
@@ -699,5 +697,5 @@ document.onkeydown = function (e) {
  * @param Event e keyup event
  */
 document.onkeyup = function (e) {
-  Engine.getInstance().keyup(e);
+  EngineInstance.keyup(e);
 }

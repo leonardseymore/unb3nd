@@ -22,7 +22,7 @@ function MouseGame() {
    * @type FancyMouse
    * @since 0.0.0.4
    */
-  this.mouse = undefined;
+  var mouse = undefined;
 
   /**
    * @function
@@ -30,7 +30,7 @@ function MouseGame() {
    * @return void
    */
   this.initGame = function () {
-
+    this.engineStart();
   };
 
   /**
@@ -39,7 +39,7 @@ function MouseGame() {
    * @return void
    */
   this.startGame = function () {
-    this.mouse = new FancyMouse();
+    mouse = new FancyMouse();
   };
 
   /**
@@ -49,7 +49,7 @@ function MouseGame() {
    * @return void
    */
   this.updateGame = function (delta) {
-    this.mouse.update(delta);
+    mouse.update(delta);
   };
 
   /**
@@ -58,8 +58,11 @@ function MouseGame() {
    * @return void
    */
   this.renderGame = function () {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.mouse.draw(this.ctx);
+    var ctx = this.ctx;
+    var canvas = this.canvas;
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    mouse.draw(ctx);
   };
 
   /**
@@ -68,29 +71,24 @@ function MouseGame() {
    * @return void
    */
   this.stopGame = function () {
-    this.ctx.save();
-    this.ctx.globalAlpha = 0.3;
-    this.ctx.fillStyle = "black";
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    var ctx = this.ctx;
+    var canvas = this.canvas;
+    var windowRect = this.windowRect;
+    
+    ctx.save();
+    ctx.globalAlpha = 0.3;
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    this.ctx.globalAlpha = 1;
-    this.ctx.fillStyle = "white";
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "white";
 
     var stoppedText = "Stopped";
-    this.ctx.fillText(stoppedText,
-      (this.windowRect.width - this.ctx.measureText(stoppedText).width) / 2, this.windowRect.height / 2
+    ctx.fillText(stoppedText,
+      (windowRect.width - ctx.measureText(stoppedText).width) / 2, windowRect.height / 2
     );
-    this.ctx.restore();
+    ctx.restore();
   };
 }
 MouseGame.prototype = new Engine();
-
-/**
- * Engine instance
- */
-var mouseGame = new MouseGame();
-Engine.getInstance = function () {
-  return mouseGame;
-};
-
-
+EngineInstance = new MouseGame();

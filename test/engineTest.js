@@ -8,7 +8,7 @@ Engine.getInstance = function () {
 }
 
 test("Test reset engine", function () {
-  var engine = Engine.getInstance();
+  var engine = EngineInstance;
   engine.fps = 1;
   engine.lastFrame = 1;
   engine.engineReset();
@@ -17,7 +17,7 @@ test("Test reset engine", function () {
 });
 
 test("Test update FPS counter once", function () {
-  var engine = Engine.getInstance();
+  var engine = EngineInstance;
   engine.engineReset();
   var lastFPS = engine.fps;
   engine.updateFPS();
@@ -28,7 +28,7 @@ test("Test update FPS counter once", function () {
  // This test is important to ensure FPS calculation works correctly,
  // but is disabled since it takes a second to execute.
  asyncTest("Test update FPS counter", function() {
- var engine = Engine.getInstance();
+ var engine = EngineInstance;
  var tol = 1;
  engine.engineReset();
  setTimeout(function(){

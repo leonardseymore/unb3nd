@@ -37,8 +37,8 @@ function FancyMouse() {
 	 * @event
 	 * 
 	 */
-  Engine.getInstance().addEventListener("mousemove", function(e) {
-		mouseMoves.enqueue(new Vector2(e.offsetX, e.offsetY));
+  EngineInstance.addEventListener("mousemove", function(e) {
+		mouseMoves.enqueue([e.offsetX, e.offsetY]);
 	});
 	
 	/**
@@ -75,21 +75,16 @@ function FancyMouse() {
 	 */
 	this.draw = function(ctx) {
 		ctx.save();
-
-		ctx.fillStyle = "black";
 		ctx.beginPath();
-
 		var moves = mouseMoves.getElements();
     var i = moves.length;
 		while (i--) {
 			if (i > 1) {
-			
-				ctx.moveTo(moves[i - 1].x, moves[i - 1].y);
-				ctx.lineTo(moves[i].x, moves[i].y);
-				ctx.fillRect(moves[i].x - i, moves[i].y - i, i * 2,i * 2);
+				ctx.moveTo(moves[i - 1][0], moves[i - 1][1]);
+				ctx.lineTo(moves[i][0], moves[i][1]);
+				ctx.fillRect(moves[i][0] - i, moves[i][1] - i, i * 2,i * 2);
 			} // if
 		} // for
-
 		ctx.stroke();
 		ctx.restore();
 	}

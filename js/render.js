@@ -40,16 +40,24 @@ Renderer.instance = new Renderer();
  * @class
  * @constructor
  * @extends ParticleWorldVisitor
+ * @param {CanvasContext} ctx Rendering context
  * Particle world renderer vistor implementation
  * @since 0.0.0.3
  */
-function ParticleWorldRenderVisitor() {
+function ParticleWorldRenderVisitor(ctx) {
 
   /**
 	 * @super
 	 * Super constructor
 	 */
 	ParticleWorldVisitor.call(this);
+
+  /**
+   * Rendering context
+   * @field
+   * @type CanvasContext
+   */
+  var ctx = ctx;
 
   /**
    * @field ParticleWorld
@@ -66,9 +74,9 @@ function ParticleWorldRenderVisitor() {
    */
   this.isPointInScreen = function(point) {
     return point.x >= 0
-           && point.x < windowRect.width
+           && point.x < EngineInstance.windowRect.width
            && point.y >= 0
-           && point.y < windowRect.height;
+           && point.y < EngineInstance.windowRect.height;
   }
 
 	/**
