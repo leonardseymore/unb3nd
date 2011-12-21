@@ -60,34 +60,9 @@ function MouseGame() {
   this.renderGame = function () {
     var ctx = this.ctx;
     var canvas = this.canvas;
-    
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     mouse.draw(ctx);
-  };
-
-  /**
-   * @function
-   * Stop the game
-   * @return void
-   */
-  this.stopGame = function () {
-    var ctx = this.ctx;
-    var canvas = this.canvas;
-    var windowRect = this.windowRect;
-    
-    ctx.save();
-    ctx.globalAlpha = 0.3;
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = "white";
-
-    var stoppedText = "Stopped";
-    ctx.fillText(stoppedText,
-      (windowRect.width - ctx.measureText(stoppedText).width) / 2, windowRect.height / 2
-    );
-    ctx.restore();
   };
 }
 MouseGame.prototype = new Engine();

@@ -135,7 +135,7 @@ function MassAggregateGame() {
    * @function
    * @override
    */
-  this.renderGame = function() {
+  this.renderGame = function () {
     var ctx = this.ctx;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -187,27 +187,6 @@ function MassAggregateGame() {
     } // if
 
     //this.mouse.draw(ctx);
-  };
-
-  /**
-   * @function
-   * @override
-   */
-  this.stopGame = function () {
-    var ctx = this.ctx;
-    ctx.save();
-    ctx.globalAlpha = 0.3;
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = "white";
-
-    var stoppedText = "Stopped";
-    ctx.fillText(stoppedText,
-      (this.windowRect.width - ctx.measureText(stoppedText).width) / 2, this.windowRect.height / 2
-    );
-    ctx.restore();
   };
 }
 MassAggregateGame.prototype = new Engine();

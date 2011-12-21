@@ -401,7 +401,7 @@ function Engine() {
    * @return void
    * @throws Error If required HTML5 support is unavailable
    */
-  this.engineInit = function() {
+  this.engineInit = function () {
     if (this.debug) {
       console.debug("Start. Initializing");
     } // if
@@ -488,7 +488,7 @@ function Engine() {
    * Reset all counters
    * @return void
    */
-  this.engineReset = function() {
+  this.engineReset = function () {
     this.fps = 0;
     this.lastFrame = 0;
     this.lastFPS = getTime();
@@ -501,7 +501,7 @@ function Engine() {
    * Time delta
    * @return int Time delta between time and last update time
    */
-  this.getDelta = function() {
+  this.getDelta = function () {
     var time = getTime();
     var delta = time - this.lastFrame;
     this.lastFrame = time;
@@ -514,7 +514,7 @@ function Engine() {
    * Recalculate frame rate
    * @return void
    */
-  this.updateFPS = function() {
+  this.updateFPS = function () {
     if (getTime() - this.lastFPS > 1000) {
       this.avgFps = this.fps;
       this.fps = 0;
@@ -528,7 +528,7 @@ function Engine() {
    * Start the engine
    * @return void
    */
-  this.engineStart = function() {
+  this.engineStart = function () {
     this.engineReset();
     this.getDelta(); // clear out delta
     if (!this.running) {
@@ -545,7 +545,7 @@ function Engine() {
    * Pause the engine
    * @return void
    */
-  this.enginePause = function() {
+  this.enginePause = function () {
     this.paused = true;
     this.pause();
   };
@@ -555,7 +555,7 @@ function Engine() {
    * Continue the engine
    * @return void
    */
-  this.engineContinue = function() {
+  this.engineContinue = function () {
     this.paused = false;
     this.pause();
     this.engineReset();
@@ -567,7 +567,7 @@ function Engine() {
    * Stop the engine
    * @return void
    */
-  this.engineStop = function() {
+  this.engineStop = function () {
     if (this.running) {
       this.running = false;
       this.stopGame();
@@ -581,7 +581,7 @@ function Engine() {
    * Sync the framerate
    * @return void
    */
-  this.engineSync = function() {
+  this.engineSync = function () {
     var sleepTime = this.lastSync + (1000 / this.targetFps) - getTime();
     setTimeout(EngineInstance.engineMain, sleepTime);
     this.lastSync += (1000 / this.targetFps);
@@ -592,7 +592,7 @@ function Engine() {
    * Main loop
    * @return void
    */
-  this.engineMain = function() {
+  this.engineMain = function () {
     var instance = EngineInstance;
     if (instance.running && !instance.paused) {
       var delta = instance.getDelta();
@@ -612,7 +612,8 @@ function Engine() {
    * @returns {void}
    * @since 0.0.0.4
    */
-  this.initGame = function() {}
+  this.initGame = function () {
+  }
 
   /**
    * @function
@@ -621,7 +622,8 @@ function Engine() {
    * @returns {void}
    * @since 0.0.0.4
    */
-  this.startGame = function() {}
+  this.startGame = function () {
+  }
 
   /**
    * @function
@@ -631,7 +633,8 @@ function Engine() {
    * @returns {void}
    * @since 0.0.0.4
    */
-  this.updateGame = function(delta) {}
+  this.updateGame = function (delta) {
+  }
 
   /**
    * @function
@@ -640,7 +643,8 @@ function Engine() {
    * @returns {void}
    * @since 0.0.0.4
    */
-  this.renderGame = function() {}
+  this.renderGame = function () {
+  }
 
   /**
    * @function
@@ -649,7 +653,25 @@ function Engine() {
    * @returns {void}
    * @since 0.0.0.4
    */
-  this.stopGame = function() {}
+  this.stopGame = function () {
+    var ctx = this.ctx;
+    var canvas = this.canvas;
+    var windowRect = this.windowRect;
+
+    ctx.save();
+    ctx.globalAlpha = 0.3;
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "white";
+
+    var stoppedText = "Stopped";
+    ctx.fillText(stoppedText,
+      (windowRect.width - ctx.measureText(stoppedText).width) / 2, windowRect.height / 2
+    );
+    ctx.restore();
+  }
 }
 Engine.prototype = new Observable();
 
