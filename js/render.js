@@ -116,7 +116,10 @@ function ParticleWorldRenderVisitor(ctx) {
 	 */
 	this.visitGravityForceGenerator = function(forceGenerator, particle) {
     var particleScreenPos = window(particle.pos);
-    var gravityVector = forceGenerator.gravitation.multScalar(particle.getMass())
+    var gravityVector = math.v2.multScalar(
+      forceGenerator.gravitation,
+      particle.getMass()
+    );
     var gravityVectorScreenPos = windowVector(gravityVector);
     if (!this.isPointInScreen(particleScreenPos)
         && !this.isPointInScreen(gravityVectorScreenPos)) {
@@ -140,7 +143,10 @@ function ParticleWorldRenderVisitor(ctx) {
 	 */
 	this.visitWindForceGenerator = function(forceGenerator, particle) {
     var particleScreenPos = window(particle.pos);
-    var windVector = forceGenerator.direction.multScalar(particle.getMass())
+    var windVector = math.v2.multScalar(
+      forceGenerator.direction,
+      particle.getMass()
+    );
     if (!this.isPointInScreen(particleScreenPos)
         && !this.isPointInScreen(windVector)) {
       return;
@@ -466,7 +472,10 @@ function WorldRenderVisitor() {
 		ctx.beginPath();
 		ctx.translate(screenPos[0], screenPos[1]);
 		ctx.moveTo(0, 0);
-		var gravityVector = forceGenerator.gravitation.multScalar(rigidBody.getMass())
+		var gravityVector = math.v2.multScalar(
+      forceGenerator.gravitation,
+      rigidBody.getMass()
+    );
     var gravityVectorScreenPos = windowVector(gravityVector);
 		ctx.lineTo(gravityVectorScreenPos[0], gravityVectorScreenPos[1]);
 		ctx.stroke();

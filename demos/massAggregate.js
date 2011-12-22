@@ -73,11 +73,11 @@ function MassAggregateGame() {
       var x = e.offsetX;
       var y = e.offsetY;
 
-      lastMouseMoveScreen.x = x;
-      lastMouseMoveScreen.y = y;
+      lastMouseMoveScreen[0] = x;
+      lastMouseMoveScreen[1] = y;
 
-      lastMouseMoveWorld.x = x;
-      lastMouseMoveWorld.y = Y(y);
+      lastMouseMoveWorld[0] = x;
+      lastMouseMoveWorld[1] = Y(y);
 
       this.renderGame();
     });
@@ -343,7 +343,7 @@ function highlightAnchors(point, radius) {
 function highlightPoint(point, radius) {
   var ctx = EngineInstance.ctx;
   ctx.beginPath();
-  ctx.arc(point.x, point.y, radius, 0, constants.TWO_PI);
+  ctx.arc(point[0], point[1], radius, 0, constants.TWO_PI);
   ctx.stroke();
 }
 
@@ -728,7 +728,7 @@ function CreateGravityTool() {
 
     this.drawIcon(point);
     if (!particle) {
-      EngineInstance.ctx.fillText("Add global gravity", point.x + 20, point.y);
+      EngineInstance.ctx.fillText("Add global gravity", point[0] + 20, point[1]);
     } // if
   };
 }
@@ -789,7 +789,7 @@ function CreateDragTool() {
 
     this.drawIcon(point);
     if (!particle) {
-      EngineInstance.ctx.fillText("Add global drag", point.x + 20, point.y);
+      EngineInstance.ctx.fillText("Add global drag", point[0] + 20, point[1]);
     } // if
   };
 }
@@ -1457,7 +1457,7 @@ function CreateCollisionDetectionTool() {
    */
   this.drawHandles = function (point) {
     this.drawIcon(point);
-    EngineInstance.ctx.fillText("Add global collsion detection", point.x + 20, point.y);
+    EngineInstance.ctx.fillText("Add global collsion detection", point[0] + 20, point[1]);
   };
 }
 CreateCollisionDetectionTool.prototype = new Tool();
@@ -1501,7 +1501,7 @@ function CreateCollisionBoxTool() {
    */
   this.drawHandles = function (point) {
     this.drawIcon(point);
-    EngineInstance.ctx.fillText("Add global collsion box", point.x + 20, point.y);
+    EngineInstance.ctx.fillText("Add global collsion box", point[0] + 20, point[1]);
   };
 }
 CreateCollisionBoxTool.prototype = new Tool();

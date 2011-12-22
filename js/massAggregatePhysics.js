@@ -119,7 +119,7 @@ function Particle(mass) {
    * @since 0.0.0
    */
   this.applyForce = function (force) {
-    this.math.v2.addMutate(this.forceAccum, force);
+    math.v2.addMutate(this.forceAccum, force);
   };
 
   /**

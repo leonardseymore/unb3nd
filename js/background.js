@@ -97,7 +97,7 @@ function StarryBackground(numStars, fillStyle) {
    * @default black
    * @since 0.0.0
    */
-  this.fillStyle = fillStyle || "black";
+  this.fillStyle = fillStyle || "darkblue";
 
   /**
    * Number of stars
@@ -177,9 +177,9 @@ function StarryBackground(numStars, fillStyle) {
     for (i = 0; i < numStars; i++) {
       var star = this.stars[i];
       if (this.cartoonify) {
-        star.drawCartoon();
+        star.drawCartoon(ctx);
       } else {
-        star.draw();
+        star.draw(ctx);
       } // if
     } // for
 
