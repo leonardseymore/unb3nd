@@ -49,14 +49,14 @@ math.v2 = {
   /**
    * Adds two vectors together and mutates the first operand
    * @function
-   * @param {Array} v The first operand
+   * @param {Array} v1 The first operand
    * @param {Array} v2 The second operand
    * @returns {void}
    * @since 0.0.0.4
    */
-  addMutate : function(v, v2) {
-    v[0] = v[0] + v2[0];
-    v[1] = v[1] + v2[1];
+  addMutate : function(v1, v2) {
+    v1[0] += v2[0];
+    v1[1] += v2[1];
   },
 
   /**
@@ -74,14 +74,14 @@ math.v2 = {
   /**
    * Subtracts two vectors and mutates the first operand
    * @function
-   * @param {Array} v The first operand
+   * @param {Array} v1 The first operand
    * @param {Array} v2 The second operand
    * @returns {void}
    * @since 0.0.0.4
    */
-  subMutate : function(v, v2) {
-    v[0] = v[0] - v2[0];
-    v[1] = v[1] - v2[1];
+  subMutate : function(v1, v2) {
+    v1[0] -= v2[0];
+    v1[1] -= v2[1];
   },
 
   /**

@@ -481,6 +481,20 @@ function Engine() {
     if (this.debug) {
       console.debug("Done. Initializing");
     } // if
+
+    document.onkeydown = function (e) {
+      // toggle debug 'D'
+      if (e.keyCode == 68) {
+        EngineInstance.debug = !EngineInstance.debug;
+        console.debug("Debug enabled: " + EngineInstance.debug);
+      } // if
+
+      EngineInstance.keydown(e);
+    }
+
+    document.onkeyup = function (e) {
+      EngineInstance.keyup(e);
+    }
   };
 
   /**
@@ -682,42 +696,3 @@ Engine.prototype = new Observable();
  * @since 0.0.0.4
  */
 var EngineInstance = undefined;
-
-/*
- * @eventHandler
- * This handler links up the document ready state to the
- * @link{#init} method
- */
-document.onreadystatechange = function () {
-  if (document.readyState == "complete") {
-    if (EngineInstance.debug) {
-      console.debug("Document ready state changed to 'complete'");
-    } // if
-
-    EngineInstance.engineInit();
-  } // if
-}
-
-/*
- * @eventHandler
- * This handler links up the document keydown event handler
- * @param Event e keydown event
- */
-document.onkeydown = function (e) {
-  // toggle debug 'D'
-  if (e.keyCode == 68) {
-    EngineInstance.debug = !EngineInstance.debug;
-    console.debug("Debug enabled: " + EngineInstance.debug);
-  } // if
-
-  EngineInstance.keydown(e);
-}
-
-/*
- * @eventHandler
- * This handler links up the document keyup event handler
- * @param Event e keyup event
- */
-document.onkeyup = function (e) {
-  EngineInstance.keyup(e);
-}

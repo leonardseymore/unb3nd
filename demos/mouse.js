@@ -67,3 +67,10 @@ function MouseGame() {
 }
 MouseGame.prototype = new Engine();
 EngineInstance = new MouseGame();
+
+document.onreadystatechange = function () {
+  if (document.readyState == "complete") {
+    EngineInstance.engineInit();
+  } // if
+};
+

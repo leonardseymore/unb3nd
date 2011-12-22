@@ -2,11 +2,33 @@ body {
 	background: #eee;
 }
 
-canvas {
-	background: #fff;
-	cursor:url(css/blank.cur);
-}
-
 input[type=image] {
 	cursor: hand;
+}
+
+input {
+    width: 50px;
+}
+
+table {
+    border: 1px solid black;
+    margin: 5px;
+    background: #ffffff;
+}
+
+th {
+    font-weight: bold;
+    border: 1px solid black;
+    background: #cccccc;
+}
+
+canvas {
+    border: 1px solid #000000;
+}
+
+caption {
+    width: 100%;
+    font-weight: bold;
+    border: 1px solid black;
+    background: #aaaaaa;
 }
