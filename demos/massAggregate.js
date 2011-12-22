@@ -192,6 +192,12 @@ function MassAggregateGame() {
 MassAggregateGame.prototype = new Engine();
 EngineInstance = new MassAggregateGame();
 
+document.onreadystatechange = function () {
+  if (document.readyState == "complete") {
+    EngineInstance.engineInit();
+  } // if
+};
+
 /**
  * @global ParticleWorld
  * Physically simulated particle world
@@ -638,6 +644,50 @@ CreateParticleTool.instance = new CreateParticleTool();
  * @class
  * @constructor
  * @extends Tool
+ * Creates a new particle bomb
+ */
+function CreateParticleBombTool() {
+
+  /**
+   * Set the tool's icon
+   */
+  this.setIcon(ICONS.PARTICLES);
+
+  /**
+   * @method
+   * @override
+   * Creates a new particle
+   */
+  this.use = function (point) {
+    var i = Math.random() * 100;
+    while (i-- > 0) {
+      var particle = new Particle();
+      particle.setMass(1);
+      var windowPos = math.v2.create([
+        Math.random() * EngineInstance.windowRect.width,
+        Math.random() * EngineInstance.windowRect.height
+      ]);
+      particle.pos = world(windowPos);
+      particleWorld.addParticle(particle);
+    } // while
+  };
+
+  /**
+   * @method
+   * @override
+   * Draws tool handles
+   */
+  this.drawHandles = function (point) {
+    this.drawIcon(point);
+  };
+}
+CreateParticleBombTool.prototype = new Tool();
+CreateParticleBombTool.instance = new CreateParticleBombTool();
+
+/**
+ * @class
+ * @constructor
+ * @extends Tool
  * Creates a new anchor
  */
 function CreateAnchorTool() {
@@ -907,9 +957,9 @@ function Particle2ParticleTool() {
         } // if
 
         this.createForce(p1, particle);
-        p1 = undefined;
+        this.p1 = undefined;
       } else {
-        p1 = particle;
+        this.p1 = particle;
       }
     } // if
   };

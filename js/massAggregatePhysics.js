@@ -1667,7 +1667,7 @@ function ParticleCableContactGenerator(maxLength, restitution) {
       this.particles[1].pos,
       this.particles[0].pos
     );
-    normal.normalizeMutate();
+    math.v2.normalizeMutate(normal);
     contact.contactNormal = normal;
 
     contact.penetration = this.maxLength - length;
@@ -1759,7 +1759,7 @@ function ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, rest
       this.particle.pos,
       this.anchor
     );
-    return relativePos.getMagnitude();
+    return math.v2.getMagnitude(relativePos);
   }
 
   /**
@@ -1854,7 +1854,7 @@ function ParticleRodContactGenerator(length) {
       this.particles[1].pos,
       this.particles[0].pos
     );
-    normal.normalizeMutate();
+    math.v2.normalizeMutate(normal);
 
     if (currentLength > this.length) {
       contact.contactNormal = normal;
@@ -2131,26 +2131,26 @@ function ParticleBoxContactGenerator(box, collisionRadius) {
         var normal = math.v2.create();
         var depth = 0;
         if (particle.pos[0] < this.box.x + this.collisionRadius) {
-          normal.x = 1;
-          normal.y = 0;
+          normal[0] = 1;
+          normal[1] = 0;
           depth = particle.pos[0] - this.box.x - this.collisionRadius;
         } // if
 
         if (particle.pos[0] > this.box.x + this.box.width + this.collisionRadius) {
-          normal.x = -1;
-          normal.y = 0;
+          normal[0] = -1;
+          normal[1] = 0;
           depth = this.box.x + this.box.width + this.collisionRadius - particle.pos[0];
         } // if
 
         if (particle.pos[1] < this.box.y + this.collisionRadius) {
-          normal.x = 0;
-          normal.y = 1;
+          normal[0] = 0;
+          normal[1] = 1;
           depth = particle.pos[1] - this.box.y - this.collisionRadius;
         } // if
 
         if (particle.pos[1] > this.box.y + this.box.height + this.collisionRadius) {
-          normal.x = 0;
-          normal.y = -1;
+          normal[0] = 0;
+          normal[1] = -1;
           depth = this.box.y + this.box.height + this.collisionRadius - particle.pos[1];
         } // if
 

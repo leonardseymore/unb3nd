@@ -35,7 +35,7 @@ function Y(y) {
  */
 function world(point) {
   var worldPos = math.v2.create(point);
-  worldPos.y = Y(point[1]);
+  worldPos[1] = Y(point[1]);
   math.v2.multScalarMutate(worldPos, 1 / EngineInstance.ppm);
   return worldPos;
 }

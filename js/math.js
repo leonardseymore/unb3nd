@@ -64,15 +64,15 @@ Rectangle = function (x, y, width, height) {
   /**
    * Tests if a point is inside this rect
    * @function
-   * @param {Vector2} point The point to test
+   * @param {Array} point The point to test
    * @returns {boolean} true if this point is inside the rect
    * @since 0.0.0
    */
   this.isPointInside = function (point) {
-    if (point.x >= this.x &&
-      point.x <= this.x + this.width &&
-      point.y >= this.y &&
-      point.y <= this.y + this.height
+    if (point[0] >= this.x &&
+      point[0] <= this.x + this.width &&
+      point[1] >= this.y &&
+      point[1] <= this.y + this.height
       ) {
       return true;
     } // if
@@ -83,15 +83,15 @@ Rectangle = function (x, y, width, height) {
   /**
    * Tests if a point is strictly inside this rect
    * @function
-   * @param {Vector2} point The point to test
+   * @param {Array} point The point to test
    * @returns {boolean} true if this point is inside the rect
    * @since 0.0.0
    */
   this.isPointInsideStrict = function (point) {
-    if (point.x > this.x &&
-      point.x < this.x + this.width &&
-      point.y > this.y &&
-      point.y < this.y + this.height
+    if (point[0] > this.x &&
+      point[0] < this.x + this.width &&
+      point[1] > this.y &&
+      point[1] < this.y + this.height
       ) {
       return true;
     } // if
