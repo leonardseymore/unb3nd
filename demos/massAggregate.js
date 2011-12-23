@@ -16,6 +16,7 @@ var ICONS = {
   SELECT:"pickup.png",
   REMOVE:"remove.png",
   PARTICLES:"particles.png",
+  PARTICLE_BOMB:"particleBomb.png",
   ANCHOR:"anchor.png",
   ROPE:"rope.png",
   GRAVITY:"gravity.png",
@@ -66,7 +67,7 @@ function MassAggregateGame() {
   this.initGame = function () {
     this.particleWorldRenderer = new ParticleWorldRenderVisitor(this.ctx);
     this.mouse = new FancyMouse();
-    this.ppm = 10;
+    this.ppm = 1;
     this.targetFps = 64;
 
     this.addEventListener("mousemove", function (e) {
@@ -651,7 +652,7 @@ function CreateParticleBombTool() {
   /**
    * Set the tool's icon
    */
-  this.setIcon(ICONS.PARTICLES);
+  this.setIcon(ICONS.PARTICLE_BOMB);
 
   /**
    * @method

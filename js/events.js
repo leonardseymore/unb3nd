@@ -100,9 +100,11 @@ function bind(eventType, target, targetProperty, source, sourceProperty, twoWay,
   target[targetProperty] = value;
 
   source.addEventListener(eventType, function(e) {
+    /*
     if (EngineInstance.debug && EngineInstance.verbose) {
       console.debug("%s event type, %o event, setting target %o.%s to source %o.%s", eventType, e, target, targetProperty, source, sourceProperty);
     } // if
+    */
 
     var value = source[sourceProperty];
     if (conversionFunction != undefined) {

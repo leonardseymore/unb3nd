@@ -1,5 +1,7 @@
 body {
 	background: #eee;
+    font-family: Helvetica;
+    font-size: 10px;
 }
 
 input[type=image] {
@@ -10,6 +12,12 @@ input {
     width: 50px;
 }
 
+button {
+    margin: 1px;
+    font-family: Helvetica;
+    font-size: 10px;
+}
+
 table {
     border: 1px solid black;
     margin: 5px;
@@ -18,8 +26,11 @@ table {
 
 th {
     font-weight: bold;
-    border: 1px solid black;
     background: #cccccc;
+}
+
+tr:nth-child(even) {
+    background: #eeeeee;
 }
 
 canvas {

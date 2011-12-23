@@ -18,159 +18,17 @@
   <script type="text/javascript" src="benchmark.js"></script>
 </head>
 <body>
-  <header>
-    <button onclick="allTests()">Run All Tests</button>
-  </header>
-
   <section>
-    <table>
-      <caption>Slow Vector2 Operations</caption>
-      <thead>
-        <tr>
-          <th>Operation</th>
-          <th>Details</th>
-          <th>Result</th>
-          <th><button onclick="slowV2Tests()">Run</button></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Create</td>
-          <td>1m Creations</td>
-          <td><label id="lblSlowV2Create"/></td>
-          <td><button onclick="slowV2Create()">Run</button></td>
-        </tr>
-        <tr>
-          <td>Add</td>
-          <td>1m Additions</td>
-          <td><label id="lblSlowV2Add"/></td>
-          <td><button onclick="slowV2Add()">Run</button></td>
-        </tr>
-        <tr>
-          <td>Add Mutate</td>
-          <td>1m Mutation Additions</td>
-          <td><label id="lblSlowV2AddMutate"/></td>
-          <td><button onclick="slowV2AddMutate()">Run</button></td>
-        </tr>
-        <tr>
-          <td>Sub</td>
-          <td>1m Subtractions</td>
-          <td><label id="lblSlowV2Sub"/></td>
-          <td><button onclick="slowV2Sub()">Run</button></td>
-        </tr>
-        <tr>
-          <td>Sub Mutate</td>
-          <td>1m Mutation Subtractions</td>
-          <td><label id="lblSlowV2SubMutate"/></td>
-          <td><button onclick="slowV2SubMutate()">Run</button></td>
-        </tr>
-        <tr>
-          <td>Inverse</td>
-          <td>1m Inversions</td>
-          <td><label id="lblSlowV2Inverse"/></td>
-          <td><button onclick="slowV2Inverse()">Run</button></td>
-        </tr>
-        <tr>
-          <td>Inverse Mutate</td>
-          <td>1m Mutation Inversions</td>
-          <td><label id="lblSlowV2InverseMutate"/></td>
-          <td><button onclick="slowV2InverseMutate()">Run</button></td>
-        </tr>
-        <tr>
-          <td>Scalar Multiplications</td>
-          <td>1m Scalar Multiplications</td>
-          <td><label id="lblSlowV2MultScalar"/></td>
-          <td><button onclick="slowV2MultScalar()">Run</button></td>
-        </tr>
-        <tr>
-          <td>Scalar Multiplication Mutate</td>
-          <td>1m Mutation Scalar Multiplications</td>
-          <td><label id="lblSlowV2MultScalarMutate"/></td>
-          <td><button onclick="slowV2MultScalarMutate()">Run</button></td>
-        </tr>
-        <tr>
-          <td>Dot Product</td>
-          <td>1m Dot Products</td>
-          <td><label id="lblSlowV2DotProduct"/></td>
-          <td><button onclick="slowV2DotProduct()">Run</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section>
-    <table>
+    <table id="tblFastV2Benchmark" cellpadding="3" cellspacing="0">
       <caption>Fast Vector2 Operations</caption>
       <thead>
       <tr>
         <th>Operation</th>
         <th>Details</th>
         <th>Result</th>
-        <th><button onclick="fastV2Tests()">Run</button></th>
+        <th><button onclick="runBenchmarks(fastV2Benchmark)">Run Group</button></th>
       </tr>
       </thead>
-      <tbody>
-      <tr>
-        <td>Create</td>
-        <td>1m Creations</td>
-        <td><label id="lblFastV2Create"/></td>
-        <td><button onclick="fastV2Create()">Run</button></td>
-      </tr>
-      <tr>
-        <td>Add</td>
-        <td>1m Additions</td>
-        <td><label id="lblFastV2Add"/></td>
-        <td><button onclick="fastV2Add()">Run</button></td>
-      </tr>
-      <tr>
-        <td>Add Mutate</td>
-        <td>1m Mutation Additions</td>
-        <td><label id="lblFastV2AddMutate"/></td>
-        <td><button onclick="fastV2AddMutate()">Run</button></td>
-      </tr>
-      <tr>
-        <td>Sub</td>
-        <td>1m Subtractions</td>
-        <td><label id="lblFastV2Sub"/></td>
-        <td><button onclick="fastV2Sub()">Run</button></td>
-      </tr>
-      <tr>
-        <td>Sub Mutate</td>
-        <td>1m Mutation Subtractions</td>
-        <td><label id="lblFastV2SubMutate"/></td>
-        <td><button onclick="fastV2SubMutate()">Run</button></td>
-      </tr>
-      <tr>
-        <td>Inverse</td>
-        <td>1m Inversions</td>
-        <td><label id="lblFastV2Inverse"/></td>
-        <td><button onclick="fastV2Inverse()">Run</button></td>
-      </tr>
-      <tr>
-        <td>Inverse Mutate</td>
-        <td>1m Mutation Inversions</td>
-        <td><label id="lblFastV2InverseMutate"/></td>
-        <td><button onclick="fastV2InverseMutate()">Run</button></td>
-      </tr>
-      <tr>
-        <td>Scalar Multiplications</td>
-        <td>1m Scalar Multiplications</td>
-        <td><label id="lblFastV2MultScalar"/></td>
-        <td><button onclick="fastV2MultScalar()">Run</button></td>
-      </tr>
-      <tr>
-        <td>Scalar Multiplication Mutate</td>
-        <td>1m Mutation Scalar Multiplications</td>
-        <td><label id="lblFastV2MultScalarMutate"/></td>
-        <td><button onclick="fastV2MultScalarMutate()">Run</button></td>
-      </tr>
-      <tr>
-        <td>Dot Product</td>
-        <td>1m Dot Products</td>
-        <td><label id="lblFastV2DotProduct"/></td>
-        <td><button onclick="fastV2DotProduct()">Run</button></td>
-      </tr>
-      </tbody>
     </table>
   </section>
 </body>

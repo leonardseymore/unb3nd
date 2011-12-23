@@ -68,15 +68,15 @@ function ParticleWorldRenderVisitor(ctx) {
   /**
    * Determines if the given point is within the screen bounds
    *
-   * @param {Vector2} point The point to test
+   * @param {Array} point The point to test
    * @returns {boolean} True if the point is inside the screen
    * @since 0.0.0.4
    */
   this.isPointInScreen = function(point) {
-    return point[0] >= 0
-           && point[0] < EngineInstance.windowRect.width
-           && point[1] >= 0
-           && point[1] < EngineInstance.windowRect.height;
+    return point[0] >= -constants.PARTICLE_HALF_WIDTH
+           && point[0] < EngineInstance.windowRect.width + constants.PARTICLE_HALF_WIDTH
+           && point[1] >= -constants.PARTICLE_HALF_WIDTH
+           && point[1] < EngineInstance.windowRect.height + constants.PARTICLE_HALF_WIDTH;
   }
 
 	/**

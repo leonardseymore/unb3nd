@@ -80,6 +80,7 @@ var constants = {
   PARTICLE_COLOR:"lightblue",
   PARTICLE_STRING_COLOR:"black",
   PARTICLE_WIDTH:3,
+  PARTICLE_HALF_WIDTH:1.5,
   RIGID_BODY_COLOR:"lightblue",
   RIGID_BODY_STRING_COLOR:"black",
   RIGID_BODY_WIDTH:3,
