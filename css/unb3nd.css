@@ -24,6 +24,7 @@ th {
 
 canvas {
     border: 1px solid #000000;
+    background: white;
 }
 
 caption {
