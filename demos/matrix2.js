@@ -91,3 +91,9 @@ function Matrix2Game() {
 }
 Matrix2Game.prototype = new Engine();
 EngineInstance = new Matrix2Game();
+
+document.onreadystatechange = function () {
+  if (document.readyState == "complete") {
+    EngineInstance.engineInit();
+  } // if
+};

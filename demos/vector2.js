@@ -251,3 +251,9 @@ function Vector2Game() {
 }
 Vector2Game.prototype = new Engine();
 EngineInstance = new Vector2Game();
+
+document.onreadystatechange = function () {
+  if (document.readyState == "complete") {
+    EngineInstance.engineInit();
+  } // if
+};

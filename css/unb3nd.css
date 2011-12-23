@@ -10,9 +10,11 @@ input[type=image] {
 
 input {
     width: 50px;
+    font-family: Helvetica;
+    font-size: 10px;
 }
 
-button {
+button  {
     margin: 1px;
     font-family: Helvetica;
     font-size: 10px;
