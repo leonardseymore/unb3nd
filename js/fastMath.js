@@ -471,8 +471,8 @@ math.v3 = {
    * @since 0.0.0.4
    */
   normalize : function(v) {
-    var dest = math.v2.create(v);
-    math.v2.normalizeMutate(dest);
+    var dest = math.v3.create(v);
+    math.v3.normalizeMutate(dest);
     return dest;
   },
 
@@ -484,9 +484,9 @@ math.v3 = {
    * @since 0.0.0.4
    */
   normalizeMutate : function(v) {
-    var magnitude = math.v2.getMagnitude(v);
+    var magnitude = math.v3.getMagnitude(v);
     if (magnitude > 0) {
-      math.v2.multScalarMutate(v, 1 / magnitude);
+      math.v3.multScalarMutate(v, 1 / magnitude);
     } // if
   },
 
@@ -514,9 +514,9 @@ math.v3 = {
    */
   getAngle : function(v1, v2) {
     return Math.acos(
-      math.v2.dotProduct(
-        math.v2.normalize(v1),
-        math.v2.normalize(v2)
+      math.v3.dotProduct(
+        math.v3.normalize(v1),
+        math.v3.normalize(v2)
       )
     );
   },
@@ -531,7 +531,7 @@ math.v3 = {
    * @since 0.0.0.4
    */
   getDistance : function(v1, v2) {
-    return math.v2.getMagnitude(math.v2.sub(v1, v2));
+    return math.v3.getMagnitude(math.v3.sub(v1, v2));
   },
 
   /**
@@ -544,7 +544,7 @@ math.v3 = {
    * @since 0.0.0.4
    */
   getDistanceSquare : function(v1, v2) {
-    return math.v2.getMagnitudeSquare(math.v2.sub(v1, v2));
+    return math.v3.getMagnitudeSquare(math.v3.sub(v1, v2));
   },
 
   /**
@@ -558,7 +558,7 @@ math.v3 = {
    * @since 0.0.0.4
    */
   isWithin : function(v1, v2, distance) {
-    return math.v2.getDistanceSquare(v1, v2) <= distance * distance;
+    return math.v3.getDistanceSquare(v1, v2) <= distance * distance;
   },
 
   /**
@@ -572,7 +572,7 @@ math.v3 = {
    * @since 0.0.0.4
    */
   isWithinStrict : function(v1, v2, distance) {
-    return math.v2.getDistanceSquare(v1, v2) < distance * distance;
+    return math.v3.getDistanceSquare(v1, v2) < distance * distance;
   }
 };
 
@@ -643,7 +643,7 @@ math.m2 = {
    * @since 0.0.0.4
    */
   isInvertable : function(m) {
-    var determinant = math.v2.getDeterminant(m);
+    var determinant = math.m2.getDeterminant(m);
     return determinant != 0;
   },
 
@@ -655,7 +655,7 @@ math.m2 = {
    * @since 0.0.0.4
    */
   isSingular : function(m) {
-    var determinant = math.v2.getDeterminant(m);
+    var determinant = math.m2.getDeterminant(m);
     return determinant == 0;
   },
 
@@ -667,7 +667,7 @@ math.m2 = {
    * @since 0.0.0.4
    */
   getInverse : function(m) {
-    var determinant = math.v2.getDeterminant(m);
+    var determinant = math.m2.getDeterminant(m);
     if (determinant == 0) {
       return undefined;
     } // if
