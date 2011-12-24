@@ -20,6 +20,24 @@ function Engine() {
   Observable.call(this);
 
   /**
+   * Determines if mouse is currently down
+   * @field
+   * @type Boolean
+   * @default false
+   * @since 0.0.0.4
+   */
+  this.isMouseDown = false;
+
+  /**
+   * Last drag event position
+   * @field
+   * @type MouseEvent
+   * @default undefined
+   * @since 0.0.0.4
+   */
+  this.lastDrag = undefined;
+
+  /**
    * On reset event callback
    * @field
    * @type function
@@ -105,6 +123,38 @@ function Engine() {
       this.onmousedown(e);
     } // if
     this.dispatchEvent("mousedown", e);
+  };
+
+  /**
+   * On mouse drag event callback
+   * @field
+   * @type function
+   * @default undefined
+   * @since 0.0.0.4
+   */
+  this.onmousedrag = undefined;
+
+  /**
+   * On mouse down callback invoker
+   * @function
+   * @param {MouseEvent} e The event object
+   * @returns {void}
+   * @since 0.0.0
+   */
+  this.mousedrag = function (e) {
+    if (this.lastDrag) {
+      e.deltaX = e.offsetX - this.lastDrag.offsetX;
+      e.deltaY = e.offsetY - this.lastDrag.offsetY;
+    } else {
+      e.deltaX = 0;
+      e.deltaY = 0;
+    } // if
+    this.lastDrag = e;
+
+    if (this.onmousedrag) {
+      this.onmousedrag(e);
+    } // if
+    this.dispatchEvent("mousedrag", e);
   };
 
   /**
@@ -389,10 +439,19 @@ function Engine() {
    * Global scale (Pixels Per Meter) flag
    * @public
    * @field
-   * @type boolean
+   * @type Number
    * @since 0.0.0.3
    */
   this.ppm = 1;
+
+  /**
+   * Window offset
+   * @public
+   * @field
+   * @type Array
+   * @since 0.0.0.4
+   */
+  this.windowOffset = math.v2.create();
 
   /**
    * @function
@@ -421,15 +480,19 @@ function Engine() {
        * @param Event e mousemove event
        */
       this.canvas.onmousemove = function (e) {
+        if (this.isMouseDown) {
+          EngineInstance.mousedrag(e);
+        } // if
         EngineInstance.mousemove(e);
       };
 
       /**
        * @eventHandler
        * This handler links up the canvas mousedown event handler
-       * @param Event e mousedown event
+       * @param {MouseEvent} e mousedown event
        */
       this.canvas.onmousedown = function (e) {
+        this.isMouseDown = true;
         EngineInstance.mousedown(e);
       };
 
@@ -440,6 +503,11 @@ function Engine() {
        */
       this.canvas.onmouseup = function (e) {
         EngineInstance.mouseup(e);
+      };
+
+      window.onmouseup = function (e) {
+        this.isMouseDown = false;
+        this.lastDrag = undefined;
       };
 
       /**

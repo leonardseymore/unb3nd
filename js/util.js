@@ -15,6 +15,7 @@
 function getTime() {
   return Date.now();
 }
+
 /**
  * Calculate window Y-coordinate based on world Y-coordinate
  * @function
@@ -23,7 +24,18 @@ function getTime() {
  * @since 0.0.0
  */
 function Y(y) {
-  return EngineInstance.windowRect.height - y;
+  return EngineInstance.windowRect.height - y + EngineInstance.windowOffset[1];
+}
+
+/**
+ * Calculate window X-coordinate based on world X-coordinate
+ * @function
+ * @param {Number} x World X-coordinate
+ * @returns {Number} Window X-coordinate
+ * @since 0.0.0.4
+ */
+function X(x) {
+  return x + EngineInstance.windowOffset[0];
 }
 
 /**
@@ -35,6 +47,7 @@ function Y(y) {
  */
 function world(point) {
   var worldPos = math.v2.create(point);
+  worldPos[0] = X(point[0]);
   worldPos[1] = Y(point[1]);
   math.v2.multScalarMutate(worldPos, 1 / EngineInstance.ppm);
   return worldPos;
@@ -50,6 +63,7 @@ function world(point) {
 function window(point) {
   var windowPos = math.v2.create(point);
   math.v2.multScalarMutate(windowPos, EngineInstance.ppm);
+  windowPos[0] = X(windowPos[0]);
   windowPos[1] = Y(windowPos[1]);
   return windowPos;
 }

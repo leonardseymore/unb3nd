@@ -68,7 +68,7 @@ function MassAggregateGame() {
     this.particleWorldRenderer = new ParticleWorldRenderVisitor(this.ctx);
     this.mouse = new FancyMouse();
     this.ppm = 1;
-    this.targetFps = 64;
+    this.targetFps = 1000;
 
     this.addEventListener("mousemove", function (e) {
       var x = e.offsetX;

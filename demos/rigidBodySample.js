@@ -48,18 +48,45 @@ function RidigBodyGame() {
     math.v2.create([25, 50])
   ];
 
+
   /**
    * @function
    * Initialize game elements here
    * @return void
    */
   this.initGame = function () {
+    this.addEventListener("mousedrag", function (e) {
+      if (e.button == 1) {
+        EngineInstance.windowOffset[0] += e.deltaX;
+        EngineInstance.windowOffset[1] += e.deltaY;
+        this.renderGame();
+      } // if
+    });
+
     this.addEventListener("mousewheel", function (e) {
       if (e.wheelDelta > 0) {
         this.ppm *= 2;
       } else {
         this.ppm /= 2;
       } // if
+      this.renderGame();
+    });
+
+    this.addEventListener("keydown", function (e) {
+      switch (e.keyIdentifier) {
+        case "Up" :
+          this.windowOffset[1] -= 5;
+          break;
+        case "Right" :
+          this.windowOffset[0] += 5;
+          break;
+        case "Down" :
+          this.windowOffset[1] += 5;
+          break;
+        case "Left" :
+          this.windowOffset[0] -= 5;
+          break;
+      }
       this.renderGame();
     });
 
@@ -153,7 +180,7 @@ function RidigBodyGame() {
     this.drawRigidBody(rigidBodies[1], "red");
     this.drawRigidBody(rigidBodies[2], "blue");
 
-    ctx.fillText("FPS: " + this.avgFps, 10, Y(10));
+    ctx.fillText("FPS: " + this.avgFps, 10, EngineInstance.windowRect.height - 10);
   };
 
   /**
