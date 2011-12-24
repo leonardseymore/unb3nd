@@ -21,16 +21,6 @@ function Particle(mass) {
   Observable.call(this);
 
   /**
-   * Unique identifier to help track a single particle
-   * @field
-   * @type Number
-   * @default Auto number
-   * @since 0.0.0
-   * @see Particle#getNextUid
-   */
-  this.uid = Particle.getNextUid();
-
-  /**
    * The position of this particle
    * @field
    * @type Array
@@ -250,29 +240,6 @@ function Particle(mass) {
 }
 ;
 Particle.prototype = new Observable();
-
-/**
- * Next uid counter
- * @private
- * @static
- * @field
- * @type Number
- * @default Zero vector
- * @since 0.0.0
- */
-Particle.nextUid = 0;
-
-/**
- * Generates a unique uid for a particle
- * @private
- * @static
- * @function
- * @returns {Number} Unique uid
- * @since 0.0.0
- */
-Particle.getNextUid = function () {
-  return Particle.nextUid++;
-}
 
 /**
  * @class A force registry for matching up force generators to particles

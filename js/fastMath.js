@@ -782,3 +782,308 @@ math.m2 = {
       && m1[3] == m2[3];
   }
 };
+
+/**
+ * unb3nd 3x3 matrix namespace
+ * @since 0.0.0.4
+ */
+math.m3 = {
+
+  /**
+   * Creates a new 3x3 matrix
+   * @function
+   * @param {Array} src Optional to copy values from
+   * @returns {Array} New matrix
+   * @since 0.0.0.4
+   */
+  create : function(src) {
+    if (src) {
+      return [src[0], src[1], src[2],
+        src[3], src[4], src[5],
+        src[6], src[7], src[8]];
+    } else {
+      return [0, 0, 0,
+        0, 0, 0,
+        0, 0, 0];
+    } // if
+  },
+
+  /**
+   * Creates a new 3x3 identity matrix
+   * @function
+   * @returns {Array} New identity matrix
+   * @since 0.0.0.4
+   */
+  createIdentity : function() {
+    return [1, 0, 0,
+      0, 1, 0,
+      0, 0, 1];
+  },
+
+  /**
+   * Creates a new 3x3 rotation matrix about the z axis
+   * <p>
+   * The 3D rotation matrix looks as follows:
+   * | cos(theta), -sin(theta) 0|
+   * | sin(theta), cos(theta)  0|
+   * |0          , 0           1|
+   * </p>
+   * @function
+   * @param {Number} theta The angle of this rotation matrix
+   * @returns {Array} New rotation matrix
+   * @since 0.0.0.4
+   * @see http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/index.htm
+   */
+  createRotationZ : function(theta) {
+    return [Math.cos(theta), -Math.sin(theta), 0,
+      Math.sin(theta), Math.cos(theta), 0,
+      0, 0, 1];
+  },
+
+  /**
+   * Creates a new 3x3 transformation matrix
+   * <p>
+   * The 2D transformation matrix looks as follows:
+   * | cos(theta), -sin(theta) x|
+   * | sin(theta), cos(theta)  y|
+   * |0          , 0           1|
+   * </p>
+   * @function
+   * @param {Number} theta The angle of this rotation matrix
+   * @param {Number} x The x position
+   * @param {Number} y The y position
+   * @returns {Array} New transformation matrix
+   * @since 0.0.0.4
+   */
+  createTransform2 : function(theta, x, y) {
+    return [Math.cos(theta), -Math.sin(theta), x,
+      Math.sin(theta), Math.cos(theta), y,
+      0, 0, 1];
+  },
+
+  /**
+   * Calculates the determinant
+   * @function
+   * @param {Array} m The matrix to get the determinant for
+   * @returns {Number} The determinant of the supplied matrix
+   * @since 0.0.0.4
+   */
+  getDeterminant : function(m) {
+    return m[0] * m[4] * m[8] -
+      m[0] * m[5] * m[7] -
+      m[1] * m[3] * m[8] +
+      m[2] * m[3] * m[7] +
+      m[1] * m[6] * m[5] -
+      m[2] * m[6] * m[4];
+  },
+
+  /**
+   * Determines if the supplied matrix is invertable
+   * @function
+   * @param {Array} m The matrix to use
+   * @returns {Boolean} True if the matrix is invertable
+   * @since 0.0.0.4
+   */
+  isInvertable : function(m) {
+    var determinant = math.m3.getDeterminant(m);
+    return determinant != 0;
+  },
+
+  /**
+   * Determines if the supplied matrix is singular
+   * @function
+   * @param {Array} m The matrix to use
+   * @returns {Boolean} True if the matrix is singular
+   * @since 0.0.0.4
+   */
+  isSingular : function(m) {
+    var determinant = math.m3.getDeterminant(m);
+    return determinant == 0;
+  },
+
+  /**
+   * Calculates the inverse of the supplied matrix
+   * @function
+   * @param {Array} m The matrix to get the determinant for
+   * @returns {Array} The inverse of the matrix, or undefined if inverse does not exist
+   * @since 0.0.0.4
+   */
+  getInverse : function(m) {
+    var det = math.m3.getDeterminant(m);
+    if (det == 0) {
+      return undefined;
+    } // if
+
+    var detI = 1 / det;
+    return [
+      (m[4] * m[8] * -m[5] * m[7]) * detI, // 0
+      (m[1] * m[8] * -m[2] * m[7]) * detI, // 1
+      (m[1] * m[5] * -m[2] * m[4]) * detI, // 2
+      (m[3] * m[8] * -m[5] * m[6]) * detI,  // 3
+      (m[0] * m[8] * -m[2] * m[6]) * detI,  // 4
+      (m[0] * m[5] * m[2] * m[3]) * detI,  // 5
+      (m[3] * m[7] * -m[4] * m[6]) * detI,  // 6
+      (m[0] * m[7] * -m[1] * m[6]) * detI,  // 7
+      (m[0] * m[4] * -m[1] * m[3]) * detI  // 8
+    ];
+  },
+
+  /**
+   * Multiply the matrix by the supplied vector 3x1
+   * @function
+   * @param {Array} m The matrix to use
+   * @param {Array} v The 3x1 vector to multiply
+   * @returns {Array} The resulting 3x1 vector
+   * @since 0.0.0.4
+   */
+  multVector : function(m, v) {
+    return [
+      v[0] * m[0] + v[1] * m[1] + v[2] * m[2],
+      v[0] * m[3] + v[1] * m[4] + v[2] * m[5],
+      v[0] * m[6] + v[1] * m[7] + v[2] * m[8]
+    ];
+  },
+
+  /**
+   * Multiply the matrix by the supplied vector 2x1
+   * This is useful for 2D transformations
+   * |a b c||x| |ax + by + c|
+   * |d e f||y|=|dx + ey + f|
+   * |0 0 1||1| |1|
+   * @function
+   * @param {Array} m The matrix to use
+   * @param {Array} v The 2x1 vector to multiply
+   * @returns {Array} The resulting 2x1 vector
+   * @since 0.0.0.4
+   */
+  multVector2 : function(m, v) {
+    return [
+      v[0] * m[0] + v[1] * m[1] + m[2],
+      v[0] * m[3] + v[1] * m[4] + m[5]
+    ];
+  },
+
+  /**
+   * Multiply the matrix by the supplied 3x1 vector and mutate the vector
+   * @function
+   * @param {Array} m The matrix to use
+   * @param {Array} v The 3x1 vector to multiply
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  multVectorMutate : function(m, v) {
+    v[0] = v[0] * m[0] + v[1] * m[1] + v[2] * m[2];
+    v[1] = v[0] * m[3] + v[1] * m[4] + v[2] * m[5];
+    v[2] = v[0] * m[6] + v[1] * m[7] + v[2] * m[8];
+  },
+
+  /**
+   * Multiply the matrix by the supplied 2x1 vector and mutate the vector
+   * @function
+   * @param {Array} m The matrix to use
+   * @param {Array} v The 2x1 vector to multiply
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  multVector2Mutate : function(m, v) {
+    v[0] = v[0] * m[0] + v[1] * m[1] + m[2];
+    v[1] = v[0] * m[3] + v[1] * m[4] + m[5];
+  },
+
+  /**
+   * Multiply two matrices together
+   * @function
+   * @param {Array} m1 The first operand
+   * @param {Array} m2 The second operand
+   * @returns {Array} The resulting matrix
+   * @since 0.0.0.4
+   */
+  mult : function(m1, m2) {
+    return [
+      m1[0] * m2[0] + m1[1] * m2[3] + m1[2] * m2[6],
+      m1[0] * m2[1] + m1[1] * m2[4] + m1[2] * m2[7],
+      m1[0] * m2[2] + m1[1] * m2[5] + m1[2] * m2[8],
+      m1[3] * m2[0] + m1[4] * m2[3] + m1[5] * m2[6],
+      m1[3] * m2[1] + m1[4] * m2[4] + m1[5] * m2[7],
+      m1[3] * m2[2] + m1[4] * m2[5] + m1[5] * m2[8],
+      m1[6] * m2[0] + m1[7] * m2[3] + m1[8] * m2[6],
+      m1[6] * m2[1] + m1[7] * m2[4] + m1[8] * m2[7],
+      m1[6] * m2[2] + m1[7] * m2[5] + m1[8] * m2[8]
+    ];
+  },
+
+  /**
+   * Adds two matrices together
+   * @function
+   * @param {Array} m1 The first operand
+   * @param {Array} m2 The second operand
+   * @returns {Array} The resulting matrix
+   * @since 0.0.0.4
+   */
+  add : function(m1, m2) {
+    return [
+      m1[0] + m2[0],
+      m1[1] + m2[1],
+      m1[2] + m2[2],
+      m1[3] + m2[3],
+      m1[4] + m2[4],
+      m1[5] + m2[5],
+      m1[6] + m2[6],
+      m1[7] + m2[7],
+      m1[8] + m2[8]
+    ];
+  },
+
+  /**
+   * Adds two matrices together and mutates the first
+   * @function
+   * @param {Array} m1 The first operand
+   * @param {Array} m2 The second operand
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  addMutate : function(m1, m2) {
+    m1[0] += m2[0];
+    m1[1] += m2[1];
+    m1[2] += m2[2];
+    m1[3] += m2[3];
+    m1[4] += m2[4];
+    m1[5] += m2[5];
+    m1[6] += m2[6];
+    m1[7] += m2[7];
+    m1[8] += m2[8];
+  },
+
+  /**
+   * Gets the entry at row i and column j
+   * @function
+   * @param {Array} m The matrix to get the entry from
+   * @param {int} i The row number, 0 being row 1
+   * @param {int} j The column number, 0 being column 1
+   * @returns {Number} The entry at row i and column j
+   * @since 0.0.0.4
+   */
+  getEntry : function(m, i, j) {
+    return m[i * 3 + j];
+  },
+
+  /**
+   * Determines if the two matrices are equal
+   * @function
+   * @param {Array} m1 The first operand
+   * @param {Array} m2 The second operand
+   * @returns {Boolean} True if every entry in m1 is equal to the corresponding entry in m2
+   * @since 0.0.0.4
+   */
+  equals : function(m1, m2) {
+    return m1[0] == m2[0]
+      && m1[1] == m2[1]
+      && m1[2] == m2[2]
+      && m1[3] == m2[3]
+      && m1[4] == m2[4]
+      && m1[5] == m2[5]
+      && m1[6] == m2[6]
+      && m1[7] == m2[7]
+      && m1[8] == m2[8];
+  }
+};

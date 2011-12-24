@@ -62,3 +62,9 @@ function BackgroundGame() {
 }
 BackgroundGame.prototype = new Engine();
 EngineInstance = new BackgroundGame();
+
+document.onreadystatechange = function () {
+  if (document.readyState == "complete") {
+    EngineInstance.engineInit();
+  } // if
+};

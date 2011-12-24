@@ -244,7 +244,7 @@ var anchorImage = Resources.loadImage("anchor16.png");
 /**
  * Play button click event handler
  */
-function playButton_click(btnPlay) {
+function btnPlay_click(btnPlay) {
   if (EngineInstance.running) {
     EngineInstance.engineStop();
     btnPlay.src = Resources.configuration.IMG_PATH + "playButton.png";

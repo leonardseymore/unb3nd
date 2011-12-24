@@ -7,38 +7,6 @@
 /**
  * @class
  * @constructor
- * Renderer is responsible for drawing various elements
- * @since 0.0.0.3
- */
-function Renderer() {
-
-  /**
-	 * Renders the given particle world
-	 * @function
-	 * @param {ParticleWorld} particleWorld The particle world to render
-	 * @returns {void}
-	 * @since 0.0.0.3
-	 */
-  this.renderParticleWorld = function(particleWorld) {
-    particleWorld.accept(ParticleWorldRenderVisitor.instance);
-  }
-
-  /**
-	 * Renders the given rigid body world
-	 * @function
-	 * @param {World} rigidBodyWorld The world to render
-	 * @returns {void}
-	 * @since 0.0.0.3
-	 */
-  this.renderWorld = function(rigidBodyWorld) {
-    rigidBodyWorld.accept(WorldRenderVisitor.instance);
-  }
-}
-Renderer.instance = new Renderer();
-
-/**
- * @class
- * @constructor
  * @extends ParticleWorldVisitor
  * @param {CanvasContext} ctx Rendering context
  * Particle world renderer vistor implementation
@@ -418,15 +386,23 @@ ParticleWorldRenderVisitor.instance = new ParticleWorldRenderVisitor();
  * @constructor
  * @extends WorldVisitor
  * World renderer vistor implementation
+ * @param {CanvasContext} ctx Rendering context
  * @since 0.0.0.3
  */
-function WorldRenderVisitor() {
+function WorldRenderVisitor(ctx) {
 
   /**
 	 * @super
 	 * Super constructor
 	 */
 	WorldVisitor.call(this);
+
+  /**
+   * Rendering context
+   * @field
+   * @type CanvasContext
+   */
+  var ctx = ctx;
 
   /**
    * @field World

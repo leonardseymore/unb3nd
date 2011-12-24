@@ -78,12 +78,10 @@ function FancyMouse() {
 		ctx.beginPath();
 		var moves = mouseMoves.getElements();
     var i = moves.length;
-		while (i--) {
-			if (i > 1) {
-				ctx.moveTo(moves[i - 1][0], moves[i - 1][1]);
-				ctx.lineTo(moves[i][0], moves[i][1]);
-				ctx.fillRect(moves[i][0] - i, moves[i][1] - i, i * 2,i * 2);
-			} // if
+		while (i-- > 1) {
+		  ctx.moveTo(moves[i - 1][0], moves[i - 1][1]);
+			ctx.lineTo(moves[i][0], moves[i][1]);
+			ctx.fillRect(moves[i][0] - i, moves[i][1] - i, i * 2,i * 2);
 		} // for
 		ctx.stroke();
 		ctx.restore();
