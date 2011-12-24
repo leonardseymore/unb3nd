@@ -139,8 +139,8 @@ function RidigBodyGame() {
    */
   function initRigidBody(index, mass, inertia, x, y) {
     rigidBodies[index] = new RigidBody(mass, inertia);
-    rigidBodies[index].pos[0] = x;
-    rigidBodies[index].pos[1] = y;
+    rigidBodies[index].pos[0] = X(x);
+    rigidBodies[index].pos[1] = Y(y);
     rigidBodies[index].angularDamping = 0.5;
     rigidBodies[index].calculateDerivedData();
   }

@@ -31,9 +31,9 @@ function Matrix2Game() {
    */
   this.initGame = function() {
     triangle = [
-      new Vector3(0, 0, 1),
-      new Vector3(-25, 50, 1),
-      new Vector3(25, 50, 1)
+      math.v3.create(0, 0, 1),
+      math.v3.create(-25, 50, 1),
+      math.v3.create(25, 50, 1)
     ];
 
     var elements = document.getElementsByTagName("input");
@@ -57,33 +57,44 @@ function Matrix2Game() {
     var canvas = this.canvas;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    var pos = new Vector2(Number(document.getElementById("txtP1").value), Number(document.getElementById("txtP2").value));
+    var pos = math.v2.create([Number(document.getElementById("txtP1").value),
+      Number(document.getElementById("txtP2").value)]);
     ctx.save();
     ctx.strokeStyle = "lightblue";
     ctx.beginPath();
     ctx.moveTo(0, 0);
-    ctx.lineTo(pos.x, pos.y);
+    ctx.lineTo(pos[0], pos[1]);
     ctx.stroke();
     ctx.restore();
 
 
-    var offset = new Vector3(Number(document.getElementById("txtO1").value), Number(document.getElementById("txtO2").value));
+    var offset = math.v2.create([Number(document.getElementById("txtO1").value),
+      Number(document.getElementById("txtO2").value)]);
     ctx.save();
-    ctx.translate(offset.x, offset.y);
+    ctx.translate(offset[0], offset[1]);
     ctx.restore();
 
     var theta = Number(document.getElementById("txtA1").value) * Math.PI;
-    var transformationMatrix = new TransformationMatrix3(theta, pos.x, pos.y);
-    var t1 = transformationMatrix.multVector(triangle[0].add(offset));
-    var t2 = transformationMatrix.multVector(triangle[1].add(offset));
-    var t3 = transformationMatrix.multVector(triangle[2].add(offset));
+    var transformationMatrix = math.m3.createTransform2(theta, pos[0], pos[1]);
+    var t1 = math.m3.multVector2(
+      transformationMatrix,
+      math.v2.add(triangle[0], offset)
+    );
+    var t2 = math.m3.multVector2(
+      transformationMatrix,
+      math.v2.add(triangle[1], offset)
+    );
+    var t3 = math.m3.multVector2(
+      transformationMatrix,
+      math.v2.add(triangle[2], offset)
+    );
 
     ctx.save();
     ctx.strokeStyle = "black";
     ctx.beginPath();
-    ctx.moveTo(t1.x, t1.y);
-    ctx.lineTo(t2.x, t2.y);
-    ctx.lineTo(t3.x, t3.y);
+    ctx.moveTo(t1[0], t1[1]);
+    ctx.lineTo(t2[0], t2[1]);
+    ctx.lineTo(t3[0], t3[1]);
     ctx.closePath();
     ctx.stroke();
     ctx.restore();

@@ -77,17 +77,27 @@ function MassAggregateGame() {
       lastMouseMoveScreen[0] = x;
       lastMouseMoveScreen[1] = y;
 
-      lastMouseMoveWorld[0] = x;
+      lastMouseMoveWorld[0] = X(x);
       lastMouseMoveWorld[1] = Y(y);
 
       this.renderGame();
     });
 
-    this.addEventListener("mousedown", function (e) {
-      var x = e.offsetX;
-      var y = e.offsetY;
+    this.addEventListener("mousedrag", function (e) {
+      if (e.button == 1) {
+        EngineInstance.windowOffset[0] += e.deltaX;
+        EngineInstance.windowOffset[1] += e.deltaY;
+        this.renderGame();
+      } // if
+    });
 
-      tool.use(math.v2.create([x, y]));
+    this.addEventListener("mousedown", function (e) {
+      if (e.button == 0) {
+        var x = e.offsetX;
+        var y = e.offsetY;
+
+        tool.use(math.v2.create([x, y]));
+      } // if
     });
 
     this.addEventListener("mouseover", function () {
@@ -150,18 +160,18 @@ function MassAggregateGame() {
     } // for
 
     if (this.debug) {
-      ctx.fillText("Global Forces: " + particleWorld.globalForceGenerators, 10, Y(90));
-      ctx.fillText("Num Particles: " + particleWorld.particles.length, 10, Y(80));
-      ctx.fillText("Num Force Generators: " + particleWorld.forceRegistry.entries.length, 10, Y(70));
-      ctx.fillText("Num Contact Generators: " + particleWorld.contactGenerators.length, 10, Y(60));
-      ctx.fillText("Mouse Screen: (" + lastMouseMoveScreen[0] + "," + lastMouseMoveScreen[1] + ")", 10, Y(50));
-      ctx.fillText("Mouse World: (" + lastMouseMoveWorld[0] + "," + lastMouseMoveWorld[1] + ")", 10, Y(40));
-      ctx.fillText("Pixels Per Meter: " + this.ppm, 10, Y(30));
-      ctx.fillText("FPS: " + this.avgFps, 10, Y(20));
+      ctx.fillText("Global Forces: " + particleWorld.globalForceGenerators, 10, EngineInstance.windowRect.height - 90);
+      ctx.fillText("Num Particles: " + particleWorld.particles.length, 10, EngineInstance.windowRect.height - 80);
+      ctx.fillText("Num Force Generators: " + particleWorld.forceRegistry.entries.length, 10, EngineInstance.windowRect.height - 70);
+      ctx.fillText("Num Contact Generators: " + particleWorld.contactGenerators.length, 10, EngineInstance.windowRect.height - 60);
+      ctx.fillText("Mouse Screen: (" + lastMouseMoveScreen[0] + "," + lastMouseMoveScreen[1] + ")", 10, EngineInstance.windowRect.height - 50);
+      ctx.fillText("Mouse World: (" + lastMouseMoveWorld[0] + "," + lastMouseMoveWorld[1] + ")", 10, EngineInstance.windowRect.height - 40);
+      ctx.fillText("Pixels Per Meter: " + this.ppm, 10, EngineInstance.windowRect.height - 30);
+      ctx.fillText("FPS: " + this.avgFps, 10, EngineInstance.windowRect.height - 20);
       ctx.save();
       ctx.beginPath();
       ctx.strokeStyle = "red";
-      ctx.translate(10, Y(10));
+      ctx.translate(10, EngineInstance.windowRect.height - 10);
 
       ctx.save();
       ctx.beginPath();

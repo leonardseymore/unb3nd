@@ -369,12 +369,17 @@ function ParticleWorldRenderVisitor(ctx) {
 	this.visitBoxCollisionContactGenerator = function(contactGenerator) {
     ctx.save();
 		ctx.strokeStyle = constants.COLLISION_BOX_COLOR;
-		ctx.strokeRect(contactGenerator.box[0], contactGenerator.box[1], contactGenerator.box.width, contactGenerator.box.height);
+    var boxWorld = math.v2.create([contactGenerator.box.x, contactGenerator.box.y]);
+    var boxWindow = window(boxWindow);
+		ctx.strokeRect(boxWindow[0],
+      boxWindow[1],
+      contactGenerator.box.width / EngineInstance.ppm,
+      contactGenerator.box.height / EngineInstance.ppm);
 		ctx.strokeStyle = constants.COLLISION_BOX_TOL_COLOR;
-		ctx.strokeRect(contactGenerator.box[0] + contactGenerator.collisionRadius,
-      contactGenerator.box[1] + contactGenerator.collisionRadius,
-      contactGenerator.box.width - contactGenerator.collisionRadius * 2,
-      contactGenerator.box.height - contactGenerator.collisionRadius * 2);
+		ctx.strokeRect(boxWindow[0] + contactGenerator.collisionRadius,
+      boxWindow[1] + contactGenerator.collisionRadius,
+      (contactGenerator.box.width - contactGenerator.collisionRadius * 2) / EngineInstance.ppm,
+      (contactGenerator.box.height - contactGenerator.collisionRadius * 2) / EngineInstance.ppm);
 		ctx.restore();
 	}
 }

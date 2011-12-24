@@ -35,7 +35,7 @@ function Y(y) {
  * @since 0.0.0.4
  */
 function X(x) {
-  return x + EngineInstance.windowOffset[0];
+  return - x + EngineInstance.windowOffset[0];
 }
 
 /**

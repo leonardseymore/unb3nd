@@ -1,37 +1,30 @@
 /**
- * @fileOverview Mathematics module
+ * @fileOverview High performance mathematics module
+ *   This module is less "pretty" and focussed strictly on performance
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0
+ * @since 0.0.0.4
  */
+
+"use strict";
 
 /**
  * @class Rectangle helper object
  * @constructor
- * @param {Number} x X-Coordinate of the rectangle
- * @param {Number} y Y-Coordinate of the rectangle
+ * @param {Array} pos Position of the rectangle
  * @param {Number} width Width of the rectangle
  * @param {Number} height Height of the rectangle
  * @since 0.0.0
  */
-Rectangle = function (x, y, width, height) {
+function Rectangle(pos, width, height) {
 
   /**
-   * X position of this rectangle
+   * Position of this rectangle
    * @field
    * @type Number
-   * @default 0
-   * @since 0.0.0
+   * @default Zero vector
+   * @since 0.0.0.4
    */
-  this.x = x || 0;
-
-  /**
-   * Y position of this rectangle
-   * @field
-   * @type Number
-   * @default 0
-   * @since 0.0.0
-   */
-  this.y = y || 0;
+  this.pos = pos || math.v2.create();
 
   /**
    * Width of this rectangle
@@ -52,16 +45,6 @@ Rectangle = function (x, y, width, height) {
   this.height = height || 0;
 
   /**
-   * Draws this rectangle
-   * @function
-   * @returns {void}
-   * @since 0.0.0
-   */
-  this.draw = function () {
-    ctx.strokeRect(this.x, this.y, this.width, this.height);
-  }
-
-  /**
    * Tests if a point is inside this rect
    * @function
    * @param {Array} point The point to test
@@ -69,16 +52,16 @@ Rectangle = function (x, y, width, height) {
    * @since 0.0.0
    */
   this.isPointInside = function (point) {
-    if (point[0] >= this.x &&
-      point[0] <= this.x + this.width &&
-      point[1] >= this.y &&
-      point[1] <= this.y + this.height
+    if (point[0] >= this.pos[0] &&
+      point[0] <= this.pos[0] + this.width &&
+      point[1] >= this.pos[1] &&
+      point[1] <= this.pos[1] + this.height
       ) {
       return true;
     } // if
 
     return false;
-  }
+  };
 
   /**
    * Tests if a point is strictly inside this rect
@@ -88,16 +71,16 @@ Rectangle = function (x, y, width, height) {
    * @since 0.0.0
    */
   this.isPointInsideStrict = function (point) {
-    if (point[0] > this.x &&
-      point[0] < this.x + this.width &&
-      point[1] > this.y &&
-      point[1] < this.y + this.height
+    if (point[0] > this.pos[0] &&
+      point[0] < this.pos[0] + this.width &&
+      point[1] > this.pos[1] &&
+      point[1] < this.pos[1] + this.height
       ) {
       return true;
     } // if
 
     return false;
-  }
+  };
 
   /**
    * Shrinks the rectangle by the given amount
@@ -110,7 +93,7 @@ Rectangle = function (x, y, width, height) {
     var clone = this.clone();
     clone.shrinkMutate(amount);
     return clone;
-  }
+  };
 
   /**
    * Shrinks the rectangle by the given amount
@@ -120,11 +103,11 @@ Rectangle = function (x, y, width, height) {
    * @since 0.0.0
    */
   this.shrinkMutate = function (amount) {
-    this.x += amount;
-    this.y += amount;
+    this.pos[0] += amount;
+    this.pos[1] += amount;
     this.width -= amount * 2;
     this.height -= amount * 2;
-  }
+  };
 
   /**
    * Clones this rectangle
@@ -133,8 +116,8 @@ Rectangle = function (x, y, width, height) {
    * @since 0.0.0
    */
   this.clone = function () {
-    return new Rectangle(this.x, this.y, this.width, this.height);
-  }
+    return new Rectangle(math.v2.create(this.pos), this.width, this.height);
+  };
 
   /**
    * Converts the class to a string representation
@@ -143,1186 +126,1087 @@ Rectangle = function (x, y, width, height) {
    * @since 0.0.0.3
    */
   this.toString = function () {
-    return "(x=" + this.x + ", y=" + this.y + ", w=" + this.width + ", h=" + this.height + ")";
-  }
+    return "(pos=" + this.pos.toString() + ", w=" + this.width + ", h=" + this.height + ")";
+  };
 }
 
 /**
- * @class 2-Dimensional vector
- *
- * Since we want to use clones in some arithmetic and simply modify a vector
- * in other situations. Some of the operations come in two flavors. e.g. @link{#add} and
- * @link{#addMutate}.  In this example add creates a new vector and leaves the current
- * unchanged, whereas @link{#addMutate} modifies this vector and returns nothing.
- * @constructor
- * @param {Number} x X-coordinate
- * @param {Number} y Y-coordinate
- * @since 0.0.0
+ * unb3nd maths namespace
+ * @since 0.0.0.4
  */
-Vector2 = function (x, y) {
+var math = {};
+
+/**
+ * unb3nd 2D vector namespace
+ * @since 0.0.0.4
+ */
+math.v2 = {
 
   /**
-   * X coordinate of this rectangle
-   * @field
-   * @type Number
-   * @default 0
-   * @since 0.0.0
-   */
-  this.x = x || 0;
-
-  /**
-   * Y coordinate of this rectangle
-   * @field
-   * @type Number
-   * @default 0
-   * @since 0.0.0
-   */
-  this.y = y || 0;
-
-  /**
-   * Add another vector to this vector
+   * Creates a new 2D vector
    * @function
-   * @param {Vector2} o The vector to add to this vector
-   * @return {Vector2} The newly created vector
-   * @since 0.0.0
-   */
-  this.add = function (o) {
-    var newVector = this.clone();
-    newVector.x += o.x;
-    newVector.y += o.y;
-    return newVector;
-  }
-
-  /**
-   * Add another vector to this vector
-   * @function
-   * @param {Vector2} o The vector to add to this vector
-   * @returns {void}
-   * @since 0.0.0
-   */
-  this.addMutate = function (o) {
-    this.x += o.x;
-    this.y += o.y;
-  }
-
-  /**
-   * Remove another vector from this vector
-   * @function
-   * @param {Vector2} o The vector to remove to this vector
-   * @return {Vector2} The newly created vector
-   * @since 0.0.0
-   */
-  this.sub = function (o) {
-    var newVector = this.clone();
-    newVector.x -= o.x;
-    newVector.y -= o.y;
-    return newVector;
-  }
-
-  /**
-   * Substract another vector from this vector
-   * @function
-   * @param {Vector2} o The vector to subtract from this vector
-   * @returns {void}
-   * @since 0.0.0
-   */
-  this.subMutate = function (o) {
-    this.x -= o.x;
-    this.y -= o.y;
-  }
-
-  /**
-   * Flip vector around
-   * @function
-   * @returns {Vector2} The flipped vector
-   * @since 0.0.0.3
-   */
-  this.inverse = function () {
-    return new Vector2(-this.x, -this.y);
-  }
-
-  /**
-   * Inverts this vector
-   * @function
-   * @returns {void}
-   * @since 0.0.0.3
-   */
-  this.inverseMutate = function () {
-    this.x = -this.x;
-    this.y = -this.y;
-  }
-
-  /**
-   * Multiply by a scalar value
-   * @function
-   * @param {Number} s Scalar to multiply by
-   * @returns {Vector2} The newly created vector
-   * @since 0.0.0
-   */
-  this.multScalar = function (s) {
-    var newVector = this.clone();
-    newVector.x *= s;
-    newVector.y *= s;
-    return newVector;
-  }
-
-  /**
-   * Multiply by a scalar value
-   * @function
-   * @param {Number} s Scalar to multiply by
-   * @returns {void}
-   * @since 0.0.0
-   */
-  this.multScalarMutate = function (s) {
-    this.x *= s;
-    this.y *= s;
-  }
-
-  /**
-   * Calculate the dot product with another vector
-   * @function
-   * @param {Vector2} other The vector to perform the calculation with
-   * @returns {Number} The dot product
-   * @since 0.0.0
-   */
-  this.dotProduct = function (other) {
-    return this.x * other.x + this.y * other.y;
-  }
-
-  /**
-   * Calculate the vector product with another vector
-   * @function
-   * @param {Vector2} other The vector to perform the calculation with
-   * @returns {Vector2} The vector product
-   * @since 0.0.0.3
-   */
-  this.vectorProduct = function (other) {
-    return this.x * other.y - this.y * other.x;
-  }
-
-  /**
-   * Calculate the magnitude of this vector
-   * @function
-   * @returns {Number} The magnitude
-   * @since 0.0.0
-   */
-  this.getMagnitude = function () {
-    return Math.sqrt(this.getMagnitudeSquare());
-  }
-
-  /**
-   * Calculate the squared magnitude of this vector
-   * @function
-   * @returns {Number} The square magnitude
-   * @since 0.0.0
-   */
-  this.getMagnitudeSquare = function () {
-    return this.x * this.x + this.y * this.y;
-  }
-
-  /**
-   * Normalizes this vector
-   * @function
-   * @returns {Vector2} The normalized form of this vector
-   * @since 0.0.0
-   */
-  this.normalize = function () {
-    var newVector = this.clone();
-    newVector.normalizeMutate();
-    return newVector;
-  }
-
-  /**
-   * Normalizes this vector
-   * @function
-   * @returns {void}
-   * @since 0.0.0
-   */
-  this.normalizeMutate = function () {
-    var magnitude = this.getMagnitude();
-    if (magnitude > 0) {
-      this.multScalarMutate(1 / magnitude);
-    } // if
-  }
-
-  /**
-   * Zero out this vector
-   * @function
-   * @returns {void}
-   * @since 0.0.0
-   */
-  this.zeroMutate = function () {
-    this.x = 0;
-    this.y = 0;
-  }
-
-  /**
-   * Clones this vector
-   * @function
-   * @returns {Vector2} The clone of this vector
-   * @since 0.0.0
-   */
-  this.clone = function () {
-    return new Vector2(this.x, this.y);
-  }
-
-  /**
-   * Determines if this vector is equal to another vector
-   * @function
-   * @param {Vector2} o The vector to compare
-   * @returns {boolean} true if this vector is equal to the supplied vector
+   * @param {Array} src Optional to copy values from
+   * @returns {Array} New vector
    * @since 0.0.0.4
    */
-  this.equals = function (o) {
-    if (this === o) {
-      return true;
+  create : function(src) {
+    if (src) {
+      return [src[0], src[1]];
+    } else {
+      return [0, 0];
     } // if
-
-    return this.x == o.x && this.y == o.y;
-  }
+  },
 
   /**
-   * Converts the class to a string representation
+   * Adds two vectors together
    * @function
-   * @returns {string} The string representation of this class
-   * @since 0.0.0
+   * @param {Array} v1 The first operand
+   * @param {Array} v2 The second operand
+   * @returns {Array} New vector
+   * @since 0.0.0.4
    */
-  this.toString = function () {
-    return "(" + this.x + ", " + this.y + ")";
-  }
+  add : function(v1, v2) {
+    return [v1[0] + v2[0], v1[1] + v2[1]];
+  },
 
   /**
-   * Draw visual helpers for this vector
-   *
-   * This method assumes that translations have already been made to the starting
-   * position of the vector
+   * Adds two vectors together and mutates the first operand
    * @function
-   * @param {StrokeStyle} strokestyle Optional overriding stroke style
+   * @param {Array} v1 The first operand
+   * @param {Array} v2 The second operand
    * @returns {void}
-   * @since 0.0.0
+   * @since 0.0.0.4
    */
-  this.draw = function (strokestyle) {
-    ctx.save();
-
-    ctx.strokeStyle = (strokestyle == undefined ? "lightblue" : strokestyle);
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(this.x, this.y);
-    ctx.stroke();
-
-    ctx.restore();
-  }
+  addMutate : function(v1, v2) {
+    v1[0] += v2[0];
+    v1[1] += v2[1];
+  },
 
   /**
-   * Draw visual helpers for this vector
-   *
-   * This method assumes that translations have already been made to the starting
-   * position of the vector
+   * Subtracts two vectors
    * @function
-   * @param {FillStyle} fillStyle Optional overriding fill style
+   * @param {Array} v1 The first operand
+   * @param {Array} v2 The second operand
+   * @returns {Array} New vector
+   * @since 0.0.0.4
+   */
+  sub : function(v1, v2) {
+    return [v1[0] - v2[0], v1[1] - v2[1]];
+  },
+
+  /**
+   * Subtracts two vectors and mutates the first operand
+   * @function
+   * @param {Array} v1 The first operand
+   * @param {Array} v2 The second operand
    * @returns {void}
-   * @since 0.0.0
+   * @since 0.0.0.4
    */
-  this.drawPoint = function (fillStyle) {
-    ctx.save();
-    ctx.fillStyle = (fillStyle == undefined ? "magenta" : fillStyle);
-    ctx.translate(this.x, this.y);
-    ctx.fillRect(
-      -1, -1, 2, 2
-    );
-    ctx.restore();
-  }
-}
-
-/**
- * Calculates the angle between two vectors in radians
- * @function
- * @static
- * @param {Vector2} v1 The first vector
- * @param {Vector2} v2 The second vector
- * @returns {Number} The angle between the two vectors
- * @since 0.0.0
- */
-Vector2.getAngle = function (v1, v2) {
-  return Math.acos(v1.normalize().dotProduct(v2.normalize()));
-}
-
-/**
- * Calculates the distance between two vectors
- * @function
- * @static
- * @param {Vector2} v1 The first vector
- * @param {Vector2} v2 The second vector
- * @returns {Number} The distance between the two vectors
- * @since 0.0.0.3
- */
-Vector2.getDistance = function (v1, v2) {
-  return v1.sub(v2).getMagnitude();
-}
-
-/**
- * Calculates the squared distance between two vectors
- * This method is less expensive than {@link Vector2#getDistance} method
- * because it does not perform a square root operation.
- * @function
- * @static
- * @param {Vector2} v1 The first vector
- * @param {Vector2} v2 The second vector
- * @returns {Number} The distance squared between the two vectors
- * @since 0.0.0.3
- */
-Vector2.getDistanceSquare = function (v1, v2) {
-  return v1.sub(v2).getMagnitudeSquare();
-}
-
-/**
- * Determines if the two vectors are within a specified distance from each other.
- * @function
- * @static
- * @param {Vector2} v1 The first vector
- * @param {Vector2} v2 The second vector
- * @param {Number} distance The distance to test for
- * @returns {boolean} True if the vectors are within specified distance
- * @since 0.0.0.3
- */
-Vector2.isWithin = function (v1, v2, distance) {
-  return Vector2.getDistanceSquare(v1, v2) <= distance * distance;
-}
-
-/**
- * Determines if the two vectors are strictly a specified distance from each other.
- * @function
- * @static
- * @param {Vector2} v1 The first vector
- * @param {Vector2} v2 The second vector
- * @param {Number} distance The distance to test for
- * @returns {boolean} True if the vectors are strictly within specified distance
- * @since 0.0.0.3
- */
-Vector2.isWithinStrict = function (v1, v2, distance) {
-  return Vector2.getDistanceSquare(v1, v2) < distance * distance;
-}
-
-/**
- * @class 3-Dimensional vector
- *
- * Since we want to use clones in some arithmetic and simply modify a vector
- * in other situations. Some of the operations come in two flavors. e.g. @link{#add} and
- * @link{#addMutate}.  In this example add creates a new vector and leaves the current
- * unchanged, whereas @link{#addMutate} modifies this vector and returns nothing.
- * @constructor
- * @param {Number} x X-coordinate
- * @param {Number} y Y-coordinate
- * @param {Number} z Z-coordinate
- * @since 0.0.0.3
- */
-Vector3 = function (x, y, z) {
+  subMutate : function(v1, v2) {
+    v1[0] -= v2[0];
+    v1[1] -= v2[1];
+  },
 
   /**
-   * X coordinate of this rectangle
-   * @field
-   * @type Number
-   * @default 0
-   * @since 0.0.0.3
-   */
-  this.x = x || 0;
-
-  /**
-   * Y coordinate of this rectangle
-   * @field
-   * @type Number
-   * @default 0
-   * @since 0.0.0.3
-   */
-  this.y = y || 0;
-
-  /**
-   * Z coordinate of this rectangle
-   * @field
-   * @type Number
-   * @default 0
-   * @since 0.0.0.3
-   */
-  this.z = z || 0;
-
-  /**
-   * Add another vector to this vector
+   * Inverts the vector
    * @function
-   * @param {Vector3} o The vector to add to this vector
-   * @return {Vector3} The newly created vector
-   * @since 0.0.0.3
+   * @param {Array} v The vector to invert
+   * @returns {Array} The inverted version of the supplied vector
+   * @since 0.0.0.4
    */
-  this.add = function (o) {
-    var newVector = this.clone();
-    newVector.x += o.x;
-    newVector.y += o.y;
-    newVector.z += o.z;
-    return newVector;
-  }
+  inverse : function(v) {
+    return [-v[0], -v[1]];
+  },
 
   /**
-   * Add another vector to this vector
+   * Inverts and mutates the vector
    * @function
-   * @param {Vector3} o The vector to add to this vector
+   * @param {Array} v The vector to invert
    * @returns {void}
-   * @since 0.0.0.3
+   * @since 0.0.0.4
    */
-  this.addMutate = function (o) {
-    this.x += o.x;
-    this.y += o.y;
-    this.z += o.z;
-  }
+  inverseMutate : function(v) {
+    v[0] = -v[0];
+    v[1] = -v[1];
+  },
 
   /**
-   * Remove another vector from this vector
+   * Multiply vector by a scalar value
    * @function
-   * @param {Vector3} o The vector to remove to this vector
-   * @return {Vector3} The newly created vector
-   * @since 0.0.0.3
-   */
-  this.sub = function (o) {
-    var newVector = this.clone();
-    newVector.x -= o.x;
-    newVector.y -= o.y;
-    newVector.z -= o.z;
-    return newVector;
-  }
-
-  /**
-   * Substract another vector from this vector
-   * @function
-   * @param {Vector3} o The vector to subtract from this vector
-   * @returns {void}
-   * @since 0.0.0.3
-   */
-  this.subMutate = function (o) {
-    this.x -= o.x;
-    this.y -= o.y;
-    this.z -= o.z;
-  }
-
-  /**
-   * Flip vector around
-   * TODO: invert is maybe a better name for this method
-   * @function
-   * @returns {Vector3} The flipped vector
-   * @since 0.0.0.3
-   */
-  this.reverse = function () {
-    return new Vector3(-this.x, -this.y, -this.z);
-  }
-
-  /**
-   * Multiply by a scalar value
-   * @function
+   * @param {Array} v The vector to multiply
    * @param {Number} s Scalar to multiply by
-   * @returns {Vector3} The newly created vector
-   * @since 0.0.0.3
+   * @returns {Array} New vector
+   * @since 0.0.0.4
    */
-  this.multScalar = function (s) {
-    var newVector = this.clone();
-    newVector.x *= s;
-    newVector.y *= s;
-    newVector.z *= s;
-    return newVector;
-  }
+  multScalar : function(v, s) {
+    return [v[0] * s, v[1] * s];
+  },
 
   /**
-   * Multiply by a scalar value
+   * Multiply vector by a scalar value and mutates the vector
    * @function
+   * @param {Array} v The vector to multiply
    * @param {Number} s Scalar to multiply by
    * @returns {void}
-   * @since 0.0.0.3
+   * @since 0.0.0.4
    */
-  this.multScalarMutate = function (s) {
-    this.x *= s;
-    this.y *= s;
-    this.z *= s;
-  }
+  multScalarMutate : function(v, s) {
+    v[0] *= s;
+    v[1] *= s;
+  },
 
   /**
-   * Calculate the dot product with another vector
+   * Calculate the dot product between two vectors
    * @function
-   * @param {Vector3} o The vector to perform the calculation with
+   * @param {Array} v The first operand
+   * @param {Array} v2 The second operand
    * @returns {Number} The dot product
-   * @since 0.0.0.3
+   * @since 0.0.0.4
    */
-  this.dotProduct = function (o) {
-    return this.x * o.x + this.y * o.y + this.z * o.z;
-  }
+  dotProduct : function(v, v2) {
+    return v[0] * v2[0] + v[1] * v2[1];
+  },
 
   /**
-   * Calculate the magnitude of this vector
+   * Calculate the vector product between two vectors
    * @function
+   * @param {Array} v The first operand
+   * @param {Array} v2 The second operand
+   * @returns {Number} The vector product
+   * @since 0.0.0.4
+   */
+  vectorProduct : function(v, v2) {
+    return v[0] * v2[1] - v[1] * v2[0];
+  },
+
+  /**
+   * Calculate the magnitude of the supplied vector
+   * @function
+   * @param {Array} v The vector to calculate the magnitude for
    * @returns {Number} The magnitude
-   * @since 0.0.0.3
+   * @since 0.0.0.4
    */
-  this.getMagnitude = function () {
-    return Math.sqrt(this.getMagnitudeSquare());
-  }
+  getMagnitude : function(v) {
+    return Math.sqrt(v[0] * v[0] + v[1] * v[1]);
+  },
 
   /**
-   * Calculate the squared magnitude of this vector
+   * Calculate the magnitude square of the supplied vector
    * @function
-   * @returns {Number} The square magnitude
-   * @since 0.0.0.3
+   * @param {Array} v The vector to calculate the magnitude for
+   * @returns {Number} The magnitude square
+   * @since 0.0.0.4
    */
-  this.getMagnitudeSquare = function () {
-    return this.x * this.x + this.y * this.y + this.z * this.z;
-  }
+  getMagnitudeSquare : function(v) {
+    return v[0] * v[0] + v[1] * v[1];
+  },
 
   /**
-   * Normalizes this vector
+   * Normalizes the supplied vector
    * @function
-   * @returns {Vector3} The normalized form of this vector
-   * @since 0.0.0.3
+   * @param {Array} v The vector to normalize
+   * @returns {Array} The normalized version of the supplied vector
+   * @since 0.0.0.4
    */
-  this.normalize = function () {
-    var newVector = this.clone();
-    newVector.normalizeMutate();
-    return newVector;
-  }
+  normalize : function(v) {
+    var dest = math.v2.create(v);
+    math.v2.normalizeMutate(dest);
+    return dest;
+  },
 
   /**
-   * Normalizes this vector
+   * Normalizes and mutates the supplied vector
    * @function
+   * @param {Array} v The vector to normalize
    * @returns {void}
-   * @since 0.0.0.3
+   * @since 0.0.0.4
    */
-  this.normalizeMutate = function () {
-    var magnitude = this.getMagnitude();
+  normalizeMutate : function(v) {
+    var magnitude = math.v2.getMagnitude(v);
     if (magnitude > 0) {
-      this.multScalarMutate(1 / magnitude);
+      math.v2.multScalarMutate(v, 1 / magnitude);
     } // if
-  }
+  },
 
   /**
-   * Zero out this vector
+   * Zeroes out the supplied vector
    * @function
+   * @param {Array} v The vector to normalize
    * @returns {void}
-   * @since 0.0.0.3
+   * @since 0.0.0.4
    */
-  this.zeroMutate = function () {
-    this.x = 0;
-    this.y = 0;
-    this.z = 0;
-  }
+  zeroMutate : function(v) {
+    v[0] = 0;
+    v[1] = 0;
+  },
 
   /**
-   * Clones this vector
+   * Calculates the angle between two vectors in radians
    * @function
-   * @returns {Vector3} The clone of this vector
-   * @since 0.0.0.3
+   * @static
+   * @param {Array} v1 The first vector
+   * @param {Array} v2 The second vector
+   * @returns {Number} The angle between the two vectors
+   * @since 0.0.0.4
    */
-  this.clone = function () {
-    return new Vector3(this.x, this.y, this.z);
-  }
+  getAngle : function(v1, v2) {
+    return Math.acos(
+      math.v2.dotProduct(
+        math.v2.normalize(v1),
+        math.v2.normalize(v2)
+      )
+    );
+  },
 
   /**
-   * Converts the class to a string representation
+   * Calculates the distance between two vectors
    * @function
-   * @returns {string} The string representation of this class
-   * @since 0.0.0
+   * @static
+   * @param {Array} v1 The first vector
+   * @param {Array} v2 The second vector
+   * @returns {Number} The distance between the two vectors
+   * @since 0.0.0.4
    */
-  this.toString = function () {
-    return "(" + this.x + ", " + this.y + "," + this.z + ")";
+  getDistance : function(v1, v2) {
+    return math.v2.getMagnitude(math.v2.sub(v1, v2));
+  },
+
+  /**
+   * Calculates the squared distance between two vectors
+   * @function
+   * @static
+   * @param {Array} v1 The first vector
+   * @param {Array} v2 The second vector
+   * @returns {Number} The distance between the two vectors
+   * @since 0.0.0.4
+   */
+  getDistanceSquare : function(v1, v2) {
+    return math.v2.getMagnitudeSquare(math.v2.sub(v1, v2));
+  },
+
+  /**
+   * Determines if the two vectors are within a specified distance from each other.
+   * @function
+   * @static
+   * @param {Array} v1 The first vector
+   * @param {Array} v2 The second vector
+   * @param {Number} distance The distance to test for
+   * @returns {boolean} True if the vectors are within specified distance
+   * @since 0.0.0.4
+   */
+  isWithin : function(v1, v2, distance) {
+    return math.v2.getDistanceSquare(v1, v2) <= distance * distance;
+  },
+
+  /**
+   * Determines if the two vectors are strictly a specified distance from each other.
+   * @function
+   * @static
+   * @param {Array} v1 The first vector
+   * @param {Array} v2 The second vector
+   * @param {Number} distance The distance to test for
+   * @returns {boolean} True if the vectors are strictly within specified distance
+   * @since 0.0.0.4
+   */
+  isWithinStrict : function(v1, v2, distance) {
+    return math.v2.getDistanceSquare(v1, v2) < distance * distance;
   }
-}
+};
 
 /**
- * @class 2x2 matrix
- * @constructor
- * @param {Number} data1 Matrix data entry
- * @param {Number} data2 Matrix data entry
- * @param {Number} data3 Matrix data entry
- * @param {Number} data4 Matrix data entry
- * @since 0.0.0
+ * unb3nd 3D vector namespace
+ * @since 0.0.0.4
  */
-Matrix2 = function (data1, data2, data3, data4, inverse) {
+math.v3 = {
 
   /**
-   * Matrix entries
-   * @field
-   * @type Number []
-   * @default [0.0, 0.0, 0.0, 0.0]
-   * @since 0.0.0
-   */
-  this.e = [
-    data1 || 0.0, data2 || 0.0, data3 || 0.0, data4 || 0.0
-  ];
-
-  /**
-   * Matrix determinant
-   * @field
-   * @type Number
-   * @default 0.0
-   * @since 0.0.0
-   */
-  this.det = 0.0;
-
-  /**
-   * Matrix inverse
-   * @field
-   * @type Matrix2
-   * @default undefined
-   * @since 0.0.0
-   */
-  this.inverse = undefined;
-
-  /**
-   * Calculates this determinant {@link Matrix2#det} from matrix entries {@link Matrix2#e}
+   * Creates a new 3D vector
    * @function
-   * @private
-   * @returns {void}
-   * @since 0.0.0
+   * @param {Array} src Optional to copy values from
+   * @returns {Array} New vector
+   * @since 0.0.0.4
    */
-  this.recaclulateDeterminant = function () {
-    this.det = this.e[0] * this.e[3] - this.e[1] * this.e[2];
+  create : function(src) {
+    if (src) {
+      return [src[0], src[1], src[2]];
+    } else {
+      return [0, 0, 0];
+    } // if
+  },
+
+  /**
+   * Adds vectors together
+   * @function
+   * @param {Array} v1 The first operand
+   * @param {Array} v2 The second operand
+   * @returns {Array} New vector
+   * @since 0.0.0.4
+   */
+  add : function(v1, v2) {
+    return [v1[0] + v2[0],
+      v1[1] + v2[1],
+      v1[2] + v2[2]];
+  },
+
+  /**
+   * Adds vectors together and mutates the first operand
+   * @function
+   * @param {Array} v1 The first operand
+   * @param {Array} v2 The second operand
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  addMutate : function(v1, v2) {
+    v1[0] = v1[0] + v2[0];
+    v1[1] = v1[1] + v2[1];
+    v1[2] = v1[2] + v2[2];
+  },
+
+  /**
+   * Subtracts vectors
+   * @function
+   * @param {Array} v1 The first operand
+   * @param {Array} v2 The second operand
+   * @returns {Array} New vector
+   * @since 0.0.0.4
+   */
+  sub : function(v1, v2) {
+    return [v1[0] - v2[0],
+      v1[1] - v2[1],
+      v1[2] - v2[2]];
+  },
+
+  /**
+   * Subtracts vectors and mutates the first operand
+   * @function
+   * @param {Array} v1 The first operand
+   * @param {Array} v2 The second operand
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  subMutate : function(v1, v2) {
+    v1[0] = v1[0] - v2[0];
+    v1[1] = v1[1] - v2[1];
+    v1[2] = v1[2] - v2[2];
+  },
+
+  /**
+   * Inverts the vector
+   * @function
+   * @param {Array} v The vector to invert
+   * @returns {Array} The inverted version of the supplied vector
+   * @since 0.0.0.4
+   */
+  inverse : function(v) {
+    return [-v[0], -v[1], -v[2]];
+  },
+
+  /**
+   * Inverts and mutates the vector
+   * @function
+   * @param {Array} v The vector to invert
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  inverseMutate : function(v) {
+    v[0] = -v[0];
+    v[1] = -v[1];
+    v[2] = -v[2];
+  },
+
+  /**
+   * Multiply vector by a scalar value
+   * @function
+   * @param {Array} v The vector to multiply
+   * @param {Number} s Scalar to multiply by
+   * @returns {Array} New vector
+   * @since 0.0.0.4
+   */
+  multScalar : function(v, s) {
+    return [v[0] * s, v[1] * s, v[2] * s];
+  },
+
+  /**
+   * Multiply vector by a scalar value and mutates the vector
+   * @function
+   * @param {Array} v The vector to multiply
+   * @param {Number} s Scalar to multiply by
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  multScalarMutate : function(v, s) {
+    v[0] *= s;
+    v[1] *= s;
+    v[2] *= s;
+  },
+
+  /**
+   * Calculate the dot product between two vectors
+   * @function
+   * @param {Array} v1 The first operand
+   * @param {Array} v2 The second operand
+   * @returns {Number} The dot product
+   * @since 0.0.0.4
+   */
+  dotProduct : function(v1, v2) {
+    return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
+  },
+
+  /**
+   * TODO: Calculate the vector product between two vectors
+   * @function
+   * @param {Array} v1 The first operand
+   * @param {Array} v2 The second operand
+   * @returns {Number} The vector product
+   * @since 0.0.0.4
+   */
+  vectorProduct : function(v1, v2) {
+    return v1[0] * v2[1] - v1[1] * v2[0];
+  },
+
+  /**
+   * Calculate the magnitude of the supplied vector
+   * @function
+   * @param {Array} v The vector to calculate the magnitude for
+   * @returns {Number} The magnitude
+   * @since 0.0.0.4
+   */
+  getMagnitude : function(v) {
+    return Math.sqrt(math.v2.getMagnitudeSquare(v));
+  },
+
+  /**
+   * Calculate the magnitude square of the supplied vector
+   * @function
+   * @param {Array} v The vector to calculate the magnitude for
+   * @returns {Number} The magnitude square
+   * @since 0.0.0.4
+   */
+  getMagnitudeSquare : function(v) {
+    return v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
+  },
+
+  /**
+   * Normalizes the supplied vector
+   * @function
+   * @param {Array} v The vector to normalize
+   * @returns {Array} The normalized version of the supplied vector
+   * @since 0.0.0.4
+   */
+  normalize : function(v) {
+    var dest = math.v3.create(v);
+    math.v3.normalizeMutate(dest);
+    return dest;
+  },
+
+  /**
+   * Normalizes and mutates the supplied vector
+   * @function
+   * @param {Array} v The vector to normalize
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  normalizeMutate : function(v) {
+    var magnitude = math.v3.getMagnitude(v);
+    if (magnitude > 0) {
+      math.v3.multScalarMutate(v, 1 / magnitude);
+    } // if
+  },
+
+  /**
+   * Zeroes out the supplied vector
+   * @function
+   * @param {Array} v The vector to normalize
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  zeroMutate : function(v) {
+    v[0] = 0;
+    v[1] = 0;
+    v[2] = 0;
+  },
+
+  /**
+   * Calculates the angle between two vectors in radians
+   * @function
+   * @static
+   * @param {Array} v1 The first vector
+   * @param {Array} v2 The second vector
+   * @returns {Number} The angle between the two vectors
+   * @since 0.0.0.4
+   */
+  getAngle : function(v1, v2) {
+    return Math.acos(
+      math.v3.dotProduct(
+        math.v3.normalize(v1),
+        math.v3.normalize(v2)
+      )
+    );
+  },
+
+  /**
+   * Calculates the distance between two vectors
+   * @function
+   * @static
+   * @param {Array} v1 The first vector
+   * @param {Array} v2 The second vector
+   * @returns {Number} The distance between the two vectors
+   * @since 0.0.0.4
+   */
+  getDistance : function(v1, v2) {
+    return math.v3.getMagnitude(math.v3.sub(v1, v2));
+  },
+
+  /**
+   * Calculates the squared distance between two vectors
+   * @function
+   * @static
+   * @param {Array} v1 The first vector
+   * @param {Array} v2 The second vector
+   * @returns {Number} The distance between the two vectors
+   * @since 0.0.0.4
+   */
+  getDistanceSquare : function(v1, v2) {
+    return math.v3.getMagnitudeSquare(math.v3.sub(v1, v2));
+  },
+
+  /**
+   * Determines if the two vectors are within a specified distance from each other.
+   * @function
+   * @static
+   * @param {Array} v1 The first vector
+   * @param {Array} v2 The second vector
+   * @param {Number} distance The distance to test for
+   * @returns {boolean} True if the vectors are within specified distance
+   * @since 0.0.0.4
+   */
+  isWithin : function(v1, v2, distance) {
+    return math.v3.getDistanceSquare(v1, v2) <= distance * distance;
+  },
+
+  /**
+   * Determines if the two vectors are strictly a specified distance from each other.
+   * @function
+   * @static
+   * @param {Array} v1 The first vector
+   * @param {Array} v2 The second vector
+   * @param {Number} distance The distance to test for
+   * @returns {boolean} True if the vectors are strictly within specified distance
+   * @since 0.0.0.4
+   */
+  isWithinStrict : function(v1, v2, distance) {
+    return math.v3.getDistanceSquare(v1, v2) < distance * distance;
   }
-  this.recaclulateDeterminant();
+};
+
+/**
+ * unb3nd 2x2 matrix namespace
+ * @since 0.0.0.4
+ */
+math.m2 = {
 
   /**
-   * Calculates this inverse {@link Matrix2#inverse} from matrix entries {@link Matrix2#e}
+   * Creates a new 2x2 matrix
    * @function
-   * @private
-   * @returns {void}
-   * @since 0.0.0
+   * @param {Array} src Optional to copy values from
+   * @returns {Array} New matrix
+   * @since 0.0.0.4
    */
-  this.recaclulateInverse = function () {
+  create : function(src) {
+    if (src) {
+      return [src[0], src[1], src[2], src[3]];
+    } else {
+      return [0, 0, 0, 0];
+    } // if
+  },
 
-    if (this.det == 0) {
-      return;
+  /**
+   * Creates a new 2x2 identity matrix
+   * @function
+   * @returns {Array} New identity matrix
+   * @since 0.0.0.4
+   */
+  createIdentity : function() {
+    return [1, 0, 0, 1];
+  },
+
+  /**
+   * Creates a new 2x2 rotation matrix
+   * <p>
+   * The 2D rotation matrix looks as follows:
+   * | cos(theta), -sin(theta) |
+   * | sin(theta), cos(theta)  |
+   * </p>
+   * @function
+   * @param {Number} theta The angle of this rotation matrix
+   * @returns {Array} New rotation matrix
+   * @since 0.0.0.4
+   */
+  createRotation : function(theta) {
+    return [Math.cos(theta), -Math.sin(theta),
+      Math.sin(theta), Math.cos(theta)];
+  },
+
+  /**
+   * Calculates the determinant
+   * @function
+   * @param {Array} m The matrix to get the determinant for
+   * @returns {Number} The determinant of the supplied matrix
+   * @since 0.0.0.4
+   */
+  getDeterminant : function(m) {
+    return m[0] * m[3] - m[1] * m[2];
+  },
+
+  /**
+   * Determines if the supplied matrix is invertable
+   * @function
+   * @param {Array} m The matrix to use
+   * @returns {Boolean} True if the matrix is invertable
+   * @since 0.0.0.4
+   */
+  isInvertable : function(m) {
+    var determinant = math.m2.getDeterminant(m);
+    return determinant != 0;
+  },
+
+  /**
+   * Determines if the supplied matrix is singular
+   * @function
+   * @param {Array} m The matrix to use
+   * @returns {Boolean} True if the matrix is singular
+   * @since 0.0.0.4
+   */
+  isSingular : function(m) {
+    var determinant = math.m2.getDeterminant(m);
+    return determinant == 0;
+  },
+
+  /**
+   * Calculates the inverse of the supplied matrix
+   * @function
+   * @param {Array} m The matrix to get the determinant for
+   * @returns {Array} The inverse of the matrix, or undefined if inverse does not exist
+   * @since 0.0.0.4
+   */
+  getInverse : function(m) {
+    var determinant = math.m2.getDeterminant(m);
+    if (determinant == 0) {
+      return undefined;
     } // if
 
-    var inverseDet = 1 / this.det;
-    var i = new Matrix2(
-      inverseDet * this.e[3],
-      -inverseDet * this.e[1],
-      -inverseDet * this.e[2],
-      inverseDet * this.e[0]
-    );
-    i.inverse = this.clone();
-    this.inverse = i;
-  }
+    var inverseDet = 1 / determinant;
+    return [inverseDet * m[3],
+      -inverseDet * m[1],
+      -inverseDet * m[2],
+      inverseDet * m[0]];
+  },
 
   /**
-   * Multiply this matrix by the supplied 2D vector
+   * Multiply the matrix by the supplied vector
    * @function
-   * @param {Vector2} v The vector to multiply
-   * @returns {Vector2} The resulting vector
-   * @since 0.0.0
+   * @param {Array} m The matrix to use
+   * @param {Array} v The vector to multiply
+   * @returns {Array} The resulting vector
+   * @since 0.0.0.4
    */
-  this.multVector = function (v) {
-    return new Vector2(
-      v.x * this.e[0] + v.y * this.e[1],
-      v.x * this.e[2] + v.y * this.e[3]
-    );
-  }
+  multVector : function(m, v) {
+    return [v[0] * m[0] + v[1] * m[1],
+      v[0] * m[2] + v[1] * m[3]];
+  },
 
   /**
-   * Multiply this matrix by the supplied 2D vector
+   * Multiply the matrix by the supplied vector and mutate the vector
    * @function
-   * @param {Vector2} v The vector to multiply
+   * @param {Array} m The matrix to use
+   * @param {Array} v The vector to multiply
    * @returns {void}
-   * @since 0.0.0
+   * @since 0.0.0.4
    */
-  this.multVectorMutate = function (v) {
-    v.x = v.x * this.e[0] + v.y * this.e[1];
-    v.y = v.x * this.e[2] + v.y * this.e[3];
-  }
+  multVectorMutate : function(m, v) {
+    v[0] = v[0] * m[0] + v[1] * m[1];
+    v[1] = v[0] * m[2] + v[1] * m[3];
+  },
 
   /**
-   * Multiply this matrix by the supplied 2x2 matrix
+   * Multiply two matrices together
    * @function
-   * @param {Matrix2} o The matrix to multiply
-   * @returns {Matrix2} The resulting matrix
-   * @since 0.0.0
+   * @param {Array} m1 The first operand
+   * @param {Array} m2 The second operand
+   * @returns {Array} The resulting matrix
+   * @since 0.0.0.4
    */
-  this.mult = function (o) {
-    return new Matrix2(
-      this.e[0] * o.e[0] + this.e[1] * o.e[2],
-      this.e[0] * o.e[1] + this.e[1] * o.e[3],
-      this.e[2] * o.e[0] + this.e[3] * o.e[2],
-      this.e[2] * o.e[1] + this.e[3] * o.e[3]
-    );
-  }
+  mult : function(m1, m2) {
+    return [
+      m1[0] * m2[0] + m1[1] * m2[2],
+      m1[0] * m2[1] + m1[1] * m2[3],
+      m1[2] * m2[0] + m1[3] * m2[2],
+      m1[2] * m2[1] + m1[3] * m2[3]
+    ];
+  },
 
   /**
-   * Adds this matrix by the supplied 2x2 matrix
+   * Adds two matrices together
    * @function
-   * @param {Matrix2} o The matrix to add
-   * @returns {Matrix2} The resulting matrix
-   * @since 0.0.0
+   * @param {Array} m1 The first operand
+   * @param {Array} m2 The second operand
+   * @returns {Array} The resulting matrix
+   * @since 0.0.0.4
    */
-  this.add = function (o) {
-    return new Matrix2(
-      this.e[0] + o.e[0],
-      this.e[1] + o.e[1],
-      this.e[2] + o.e[2],
-      this.e[3] + o.e[3]
-    );
-  }
+  add : function(m1, m2) {
+    return [
+      m1[0] + m2[0],
+      m1[1] + m2[1],
+      m1[2] + m2[2],
+      m1[3] + m2[3]
+    ];
+  },
 
   /**
-   * Adds this matrix by the supplied 2x2 matrix
+   * Adds two matrices together and mutates the first
    * @function
-   * @param {Matrix2} o The matrix to add
+   * @param {Array} m1 The first operand
+   * @param {Array} m2 The second operand
    * @returns {void}
-   * @since 0.0.0
+   * @since 0.0.0.4
    */
-  this.addMutate = function (o) {
-    this.e[0] += o.e[0];
-    this.e[1] += o.e[1];
-    this.e[2] += o.e[2];
-    this.e[3] += o.e[3];
-  }
+  addMutate : function(m1, m2) {
+    m1[0] = m1[0] + m2[0];
+    m1[1] = m1[1] + m2[1];
+    m1[2] = m1[2] + m2[2];
+    m1[3] = m1[3] + m2[3];
+  },
 
   /**
    * Gets the entry at row i and column j
    * @function
+   * @param {Array} m The matrix to get the entry from
    * @param {int} i The row number, 0 being row 1
    * @param {int} j The column number, 0 being column 1
    * @returns {Number} The entry at row i and column j
-   * @since 0.0.0
+   * @since 0.0.0.4
    */
-  this.getEntry = function (i, j) {
-    return this.e[i * 2 + j];
-  }
+  getEntry : function(m, i, j) {
+    return m[i * 2 + j];
+  },
 
   /**
-   * Gets the determinant of this matrix
+   * Determines if the two matrices are equal
    * @function
-   * @returns {Number} The determinant of this matrix
-   * @since 0.0.0
+   * @param {Array} m1 The first operand
+   * @param {Array} m2 The second operand
+   * @returns {Boolean} True if every entry in m1 is equal to the corresponding entry in m2
+   * @since 0.0.0.4
    */
-  this.getDeterminant = function () {
-    return this.det;
+  equals : function(m1, m2) {
+    return m1[0] == m2[0]
+      && m1[1] == m2[1]
+      && m1[2] == m2[2]
+      && m1[3] == m2[3];
   }
-
-  /**
-   * Determines if this matrix is singular (non-invertable, has a zero determinant)
-   * @function
-   * @returns {boolean} The singular flag of this matrix
-   * @since 0.0.0
-   * @see Matrix2#isInvertable
-   */
-  this.isSingular = function () {
-    return this.det == 0;
-  }
-
-  /**
-   * Determines if this matrix is invertable (non-singular, has a non-zero determinant)
-   * @function
-   * @returns {boolean} The invertable flag of this matrix
-   * @since 0.0.0
-   * @see Matrix2#isSingular
-   */
-  this.isInvertable = function () {
-    return this.det != 0;
-  }
-
-  /**
-   * Gets the inverse of this matrix
-   * @function
-   * @returns {Matrix} The inverse of this matrix, undefined if singular
-   * @since 0.0.0
-   * @see Matrix2#isSingular
-   */
-  this.getInverse = function () {
-    if (!this.inverse && this.isInvertable()) {
-      this.recaclulateInverse();
-    } // if
-
-    return this.inverse;
-  }
-
-  /**
-   * Determines if this matrix is equal to another matrix
-   * For matrices this is true if every element in this
-   * matrix has a corresponding and equal entry in the other
-   * matrix
-   * @function
-   * @param {Matrix2} o The matrix to compare
-   * @returns {boolean} true if this matrix is equal to the supplied matrix
-   * @since 0.0.0
-   */
-  this.equals = function (o) {
-    if (this === o) {
-      return true;
-    } // if
-
-    if (this.e.length != o.e.length) {
-      return false;
-    } // if
-
-    for (i in this.e) {
-      if (this.e[i] != o.e[i]) {
-        return false;
-      } // if
-    } // for
-
-    return true;
-  }
-
-  /**
-   * Clones this matrix
-   * @function
-   * @return {Matrix2} The cloned version of this matrix
-   * @since 0.0.0
-   */
-  this.clone = function () {
-    return new Matrix2(this.e[0], this.e[1], this.e[2], this.e[3]);
-  }
-}
+};
 
 /**
- * @class 2x2 identity
- * @constructor
- * @since 0.0.0
+ * unb3nd 3x3 matrix namespace
+ * @since 0.0.0.4
  */
-Identity2 = function () {
-
-  /*
-   * Super constructor
-   */
-  Matrix2.call(this, 1, 0, 0, 1);
-}
-Identity2.prototype = new Matrix2();
-
-/**
- * 2x2 Identity matrix reusable singleton
- * @static
- * @field
- * @type Identity2
- * @default new Identity2()
- * @since 0.0.0
- */
-Identity2.instance = new Identity2();
-
-/**
- * @class 2-Dimensional rotation matrix
- * <p>
- * The 2D rotation matrix looks as follows:
- * | cos(theta), -sin(theta) |
- * | sin(theta), cos(theta)  |
- * </p>
- * @constructor
- * @param {Number} theta The angle of this rotation matrix
- * @since 0.0.0
- */
-RotationMatrix2 = function (theta) {
-
-  /*
-   * Super constructor
-   */
-  Matrix2.call(this, Math.cos(theta), -Math.sin(theta),
-    Math.sin(theta), Math.cos(theta));
-}
-RotationMatrix2.prototype = new Matrix2();
-
-/**
- * @class 3x3 matrix
- * @constructor
- * @param {Number} data1 Matrix data entry
- * @param {Number} data2 Matrix data entry
- * @param {Number} data3 Matrix data entry
- * @param {Number} data4 Matrix data entry
- * @param {Number} data5 Matrix data entry
- * @param {Number} data6 Matrix data entry
- * @param {Number} data7 Matrix data entry
- * @param {Number} data8 Matrix data entry
- * @param {Number} data9 Matrix data entry
- * @since 0.0.0.3
- */
-Matrix3 = function (data1, data2, data3, data4, data5, data6, data7, data8, data9) {
+math.m3 = {
 
   /**
-   * Matrix entries
-   * @field
-   * @type Number []
-   * @default [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-   * @since 0.0.0.3
-   */
-  this.e = [
-    data1 || 0.0, data2 || 0.0, data3 || 0.0,
-    data4 || 0.0, data5 || 0.0, data6 || 0.0,
-    data7 || 0.0, data8 || 0.0, data9 || 0.0
-  ];
-
-  /**
-   * Matrix determinant
-   * @field
-   * @type Number
-   * @default 0.0
-   * @since 0.0.0.3
-   */
-  this.det = 0.0;
-
-  /**
-   * Matrix inverse
-   * @field
-   * @type Matrix3
-   * @default undefined
-   * @since 0.0.0.3
-   */
-  this.inverse = undefined;
-
-  /**
-   * Calculates this determinant {@link Matrix3#det} from matrix entries {@link Matrix3#e}
+   * Creates a new 3x3 matrix
    * @function
-   * @private
-   * @returns {void}
-   * @since 0.0.0.3
+   * @param {Array} src Optional to copy values from
+   * @returns {Array} New matrix
+   * @since 0.0.0.4
    */
-  this.recaclulateDeterminant = function () {
-    this.det = this.e[0] * this.e[4] * this.e[8]
-      + this.e[1] * this.e[5] * this.e[6]
-      + this.e[2] * this.e[3] * this.e[7]
-      - this.e[0] * this.e[5] * this.e[7]
-      - this.e[1] * this.e[3] * this.e[8]
-      - this.e[2] * this.e[4] * this.e[6];
-  }
-  this.recaclulateDeterminant();
+  create : function(src) {
+    if (src) {
+      return [src[0], src[1], src[2],
+        src[3], src[4], src[5],
+        src[6], src[7], src[8]];
+    } else {
+      return [0, 0, 0,
+        0, 0, 0,
+        0, 0, 0];
+    } // if
+  },
 
   /**
-   * Calculates this inverse {@link Matrix2#inverse} from matrix entries {@link Matrix2#e}
+   * Creates a new 3x3 identity matrix
    * @function
-   * @private
-   * @returns {void}
-   * @since 0.0.0.3
+   * @returns {Array} New identity matrix
+   * @since 0.0.0.4
    */
-  this.recaclulateInverse = function () {
+  createIdentity : function() {
+    return [1, 0, 0,
+      0, 1, 0,
+      0, 0, 1];
+  },
 
-    if (this.det == 0) {
-      return;
+  /**
+   * Creates a new 3x3 rotation matrix about the z axis
+   * <p>
+   * The 3D rotation matrix looks as follows:
+   * | cos(theta), -sin(theta) 0|
+   * | sin(theta), cos(theta)  0|
+   * |0          , 0           1|
+   * </p>
+   * @function
+   * @param {Number} theta The angle of this rotation matrix
+   * @returns {Array} New rotation matrix
+   * @since 0.0.0.4
+   * @see http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/index.htm
+   */
+  createRotationZ : function(theta) {
+    return [Math.cos(theta), -Math.sin(theta), 0,
+      Math.sin(theta), Math.cos(theta), 0,
+      0, 0, 1];
+  },
+
+  /**
+   * Creates a new 3x3 transformation matrix
+   * <p>
+   * The 2D transformation matrix looks as follows:
+   * | cos(theta), -sin(theta) x|
+   * | sin(theta), cos(theta)  y|
+   * |0          , 0           1|
+   * </p>
+   * @function
+   * @param {Number} theta The angle of this rotation matrix
+   * @param {Number} x The x position
+   * @param {Number} y The y position
+   * @returns {Array} New transformation matrix
+   * @since 0.0.0.4
+   */
+  createTransform2 : function(theta, x, y) {
+    return [Math.cos(theta), -Math.sin(theta), x,
+      Math.sin(theta), Math.cos(theta), y,
+      0, 0, 1];
+  },
+
+  /**
+   * Calculates the determinant
+   * @function
+   * @param {Array} m The matrix to get the determinant for
+   * @returns {Number} The determinant of the supplied matrix
+   * @since 0.0.0.4
+   */
+  getDeterminant : function(m) {
+    return m[0] * m[4] * m[8] -
+      m[0] * m[5] * m[7] -
+      m[1] * m[3] * m[8] +
+      m[2] * m[3] * m[7] +
+      m[1] * m[6] * m[5] -
+      m[2] * m[6] * m[4];
+  },
+
+  /**
+   * Determines if the supplied matrix is invertable
+   * @function
+   * @param {Array} m The matrix to use
+   * @returns {Boolean} True if the matrix is invertable
+   * @since 0.0.0.4
+   */
+  isInvertable : function(m) {
+    var determinant = math.m3.getDeterminant(m);
+    return determinant != 0;
+  },
+
+  /**
+   * Determines if the supplied matrix is singular
+   * @function
+   * @param {Array} m The matrix to use
+   * @returns {Boolean} True if the matrix is singular
+   * @since 0.0.0.4
+   */
+  isSingular : function(m) {
+    var determinant = math.m3.getDeterminant(m);
+    return determinant == 0;
+  },
+
+  /**
+   * Calculates the inverse of the supplied matrix
+   * @function
+   * @param {Array} m The matrix to get the determinant for
+   * @returns {Array} The inverse of the matrix, or undefined if inverse does not exist
+   * @since 0.0.0.4
+   */
+  getInverse : function(m) {
+    var det = math.m3.getDeterminant(m);
+    if (det == 0) {
+      return undefined;
     } // if
 
-    var inverseDet = 1 / this.det;
-    var i = new Matrix3(
-      inverseDet * (this.e[4] * this.e[8] - this.e[7] * this.e[5]),
-      inverseDet * (this.e[6] * this.e[5] - this.e[3] * this.e[8]),
-      inverseDet * (this.e[3] * this.e[7] - this.e[6] * this.e[4]),
-      inverseDet * (this.e[7] * this.e[2] - this.e[1] * this.e[8]),
-      inverseDet * (this.e[0] * this.e[8] - this.e[6] * this.e[2]),
-      inverseDet * (this.e[6] * this.e[1] - this.e[0] * this.e[7]),
-      inverseDet * (this.e[1] * this.e[5] - this.e[4] * this.e[2]),
-      inverseDet * (this.e[3] * this.e[2] - this.e[0] * this.e[5]),
-      inverseDet * (this.e[0] * this.e[4] - this.e[3] * this.e[1])
-    );
-    i.inverse = this.clone();
-    this.inverse = i;
-  }
+    var detI = 1 / det;
+    return [
+      (m[4] * m[8] * -m[5] * m[7]) * detI, // 0
+      (m[1] * m[8] * -m[2] * m[7]) * detI, // 1
+      (m[1] * m[5] * -m[2] * m[4]) * detI, // 2
+      (m[3] * m[8] * -m[5] * m[6]) * detI,  // 3
+      (m[0] * m[8] * -m[2] * m[6]) * detI,  // 4
+      (m[0] * m[5] * m[2] * m[3]) * detI,  // 5
+      (m[3] * m[7] * -m[4] * m[6]) * detI,  // 6
+      (m[0] * m[7] * -m[1] * m[6]) * detI,  // 7
+      (m[0] * m[4] * -m[1] * m[3]) * detI  // 8
+    ];
+  },
 
   /**
-   * Multiply this matrix by the supplied 3D vector
+   * Multiply the matrix by the supplied vector 3x1
    * @function
-   * @param {Vector3} v The vector to multiply
-   * @returns {Vector3} The resulting vector
-   * @since 0.0.0.3
+   * @param {Array} m The matrix to use
+   * @param {Array} v The 3x1 vector to multiply
+   * @returns {Array} The resulting 3x1 vector
+   * @since 0.0.0.4
    */
-  this.multVector = function (v) {
-    return new Vector3(
-      v.x * this.e[0] + v.y * this.e[1] + v.z * this.e[2],
-      v.x * this.e[3] + v.y * this.e[4] + v.z * this.e[5],
-      v.x * this.e[6] + v.y * this.e[7] + v.z * this.e[8]
-    );
-  }
+  multVector : function(m, v) {
+    return [
+      v[0] * m[0] + v[1] * m[1] + v[2] * m[2],
+      v[0] * m[3] + v[1] * m[4] + v[2] * m[5],
+      v[0] * m[6] + v[1] * m[7] + v[2] * m[8]
+    ];
+  },
 
   /**
-   * Multiply this matrix by the supplied 3D vector
+   * Multiply the matrix by the supplied vector 2x1
+   * This is useful for 2D transformations
+   * |a b c||x| |ax + by + c|
+   * |d e f||y|=|dx + ey + f|
+   * |0 0 1||1| |1|
    * @function
-   * @param {Vector3} v The vector to multiply
+   * @param {Array} m The matrix to use
+   * @param {Array} v The 2x1 vector to multiply
+   * @returns {Array} The resulting 2x1 vector
+   * @since 0.0.0.4
+   */
+  multVector2 : function(m, v) {
+    return [
+      v[0] * m[0] + v[1] * m[1] + m[2],
+      v[0] * m[3] + v[1] * m[4] + m[5]
+    ];
+  },
+
+  /**
+   * Multiply the matrix by the supplied 3x1 vector and mutate the vector
+   * @function
+   * @param {Array} m The matrix to use
+   * @param {Array} v The 3x1 vector to multiply
    * @returns {void}
-   * @since 0.0.0.3
+   * @since 0.0.0.4
    */
-  this.multVectorMutate = function (v) {
-    v.x = v.x * this.e[0] + v.y * this.e[1] + v.z * this.e[2];
-    v.y = v.x * this.e[3] + v.y * this.e[4] + v.z * this.e[5];
-    v.z = v.x * this.e[6] + v.y * this.e[7] + v.z * this.e[8];
-  }
+  multVectorMutate : function(m, v) {
+    v[0] = v[0] * m[0] + v[1] * m[1] + v[2] * m[2];
+    v[1] = v[0] * m[3] + v[1] * m[4] + v[2] * m[5];
+    v[2] = v[0] * m[6] + v[1] * m[7] + v[2] * m[8];
+  },
 
   /**
-   * Multiply this matrix by the supplied 3x3 matrix
+   * Multiply the matrix by the supplied 2x1 vector and mutate the vector
    * @function
-   * @param {Matrix3} o The matrix to multiply
-   * @returns {Matrix3} The resulting matrix
-   * @since 0.0.0.3
-   */
-  this.mult = function (o) {
-    return new Matrix3(
-      this.e[0] * o.e[0] + this.e[1] * o.e[3] + this.e[2] * o.e[6],
-      this.e[0] * o.e[1] + this.e[1] * o.e[4] + this.e[2] * o.e[7],
-      this.e[0] * o.e[2] + this.e[1] * o.e[5] + this.e[2] * o.e[8],
-      this.e[3] * o.e[0] + this.e[4] * o.e[3] + this.e[5] * o.e[6],
-      this.e[3] * o.e[1] + this.e[4] * o.e[4] + this.e[5] * o.e[7],
-      this.e[3] * o.e[2] + this.e[4] * o.e[5] + this.e[5] * o.e[8],
-      this.e[6] * o.e[0] + this.e[7] * o.e[3] + this.e[8] * o.e[6],
-      this.e[6] * o.e[1] + this.e[7] * o.e[4] + this.e[8] * o.e[7],
-      this.e[6] * o.e[2] + this.e[7] * o.e[5] + this.e[8] * o.e[8]
-    );
-  }
-
-  /**
-   * Adds this matrix by the supplied 2x2 matrix
-   * @function
-   * @param {Matrix3} o The matrix to add
-   * @returns {Matrix3} The resulting matrix
-   * @since 0.0.0.3
-   */
-  this.add = function (o) {
-    return new Matrix2(
-      this.e[0] + o.e[0],
-      this.e[1] + o.e[1],
-      this.e[2] + o.e[2],
-      this.e[3] + o.e[3],
-      this.e[4] + o.e[4],
-      this.e[5] + o.e[5],
-      this.e[6] + o.e[6],
-      this.e[7] + o.e[7],
-      this.e[8] + o.e[8]
-    );
-  }
-
-  /**
-   * Adds this matrix by the supplied 2x2 matrix
-   * @function
-   * @param {Matrix3} o The matrix to add
+   * @param {Array} m The matrix to use
+   * @param {Array} v The 2x1 vector to multiply
    * @returns {void}
-   * @since 0.0.0.3
+   * @since 0.0.0.4
    */
-  this.addMutate = function (o) {
-    this.e[0] += o.e[0];
-    this.e[1] += o.e[1];
-    this.e[2] += o.e[2];
-    this.e[3] += o.e[3];
-    this.e[4] += o.e[4];
-    this.e[5] += o.e[5];
-    this.e[6] += o.e[6];
-    this.e[7] += o.e[7];
-    this.e[8] += o.e[8];
-  }
+  multVector2Mutate : function(m, v) {
+    v[0] = v[0] * m[0] + v[1] * m[1] + m[2];
+    v[1] = v[0] * m[3] + v[1] * m[4] + m[5];
+  },
+
+  /**
+   * Multiply two matrices together
+   * @function
+   * @param {Array} m1 The first operand
+   * @param {Array} m2 The second operand
+   * @returns {Array} The resulting matrix
+   * @since 0.0.0.4
+   */
+  mult : function(m1, m2) {
+    return [
+      m1[0] * m2[0] + m1[1] * m2[3] + m1[2] * m2[6],
+      m1[0] * m2[1] + m1[1] * m2[4] + m1[2] * m2[7],
+      m1[0] * m2[2] + m1[1] * m2[5] + m1[2] * m2[8],
+      m1[3] * m2[0] + m1[4] * m2[3] + m1[5] * m2[6],
+      m1[3] * m2[1] + m1[4] * m2[4] + m1[5] * m2[7],
+      m1[3] * m2[2] + m1[4] * m2[5] + m1[5] * m2[8],
+      m1[6] * m2[0] + m1[7] * m2[3] + m1[8] * m2[6],
+      m1[6] * m2[1] + m1[7] * m2[4] + m1[8] * m2[7],
+      m1[6] * m2[2] + m1[7] * m2[5] + m1[8] * m2[8]
+    ];
+  },
+
+  /**
+   * Adds two matrices together
+   * @function
+   * @param {Array} m1 The first operand
+   * @param {Array} m2 The second operand
+   * @returns {Array} The resulting matrix
+   * @since 0.0.0.4
+   */
+  add : function(m1, m2) {
+    return [
+      m1[0] + m2[0],
+      m1[1] + m2[1],
+      m1[2] + m2[2],
+      m1[3] + m2[3],
+      m1[4] + m2[4],
+      m1[5] + m2[5],
+      m1[6] + m2[6],
+      m1[7] + m2[7],
+      m1[8] + m2[8]
+    ];
+  },
+
+  /**
+   * Adds two matrices together and mutates the first
+   * @function
+   * @param {Array} m1 The first operand
+   * @param {Array} m2 The second operand
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  addMutate : function(m1, m2) {
+    m1[0] += m2[0];
+    m1[1] += m2[1];
+    m1[2] += m2[2];
+    m1[3] += m2[3];
+    m1[4] += m2[4];
+    m1[5] += m2[5];
+    m1[6] += m2[6];
+    m1[7] += m2[7];
+    m1[8] += m2[8];
+  },
 
   /**
    * Gets the entry at row i and column j
    * @function
+   * @param {Array} m The matrix to get the entry from
    * @param {int} i The row number, 0 being row 1
    * @param {int} j The column number, 0 being column 1
    * @returns {Number} The entry at row i and column j
-   * @since 0.0.0.3
+   * @since 0.0.0.4
    */
-  this.getEntry = function (i, j) {
-    return this.e[i * 2 + j];
-  }
+  getEntry : function(m, i, j) {
+    return m[i * 3 + j];
+  },
 
   /**
-   * Gets the determinant of this matrix
+   * Determines if the two matrices are equal
    * @function
-   * @returns {Number} The determinant of this matrix
-   * @since 0.0.0.3
+   * @param {Array} m1 The first operand
+   * @param {Array} m2 The second operand
+   * @returns {Boolean} True if every entry in m1 is equal to the corresponding entry in m2
+   * @since 0.0.0.4
    */
-  this.getDeterminant = function () {
-    return this.det;
+  equals : function(m1, m2) {
+    return m1[0] == m2[0]
+      && m1[1] == m2[1]
+      && m1[2] == m2[2]
+      && m1[3] == m2[3]
+      && m1[4] == m2[4]
+      && m1[5] == m2[5]
+      && m1[6] == m2[6]
+      && m1[7] == m2[7]
+      && m1[8] == m2[8];
   }
-
-  /**
-   * Determines if this matrix is singular (non-invertable, has a zero determinant)
-   * @function
-   * @returns {boolean} The singular flag of this matrix
-   * @since 0.0.0
-   * @see Matrix3#isInvertable
-   */
-  this.isSingular = function () {
-    return this.det == 0;
-  }
-
-  /**
-   * Determines if this matrix is invertable (non-singular, has a non-zero determinant)
-   * @function
-   * @returns {boolean} The invertable flag of this matrix
-   * @since 0.0.0.3
-   * @see Matrix3#isSingular
-   */
-  this.isInvertable = function () {
-    return this.det != 0;
-  }
-
-  /**
-   * Gets the inverse of this matrix
-   * @function
-   * @returns {Matrix} The inverse of this matrix, undefined if singular
-   * @since 0.0.0.3
-   * @see Matrix3#isSingular
-   */
-  this.getInverse = function () {
-    if (!this.inverse && this.isInvertable()) {
-      this.recaclulateInverse();
-    } // if
-
-    return this.inverse;
-  }
-
-  /**
-   * Determines if this matrix is equal to another matrix
-   * For matrices this is true if every element in this
-   * matrix has a corresponding and equal entry in the other
-   * matrix
-   * @function
-   * @param {Matrix3} o The matrix to compare
-   * @returns {boolean} true if this matrix is equal to the supplied matrix
-   * @since 0.0.0.3
-   */
-  this.equals = function (o) {
-    if (this === o) {
-      return true;
-    } // if
-
-    if (this.e.length != o.e.length) {
-      return false;
-    } // if
-
-    for (i in this.e) {
-      if (this.e[i] != o.e[i]) {
-        return false;
-      } // if
-    } // for
-
-    return true;
-  }
-
-  /**
-   * Clones this matrix
-   * @function
-   * @return {Matrix3} The cloned version of this matrix
-   * @since 0.0.0.3
-   */
-  this.clone = function () {
-    return new Matrix3(this.e[0], this.e[1], this.e[2],
-      this.e[3], this.e[4], this.e[5],
-      this.e[6], this.e[7], this.e[8]);
-  }
-}
-
-/**
- * @class 2-Dimensional transformation matrix
- * <p>
- * The 2D rotation matrix looks as follows:
- * | cos(theta), -sin(theta), x|
- * | sin(theta), cos(theta), y |
- * | 0         , 0         , 1 |
- * </p>
- * @constructor
- * @param {Number} theta The angle of this rotation matrix
- * @param {Number} x The translation in the X-direction
- * @param {Number} y The translation in the Y-direction
- * @since 0.0.0.3
- */
-TransformationMatrix3 = function (theta, x, y) {
-
-  /*
-   * Super constructor
-   */
-  Matrix3.call(this, Math.cos(theta), -Math.sin(theta), x,
-    Math.sin(theta), Math.cos(theta), y,
-    0, 0, 1);
-}
-TransformationMatrix3.prototype = new Matrix3();
+};

@@ -472,7 +472,7 @@ function Engine() {
       if (this.debug) {
         console.debug("Found 2d context");
       } // if
-      this.windowRect = new Rectangle(0, 0, this.canvas.width, this.canvas.height);
+      this.windowRect = new Rectangle(math.v2.create(), this.canvas.width, this.canvas.height);
 
       /**
        * @eventHandler

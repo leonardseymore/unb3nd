@@ -585,7 +585,7 @@ function GravityForceGenerator(gravitation) {
   /**
    * The gravitational pull
    * @field
-   * @type Vector2
+   * @type Array
    * @default Vector with {@link constants.DEFAULT_GRAVITATIONAL_CONSTANT} as Y-axis
    * @since 0.0.0
    */
@@ -822,7 +822,7 @@ function AeroForceGenerator(tensor, position, windspeed) {
    * @default 0.0
    * @since 0.0.0.3
    */
-  this.windspeed = windspeed || new Vector2(0, 0);
+  this.windspeed = windspeed || math.v2.create();
 
   /**
    * Converts the class to a string representation
@@ -1471,7 +1471,7 @@ function BoundingBox(center, halfSize) {
   /**
    * Half size used for collision detection
    * @field
-   * @type Vector2
+   * @type Array
    * @default undefined
    * @since 0.0.0
    */
@@ -1926,7 +1926,7 @@ function Grid2(xExtent, yExtent, origin) {
   /**
    * Origin of the grid
    * @field
-   * @type Vector2
+   * @type Array
    * @default undefined
    * @since 0.0.0.4
    */
@@ -2277,7 +2277,7 @@ function World() {
   /**
    * Adds a global gravity force
    * @function
-   * @param {Vector2} gravitation Optional gravitational pull
+   * @param {Array} gravitation Optional gravitational pull
    * @returns {void}
    * @since 0.0.0
    */
