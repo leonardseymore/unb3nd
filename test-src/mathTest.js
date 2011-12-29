@@ -2,37 +2,33 @@
 
 module("Math");
 
-test("Test Rectangle", function () {
+test("Test 2-Dimensional Rectangle", function () {
   var r1 = new Rectangle();
-  equal(r1.x, 0, "Default x is zero");
-  equal(r1.y, 0, "Default y is zero");
+  equal(r1.pos[0], 0, "Default x is zero");
+  equal(r1.pos[1], 0, "Default y is zero");
   equal(r1.width, 0, "Default width is zero");
   equal(r1.height, 0, "Default height is zero");
 
-  var r2 = new Rectangle(1, 2, 3, 4);
-  equal(r2.x, 1, "x is initialized correctly");
-  equal(r2.y, 2, "y is initialized correctly");
+  var r2 = new Rectangle([1, 2], 3, 4);
+  equal(r2.pos[0], 1, "x is initialized correctly");
+  equal(r2.pos[1], 2, "y is initialized correctly");
   equal(r2.width, 3, "width is initialized correctly");
   equal(r2.height, 4, "height is initialized correctly");
 
-  var pointInside = new Vector2();
-  pointInside.x = 1;
-  pointInside.y = 3;
+  var pointInside = math.v2.create([1, 3]);
 
   ok(r2.isPointInside(pointInside), "Point " + pointInside.toString() + " is inside rectangle " + r2.toString());
   ok(!r2.isPointInsideStrict(pointInside), "Point " + pointInside.toString() + " is not strictly inside rectangle " + r2.toString());
 
-  var pointOutside = new Vector2();
-  pointOutside.x = 0.5;
-  pointOutside.y = 3;
+  var pointOutside = math.v2.create([0.5, 3]);
 
   ok(!r2.isPointInside(pointOutside), "Point " + pointOutside.toString() + " is outside rectangle " + r2.toString());
 
   var shrinkAmount = 0.1;
   var r3 = r2.shrink(shrinkAmount);
   ok(r3 !== r2, "Shrink returns new object reference");
-  equal(r3.x, r2.x + shrinkAmount, "Shrink in x correct");
-  equal(r3.y, r2.y + shrinkAmount, "Shrink in y correct");
+  equal(r3.pos[0], r2.pos[0] + shrinkAmount, "Shrink in x correct");
+  equal(r3.pos[1], r2.pos[1] + shrinkAmount, "Shrink in y correct");
   equal(r3.width, r2.width - shrinkAmount * 2, "Shrink in width correct");
   equal(r3.height, r2.height - shrinkAmount * 2, "Shrink in height correct");
 
@@ -41,74 +37,74 @@ test("Test Rectangle", function () {
   deepEqual(r2, r4, "Cloned object is deeply equal to original object");
 });
 
-test("Test Vector2", function () {
-  var v1 = new Vector2();
-  equal(v1.x, 0, "Initial x is zero");
-  equal(v1.y, 0, "Initial y is zero");
+test("Test 2-Dimensional Vector Operations", function () {
+  var v1 = math.v2.create();
+  equal(v1[0], 0, "Initial x is zero");
+  equal(v1[1], 0, "Initial y is zero");
 
-  var v2 = new Vector2(1, 2);
-  equal(v2.x, 1, "Initialized x correctly");
-  equal(v2.y, 2, "Initialized y correctly");
+  var v2 = math.v2.create([1, 2]);
+  equal(v2[0], 1, "Initialized x correctly");
+  equal(v2[1], 2, "Initialized y correctly");
 
-  equal(Vector2.getAngle(new Vector2(1, 0), new Vector2(0, 1)), Math.PI / 2, "Angle determined correctly");
-  deepEqual(v2, v2.clone(), "Clone returns deeply equal copy");
+  equal(math.v2.getAngle(math.v2.create([1, 0]), math.v2.create([0, 1])), Math.PI / 2, "Angle determined correctly");
+  deepEqual(v2, math.v2.create(v2), "Clone returns deeply equal copy");
 
-  var v3 = new Vector2(4, 5);
-  var v4 = v3.add(v2);
+  var v3 = math.v2.create([4, 5]);
+  var v4 = math.v2.add(v3, v2);
   ok(v4 !== v3, "Add returns new object reference");
-  equal(v4.x, v3.x + v2.x, "Add on x correct");
-  equal(v4.y, v3.y + v2.y, "Add on y correct");
+  equal(v4[0], v3[0] + v2[0], "Add on x correct");
+  equal(v4[1], v3[1] + v2[1], "Add on y correct");
 
-  var v5 = v3.clone();
-  v5.addMutate(v2);
+  var v5 = math.v2.create(v3);
+  math.v2.addMutate(v5, v2);
   deepEqual(v5, v4, "Add mutate deeply equal");
 
-  var v6 = v3.sub(v2);
+  var v6 = math.v2.sub(v3, v2);
   ok(v6 !== v3, "Sub returns new object reference");
-  equal(v6.x, v3.x - v2.x, "Sub on x correct");
-  equal(v6.y, v3.y - v2.y, "Sub on y correct");
+  equal(v6[0], v3[0] - v2[0], "Sub on x correct");
+  equal(v6[1], v3[1] - v2[1], "Sub on y correct");
 
-  var v7 = v3.clone();
-  v7.subMutate(v2);
+  var v7 = math.v2.create(v3);
+  math.v2.subMutate(v7, v2);
   deepEqual(v7, v6, "Sub mutate deeply equal");
 
-  var v8 = v7.inverse();
+  var v8 = math.v2.inverse(v7);
   ok(v8 !== v7, "Inverse returns new object reference");
-  equal(v8.x, -v7.x, "Inverse on x correct");
-  equal(v8.y, -v7.y, "Inverse on y correct");
+  equal(v8[0], -v7[0], "Inverse on x correct");
+  equal(v8[1], -v7[1], "Inverse on y correct");
 
   var scalar = 5;
-  var v9 = v3.multScalar(scalar);
+  var v9 = math.v2.multScalar(v3, scalar);
   ok(v9 !== v3, "Mult scalar returns new object reference");
-  equal(v9.x, v3.x * scalar, "Mult scalar on x correct");
-  equal(v9.y, v3.y * scalar, "Mult scalar on y correct");
+  equal(v9[0], v3[0] * scalar, "Mult scalar on x correct");
+  equal(v9[1], v3[1] * scalar, "Mult scalar on y correct");
 
-  var v10 = v3.clone();
-  v10.multScalarMutate(scalar);
+  var v10 = math.v2.create(v3);
+  math.v2.multScalarMutate(v10, scalar);
   deepEqual(v10, v9, "Mult scalar mutate deeply equal");
 
-  var dp = v3.dotProduct(v2);
-  equal(dp, v3.x * v2.x + v3.y * v2.y, "Dot product correct");
+  var dp = math.v2.dotProduct(v3, v2);
+  equal(dp, v3[0] * v2[0] + v3[1] * v2[1], "Dot product correct");
 
-  var sm = v3.getMagnitudeSquare();
-  equal(sm, v3.x * v3.x + v3.y * v3.y, "Magnitude square correct");
-  equal(Math.sqrt(sm), v3.getMagnitude(), "Magnitude correct");
+  var sm = math.v2.getMagnitudeSquare(v3);
+  equal(sm, v3[0] * v3[0] + v3[1] * v3[1], "Magnitude square correct");
+  equal(Math.sqrt(sm), math.v2.getMagnitude(v3), "Magnitude correct");
 
-  var nv3 = v3.normalize();
+  var nv3 = math.v2.normalize(v3);
   ok(nv3 !== v3, "Normalize returns new object reference");
-  equal(nv3.getMagnitude(), 1, "Normalized length is one");
+  equal(math.v2.getMagnitude(nv3), 1, "Normalized length is one");
 
-  var nv4 = v3.clone();
-  nv4.normalizeMutate();
+  var nv4 = math.v2.create(v3);
+  math.v2.normalizeMutate(nv4);
   deepEqual(nv4, nv3, "Normalize mutate is deeply equal");
 
-  var v11 = v3.clone();
-  v11.zeroMutate();
-  equal(v11.x, 0, "Zero mutate on x correct");
-  equal(v11.y, 0, "Zero mutate on y correct");
+  var v11 = math.v2.create(v3);
+  math.v2.zeroMutate(v11);
+  equal(v11[0], 0, "Zero mutate on x correct");
+  equal(v11[1], 0, "Zero mutate on y correct");
 });
 
-test("Test Matrix2", function () {
+test("Test 2-Dimensional Matrix Operations", function () {
   // test equal
   ok(new Matrix2(5, 6, 7, 8).equals(new Matrix2(5, 6, 7, 8)), "equal implementation positive check");
   ok(!new Matrix2(5, 6, 7, 8).equals(new Matrix2(5, 6, 7, 9)), "equal implementation negative check");

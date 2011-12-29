@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>unb3nd - Backgrounds</title>
-  <link rel="stylesheet" href="../css/unb3nd.css" type="text/css" media="screen"/>
+  <title>unb3nd benchmark</title>
+  <link rel="stylesheet" href="../css/unb3nd.css" type="text/css" media="screen" />
   <script type="text/javascript" src="../src/util.js"></script>
   <script type="text/javascript" src="../src/collections.js"></script>
   <script type="text/javascript" src="../src/math.js"></script>
@@ -14,18 +14,14 @@
   <script type="text/javascript" src="../src/render.js"></script>
   <script type="text/javascript" src="../src/mouse.js"></script>
   <script type="text/javascript" src="../src/background.js"></script>
-  <script type="text/javascript" src="background.js"></script>
+  <script type="text/javascript" src="benchmark.js"></script>
+  <style type="text/css">
+    table {
+      float: left;
+    }
+  </style>
 </head>
 <body>
-<center>
-  <canvas id="canvas" width="400" height="240"></canvas>
-  <hr/>
-  <select id="selBackground" onchange="EngineInstance.engineStop();">
-    <option value="fill" selected>Fill Background</option>
-    <option value="starry">Starry Background</option>
-  </select>
-  <input id="btnStart" type="button" value="Start" onclick="EngineInstance.engineStart();"/>
-  <input id="btnStop" type="button" value="Stop" onclick="EngineInstance.engineStop();"/>
-</center>
+
 </body>
 </html>

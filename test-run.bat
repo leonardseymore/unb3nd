@@ -1,0 +1,1 @@
+java -jar tools\JsTestDriver-1.3.3d.jar --tests all
