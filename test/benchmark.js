@@ -34,7 +34,7 @@ function ObservableValue(defaultValue) {
    * @returns {void}
    * @since 0.0.0.4
    */
-  this.setValue = function(value) {
+  this.setValue = function (value) {
     if (this.value != value) {
       this.value = value;
       this.dispatchEvent("change");
@@ -46,9 +46,12 @@ ObservableValue.prototype = new Observable();
 /**
  * @class A single benchmark descriptor
  * @constructor
+ * @param {String} name Name of the benchmark
+ * @param {Function} func The function to execute
+ * @param {Array} args The arguments to use
  * @since 0.0.0.4
  */
-function Benchmark(operation, detail, exec) {
+function Benchmark(name, func, args) {
 
   /**
    * Descriptive name of the benchmark
@@ -57,16 +60,7 @@ function Benchmark(operation, detail, exec) {
    * @default undefined
    * @since 0.0.0.4
    */
-  this.operation = operation;
-
-  /**
-   * Details of the benchmark
-   * @field
-   * @type String
-   * @default undefined
-   * @since 0.0.0.4
-   */
-  this.detail = detail;
+  this.name = name;
 
   /**
    * Bindable last result
@@ -84,701 +78,115 @@ function Benchmark(operation, detail, exec) {
    * @default undefined
    * @since 0.0.0.4
    */
-  this.exec = exec;
+  this.func = func;
+
+  /**
+   * Arguments to pass into the function
+   * @field
+   * @type Array
+   * @default undefined
+   * @since 0.0.0.4
+   */
+  this.args = args;
 
   /**
    * Kicks off the process and sets the lastResult field
    * @function
-   * @returns {void}
+   * @returns {Number} Operations per interval
    * @since 0.0.0.4
    */
-  this.runExec = function() {
-    var execTime = this.exec();
-    this.lastResult.setValue(execTime);
+  this.runExec = function () {
+    var startTime = getTime();
+    var timeElapsed = 0;
+    var ops = 0;
+    while (timeElapsed < 10) {
+      this.func.apply(undefined, this.args);
+      ops += 1;
+      timeElapsed = getTime() - startTime;
+    } // while
+    this.lastResult.setValue(ops);
+    return ops;
   }
 }
 
 /**
- * Maths vector2 operations benchmarks
+ * @class A group of related benchmarks
+ * @constructor
+ * @param {String} name Name of the benchmark group
+ * @param {Array} benchmarks The benchmarks belonging to this group
+ * @since 0.0.0.4
  */
-var fastV2Benchmark = [
-  new Benchmark("Create", "1m Creations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      while (i--) {
-        math.v2.create();
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Create Template", "1m Templated Creations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var template = [0, 0];
-      while (i--) {
-        math.v2.create(template);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Add", "1m Additions", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      var v2 = math.v2.create();
-      while (i--) {
-        math.v2.add(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Add Mutate", "1m Mutation Additions", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      var v2 = math.v2.create();
-      while (i--) {
-        math.v2.addMutate(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Sub", "1m Subtractions", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      var v2 = math.v2.create();
-      while (i--) {
-        math.v2.sub(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Sub Mutate", "1m Subtraction Mutations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      var v2 = math.v2.create();
-      while (i--) {
-        math.v2.subMutate(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Invert", "1m Inversions", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      while (i--) {
-        math.v2.inverse(v1);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Invert Mutate", "1m Inversion Mutations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      while (i--) {
-        math.v2.inverseMutate(v1);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Scalar Multiply", "1m Scalar Multiplications", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      var s = 0;
-      while (i--) {
-        math.v2.multScalar(v1, s);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Scalar Multiply Mutate", "1m Scalar Multiplication Mutations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      var s = 0;
-      while (i--) {
-        math.v2.multScalarMutate(v1, s);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Dot Product", "1m Dot Products", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      var v2 = math.v2.create();
-      while (i--) {
-        math.v2.dotProduct(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Vector Product", "1m Vector Products", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      var v2 = math.v2.create();
-      while (i--) {
-        math.v2.vectorProduct(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Get Magnitude", "1m Get Magnitudes", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      while (i--) {
-        math.v2.getMagnitude(v1);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Get Magnitude Squared", "1m Get Magnitudes Squared", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      while (i--) {
-        math.v2.getMagnitudeSquare(v1);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Normalize", "1m Normalizations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      while (i--) {
-        math.v2.normalize(v1);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Normalize Mutate", "1m Mutation Normalizations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      while (i--) {
-        math.v2.normalizeMutate(v1);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Zero Mutate", "1m Zero Mutations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      while (i--) {
-        math.v2.zeroMutate(v1);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Get Angle", "1m Get Angles", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      var v2 = math.v2.create();
-      while (i--) {
-        math.v2.getAngle(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Get Distance", "1m Get Distances", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      var v2 = math.v2.create();
-      while (i--) {
-        math.v2.getDistance(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Get Distance Squared", "1m Get Distances Squared", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      var v2 = math.v2.create();
-      while (i--) {
-        math.v2.getDistanceSquare(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Is Within", "1m Is Withins", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      var v2 = math.v2.create();
-      var distance = 0;
-      while (i--) {
-        math.v2.isWithin(v1, v2, distance);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Is Strictly Within", "1m Is Strictly Withins", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v2.create();
-      var v2 = math.v2.create();
-      var distance = 0;
-      while (i--) {
-        math.v2.isWithinStrict(v1, v2, distance);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  )
-];
+function BenchmarkGroup(name, benchmarks) {
 
-/**
- * Maths vector3 operations benchmarks
- */
-var fastV3Benchmark = [
-  new Benchmark("Create", "1m Creations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      while (i--) {
-        math.v3.create();
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Create Template", "1m Templated Creations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var template = [0, 0, 0];
-      while (i--) {
-        math.v3.create(template);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Add", "1m Additions", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      var v2 = math.v3.create();
-      while (i--) {
-        math.v3.add(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Add Mutate", "1m Mutation Additions", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      var v2 = math.v3.create();
-      while (i--) {
-        math.v3.addMutate(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Sub", "1m Subtractions", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      var v2 = math.v3.create();
-      while (i--) {
-        math.v3.sub(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Sub Mutate", "1m Subtraction Mutations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      var v2 = math.v3.create();
-      while (i--) {
-        math.v3.subMutate(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Invert", "1m Inversions", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      while (i--) {
-        math.v3.inverse(v1);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Invert Mutate", "1m Inversion Mutations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      while (i--) {
-        math.v3.inverseMutate(v1);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Scalar Multiply", "1m Scalar Multiplications", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      var s = 0;
-      while (i--) {
-        math.v3.multScalar(v1, s);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Scalar Multiply Mutate", "1m Scalar Multiplication Mutations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      var s = 0;
-      while (i--) {
-        math.v3.multScalarMutate(v1, s);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Dot Product", "1m Dot Products", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      var v2 = math.v3.create();
-      while (i--) {
-        math.v3.dotProduct(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Vector Product", "1m Vector Products", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      var v2 = math.v3.create();
-      while (i--) {
-        math.v3.vectorProduct(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Get Magnitude", "1m Get Magnitudes", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      while (i--) {
-        math.v3.getMagnitude(v1);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Get Magnitude Squared", "1m Get Magnitudes Squared", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      while (i--) {
-        math.v3.getMagnitudeSquare(v1);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Normalize", "1m Normalizations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      while (i--) {
-        math.v3.normalize(v1);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Normalize Mutate", "1m Mutation Normalizations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      while (i--) {
-        math.v3.normalizeMutate(v1);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Zero Mutate", "1m Zero Mutations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      while (i--) {
-        math.v3.zeroMutate(v1);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Get Angle", "1m Get Angles", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      var v2 = math.v3.create();
-      while (i--) {
-        math.v3.getAngle(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Get Distance", "1m Get Distances", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      var v2 = math.v3.create();
-      while (i--) {
-        math.v3.getDistance(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Get Distance Squared", "1m Get Distances Squared", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      var v2 = math.v3.create();
-      while (i--) {
-        math.v3.getDistanceSquare(v1, v2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Is Within", "1m Is Withins", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      var v2 = math.v3.create();
-      var distance = 0;
-      while (i--) {
-        math.v3.isWithin(v1, v2, distance);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Is Strictly Within", "1m Is Strictly Withins", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var v1 = math.v3.create();
-      var v2 = math.v3.create();
-      var distance = 0;
-      while (i--) {
-        math.v3.isWithinStrict(v1, v2, distance);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  )
-];
+  /**
+   * Descriptive name of the benchmark
+   * @field
+   * @type String
+   * @default undefined
+   * @since 0.0.0.4
+   */
+  this.name = name;
 
-/**
- * Maths matrix2 operations benchmarks
- */
-var fastM2Benchmark = [
-  new Benchmark("Create", "1m Creations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      while (i--) {
-        math.m2.create();
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Create Template", "1m Templated Creations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var template = [0, 0, 0, 0];
-      while (i--) {
-        math.m2.create(template);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Create Identity", "1m Identity Creations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      while (i--) {
-        math.m2.createIdentity();
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Create Rotation", "1m Rotation Creations", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var theta = 0;
-      while (i--) {
-        math.m2.createRotation(theta);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Get Determinant", "1m Get Determinants", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var m = math.m2.create();
-      while (i--) {
-        math.m2.getDeterminant(m);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Is Invertable", "1m Is Invertables", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var m = math.m2.create();
-      while (i--) {
-        math.m2.isInvertable(m);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Is Singular", "1m Is Singular", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var m = math.m2.create();
-      while (i--) {
-        math.m2.isSingular(m);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Get Inverse (Singular)", "1m Get Inverses", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var m = math.m2.create();
-      if (!math.m2.isSingular(m)) {
-        return "Error: Benchmark requires Singular Matrix";
+  /**
+   * Arguments to pass into the function
+   * @field
+   * @type Array
+   * @default undefined
+   * @since 0.0.0.4
+   */
+  this.benchmarks = benchmarks;
+
+  /**
+   * Bindable last result
+   * @field
+   * @type Object
+   * @default undefined
+   * @since 0.0.0.4
+   */
+  this.min = new ObservableValue(0);
+
+  /**
+   * Bindable last result
+   * @field
+   * @type Object
+   * @default undefined
+   * @since 0.0.0.4
+   */
+  this.max = new ObservableValue(0);
+
+  /**
+   * Runs all benchmarks in this group
+   * @function
+   * @returns {void}
+   * @since 0.0.0.4
+   */
+  this.runBenchmarks = function () {
+    var benchmarks = this.benchmarks;
+    var i = benchmarks.length;
+
+    var max = 0;
+    while (i--) {
+      var benchmark = benchmarks[i];
+      var ops = benchmark.runExec();
+      if (ops > max) {
+        max = ops;
       } // if
-
-      while (i--) {
-        math.m2.getInverse(m);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Get Inverse (Invertable)", "1m Get Inverses", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var m = math.m2.createIdentity();
-      if (!math.m2.isInvertable(m)) {
-        return "Error: Benchmark requires Invertable Matrix";
-      } // if
-
-      while (i--) {
-        math.m2.getInverse(m);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Multiply Vector", "1m Vector Multiplications", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var m = math.m2.create();
-      var v = math.v2.create();
-      while (i--) {
-        math.m2.multVector(m ,v);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Multiply Vector Mutate", "1m Vector Mutation Multiplications", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var m = math.m2.create();
-      var v = math.v2.create();
-      while (i--) {
-        math.m2.multVectorMutate(m ,v);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Multiply Matrix", "1m Matrix Multiplications", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var m1 = math.m2.create();
-      var m2 = math.m2.create();
-      while (i--) {
-        math.m2.mult(m1 ,m2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Add", "1m Additions", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var m1 = math.m2.create();
-      var m2 = math.m2.create();
-      while (i--) {
-        math.m2.add(m1 ,m2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Add Mutate", "1m Mutation Additions", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var m1 = math.m2.create();
-      var m2 = math.m2.create();
-      while (i--) {
-        math.m2.addMutate(m1 ,m2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Get Entry", "1m Get Entries", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var m = math.m2.create();
-      while (i--) {
-        math.m2.getEntry(0, 0);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  ),
-  new Benchmark("Equals", "1m Equals", function() {
-      var startTime = getTime();
-      var i = 1000000;
-      var m1 = math.m2.create();
-      var m2 = math.m2.create();
-      while (i--) {
-        math.m2.equals(m1, m2);
-      } // while
-      return getTime() - startTime + " ms";
-    }
-  )
-];
-
-/**
- * Run a specific set of benchmarks
- * @param {Array} benchmarks The set of benchmarks to run
- */
-function runBenchmarks(benchmarks) {
-  var i = benchmarks.length;
-  while (i--) {
-    var benchmark = benchmarks[i];
-    benchmark.runExec();
-  } // for
+    } // for
+    this.max.setValue(max);
+  }
 }
 
 /**
  * Generate a GUI for the supplied benchmarks
  * @param {Array} benchmarks The set of benchmarks to generate a GUI for
  */
-function generateBenchmarksUI(benchmarks, title) {
+function generateBenchmarksUI(benchmarkGroup, title) {
   // HEADER
   var tblBenchmarks = document.createElement("table");
   document.getElementsByTagName("body")[0].appendChild(tblBenchmarks);
   var caption = document.createElement("caption");
   tblBenchmarks.appendChild(caption);
-  caption.appendChild(document.createTextNode(title));
+  caption.appendChild(document.createTextNode(benchmarkGroup.name));
 
   var thead = document.createElement("thead");
   tblBenchmarks.appendChild(thead);
@@ -787,9 +195,9 @@ function generateBenchmarksUI(benchmarks, title) {
   thead.appendChild(thOperation);
   thOperation.appendChild(document.createTextNode("Operation"));
 
-  var thDetail = document.createElement("th");
-  thead.appendChild(thDetail);
-  thDetail.appendChild(document.createTextNode("Detail"));
+  var thPerf = document.createElement("th");
+  thead.appendChild(thPerf);
+  thPerf.appendChild(document.createTextNode("Performance"));
 
   var thResult = document.createElement("th");
   thead.appendChild(thResult);
@@ -801,16 +209,17 @@ function generateBenchmarksUI(benchmarks, title) {
   var btnRunBenchmarks = document.createElement("button");
   thControls.appendChild(btnRunBenchmarks);
   btnRunBenchmarks.appendChild(document.createTextNode("Run Group"));
-  btnRunBenchmarks.onclick = function() {
-    runBenchmarks(benchmarks);
+  btnRunBenchmarks.onclick = function () {
+    benchmarkGroup.runBenchmarks();
   };
 
   // BODY
   var tbody = document.createElement("tbody");
   tblBenchmarks.appendChild(tbody);
+  var benchmarks = benchmarkGroup.benchmarks;
   var numBenchmarks = benchmarks.length;
   for (var i = 0; i < numBenchmarks; i++) {
-    (function() {
+    (function () {
       var benchmark = benchmarks[i];
       var tr = document.createElement("tr");
       tbody.appendChild(tr);
@@ -818,19 +227,21 @@ function generateBenchmarksUI(benchmarks, title) {
       var tdOperation = document.createElement("td");
       tr.appendChild(tdOperation);
       tdOperation.appendChild(
-        document.createTextNode(benchmark.operation)
+        document.createTextNode(benchmark.name)
       );
 
-      var tdDetail = document.createElement("td");
-      tr.appendChild(tdDetail);
-      tdDetail.appendChild(
-        document.createTextNode(benchmark.detail)
-      );
+      var tdPerf = document.createElement("td");
+      tr.appendChild(tdPerf);
+      var meter = document.createElement("meter");
+      tdPerf.appendChild(meter);
+      //bind("change", meter, "min", benchmarkGroup.min, "value");
+      bind("change", meter, "max", benchmarkGroup.max, "value");
+      bind("change", meter, "value", benchmark.lastResult, "value");
 
-      var tdExec = document.createElement("td");
-      tr.appendChild(tdExec);
+      var tdResult = document.createElement("td");
+      tr.appendChild(tdResult);
       var tdExecData = document.createTextNode();
-      tdExec.appendChild(tdExecData);
+      tdResult.appendChild(tdExecData);
       bind("change", tdExecData, "data", benchmark.lastResult, "value");
 
       var tdRun = document.createElement("td");
@@ -838,7 +249,7 @@ function generateBenchmarksUI(benchmarks, title) {
       var btnRun = document.createElement("button");
       btnRun.appendChild(document.createTextNode("Run"));
       tdRun.appendChild(btnRun);
-      btnRun.onclick = function() {
+      btnRun.onclick = function () {
         benchmark.runExec();
       };
     })();
@@ -850,8 +261,101 @@ function generateBenchmarksUI(benchmarks, title) {
  */
 document.onreadystatechange = function () {
   if (document.readyState == "complete") {
-    generateBenchmarksUI(fastV2Benchmark, "Fast 2-Dimensional Vector Operations");
-    generateBenchmarksUI(fastV3Benchmark, "Fast 3-Dimensional Vector Operations");
-    generateBenchmarksUI(fastM2Benchmark, "Fast 2-Dimensional Matrix Operations");
+    generateBenchmarksUI(new BenchmarkGroup("2-Dimensional Vector Operations",
+      [
+        new Benchmark("Create", math.v2.create),
+        new Benchmark("Create Template", math.v2.create, math.v2.create()),
+        new Benchmark("Add", math.v2.add, [math.v2.create(), math.v2.create()]),
+        new Benchmark("Add Mutate", math.v2.addMutate, [math.v2.create(), math.v2.create()]),
+        new Benchmark("Sub", math.v2.sub, [math.v2.create(), math.v2.create()]),
+        new Benchmark("Sub Mutate", math.v2.subMutate, [math.v2.create(), math.v2.create()]),
+        new Benchmark("Inverse", math.v2.inverse, [math.v2.create()]),
+        new Benchmark("Inverse Mutate", math.v2.inverseMutate, [math.v2.create()]),
+        new Benchmark("Scalar Multiply", math.v2.multScalar, [math.v2.create(), 0]),
+        new Benchmark("Scalar Multiply Mutate", math.v2.multScalarMutate, [math.v2.create(), 0]),
+        new Benchmark("Dot Product", math.v2.dotProduct, [math.v2.create(), math.v2.create()]),
+        new Benchmark("Vector Product", math.v2.vectorProduct, [math.v2.create(), math.v2.create()]),
+        new Benchmark("Get Magnitude", math.v2.getMagnitude, [math.v2.create()]),
+        new Benchmark("Get Magnitude Squared", math.v2.getDistanceSquare, [math.v2.create(), math.v2.create()]),
+        new Benchmark("Normalize", math.v2.normalize, [math.v2.create()]),
+        new Benchmark("Normalize Mutate", math.v2.normalizeMutate, [math.v2.create()]),
+        new Benchmark("Zero Mutate", math.v2.zeroMutate, [math.v2.create()]),
+        new Benchmark("Get Angle", math.v2.getAngle, [math.v2.create(), math.v2.create()]),
+        new Benchmark("Get Distance", math.v2.getDistance, [math.v2.create(), math.v2.create()]),
+        new Benchmark("Get Distance Squared", math.v2.getDistanceSquare, [math.v2.create(), math.v2.create()]),
+        new Benchmark("Is Within", math.v2.isWithin, [math.v2.create(), math.v2.create(), 0]),
+        new Benchmark("Is Within Strict", math.v2.isWithinStrict, [math.v2.create(), math.v2.create(), 0])
+      ]
+    ));
+
+    generateBenchmarksUI(new BenchmarkGroup("3-Dimensional Vector Operations",
+      [
+        new Benchmark("Create", math.v3.create),
+        new Benchmark("Create Template", math.v3.create, math.v3.create()),
+        new Benchmark("Add", math.v3.add, [math.v3.create(), math.v3.create()]),
+        new Benchmark("Add Mutate", math.v3.addMutate, [math.v3.create(), math.v3.create()]),
+        new Benchmark("Sub", math.v3.sub, [math.v3.create(), math.v3.create()]),
+        new Benchmark("Sub Mutate", math.v3.subMutate, [math.v3.create(), math.v3.create()]),
+        new Benchmark("Inverse", math.v3.inverse, [math.v3.create()]),
+        new Benchmark("Inverse Mutate", math.v3.inverseMutate, [math.v3.create()]),
+        new Benchmark("Scalar Multiply", math.v3.multScalar, [math.v3.create(), 0]),
+        new Benchmark("Scalar Multiply Mutate", math.v3.multScalarMutate, [math.v3.create(), 0]),
+        new Benchmark("Dot Product", math.v3.dotProduct, [math.v3.create(), math.v3.create()]),
+        new Benchmark("Vector Product", math.v3.vectorProduct, [math.v3.create(), math.v3.create()]),
+        new Benchmark("Get Magnitude", math.v3.getMagnitude, [math.v3.create()]),
+        new Benchmark("Get Magnitude Squared", math.v3.getDistanceSquare, [math.v3.create(), math.v3.create()]),
+        new Benchmark("Normalize", math.v3.normalize, [math.v3.create()]),
+        new Benchmark("Normalize Mutate", math.v3.normalizeMutate, [math.v3.create()]),
+        new Benchmark("Zero Mutate", math.v3.zeroMutate, [math.v3.create()]),
+        new Benchmark("Get Angle", math.v3.getAngle, [math.v3.create(), math.v3.create()]),
+        new Benchmark("Get Distance", math.v3.getDistance, [math.v3.create(), math.v3.create()]),
+        new Benchmark("Get Distance Squared", math.v3.getDistanceSquare, [math.v3.create(), math.v3.create()]),
+        new Benchmark("Is Within", math.v3.isWithin, [math.v3.create(), math.v3.create(), 0]),
+        new Benchmark("Is Within Strict", math.v3.isWithinStrict, [math.v3.create(), math.v3.create(), 0])
+      ]
+    ));
+
+    generateBenchmarksUI(new BenchmarkGroup("2-Dimensional Matrix Operations",
+      [
+        new Benchmark("Create", math.m2.create),
+        new Benchmark("Create Identity", math.m2.createIdentity),
+        new Benchmark("Create Rotation", math.m2.createRotation, [0]),
+        new Benchmark("Get Determinant", math.m2.getDeterminant, [math.m2.create()]),
+        new Benchmark("Is Invertable", math.m2.isInvertable, [math.m2.create()]),
+        new Benchmark("Is Singular", math.m2.isSingular, [math.m2.create()]),
+        new Benchmark("Get Inverse (Invertable)", math.m2.getInverse, [math.m2.createIdentity()]),
+        new Benchmark("Get Inverse (Singular)", math.m2.getInverse, [math.m2.create()]),
+        new Benchmark("Multiply Vector", math.m2.multVector, [math.m2.create(), math.v2.create()]),
+        new Benchmark("Multiply Vector Mutate", math.m2.multVectorMutate, [math.m2.create(), math.v2.create()]),
+        new Benchmark("Multiply", math.m2.mult, [math.m2.create(), math.m2.create()]),
+        new Benchmark("Add", math.m2.add, [math.m2.create(), math.m2.create()]),
+        new Benchmark("Add Mutate", math.m2.addMutate, [math.m2.create(), math.m2.create()]),
+        new Benchmark("Get Entry", math.m2.getEntry, [math.m2.create(), 0, 0]),
+        new Benchmark("Equals", math.m2.equals, [math.m2.create(), math.m2.create()])
+      ]
+    ));
+
+    generateBenchmarksUI(new BenchmarkGroup("3-Dimensional Matrix Operations",
+      [
+        new Benchmark("Create", math.m3.create),
+        new Benchmark("Create Identity", math.m3.createIdentity),
+        new Benchmark("Create Rotation Z", math.m3.createRotationZ, [0]),
+        new Benchmark("Create Transform 2", math.m3.createTransform2, [0, 0, 0]),
+        new Benchmark("Get Determinant", math.m3.getDeterminant, [math.m3.create()]),
+        new Benchmark("Is Invertable", math.m3.isInvertable, [math.m3.create()]),
+        new Benchmark("Is Singular", math.m3.isSingular, [math.m3.create()]),
+        new Benchmark("Get Inverse (Invertable)", math.m3.getInverse, [math.m3.createIdentity()]),
+        new Benchmark("Get Inverse (Singular)", math.m3.getInverse, [math.m3.create()]),
+        new Benchmark("Multiply Vector", math.m3.multVector, [math.m3.create(), math.v3.create()]),
+        new Benchmark("Multiply Vector 2", math.m3.multVector2, [math.m3.create(), math.v2.create()]),
+        new Benchmark("Multiply Vector Mutate", math.m3.multVectorMutate, [math.m3.create(), math.v3.create()]),
+        new Benchmark("Multiply Vector 2 Mutate", math.m3.multVectorMutate, [math.m3.create(), math.v2.create()]),
+        new Benchmark("Multiply", math.m3.mult, [math.m3.create(), math.m3.create()]),
+        new Benchmark("Add", math.m3.add, [math.m3.create(), math.m3.create()]),
+        new Benchmark("Add Mutate", math.m3.addMutate, [math.m3.create(), math.m3.create()]),
+        new Benchmark("Get Entry", math.m3.getEntry, [math.m3.create(), 0, 0, 0]),
+        new Benchmark("Equals", math.m3.equals, [math.m3.create(), math.m3.create()])
+      ]
+    ));
   } // if
 };
