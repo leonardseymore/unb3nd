@@ -1977,7 +1977,7 @@ function CollisionPrimitive2(rigidBody, offset) {
   /**
    * Translation and rotation from the rigid body for this primitive
    * @field
-   * @type TransformationMatrix3
+   * @type Matrix3
    * @default undefined
    * @since 0.0.0.4
    */
@@ -1989,7 +1989,7 @@ function CollisionPrimitive2(rigidBody, offset) {
  * @constructor
  * @extends CollisionPrimitive2
  * @param {RigidBody} rigidBody The body encapsulated by this primitive
- * @param {TransformationMatrix3} offset Translation and rotation from the rigid body
+ * @param {Matrix3} offset Translation and rotation from the rigid body
  * @since 0.0.0.4
  */
 function CollisionCircle(rigidBody, offset, radius) {
@@ -2011,14 +2011,78 @@ function CollisionCircle(rigidBody, offset, radius) {
 CollisionCircle.prototype = new CollisionPrimitive2();
 
 /**
+ * @class 2D Collision plane
+ * @constructor
+ * @extends CollisionPrimitive2
+ * @param {RigidBody} rigidBody The body encapsulated by this primitive
+ * @param {Matrix3} offset Translation and rotation from the rigid body
+ * @param {Vector2} normal Direction of plane face
+ * @param {Number} normalOffset Distance in normal direction
+ * @since 0.0.0.4
+ */
+function CollisionPlane2(rigidBody, offset, normal, normalOffset) {
+
+  /**
+   * Super constructor
+   */
+  CollisionPrimitive2.call(this, rigidBody, offset, radius);
+
+  /**
+   * Normal of the plane
+   * @field
+   * @type Vector2
+   * @default 0.0
+   * @since 0.0.0.4
+   */
+  this.normal = normal || 0.0;
+
+  /**
+   * Normal offset of the plane
+   * @field
+   * @type Number
+   * @default 0.0
+   * @since 0.0.0.4
+   */
+  this.normalOffset = normalOffset || 0.0;
+}
+CollisionPlane2.prototype = new CollisionPrimitive2();
+
+/**
+ * @class Collision rectangle
+ * @constructor
+ * @extends CollisionRect
+ * @param {RigidBody} rigidBody The body encapsulated by this primitive
+ * @param {Matrix3} offset Translation and rotation from the rigid body
+ * @param {Vector2} halfSize The halfsize of the rectangle (half width, half height)
+ * @since 0.0.0.4
+ */
+function CollisionRect(rigidBody, offset, normal, normalOffset) {
+
+  /**
+   * Super constructor
+   */
+  CollisionPrimitive2.call(this, rigidBody, offset, radius);
+
+  /**
+   * Half size of the rectangle
+   * @field
+   * @type Vector2
+   * @default Zero vector
+   * @since 0.0.0.4
+   */
+  this.halfSize = halfSize || math.v2.create();
+}
+CollisionRect.prototype = new CollisionPrimitive2();
+
+/**
  * @class 2D collision detector
  * @constructor
  * @since 0.0.0.4
  */
-function CollisionDetector2() {
+var CollisionDetector2 = {
 
   /**
-   * Gets the child index at the specified location
+   * Generates contacts between two collision circles
    * @function
    * @param {CollisionCircle} one The first circle to use
    * @param {CollisionCircle} two The second circle to use
@@ -2027,33 +2091,80 @@ function CollisionDetector2() {
    * @returns {int} The number of contacts generated
    * @since 0.0.0.4
    */
-  this.circleAndCircle = function (one, two, contacts, limit) {
-    var positionOne = one.rigidBody.pos;
+  circleAndCircle : function(one, two, contacts, limit) {
+    var positionOne = one.rigidBody.pos; // TODO: see getAxis(3)
     var positionTwo = two.rigidBody.pos;
 
-    var midline = positionOne.sub(positionTwo);
-    var size = midline.getMagnitude();
+    var midline = math.v2.sub(positionOne, positionTwo);
+    var size = math.v2.getMagnitude(midline);
 
     if (size <= 0 || size >= one.radius + two.radius) {
       return 0;
     } // if
 
-    var normal = midline.multScalar(1 / size);
+    var normal = math.v2.multScalar(midline, 1 / size);
     var contact = new Contact();
     contact.contactNormal = normal;
-    contact.contactPoint = positionOne.add(
-      midline.multScalar(0.5)
+    contact.contactPoint = math.v2.add(
+      positionOne,
+      math.v2.multScalar(midline, 0.5)
     );
     contact.penetration = one.radius + two.radius - size;
 
     contact.ridigBodies[0] = one.rigidBody;
     contact.ridigBodies[1] = two.rigidBody;
+
     //contact.restitution = data.restitution; // TODO: add restitution
-    //contact.friction = data.friction;
+    //contact.friction = data.friction; // TODO: add friction
 
     contacts.push(contact);
 
     return 1;
+  },
+
+  /**
+   * Generates contacts between a collision circle and half space
+   * @function
+   * @param {CollisionCircle} circle The circle to use
+   * @param {CollisionPlane2} plane The plane / half space to use
+   * @param {Contact []} contacts Contacts to append to
+   * @param {int} limit Maximum number of contacts that may be added
+   * @returns {int} The number of contacts generated
+   * @since 0.0.0.4
+   */
+  circleAndHalfSpace : function(circle, rect, contacts, limit) {
+
+  },
+
+  /**
+   * Generates contacts between a collision rectangle and half space
+   * @function
+   * @param {CollisionRect} rect The rectangle to use
+   * @param {CollisionPlane2} plane The plane / half space to use
+   * @param {Contact []} contacts Contacts to append to
+   * @param {int} limit Maximum number of contacts that may be added
+   * @returns {int} The number of contacts generated
+   * @since 0.0.0.4
+   */
+  rectAndHalfSpace : function(rect, plane, contacts, limit) {
+    // clockwise vertex generation
+    var vertices = [
+      math.v2.create([-rect.halfSize[0], -rect.halfSize[1]]),
+      math.v2.create([rect.halfSize[0], -rect.halfSize[1]]),
+        math.v2.create([rect.halfSize[0], rect.halfSize[1]]),
+          math.v2.create([-rect.halfSize[0], rect.halfSize[1]])
+    ];
+
+    var i = 4;
+    while(i--) {
+      var vertex = vertices[i];
+      var vertexPos = math.m3.multVector2(
+        plane.offset,
+        vertex
+      );
+
+      var vertexDistance = math.v2.dotProduct(vertexPos, plane.direction);
+    } // while
   }
 }
 

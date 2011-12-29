@@ -66,7 +66,7 @@ function FillBackground(fillStyle) {
    */
   this.draw = function (ctx, area) {
     ctx.fillStyle = this.fillStyle;
-    ctx.fillRect(area.x, area.y, area.width, area.height);
+    ctx.fillRect(area.pos[0], area.pos[1], area.width, area.height);
   }
 }
 FillBackground.prototype = new Background();
@@ -148,9 +148,9 @@ function StarryBackground(numStars, fillStyle) {
         this.shootingStar = new Star(0, Math.random() * EngineInstance.windowRect.height, Math.random());
       } // if
     } else {
-      this.shootingStar.x += 500 * dt;
-      this.shootingStar.y += 300 * dt;
-      if (this.shootingStar.x > EngineInstance.windowRect.width) {
+      this.shootingStar[0] += 500 * dt;
+      this.shootingStar[1] += 300 * dt;
+      if (this.shootingStar[0] > EngineInstance.windowRect.width) {
         this.shootingStar = undefined;
       } // if
     } // if
@@ -173,7 +173,7 @@ function StarryBackground(numStars, fillStyle) {
   this.draw = function (ctx, area) {
     ctx.save();
     ctx.fillStyle = this.fillStyle;
-    ctx.fillRect(area.x, area.y, area.width, area.height);
+    ctx.fillRect(area.pos[0], area.pos[1], area.width, area.height);
     for (i = 0; i < numStars; i++) {
       var star = this.stars[i];
       if (this.cartoonify) {
@@ -206,22 +206,13 @@ StarryBackground.prototype = new Background();
 function Star(x, y, i) {
 
   /**
-   * X-coordinate
+   * Star position
    * @field
    * @type Number
    * @default x
    * @since 0.0.0
    */
-  this.x = x;
-
-  /**
-   * Y-coordinate
-   * @field
-   * @type Number
-   * @default y
-   * @since 0.0.0
-   */
-  this.y = y;
+  this.pos = math.v2.create([x, y]);
 
   /**
    * Numberensity 0.0 to 1.0
@@ -263,7 +254,7 @@ function Star(x, y, i) {
    */
   this.draw = function (ctx) {
     ctx.fillStyle = "rgba(255, 255, 255, " + this.i + ")";
-    ctx.fillRect(this.x, this.y, 1, 1);
+    ctx.fillRect(this.pos[0], this.pos[1], 1, 1);
   };
 
   /**
@@ -276,7 +267,7 @@ function Star(x, y, i) {
   this.drawCartoon = function (ctx) {
     ctx.save();
     ctx.fillStyle = "rgba(255, 255, 255, " + this.i + ")";
-    ctx.translate(this.x, this.y);
+    ctx.translate(this.pos[0], this.pos[1]);
     ctx.beginPath();
     ctx.moveTo(this.r, 0);
     for (var i = 0; i < 9; i++) {
