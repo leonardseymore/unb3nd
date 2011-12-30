@@ -99,7 +99,7 @@ function Benchmark(name, func, args) {
     var startTime = getTime();
     var timeElapsed = 0;
     var ops = 0;
-    while (timeElapsed < 10) {
+    while (timeElapsed < 1000) {
       this.func.apply(undefined, this.args);
       ops += 1;
       timeElapsed = getTime() - startTime;
@@ -203,16 +203,6 @@ function generateBenchmarksUI(benchmarkGroup, title) {
   thead.appendChild(thResult);
   thResult.appendChild(document.createTextNode("Result"));
 
-  var thControls = document.createElement("th");
-  thead.appendChild(thControls);
-
-  var btnRunBenchmarks = document.createElement("button");
-  thControls.appendChild(btnRunBenchmarks);
-  btnRunBenchmarks.appendChild(document.createTextNode("Run Group"));
-  btnRunBenchmarks.onclick = function () {
-    benchmarkGroup.runBenchmarks();
-  };
-
   // BODY
   var tbody = document.createElement("tbody");
   tblBenchmarks.appendChild(tbody);
@@ -243,17 +233,22 @@ function generateBenchmarksUI(benchmarkGroup, title) {
       var tdExecData = document.createTextNode();
       tdResult.appendChild(tdExecData);
       bind("change", tdExecData, "data", benchmark.lastResult, "value");
-
-      var tdRun = document.createElement("td");
-      tr.appendChild(tdRun);
-      var btnRun = document.createElement("button");
-      btnRun.appendChild(document.createTextNode("Run"));
-      tdRun.appendChild(btnRun);
-      btnRun.onclick = function () {
-        benchmark.runExec();
-      };
     })();
   } // for
+
+  // FOOT
+  var tfoot = document.createElement("tfoot");
+  tblBenchmarks.appendChild(tfoot);
+  var tdControls = document.createElement("td");
+  tdControls.colSpan = 3;
+  tfoot.appendChild(tdControls);
+
+  var btnRunBenchmarks = document.createElement("button");
+  tdControls.appendChild(btnRunBenchmarks);
+  btnRunBenchmarks.appendChild(document.createTextNode("Run Benchmarks"));
+  btnRunBenchmarks.onclick = function () {
+    benchmarkGroup.runBenchmarks();
+  };
 }
 
 /**
