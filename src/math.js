@@ -134,7 +134,32 @@ function Rectangle(pos, width, height) {
  * unb3nd maths namespace
  * @since 0.0.0.4
  */
-var math = {};
+var math = {
+
+  /**
+   * Determines if the number is within the given tolerance to the target number
+   * @param {Number} n The number to test
+   * @param {Number} nTarget The target number
+   * @param {Number} tol The tolerance
+   * @returns {Boolean} True if the number is within the given tolerance
+   * @since 0.0.0.4
+   */
+  within : function (n, nTarget, tol) {
+    return n >= nTarget - tol && n <= nTarget + tol;
+  },
+
+  /**
+   * Determines if the number is strictly within the given tolerance to the target number
+   * @param {Number} n The number to test
+   * @param {Number} nTarget The target number
+   * @param {Number} tol The tolerance
+   * @returns {Boolean} True if the number is strictly within the given tolerance
+   * @since 0.0.0.4
+   */
+  withinStrict : function (n, nTarget, tol) {
+    return n > nTarget - tol && n < nTarget + tol;
+  }
+};
 
 /**
  * unb3nd 2D vector namespace
