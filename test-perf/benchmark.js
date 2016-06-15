@@ -230,7 +230,7 @@ function generateBenchmarksUI(benchmarkGroup, title) {
 
       var tdResult = document.createElement("td");
       tr.appendChild(tdResult);
-      var tdExecData = document.createTextNode();
+      var tdExecData = document.createTextNode("");
       tdResult.appendChild(tdExecData);
       bind("change", tdExecData, "data", benchmark.lastResult, "value");
     })();

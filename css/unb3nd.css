@@ -1,7 +1,9 @@
+* {
+    font-family: Open Sans;
+}
+
 body {
 	background: #eee;
-    font-family: Helvetica;
-    font-size: 10px;
 }
 
 input[type=image] {
@@ -10,14 +12,12 @@ input[type=image] {
 
 input {
     width: 50px;
-    font-family: Helvetica;
-    font-size: 10px;
+    font-size: 14px;
 }
 
 button  {
     margin: 1px;
-    font-family: Helvetica;
-    font-size: 10px;
+    font-size: 14px;
 }
 
 table {
