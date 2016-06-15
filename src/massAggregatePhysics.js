@@ -1,7 +1,7 @@
 /**
  * @fileOverview Mass Aggregate Particle System
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0
+
  */
 
 "use strict";
@@ -11,7 +11,7 @@
  * @constructor
  * @extends Observable
  * @param {Number} mass Optional mass
- * @since 0.0.0
+
  */
 function Particle(mass) {
 
@@ -25,7 +25,7 @@ function Particle(mass) {
    * @field
    * @type Array
    * @default Zero vector
-   * @since 0.0.0
+
    */
   this.pos = math.v2.create();
 
@@ -34,7 +34,7 @@ function Particle(mass) {
    * @field
    * @type Array
    * @default Zero vector
-   * @since 0.0.0
+
    */
   this.vel = math.v2.create();
 
@@ -43,7 +43,7 @@ function Particle(mass) {
    * @field
    * @type Array
    * @default Zero vector
-   * @since 0.0.0
+
    */
   this.acc = math.v2.create();
 
@@ -52,7 +52,7 @@ function Particle(mass) {
    * @field
    * @type Number
    * @default 1.0
-   * @since 0.0.0
+
    */
   this.damping = 1.0;
 
@@ -62,7 +62,7 @@ function Particle(mass) {
    * @field
    * @type Number
    * @default 0, indicating infinite mass
-   * @since 0.0.0
+
    */
   this.inverseMass = 0;
   if (mass) {
@@ -75,7 +75,7 @@ function Particle(mass) {
    * @field
    * @type Array
    * @default Zero vector
-   * @since 0.0.0
+
    */
   this.forceAccum = math.v2.create();
 
@@ -85,7 +85,7 @@ function Particle(mass) {
    * @param {Array} point Point to test
    * @param {Number} distance Distance to test
    * @returns {boolean} true if supplied point is near this particle
-   * @since 0.0.0
+
    */
   this.isCloseToPoint = function (point, distance) {
     return math.v2.isWithin(this.pos, point, distance);
@@ -95,7 +95,7 @@ function Particle(mass) {
    * Ensures this body has a finite mass
    * @function
    * @returns {boolean} true if this body has a finite mass
-   * @since 0.0.0
+
    */
   this.hasFiniteMass = function () {
     return this.inverseMass > 0;
@@ -106,7 +106,7 @@ function Particle(mass) {
    * @function
    * @param {Array} force The force to add to this particle
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (force) {
     math.v2.addMutate(this.forceAccum, force);
@@ -116,7 +116,7 @@ function Particle(mass) {
    * Reset the force accumulator on this particle
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.clearForceAccum = function () {
     math.v2.zeroMutate(this.forceAccum);
@@ -127,7 +127,7 @@ function Particle(mass) {
    * @function
    * @param {Number} inverseMass The inverse mass of the particle
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.setInverseMass = function (inverseMass) {
     this.inverseMass = inverseMass;
@@ -138,7 +138,7 @@ function Particle(mass) {
    * @function
    * @param {Number} mass The mass of the particle
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.setMass = function (mass) {
     if (mass == 0) {
@@ -152,7 +152,7 @@ function Particle(mass) {
    * Gets the mass of the particle
    * @function
    * @returns {Number} mass The mass of the particle
-   * @since 0.0.0
+
    */
   this.getMass = function () {
     if (this.inverseMass == 0) {
@@ -168,7 +168,7 @@ function Particle(mass) {
    * @function
    * @param {int} delta The time delta in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.integrate = function (delta) {
     var dt = delta / 1000;
@@ -200,7 +200,7 @@ function Particle(mass) {
    * On die callback
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.ondie = undefined;
 
@@ -208,7 +208,7 @@ function Particle(mass) {
    * Die callback invoker
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.die = function () {
     if (this.ondie) {
@@ -222,7 +222,7 @@ function Particle(mass) {
    * @function
    * @param {ParticleWorldVisitor} visitor Visitor to visit
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.accept = function (visitor) {
     visitor.visitParticle(this);
@@ -232,7 +232,7 @@ function Particle(mass) {
    * Converts the class to a string representation
    * @function
    * @returns {string} The string representation of this class
-   * @since 0.0.0
+
    */
   this.toString = function () {
     return "uid=" + this.uid;
@@ -244,7 +244,7 @@ Particle.prototype = new Observable();
 /**
  * @class A force registry for matching up force generators to particles
  * @constructor
- * @since 0.0.0
+
  */
 function ParticleForceRegistry() {
 
@@ -253,7 +253,7 @@ function ParticleForceRegistry() {
    * @field
    * @type {"particle":Particle, "forceGenerators":ParticleForceGenerator []}
    * @default []
-   * @since 0.0.0
+
    */
   this.entries = [];
 
@@ -264,7 +264,7 @@ function ParticleForceRegistry() {
    * @param {Particle} particle The particle to add a force generator to
    * @param {ParticleForceGenerator} forceGenerator The force generator to add to the particle
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.add = function (particle, forceGenerator) {
     var entry;
@@ -291,7 +291,7 @@ function ParticleForceRegistry() {
    * @function
    * @param {Particle} particle The particle to get the force generators for
    * @returns {ParticleForceGenerator []} All the force generators for the supplied particle, undefined if not found
-   * @since 0.0.0
+
    */
   this.getForceGenerators = function (particle) {
     var i = this.entries.length;
@@ -310,7 +310,7 @@ function ParticleForceRegistry() {
    * @function
    * @param {Particle} particle The particle to remove the force generators from
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.removeForceGenerators = function (particle) {
     var i = this.entries.length;
@@ -327,7 +327,7 @@ function ParticleForceRegistry() {
    * @function
    * @param {ParticleForceGenerator} forceGenerator The specific force generator to remove
    * @return {void}
-   * @since 0.0.0
+
    */
   this.removeForceGenerator = function (forceGenerator) {
     var i = this.entries.length;
@@ -348,7 +348,7 @@ function ParticleForceRegistry() {
    * @function
    * @param {int} delta Delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForces = function (delta) {
     var i = this.entries.length;
@@ -370,7 +370,7 @@ function ParticleForceRegistry() {
    * @abstract
    * @param {ParticleWorldVisitor} visitor Visitor to visit
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.accept = function (visitor) {
     var i = this.entries.length;
@@ -392,7 +392,7 @@ function ParticleForceRegistry() {
  * @class A particle force generator
  * @constructor
  * @abstract
- * @since 0.0.0
+
  */
 function ParticleForceGenerator() {
 
@@ -403,7 +403,7 @@ function ParticleForceGenerator() {
    * @param {Particle} particle The particle to apply the force to
    * @param {int} delta The delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (particle, delta) {
   };
@@ -415,7 +415,7 @@ function ParticleForceGenerator() {
    * @param {ParticleWorldVisitor} visitor Visitor to visit
    * @param {Particle} particle Particle that is currently affected by this generator
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.accept = function (visitor, particle) {
   };
@@ -424,7 +424,7 @@ function ParticleForceGenerator() {
    * Converts the class to a string representation
    * @function
    * @returns {string} The string representation of this object
-   * @since 0.0.0
+
    */
   this.toString = function () {
     return this;
@@ -437,7 +437,7 @@ function ParticleForceGenerator() {
  * @constructor
  * @extends ParticleForceGenerator
  * @param {Array} gravition Gravitational force, defaults {@link constants.DEFAULT_GRAVITATIONAL_CONSTANT}
- * @since 0.0.0
+
  */
 function ParticleGravityForceGenerator(gravitation) {
 
@@ -446,7 +446,7 @@ function ParticleGravityForceGenerator(gravitation) {
    * @field
    * @type Array
    * @default Vector with {@link constants.DEFAULT_GRAVITATIONAL_CONSTANT} as Y-axis
-   * @since 0.0.0
+
    */
   this.gravitation = gravitation || math.v2.create([0, constants.DEFAULT_GRAVITATIONAL_CONSTANT]);
 
@@ -457,7 +457,7 @@ function ParticleGravityForceGenerator(gravitation) {
    * @param {Particle} particle The particle to apply the force to
    * @param {int} delta The delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (particle, delta) {
     if (!particle.hasFiniteMass()) {
@@ -488,7 +488,7 @@ function ParticleGravityForceGenerator(gravitation) {
    * Converts the class to a string representation
    * @function
    * @returns {string} The string representation of this object
-   * @since 0.0.0
+
    */
   this.toString = function () {
     return "Gravity: " + this.gravitation.toString();
@@ -502,7 +502,7 @@ ParticleGravityForceGenerator.prototype = new ParticleForceGenerator();
  * @constructor
  * @extends ParticleForceGenerator
  * @param {Array} direction Wind direction and strength
- * @since 0.0.0
+
  */
 function ParticleWindForceGenerator(direction) {
 
@@ -511,7 +511,7 @@ function ParticleWindForceGenerator(direction) {
    * @field
    * @type Array
    * @default Zero vector
-   * @since 0.0.0
+
    */
   this.direction = direction || math.v2.create();
 
@@ -522,7 +522,7 @@ function ParticleWindForceGenerator(direction) {
    * @param {Particle} particle The particle to apply the force to
    * @param {int} delta The delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (particle, delta) {
     if (!particle.hasFiniteMass()) {
@@ -554,7 +554,7 @@ function ParticleWindForceGenerator(direction) {
    * Converts the class to a string representation
    * @function
    * @returns {string} The string representation of this object
-   * @since 0.0.0
+
    */
   this.toString = function () {
     return "Wind: " + this.direction.toString();
@@ -569,7 +569,7 @@ ParticleWindForceGenerator.prototype = new ParticleForceGenerator();
  * @extends ParticleForceGenerator
  * @param {Number} k1 Velocity drag coefficient
  * @param {Number} k2 Velocity squared drag coefficient
- * @since 0.0.0
+
  */
 function ParticleDragForceGenerator(k1, k2) {
 
@@ -578,7 +578,7 @@ function ParticleDragForceGenerator(k1, k2) {
    * @field
    * @type Number
    * @default Defaults to {@link constants.DEFAULT_DRAG_VELOCITY_COEFF}
-   * @since 0.0.0
+
    */
   this.k1 = k1 || constants.DEFAULT_DRAG_VELOCITY_COEFF;
 
@@ -587,7 +587,7 @@ function ParticleDragForceGenerator(k1, k2) {
    * @field
    * @type Number
    * @default Defaults to {@link constants.DEFAULT_DRAG_VELOCITY_SQUARED_COEFF}
-   * @since 0.0.0
+
    */
   this.k2 = k2 || constants.DEFAULT_DRAG_VELOCITY_SQUARED_COEFF;
 
@@ -598,7 +598,7 @@ function ParticleDragForceGenerator(k1, k2) {
    * @param {Particle} particle The particle to apply the force to
    * @param {int} delta The delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (particle, delta) {
     var force = this.calculateForce(particle, delta);
@@ -612,7 +612,7 @@ function ParticleDragForceGenerator(k1, k2) {
    * @param {Particle} particle The particle to apply the force to
    * @param {int} delta The delta time in milliseconds
    * @returns {Array} The force to apply to this particle
-   * @since 0.0.0
+
    */
   this.calculateForce = function (particle, delta) {
 
@@ -638,7 +638,7 @@ function ParticleDragForceGenerator(k1, k2) {
    * Converts the class to a string representation
    * @function
    * @return {string} The string representation of this class
-   * @since 0.0.0
+
    */
   this.toString = function () {
     return "Drag: k1=" + this.k1 + " ,k2=" + this.k2;
@@ -654,7 +654,7 @@ ParticleDragForceGenerator.prototype = new ParticleForceGenerator();
  * @param {Particle} particleOther Particle at the other end of the spring
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
- * @since 0.0.0
+
  */
 function ParticleSpringForceGenerator(particleOther, springConstant, restLength) {
 
@@ -663,7 +663,7 @@ function ParticleSpringForceGenerator(particleOther, springConstant, restLength)
    * @field
    * @type Particle
    * @default particleOther
-   * @since 0.0.0
+
    */
   this.particleOther = particleOther;
 
@@ -672,7 +672,7 @@ function ParticleSpringForceGenerator(particleOther, springConstant, restLength)
    * @field
    * @type Number
    * @default springConstant
-   * @since 0.0.0
+
    */
   this.springConstant = springConstant;
 
@@ -681,7 +681,7 @@ function ParticleSpringForceGenerator(particleOther, springConstant, restLength)
    * @field
    * @type Number
    * @default restLength
-   * @since 0.0.0
+
    */
   this.restLength = restLength;
 
@@ -692,7 +692,7 @@ function ParticleSpringForceGenerator(particleOther, springConstant, restLength)
    * @param {Particle} particle The particle to apply the force to
    * @param {int} delta The delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (particle, delta) {
     var force = math.v2.create(particle.pos);
@@ -726,7 +726,7 @@ ParticleSpringForceGenerator.prototype = new ParticleForceGenerator();
  * @param {Array} anchor Fixed point
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
- * @since 0.0.0
+
  */
 function ParticleAnchoredSpringForceGenerator(anchor, springConstant, restLength) {
 
@@ -735,7 +735,7 @@ function ParticleAnchoredSpringForceGenerator(anchor, springConstant, restLength
    * @field
    * @type Array
    * @default anchor
-   * @since 0.0.0
+
    */
   this.anchor = anchor;
 
@@ -744,7 +744,7 @@ function ParticleAnchoredSpringForceGenerator(anchor, springConstant, restLength
    * @field
    * @type Number
    * @default springConstant
-   * @since 0.0.0
+
    */
   this.springConstant = springConstant;
 
@@ -753,7 +753,7 @@ function ParticleAnchoredSpringForceGenerator(anchor, springConstant, restLength
    * @field
    * @type Number
    * @default restLength
-   * @since 0.0.0
+
    */
   this.restLength = restLength;
 
@@ -764,7 +764,7 @@ function ParticleAnchoredSpringForceGenerator(anchor, springConstant, restLength
    * @param {Particle} particle The particle to apply the force to
    * @param {int} delta The delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (particle, delta) {
     var force = math.v2.create(particle.pos);
@@ -798,7 +798,7 @@ ParticleAnchoredSpringForceGenerator.prototype = new ParticleForceGenerator();
  * @param {Particle} at the other end of the spring
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
- * @since 0.0.0
+
  */
 function ParticleBungeeForceGenerator(particleOther, springConstant, restLength) {
 
@@ -807,7 +807,7 @@ function ParticleBungeeForceGenerator(particleOther, springConstant, restLength)
    * @field
    * @type Particle
    * @default particleOther
-   * @since 0.0.0
+
    */
   this.particleOther = particleOther;
 
@@ -816,7 +816,7 @@ function ParticleBungeeForceGenerator(particleOther, springConstant, restLength)
    * @field
    * @type Number
    * @default springConstant
-   * @since 0.0.0
+
    */
   this.springConstant = springConstant;
 
@@ -825,7 +825,7 @@ function ParticleBungeeForceGenerator(particleOther, springConstant, restLength)
    * @field
    * @type Number
    * @default restLength
-   * @since 0.0.0
+
    */
   this.restLength = restLength;
 
@@ -836,7 +836,7 @@ function ParticleBungeeForceGenerator(particleOther, springConstant, restLength)
    * @param {Particle} particle The particle to apply the force to
    * @param {int} delta The delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (particle, delta) {
     var force = math.v2.create(particle.pos);
@@ -873,7 +873,7 @@ ParticleBungeeForceGenerator.prototype = new ParticleForceGenerator();
  * @param {Array} anchor Fixed point
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
- * @since 0.0.0
+
  */
 function ParticleAnchoredBungeeForceGenerator(anchor, springConstant, restLength) {
 
@@ -882,7 +882,7 @@ function ParticleAnchoredBungeeForceGenerator(anchor, springConstant, restLength
    * @field
    * @type Array
    * @default anchor
-   * @since 0.0.0
+
    */
   this.anchor = anchor;
 
@@ -891,7 +891,7 @@ function ParticleAnchoredBungeeForceGenerator(anchor, springConstant, restLength
    * @field
    * @type Number
    * @default springConstant
-   * @since 0.0.0
+
    */
   this.springConstant = springConstant;
 
@@ -900,7 +900,7 @@ function ParticleAnchoredBungeeForceGenerator(anchor, springConstant, restLength
    * @field
    * @type Number
    * @default restLength
-   * @since 0.0.0
+
    */
   this.restLength = restLength;
 
@@ -911,7 +911,7 @@ function ParticleAnchoredBungeeForceGenerator(anchor, springConstant, restLength
    * @param {Particle} particle The particle to apply the force to
    * @param {int} delta The delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (particle, delta) {
     var force = math.v2.create(particle.pos);
@@ -951,7 +951,7 @@ ParticleAnchoredBungeeForceGenerator.prototype = new ParticleForceGenerator();
  * @param {Number} maxDepth The maximum submersion depth before object is completely submerged
  * @param {Number} volume The volume of the object
  * @param {Number} liquidDensity The density of the liquid. Pure water has 1000 kg per cubic meter.
- * @since 0.0.0
+
  */
 function ParticleBuoyancyForceGenerator(anchor, maxDepth, volume, liquidDensity) {
 
@@ -960,7 +960,7 @@ function ParticleBuoyancyForceGenerator(anchor, maxDepth, volume, liquidDensity)
    * @field
    * @type Array
    * @default anchor
-   * @since 0.0.0
+
    */
   this.anchor = anchor;
 
@@ -969,7 +969,7 @@ function ParticleBuoyancyForceGenerator(anchor, maxDepth, volume, liquidDensity)
    * @field
    * @type Number
    * @default maxDepth
-   * @since 0.0.0
+
    */
   this.maxDepth = maxDepth;
 
@@ -978,7 +978,7 @@ function ParticleBuoyancyForceGenerator(anchor, maxDepth, volume, liquidDensity)
    * @field
    * @type Number
    * @default volume
-   * @since 0.0.0
+
    */
   this.volume = volume;
 
@@ -987,7 +987,7 @@ function ParticleBuoyancyForceGenerator(anchor, maxDepth, volume, liquidDensity)
    * @field
    * @type Number
    * @default 1000.0
-   * @since 0.0.0
+
    */
   this.liquidDensity = liquidDensity || 1000.0;
 
@@ -998,7 +998,7 @@ function ParticleBuoyancyForceGenerator(anchor, maxDepth, volume, liquidDensity)
    * @param {Particle} particle The particle to apply the force to
    * @param {int} delta The delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (particle, delta) {
     var depth = this.anchor[1] - particle.pos[1];
@@ -1034,7 +1034,7 @@ ParticleBuoyancyForceGenerator.prototype = new ParticleForceGenerator();
 /**
  * @class Particle force generator factory
  * @constructor
- * @since 0.0.0
+
  */
 function ParticleForceGeneratorFactory() {
 }
@@ -1047,7 +1047,7 @@ function ParticleForceGeneratorFactory() {
  * @param {ParticleForceRegistry} forceRegistry The force registry to add the generator to
  * @param {Particle} particle The particle to add the generator to
  * @returns {void}
- * @since 0.0.0
+
  */
 ParticleForceGeneratorFactory.createGravity = function (forceRegistry, particle) {
   forceRegistry.add(particle, new ParticleGravityForceGenerator());
@@ -1061,7 +1061,7 @@ ParticleForceGeneratorFactory.createGravity = function (forceRegistry, particle)
  * @param {Particle} particle The particle to add the generator to
  * @param {Array} direction The direction and strength of the force
  * @returns {void}
- * @since 0.0.0
+
  */
 ParticleForceGeneratorFactory.createWind = function (forceRegistry, particle, direction) {
   forceRegistry.add(particle, new ParticleWindForceGenerator(direction));
@@ -1076,7 +1076,7 @@ ParticleForceGeneratorFactory.createWind = function (forceRegistry, particle, di
  * @param {Number} k1 Velocity coefficient
  * @param {Number} k2 Velocity squared coefficient
  * @returns {void}
- * @since 0.0.0
+
  */
 ParticleForceGeneratorFactory.createDrag = function (forceRegistry, particle, k1, k2) {
   forceRegistry.add(particle, new ParticleDragForceGenerator(k1, k2));
@@ -1092,7 +1092,7 @@ ParticleForceGeneratorFactory.createDrag = function (forceRegistry, particle, k1
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
  * @returns {void}
- * @since 0.0.0
+
  */
 ParticleForceGeneratorFactory.createSpring = function (forceRegistry, p1, p2, springConstant, restLength) {
   var p1F = new ParticleSpringForceGenerator(p2, springConstant, restLength);
@@ -1126,7 +1126,7 @@ ParticleForceGeneratorFactory.createSpring = function (forceRegistry, p1, p2, sp
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
  * @returns {void}
- * @since 0.0.0
+
  */
 ParticleForceGeneratorFactory.createAnchoredSpring = function (forceRegistry, particle, anchor, springConstant, restLength) {
   forceRegistry.add(particle, new ParticleAnchoredSpringForceGenerator(anchor, springConstant, restLength));
@@ -1142,7 +1142,7 @@ ParticleForceGeneratorFactory.createAnchoredSpring = function (forceRegistry, pa
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
  * @returns {void}
- * @since 0.0.0
+
  */
 ParticleForceGeneratorFactory.createBungee = function (forceRegistry, p1, p2, springConstant, restLength) {
   var p1F = new ParticleBungeeForceGenerator(p2, springConstant, restLength);
@@ -1176,7 +1176,7 @@ ParticleForceGeneratorFactory.createBungee = function (forceRegistry, p1, p2, sp
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
  * @returns {void}
- * @since 0.0.0
+
  */
 ParticleForceGeneratorFactory.createAnchoredBungee = function (forceRegistry, particle, anchor, springConstant, restLength) {
   forceRegistry.add(particle, new ParticleAnchoredBungeeForceGenerator(anchor, springConstant, restLength));
@@ -1193,7 +1193,7 @@ ParticleForceGeneratorFactory.createAnchoredBungee = function (forceRegistry, pa
  * @param {Number} volume
  * @param {Number} liquidDensity
  * @returns {void}
- * @since 0.0.0
+
  */
 ParticleForceGeneratorFactory.createBuoyancy = function (forceRegistry, particle, anchor, maxDepth, volume, liquidDensity) {
   forceRegistry.add(particle, new ParticleBuoyancyForceGenerator(anchor, maxDepth, volume, liquidDensity));
@@ -1226,7 +1226,7 @@ var CONTACT_TYPE = {
  * contact details. To resolve a set of contacts, use the particle
  * contact resolver class.
  * @constructor
- * @since 0.0.0
+
  */
 function ParticleContact() {
 
@@ -1236,7 +1236,7 @@ function ParticleContact() {
    * @field
    * @type Particle []
    * @default []
-   * @since 0.0.0
+
    */
   this.particles = [];
 
@@ -1245,7 +1245,7 @@ function ParticleContact() {
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0
+
    */
   this.restitution = 0.0;
 
@@ -1254,7 +1254,7 @@ function ParticleContact() {
    * @field
    * @type Array
    * @default Zero vector
-   * @since 0.0.0
+
    */
   this.contactNormal = math.v2.create();
 
@@ -1263,7 +1263,7 @@ function ParticleContact() {
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0
+
    */
   this.penetration = 0.0;
 
@@ -1273,7 +1273,7 @@ function ParticleContact() {
    * @protected
    * @param {int} delta Delta time in milliseconds since last update
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.resolve = function (delta) {
     this.resolveVelocity(delta);
@@ -1285,7 +1285,7 @@ function ParticleContact() {
    * @function
    * @protected
    * @returns {Number} Separating velocity at this contact
-   * @since 0.0.0
+
    */
   this.calculateSeparatingVelocity = function () {
     var relativeVelocity = math.v2.create(this.particles[0].vel);
@@ -1304,7 +1304,7 @@ function ParticleContact() {
    * @private
    * @param {int} delta Delta time in milliseconds since last update
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.resolveVelocity = function (delta) {
     var dt = delta / 1000;
@@ -1374,7 +1374,7 @@ function ParticleContact() {
    * @function
    * @param {int} delta Delta time in milliseconds since last update
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.resolveInterpenetration = function (delta) {
     if (this.penetration <= 0) {
@@ -1416,7 +1416,7 @@ function ParticleContact() {
  * @class The contact resolution routine for particle contacts. One resolver
  * instance can be shared for the whole simulation.
  * @constructor
- * @since 0.0.0
+
  */
 function ParticleContactResolver() {
   /**
@@ -1426,7 +1426,7 @@ function ParticleContactResolver() {
    * @field
    * @type int
    * @default 0
-   * @since 0.0.0
+
    */
   this.maxIt = 0;
 
@@ -1436,7 +1436,7 @@ function ParticleContactResolver() {
    * @param {ParticleContact []} contacts All contacts to resolve
    * @param {int} delta Delta time in milliseconds since last update
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.resolveContacts = function (contacts, delta) {
     var it = 0;
@@ -1463,7 +1463,7 @@ function ParticleContactResolver() {
 /**
  * @class Responsible for generating contacts
  * @constructor
- * @since 0.0.0
+
  */
 function ParticleContactGenerator() {
 
@@ -1472,7 +1472,7 @@ function ParticleContactGenerator() {
    * @field
    * @type CONTACT_TYPE
    * @default undefined
-   * @since 0.0.0
+
    */
   this.contactType = undefined;
 
@@ -1482,7 +1482,7 @@ function ParticleContactGenerator() {
    * @param {int} contactType The type of contact generated by this generator
    * @returns {void}
    * @throws Error If an invalid contact type was specified
-   * @since 0.0.0
+
    */
   this.setContactType = function (contactType) {
     this.contactType = contactType;
@@ -1495,7 +1495,7 @@ function ParticleContactGenerator() {
    * @param {ParticleContact []} contacts Contacts to append to
    * @param {int} limit Maximum number of contacts that may be added
    * @return {int} The number of contacts added
-   * @since 0.0.0
+
    */
   this.addContact = function (contacts, limit) {
   };
@@ -1506,7 +1506,7 @@ function ParticleContactGenerator() {
    * @abstract
    * @param {ParticleWorldVisitor} visitor Visitor to visit
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.accept = function (visitor) {
   };
@@ -1520,7 +1520,7 @@ function ParticleContactGenerator() {
  * class for springs with a limit to their extension.
  * @constructor
  * @extends ParticleContactGenerator
- * @since 0.0.0
+
  */
 function ParticleLinkContactGenerator() {
 
@@ -1534,7 +1534,7 @@ function ParticleLinkContactGenerator() {
    * @field
    * @type Particles []
    * @default []
-   * @since 0.0.0
+
    */
   this.particles = [];
 
@@ -1544,7 +1544,7 @@ function ParticleLinkContactGenerator() {
    * @function
    * @protected
    * @return {Number} The distance between the two particles
-   * @since 0.0.0
+
    */
   this.getCurrentLength = function () {
     return math.v2.getDistance(this.particles[0].pos, this.particles[1].pos);
@@ -1569,7 +1569,7 @@ function ParticleLinkContactGenerator() {
    *        contacts to end of array using contacts.push
    * @param {int} limit The maximum number of contacts that may be appended to the array
    * @return {int} The number of contacts that have been written to
-   * @since 0.0.0
+
    */
   this.addContact = function (contacts, limit) {
   }
@@ -1583,7 +1583,7 @@ ParticleLinkContactGenerator.prototype = new ParticleContactGenerator();
  * @extends ParticleLinkContactGenerator
  * @param {Number} maxLength Maximum length of the cable
  * @param {Number} restitution Restitution (bounciness) of the cable
- * @since 0.0.0
+
  */
 function ParticleCableContactGenerator(maxLength, restitution) {
 
@@ -1598,7 +1598,7 @@ function ParticleCableContactGenerator(maxLength, restitution) {
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0
+
    */
   this.maxLength = maxLength || 0.0;
 
@@ -1607,7 +1607,7 @@ function ParticleCableContactGenerator(maxLength, restitution) {
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0
+
    */
   this.restitution = restitution || 0.0;
 
@@ -1616,7 +1616,7 @@ function ParticleCableContactGenerator(maxLength, restitution) {
    * @function
    * @override
    * @return {int} The number of contacts that have been written to
-   * @since 0.0.0
+
    */
   this.addContact = function (contacts, limit) {
     var length = this.getCurrentLength();
@@ -1651,7 +1651,7 @@ function ParticleCableContactGenerator(maxLength, restitution) {
    * @abstract
    * @param {ParticleWorldVisitor} visitor Visitor to visit
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.accept = function (visitor) {
     visitor.visitCableContactGenerator(this);
@@ -1667,7 +1667,7 @@ ParticleCableContactGenerator.prototype = new ParticleLinkContactGenerator();
  * @param {Array} anchor Fixed point
  * @param {Number} maxLength Maximum length of the cable
  * @param {Number} restitution Restitution (bounciness) of the cable
- * @since 0.0.0.3
+
  */
 function ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, restitution) {
 
@@ -1682,7 +1682,7 @@ function ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, rest
    * @field
    * @type Particle
    * @default 0.0
-   * @since 0.0.0.3
+
    */
   this.particle = particle;
 
@@ -1691,7 +1691,7 @@ function ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, rest
    * @field
    * @type Array
    * @default anchor
-   * @since 0.0.0.3
+
    */
   this.anchor = anchor;
 
@@ -1700,7 +1700,7 @@ function ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, rest
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0
+
    */
   this.maxLength = maxLength || 0.0;
 
@@ -1709,7 +1709,7 @@ function ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, rest
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0.3
+
    */
   this.restitution = restitution || 0.0;
 
@@ -1719,7 +1719,7 @@ function ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, rest
    * @function
    * @protected
    * @return {Number} The distance between the two particles
-   * @since 0.0.0.3
+
    */
   this.getCurrentLength = function () {
     var relativePos = math.v2.sub(
@@ -1734,7 +1734,7 @@ function ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, rest
    * @function
    * @override
    * @return {int} The number of contacts that have been written to
-   * @since 0.0.0.3
+
    */
   this.addContact = function (contacts, limit) {
     var length = this.getCurrentLength();
@@ -1767,7 +1767,7 @@ function ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, rest
    * @abstract
    * @param {ParticleWorldVisitor} visitor Visitor to visit
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.accept = function (visitor) {
     visitor.visitAnchoredCableContactGenerator(this);
@@ -1781,7 +1781,7 @@ ParticleAnchoredCableContactGenerator.prototype = new ParticleContactGenerator()
  * @constructor
  * @extends ParticleLinkContactGenerator
  * @param {Number} length Length of the rod
- * @since 0.0.0
+
  */
 function ParticleRodContactGenerator(length) {
 
@@ -1796,7 +1796,7 @@ function ParticleRodContactGenerator(length) {
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0
+
    */
   this.length = length || 0.0;
 
@@ -1805,7 +1805,7 @@ function ParticleRodContactGenerator(length) {
    * @function
    * @override
    * @return {int} The number of contacts that have been written to
-   * @since 0.0.0
+
    */
   this.addContact = function (contacts, limit) {
     var currentLength = this.getCurrentLength();
@@ -1845,7 +1845,7 @@ function ParticleRodContactGenerator(length) {
    * @abstract
    * @param {ParticleWorldVisitor} visitor Visitor to visit
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.accept = function (visitor) {
     visitor.visitRodContactGenerator(this);
@@ -1860,7 +1860,7 @@ ParticleRodContactGenerator.prototype = new ParticleLinkContactGenerator();
  * @param {Particle} particle Particle fixed to this anchor
  * @param {Array} anchor Fixed point
  * @param {Number} length Length of this rod
- * @since 0.0.0.3
+
  */
 function ParticleAnchoredRodContactGenerator(particle, anchor, length) {
 
@@ -1875,7 +1875,7 @@ function ParticleAnchoredRodContactGenerator(particle, anchor, length) {
    * @field
    * @type Particle
    * @default 0.0
-   * @since 0.0.0.3
+
    */
   this.particle = particle;
 
@@ -1884,7 +1884,7 @@ function ParticleAnchoredRodContactGenerator(particle, anchor, length) {
    * @field
    * @type Array
    * @default anchor
-   * @since 0.0.0.3
+
    */
   this.anchor = anchor;
 
@@ -1893,7 +1893,7 @@ function ParticleAnchoredRodContactGenerator(particle, anchor, length) {
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0
+
    */
   this.length = length || 0.0;
 
@@ -1903,7 +1903,7 @@ function ParticleAnchoredRodContactGenerator(particle, anchor, length) {
    * @function
    * @protected
    * @return {Number} The distance between the two particles
-   * @since 0.0.0.3
+
    */
   this.getCurrentLength = function () {
     return math.v2.getDistance(this.particle.pos, this.anchor);
@@ -1914,7 +1914,7 @@ function ParticleAnchoredRodContactGenerator(particle, anchor, length) {
    * @function
    * @override
    * @return {int} The number of contacts that have been written to
-   * @since 0.0.0.3
+
    */
   this.addContact = function (contacts, limit) {
     var currentLength = this.getCurrentLength();
@@ -1947,7 +1947,7 @@ function ParticleAnchoredRodContactGenerator(particle, anchor, length) {
    * @abstract
    * @param {ParticleWorldVisitor} visitor Visitor to visit
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.accept = function (visitor) {
     visitor.visitAnchoredRodContactGenerator(this);
@@ -1959,7 +1959,7 @@ ParticleAnchoredRodContactGenerator.prototype = new ParticleContactGenerator();
  * @class Responsible for generating collision contacts between particles
  * @constructor
  * @extend ParticleContactGenerator
- * @since 0.0.0
+
  */
 function ParticleCollisionContactGenerator(collisionRadius) {
 
@@ -1968,7 +1968,7 @@ function ParticleCollisionContactGenerator(collisionRadius) {
    * @field
    * @type Number
    * @default 5.0
-   * @since 0.0.0
+
    */
   this.collisionRadius = collisionRadius || 5.0;
   this.setContactType(CONTACT_TYPE.INTER);
@@ -1978,7 +1978,7 @@ function ParticleCollisionContactGenerator(collisionRadius) {
    * @field
    * @type Particle []
    * @default []
-   * @since 0.0.0
+
    */
   this.particles = [];
 
@@ -1987,7 +1987,7 @@ function ParticleCollisionContactGenerator(collisionRadius) {
    * @function
    * @override
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.addContact = function (contacts, limit) {
     var usedContacts = 0;
@@ -2028,7 +2028,7 @@ function ParticleCollisionContactGenerator(collisionRadius) {
    * @abstract
    * @param {ParticleWorldVisitor} visitor Visitor to visit
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.accept = function (visitor) {
     visitor.visitCollisionContactGenerator(this);
@@ -2042,7 +2042,7 @@ ParticleCollisionContactGenerator.prototype = new ParticleContactGenerator();
  * @extends ParticleContactGenerator
  * @param {Rectangle} box The boundaries in which a contact may live
  * @param {Number} collisionRadius Minimum allowable distance between a particle and the boundaries
- * @since 0.0.0
+
  */
 function ParticleBoxContactGenerator(box, collisionRadius) {
 
@@ -2056,7 +2056,7 @@ function ParticleBoxContactGenerator(box, collisionRadius) {
    * @field
    * @type Rectangle
    * @default box
-   * @since 0.0.0
+
    */
   this.box = box;
 
@@ -2065,7 +2065,7 @@ function ParticleBoxContactGenerator(box, collisionRadius) {
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0
+
    */
   this.collisionRadius = collisionRadius || 0.0;
 
@@ -2074,7 +2074,7 @@ function ParticleBoxContactGenerator(box, collisionRadius) {
    * @field
    * @type Particle []
    * @default []
-   * @since 0.0.0
+
    */
   this.particles = [];
 
@@ -2083,7 +2083,7 @@ function ParticleBoxContactGenerator(box, collisionRadius) {
    * @function
    * @override
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.addContact = function (contacts, limit) {
     var usedContacts = 0;
@@ -2139,7 +2139,7 @@ function ParticleBoxContactGenerator(box, collisionRadius) {
    * @abstract
    * @param {ParticleWorldVisitor} visitor Visitor to visit
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.accept = function (visitor) {
     visitor.visitBoxCollisionContactGenerator(this);
@@ -2150,7 +2150,7 @@ ParticleBoxContactGenerator.prototype = new ParticleContactGenerator();
 /**
  * @class Factory to create particle contact generators
  * @constructor
- * @since 0.0.0
+
  */
 function ParticleContactGeneratorFactory() {
 }
@@ -2164,7 +2164,7 @@ function ParticleContactGeneratorFactory() {
  * @param {Rectangle} collisionBox The collision rectangle
  * @param {Number} collisionRadius Optional minimum allowable distance between bounding box and particle
  * @returns {void}
- * @since 0.0.0
+
  */
 ParticleContactGeneratorFactory.createCollisionBox = function (particleWorld, particles, collisionBox, collisionRadius) {
   var generator = new ParticleBoxContactGenerator(collisionBox, collisionRadius);
@@ -2180,7 +2180,7 @@ ParticleContactGeneratorFactory.createCollisionBox = function (particleWorld, pa
  * @param {Particles []} particles The particle to test collisions on
  * @param {Number} collisionRadius The minimum allowable distance between the particles
  * @returns {void}
- * @since 0.0.0
+
  */
 ParticleContactGeneratorFactory.createCollisionDetection = function (particleWorld, particles, collisionRadius) {
   var generator = new ParticleCollisionContactGenerator(collisionRadius);
@@ -2198,7 +2198,7 @@ ParticleContactGeneratorFactory.createCollisionDetection = function (particleWor
  * @param {Number} maxLength The maximum length of the cable
  * @param {Number} restitution The cable's restitution
  * @returns {void}
- * @since 0.0.0
+
  */
 ParticleContactGeneratorFactory.createCable = function (particleWorld, particle, particleOther, maxLength, restitution) {
   var generator = new ParticleCableContactGenerator(maxLength, restitution);
@@ -2217,7 +2217,7 @@ ParticleContactGeneratorFactory.createCable = function (particleWorld, particle,
  * @param {Number} maxLength The maximum length of the cable
  * @param {Number} restitution The cable's restitution
  * @returns {void}
- * @since 0.0.0.3
+
  */
 ParticleContactGeneratorFactory.createAnchoredCable = function (particleWorld, particle, anchor, maxLength, restitution) {
   var generator = new ParticleAnchoredCableContactGenerator(particle, anchor, maxLength, restitution);
@@ -2234,7 +2234,7 @@ ParticleContactGeneratorFactory.createAnchoredCable = function (particleWorld, p
  * @param {Particle} particleOther The second particle
  * @param {Number} length The length of the rod
  * @returns {void}
- * @since 0.0.0
+
  */
 ParticleContactGeneratorFactory.createRod = function (particleWorld, particle, particleOther, length) {
   var generator = new ParticleRodContactGenerator(length);
@@ -2252,7 +2252,7 @@ ParticleContactGeneratorFactory.createRod = function (particleWorld, particle, p
  * @param {Array} anchor The anchor to attach the particle to
  * @param {Number} length The length of the rod
  * @returns {void}
- * @since 0.0.0.3
+
  */
 ParticleContactGeneratorFactory.createAnchoredRod = function (particleWorld, particle, anchor, length) {
   var generator = new ParticleAnchoredRodContactGenerator(particle, anchor, length);
@@ -2266,7 +2266,7 @@ ParticleContactGeneratorFactory.createAnchoredRod = function (particleWorld, par
  * @constant
  * @type int
  * @default 1
- * @since 0.0.0
+
  */
 var PARTICLE_WORLD_GRAVITY = 1;
 
@@ -2276,17 +2276,17 @@ var PARTICLE_WORLD_GRAVITY = 1;
  * @constant
  * @type int
  * @default 2
- * @since 0.0.0
+
  */
 var PARTICLE_WORLD_DRAG = 2;
 
 /**
- * Particles should collide with window rect
+ * Particles should collide with worldToWindow rect
  * @field
  * @constant
  * @type int
  * @default 4
- * @since 0.0.0
+
  */
 var PARTICLE_WORLD_WINDOW_COLLISION = 4;
 
@@ -2296,7 +2296,7 @@ var PARTICLE_WORLD_WINDOW_COLLISION = 4;
  * @constant
  * @type int
  * @default 8
- * @since 0.0.0
+
  */
 var PARTICLE_WORLD_CONTACT_EVENTS = 8;
 
@@ -2306,7 +2306,7 @@ var PARTICLE_WORLD_CONTACT_EVENTS = 8;
  * @constant
  * @type int
  * @default 2
- * @since 0.0.0
+
  */
 var PARTICLE_WORLD_ALL = PARTICLE_WORLD_GRAVITY |
   PARTICLE_WORLD_DRAG |
@@ -2318,7 +2318,7 @@ var PARTICLE_WORLD_ALL = PARTICLE_WORLD_GRAVITY |
  * @constructor
  * @param {ParticleContact} contact The contact that was generated
  * @param {CONTACT_TYPE} contactType The contact type
- * @since 0.0.0
+
  */
 function ContactEvent(contact, contactType) {
 
@@ -2327,7 +2327,7 @@ function ContactEvent(contact, contactType) {
    * @field
    * @type ParticleContact
    * @default contact
-   * @since 0.0.0
+
    */
   this.contact = contact;
 
@@ -2336,7 +2336,7 @@ function ContactEvent(contact, contactType) {
    * @field
    * @type CONTACT_TYPE
    * @default contact
-   * @since 0.0.0
+
    */
   this.contactType = contactType;
 }
@@ -2344,7 +2344,7 @@ function ContactEvent(contact, contactType) {
 /**
  * @class Visitor interface to visit the particle world
  * @constructor
- * @since 0.0.0.3
+
  */
 function ParticleWorldVisitor() {
 
@@ -2472,7 +2472,7 @@ function ParticleWorldVisitor() {
    * Visits the anchored particle cable contact generator
    * @param {ParticleAnchoredCableContactGenerator} contactGenerator The visited particle contact generator
    * @return void
-   * @since 0.0.0.3
+
    */
   this.visitAnchoredCableContactGenerator = function (contactGenerator) {
   }
@@ -2493,7 +2493,7 @@ function ParticleWorldVisitor() {
    * Visits the anchored particle rod contact generator
    * @param {ParticleAnchoredRodContactGenerator} contactGenerator The visited particle contact generator
    * @return void
-   * @since 0.0.0.3
+
    */
   this.visitAnchoredRodContactGenerator = function (contactGenerator) {
   }
@@ -2524,7 +2524,7 @@ function ParticleWorldVisitor() {
  * @constructor
  * @extends Observable
  * @param {int} flags Initial value flags
- * @since 0.0.0
+
  */
 function ParticleWorld(flags) {
 
@@ -2538,7 +2538,7 @@ function ParticleWorld(flags) {
    * @field
    * @type boolean
    * @default false
-   * @since 0.0.0
+
    */
   this.contactEventsEnabled = false;
 
@@ -2547,7 +2547,7 @@ function ParticleWorld(flags) {
    * @field
    * @type function
    * @default undefined
-   * @since 0.0.0
+
    */
   this.oncontact = undefined;
 
@@ -2556,7 +2556,7 @@ function ParticleWorld(flags) {
    * @function
    * @param {ContactEvent} e The event object
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.contact = function (e) {
     if (this.oncontact) {
@@ -2570,7 +2570,7 @@ function ParticleWorld(flags) {
    * @field
    * @type Particle []
    * @default []
-   * @since 0.0.0
+
    */
   this.particles = [];
 
@@ -2579,7 +2579,7 @@ function ParticleWorld(flags) {
    * @field
    * @type ParticleForceRegistry
    * @default new ParticleForceRegistry()
-   * @since 0.0.0
+
    */
   this.forceRegistry = new ParticleForceRegistry();
 
@@ -2588,7 +2588,7 @@ function ParticleWorld(flags) {
    * @field
    * @type ParticleContactResolver
    * @default new ParticleContactResolver()
-   * @since 0.0.0
+
    */
   this.resolver = new ParticleContactResolver();
 
@@ -2597,7 +2597,7 @@ function ParticleWorld(flags) {
    * @field
    * @type ParticleContactGenerator []
    * @default []
-   * @since 0.0.0
+
    */
   this.contactGenerators = [];
 
@@ -2606,7 +2606,7 @@ function ParticleWorld(flags) {
    * @field
    * @type ParticleContact []
    * @default []
-   * @since 0.0.0
+
    */
   this.contacts = [];
 
@@ -2615,7 +2615,7 @@ function ParticleWorld(flags) {
    * @field
    * @type int
    * @default 100
-   * @since 0.0.0
+
    */
   this.maxContacts = 100;
 
@@ -2624,7 +2624,7 @@ function ParticleWorld(flags) {
    * @field
    * @type ParticleForceGenerator []
    * @default []
-   * @since 0.0.0
+
    */
   this.globalForceGenerators = [];
 
@@ -2633,7 +2633,7 @@ function ParticleWorld(flags) {
    * @field
    * @type int
    * @default 0
-   * @since 0.0.0
+
    */
   this.flags = flags || 0;
 
@@ -2642,7 +2642,7 @@ function ParticleWorld(flags) {
    * @function
    * @param {ParticleContactGenerator} contactGenerator The contact generator to add
    * @return {int} The total number of contact generators
-   * @since 0.0.0
+
    */
   this.addContactGenerator = function (contactGenerator) {
     this.contactGenerators.push(contactGenerator);
@@ -2668,7 +2668,7 @@ function ParticleWorld(flags) {
    * @function
    * @param {ParticleContactGenerator} contactGenerator The contact generator to remove
    * @return {void}
-   * @since 0.0.0
+
    */
   this.removeContactGenerator = function (contactGenerator) {
     var i = this.contactGenerators.length;
@@ -2685,7 +2685,7 @@ function ParticleWorld(flags) {
    * @function
    * @param {Particle} particle The new particle to add
    * @returns {int} The total number of particles in the simulation
-   * @since 0.0.0
+
    */
   this.addParticle = function (particle) {
     return this.particles.push(particle);
@@ -2696,7 +2696,7 @@ function ParticleWorld(flags) {
    * @function
    * @param {Particle} particle The particle to remove
    * @returns {Particle} The removed particle, undefied if not removed
-   * @since 0.0.0
+
    */
   this.removeParticle = function (particle) {
     var removedParticle = undefined;
@@ -2728,7 +2728,7 @@ function ParticleWorld(flags) {
    * @param {Array} point The world point at which to look
    * @param {Number} radius The search radius
    * @returns {Particle} The particle, undefined if none were found
-   * @since 0.0.0
+
    */
   this.getFirstParticleWithinWorld = function (point, radius) {
     var i = this.particles.length;
@@ -2747,13 +2747,13 @@ function ParticleWorld(flags) {
    * @param {Array} point The window point at which to look
    * @param {Number} radius The search radius
    * @returns {Particle} The particle, undefined if none were found
-   * @since 0.0.0.3
+
    */
   this.getFirstParticleWithinWindow = function (point, radius) {
     var i = this.particles.length;
     while (i--) {
       var particle = this.particles[i];
-      if (math.v2.isWithin(window(particle.pos), point, radius)) {
+      if (math.v2.isWithin(worldToWindow(particle.pos), point, radius)) {
         return particle;
       } // if
     } // for
@@ -2765,7 +2765,7 @@ function ParticleWorld(flags) {
    * @function
    * @param {int} delta Delta time in milliseconds since last update
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.update = function (delta) {
     this.startFrame();
@@ -2776,7 +2776,7 @@ function ParticleWorld(flags) {
    * Clears all force accumulators on particles
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.startFrame = function () {
     var i = this.particles.length;
@@ -2790,7 +2790,7 @@ function ParticleWorld(flags) {
    * Calls all the contact generators
    * @function
    * @returns {int} The number of generated contacts
-   * @since 0.0.0
+
    */
   this.generateContacts = function () {
     var limit = this.maxContacts;
@@ -2823,7 +2823,7 @@ function ParticleWorld(flags) {
    * @function
    * @param {int} delta Delta time in milliseconds since last update
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.integrate = function (delta) {
     var i = this.particles.length;
@@ -2838,7 +2838,7 @@ function ParticleWorld(flags) {
    * @function
    * @param {int} delta Delta time in milliseconds since last update
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.runPhysics = function (delta) {
     this.applyGlobalForces(delta);
@@ -2855,7 +2855,7 @@ function ParticleWorld(flags) {
    * @function
    * @param {ParticleForceGenerator} forceGenerator The global force generator to be added
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.addGlobalForce = function (forceGenerator) {
     this.globalForceGenerators.push(forceGenerator);
@@ -2866,7 +2866,7 @@ function ParticleWorld(flags) {
    * @function
    * @param {int} delta Delta Time delta in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyGlobalForces = function (delta) {
 
@@ -2886,7 +2886,7 @@ function ParticleWorld(flags) {
    * @function
    * @param {Array} gravitation Optional gravitational pull
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.addGlobalGravityForce = function (gravitation) {
     this.addGlobalForce(
@@ -2900,7 +2900,7 @@ function ParticleWorld(flags) {
    * @param {Number} k1 Velocity drag coefficient
    * @param {Number} k2 Velocity squared drag coefficient
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.addGlobalDragForce = function (k1, k2) {
     this.addGlobalForce(
@@ -2913,7 +2913,7 @@ function ParticleWorld(flags) {
    * @function
    * @param {Number} collisionRadius Minimum distance between particle and window border
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.addWindowCollisionBox = function (collisionRadius) {
     ParticleContactGeneratorFactory.createCollisionBox(
@@ -2958,7 +2958,7 @@ function ParticleWorld(flags) {
    * @function
    * @param {ParticleWorldVisitor} visitor Visitor to visit
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.accept = function (visitor) {
     visitor.visitWorld(this);

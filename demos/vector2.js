@@ -1,7 +1,7 @@
 /**
  * @fileOverview 2D Vector Explorer
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0
+
  */
 
 "use strict";
@@ -9,7 +9,7 @@
 /**
  * @class Vector2 game implementation
  * @extends Engine
- * @since 0.0.0.4
+
  */
 function Vector2Game() {
 
@@ -23,7 +23,7 @@ function Vector2Game() {
    * @field
    * @type Array []
    * @default []
-   * @since 0.0.0
+
    */
   var vectors = [];
 
@@ -32,7 +32,7 @@ function Vector2Game() {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0
+
    */
   var selectedVector = undefined;
 
@@ -182,7 +182,7 @@ function Vector2Game() {
    * @param {Array} point The point at which to look
    * @param {Number} radius The search radius
    * @returns {Array} The vector, undefined if none were found
-   * @since 0.0.0.4
+
    */
   this.getFirstVectorWithin = function(point, radius) {
     var i = vectors.length;
@@ -204,7 +204,7 @@ function Vector2Game() {
    * @param {Array} point The point
    * @param {Number} radius The radius around the point
    * @returns {void}
-   * @since 0.0.0.4
+
    */
   this.highlightPoint = function(point, radius) {
     this.ctx.save();

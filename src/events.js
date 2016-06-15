@@ -1,7 +1,7 @@
 /**
  * @fileOverview Event handling routines
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0
+
  */
 
 "use strict";
@@ -10,7 +10,7 @@
  * @class An observable object that can raise events to interrested listeners
  * @constructor
  * @abstract
- * @since 0.0.0
+
  */
 function Observable() {
 
@@ -20,7 +20,7 @@ function Observable() {
 	 * @field 
 	 * @type EventListener []
 	 * @default new Object
-	 * @since 0.0.0
+
 	 */
 	this.listeners = new Object();
 	
@@ -30,7 +30,7 @@ function Observable() {
 	 * @param {string} type The type of event to listen for
 	 * @param {function} listener The listener to invoke
 	 * @return {int} The total number of event listeners of the specified type
-	 * @since 0.0.0
+
 	 */
 	this.addEventListener = function(type, listener) {
 		if (typeof this.listeners[type] == "undefined") {
@@ -45,7 +45,7 @@ function Observable() {
 	 * @param {string} type The type of event to listen for
 	 * @param {Object} e The optional event object
 	 * @return {void}
-	 * @since 0.0.0
+
 	 */
 	this.dispatchEvent = function(type, e) {
     if (typeof this.listeners[type] == "undefined") {
@@ -65,7 +65,7 @@ function Observable() {
 	 * @param {string} type The type of event to listen for
 	 * @param {function} listener The listener to remove
 	 * @return {function []} The removed event listeners, undefined if not found
-	 * @since 0.0.0
+
 	 */
 	this.removeEventListener = function(type, listener) {
 		if (this.listeners[type] instanceof Array){
@@ -90,7 +90,7 @@ function Observable() {
  * @param {boolean} twoWay True for bi-directional binding
  * @param {Function} conversionFunction Used to convert from source format to target format
  * @return {void}
- * @since 0.0.0.3
+
  */
 function bind(eventType, target, targetProperty, source, sourceProperty, twoWay, conversionFunction) {
   var value = source[sourceProperty];

@@ -1,7 +1,7 @@
 /**
  * @fileOverview Utilities
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0
+
  */
 
 "use strict";
@@ -10,7 +10,7 @@
  * Current time in milliseconds
  * @function
  * @returns {Number} Current time in milliseconds
- * @since 0.0.0
+
  */
 function getTime() {
   return Date.now();
@@ -21,7 +21,7 @@ function getTime() {
  * @function
  * @param {Number} y World Y-coordinate
  * @returns {Number} Window Y-coordinate
- * @since 0.0.0
+
  */
 function Y(y) {
   return EngineInstance.windowRect.height - y + EngineInstance.windowOffset[1];
@@ -32,7 +32,7 @@ function Y(y) {
  * @function
  * @param {Number} x World X-coordinate
  * @returns {Number} Window X-coordinate
- * @since 0.0.0.4
+
  */
 function X(x) {
   return - x + EngineInstance.windowOffset[0];
@@ -43,9 +43,9 @@ function X(x) {
  * @function
  * @param {Array} point Window position
  * @returns {Array} Window position
- * @since 0.0.0.3
+
  */
-function world(point) {
+function windowToWorld(point) {
   var worldPos = math.v2.create(point);
   worldPos[0] = X(point[0]);
   worldPos[1] = Y(point[1]);
@@ -58,9 +58,9 @@ function world(point) {
  * @function
  * @param {Array} point World position
  * @returns {Array} Window position
- * @since 0.0.0.3
+
  */
-function window(point) {
+function worldToWindow(point) {
   var windowPos = math.v2.create(point);
   math.v2.multScalarMutate(windowPos, EngineInstance.ppm);
   windowPos[0] = X(windowPos[0]);
@@ -73,7 +73,7 @@ function window(point) {
  * @function
  * @param {Array} vector World vector
  * @returns {Array} Window vector
- * @since 0.0.0.3
+
  */
 function windowVector(vector) {
   var windowVec = math.v2.create(vector);
@@ -84,7 +84,7 @@ function windowVector(vector) {
 
 /**
  * unb3nd constants namespace
- * @since 0.0.0.4
+
  */
 var constants = {
 
@@ -120,7 +120,7 @@ var constants = {
    * @constant
    * @field
    * @type Number
-   * @since 0.0.0
+
    */
   EARTH_GRAVITATIONAL_CONSTANT:-9.81,
 
@@ -130,7 +130,7 @@ var constants = {
    * @constant
    * @field
    * @type Number
-   * @since 0.0.0
+
    */
   DEFAULT_GRAVITATIONAL_CONSTANT:-9.81,
 
@@ -140,7 +140,7 @@ var constants = {
    * @constant
    * @field
    * @type Number
-   * @since 0.0.0
+
    */
   DEFAULT_DRAG_VELOCITY_COEFF:0.5,
 
@@ -150,7 +150,7 @@ var constants = {
    * @constant
    * @field
    * @type Number
-   * @since 0.0.0
+
    */
   DEFAULT_DRAG_VELOCITY_SQUARED_COEFF:0.05,
 
@@ -160,7 +160,7 @@ var constants = {
    * @constant
    * @field
    * @type Number
-   * @since 0.0.0
+
    */
   DEFAULT_COLLISION_RESTITUTION:0.5,
 
@@ -170,7 +170,7 @@ var constants = {
    * @constant
    * @field
    * @type Number
-   * @since 0.0.0
+
    */
   TWO_PI:Math.PI * 2
 };

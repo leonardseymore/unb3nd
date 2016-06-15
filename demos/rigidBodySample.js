@@ -1,7 +1,7 @@
 /**
  * @fileOverview Simple rigid body sample
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0.3
+
  */
 
 "use strict";
@@ -9,7 +9,7 @@
 /**
  * @class Rigid body sample
  * @extends Engine
- * @since 0.0.0.4
+
  */
 function RidigBodyGame() {
 
@@ -23,14 +23,14 @@ function RidigBodyGame() {
    * @field
    * @type World
    * @default undefined
-   * @since 0.0.0.3
+
    */
   var rigidBodyWorld = undefined;
 
   /**
    * @field Particle world renderer
    * @type ParticleWorldRenderVisitor
-   * @since 0.0.0.4
+
    */
   var worldRenderer = undefined;
 
@@ -39,7 +39,7 @@ function RidigBodyGame() {
    * @field
    * @type Array
    * @default 10
-   * @since 0.0.0.3
+
    */
   var rigidBodies = [];
   var rigidBodyStructure = [
@@ -135,7 +135,7 @@ function RidigBodyGame() {
    * @param {Number} x The x position of the body
    * @param {Number} y The y position of the body
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   function initRigidBody(index, mass, inertia, x, y) {
     rigidBodies[index] = new RigidBody(mass, inertia);
@@ -189,14 +189,14 @@ function RidigBodyGame() {
    * @param {RigidBody} rigidBody The rigid body to draw
    * @param {String} strokeStyle The style to use
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.drawRigidBody = function(rigidBody, strokeStyle) {
     var ctx = this.ctx;
 
-    var t1 = window(rigidBody.getPointInWorldSpace(rigidBodyStructure[0]));
-    var t2 = window(rigidBody.getPointInWorldSpace(rigidBodyStructure[1]));
-    var t3 = window(rigidBody.getPointInWorldSpace(rigidBodyStructure[2]));
+    var t1 = worldToWindow(rigidBody.getPointInWorldSpace(rigidBodyStructure[0]));
+    var t2 = worldToWindow(rigidBody.getPointInWorldSpace(rigidBodyStructure[1]));
+    var t3 = worldToWindow(rigidBody.getPointInWorldSpace(rigidBodyStructure[2]));
 
     ctx.save();
     ctx.strokeStyle = strokeStyle;

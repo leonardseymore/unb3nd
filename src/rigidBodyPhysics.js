@@ -1,7 +1,7 @@
 /**
  * @fileOverview Rigid Body System
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0
+
  */
 
 /**
@@ -13,7 +13,7 @@
  * @extends Observable
  * @param {Number} mass Optional mass, 0.0 being infinite
  * @param {Number} inertia Optional inertia, 0.0 being infinite
- * @since 0.0.0
+
  */
 function RigidBody(mass, inertia) {
 
@@ -29,7 +29,7 @@ function RigidBody(mass, inertia) {
    * @private
    * @type Array
    * @default X-unit vector
-   * @since 0.0.0
+
    */
   this.orientation = new math.v2.create([1, 0]);
 
@@ -39,7 +39,7 @@ function RigidBody(mass, inertia) {
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0
+
    */
   this.angVel = 0.0;
 
@@ -48,7 +48,7 @@ function RigidBody(mass, inertia) {
    * @field
    * @type Array
    * @default Zero vector
-   * @since 0.0.0
+
    */
   this.pos = math.v2.create();
 
@@ -57,7 +57,7 @@ function RigidBody(mass, inertia) {
    * @field
    * @type Array
    * @default Zero vector
-   * @since 0.0.0
+
    */
   this.vel = math.v2.create();
 
@@ -66,7 +66,7 @@ function RigidBody(mass, inertia) {
    * @field
    * @type Array
    * @default Zero vector
-   * @since 0.0.0
+
    */
   this.acc = math.v2.create();
 
@@ -76,7 +76,7 @@ function RigidBody(mass, inertia) {
    * @field
    * @type Number
    * @default 1.0
-   * @since 0.0.0
+
    */
   this.damping = 1.0;
 
@@ -86,7 +86,7 @@ function RigidBody(mass, inertia) {
    * @field
    * @type Number
    * @default 1.0
-   * @since 0.0.0
+
    */
   this.angularDamping = 1.0;
 
@@ -96,7 +96,7 @@ function RigidBody(mass, inertia) {
    * @field
    * @type Number
    * @default 0.0, indicating infinite mass
-   * @since 0.0.0
+
    */
   this.inverseMass = 0.0;
   if (mass) {
@@ -109,7 +109,7 @@ function RigidBody(mass, inertia) {
    * @field
    * @type Number
    * @default 0.0, indicating infinite inertia
-   * @since 0.0.0
+
    */
   this.inverseInertia = 0.0;
   if (inertia) {
@@ -122,7 +122,7 @@ function RigidBody(mass, inertia) {
    * @field
    * @type Array
    * @default Zero vector
-   * @since 0.0.0
+
    */
   this.forceAccum = math.v2.create();
 
@@ -132,7 +132,7 @@ function RigidBody(mass, inertia) {
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0
+
    */
   this.torqueAccum = 0.0;
 
@@ -147,7 +147,7 @@ function RigidBody(mass, inertia) {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0
+
    */
   this.transformMatrix = undefined;
 
@@ -160,7 +160,7 @@ function RigidBody(mass, inertia) {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0
+
    */
   this.transformMatrixInverse = undefined;
 
@@ -172,7 +172,7 @@ function RigidBody(mass, inertia) {
    * (such as the transform matrix), then you can omit this step.
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.calculateDerivedData = function () {
     this.calculateTransformMatrix();
@@ -182,7 +182,7 @@ function RigidBody(mass, inertia) {
    * Calculates the transformMatrix from this position and orientation
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.calculateTransformMatrix = function () {
     this.transformMatrix = math.m3.createTransform2(
@@ -196,7 +196,7 @@ function RigidBody(mass, inertia) {
    * @function
    * @param {Number} theta The orientation to use
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.setOrientationAngle = function (theta) {
     this.orientation[0] = Math.cos(theta);
@@ -209,7 +209,7 @@ function RigidBody(mass, inertia) {
    * @function
    * @param {Array} orientation The orientation of this body
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.setOrientation = function (orientation) {
     this.orientation = orientation;
@@ -219,7 +219,7 @@ function RigidBody(mass, inertia) {
    * Sets the orientation angle of this object
    * @function
    * @returns {Number} The orientation of this object in radians
-   * @since 0.0.0
+
    */
   this.getOrientationAngle = function () {
     var x = this.orientation[0];
@@ -232,7 +232,7 @@ function RigidBody(mass, inertia) {
    * Gets the orientation of this object
    * @function
    * @returns {Array} The orientation of this object
-   * @since 0.0.0
+
    */
   this.getOrientation = function () {
     return this.orientation;
@@ -243,7 +243,7 @@ function RigidBody(mass, inertia) {
    * @function
    * @param {Array} point Point to transform
    * @returns {Array} The transformed point
-   * @since 0.0.0
+
    */
   this.getPointInWorldSpace = function (point) {
     return math.m3.multVector2(this.transformMatrix, point);
@@ -255,7 +255,7 @@ function RigidBody(mass, inertia) {
    * @function
    * @param {Array} point Point to transform
    * @returns {Array} The transformed point
-   * @since 0.0.0
+
    */
   this.getPointInLocalSpace = function (point) {
     return math.m3.multVector2(this.transformMatrixInverse, point);
@@ -265,7 +265,7 @@ function RigidBody(mass, inertia) {
    * Ensures this body has a finite mass
    * @function
    * @returns {boolean} true if this body has a finite mass
-   * @since 0.0.0
+
    */
   this.hasFiniteMass = function () {
     return this.inverseMass > 0;
@@ -276,7 +276,7 @@ function RigidBody(mass, inertia) {
    * @function
    * @param {Array} force The force to add to this rigid body
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (force) {
     math.v2.addMutate(this.forceAccum, force);
@@ -293,7 +293,7 @@ function RigidBody(mass, inertia) {
    * @param {Array} force The force to add to this rigid body
    * @param {Array} point The location at which to apply the force in world coordinates
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForceAtBodyPoint = function (force, point) {
     var pt = this.getPointInWorldSpace(point);
@@ -306,7 +306,7 @@ function RigidBody(mass, inertia) {
    * @param {Array} force The force to add to this rigid body
    * @param {Array} point The location at which to apply the force in local coordinates
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.addForceAtPoint = function (force, point) {
     this.applyForce(force);
@@ -322,7 +322,7 @@ function RigidBody(mass, inertia) {
    * Reset the force accumulator on this rigid body
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.clearForceAccum = function () {
     math.v2.zeroMutate(this.forceAccum);
@@ -333,7 +333,7 @@ function RigidBody(mass, inertia) {
    * @function
    * @param {Number} torque The torque to add to this rigid body
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyTorque = function (torque) {
     this.torqueAccum += torque;
@@ -343,7 +343,7 @@ function RigidBody(mass, inertia) {
    * Reset the torque accumulator on this rigid body
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.clearTorqueAccum = function () {
     this.torqueAccum = 0.0;
@@ -353,7 +353,7 @@ function RigidBody(mass, inertia) {
    * Clears all frame accumulators
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.clearAccums = function () {
     this.clearForceAccum();
@@ -365,7 +365,7 @@ function RigidBody(mass, inertia) {
    * @function
    * @param {Number} inverseMass The inverse mass of the rigid body
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.setInverseMass = function (inverseMass) {
     this.inverseMass = inverseMass;
@@ -376,7 +376,7 @@ function RigidBody(mass, inertia) {
    * @function
    * @param {Number} mass The mass of the rigid body
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.setMass = function (mass) {
     if (mass == 0) {
@@ -390,7 +390,7 @@ function RigidBody(mass, inertia) {
    * Gets the mass of the rigid body
    * @function
    * @returns {Number} The mass of the rigid body
-   * @since 0.0.0
+
    */
   this.getMass = function () {
     if (this.inverseMass == 0) {
@@ -405,7 +405,7 @@ function RigidBody(mass, inertia) {
    * @function
    * @param {Number} inverseInertia The inverse inertia of the rigid body
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.setInverseInertia = function (inverseInertia) {
     this.inverseInertia = inverseInertia;
@@ -416,7 +416,7 @@ function RigidBody(mass, inertia) {
    * @function
    * @param {Number} inertia The inertia of the rigid body
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.setInertia = function (inertia) {
     if (inertia == 0) {
@@ -430,7 +430,7 @@ function RigidBody(mass, inertia) {
    * Gets the inertia of the rigid body
    * @function
    * @returns {Number} The inertia of the rigid body
-   * @since 0.0.0
+
    */
   this.getInertia = function () {
     if (this.inverseInertia == 0) {
@@ -446,7 +446,7 @@ function RigidBody(mass, inertia) {
    * @function
    * @param {int} delta The time delta in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.integrate = function (delta) {
     var dt = delta / 1000;
@@ -491,7 +491,7 @@ function RigidBody(mass, inertia) {
    * @function
    * @param {WorldVisitor} visitor Visitor to visit
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.accept = function (visitor) {
     visitor.visitRigidBody(this);
@@ -501,7 +501,7 @@ function RigidBody(mass, inertia) {
    * On die callback
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.ondie = undefined;
 
@@ -509,7 +509,7 @@ function RigidBody(mass, inertia) {
    * Die callback invoker
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.die = function () {
     if (this.ondie) {
@@ -522,7 +522,7 @@ function RigidBody(mass, inertia) {
    * Converts the class to a string representation
    * @function
    * @returns {string} The string representation of this class
-   * @since 0.0.0
+
    */
   this.toString = function () {
     return "uid=" + this.uid;
@@ -534,7 +534,7 @@ RigidBody.prototype = new Observable();
  * @class A rigid body force generator
  * @constructor
  * @abstract
- * @since 0.0.0
+
  */
 function ForceGenerator() {
 
@@ -545,7 +545,7 @@ function ForceGenerator() {
    * @param {RigidBody} rigidBody The rigid body to apply the force to
    * @param {int} delta The delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (rigidBody, delta) {
   }
@@ -557,7 +557,7 @@ function ForceGenerator() {
    * @param {WorldVisitor} visitor Visitor to visit
    * @param {RigidBody} rigidBody RigidBody that is currently affected by this generator
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.accept = function (visitor, rigidBody) {
   }
@@ -566,7 +566,7 @@ function ForceGenerator() {
    * Converts the class to a string representation
    * @function
    * @returns {string} The string representation of this object
-   * @since 0.0.0
+
    */
   this.toString = function () {
     return this;
@@ -578,7 +578,7 @@ function ForceGenerator() {
  * @constructor
  * @extends ForceGenerator
  * @param {Array} gravition Gravitational force, defaults {@link constants.DEFAULT_GRAVITATIONAL_CONSTANT}
- * @since 0.0.0
+
  */
 function GravityForceGenerator(gravitation) {
 
@@ -587,7 +587,7 @@ function GravityForceGenerator(gravitation) {
    * @field
    * @type Array
    * @default Vector with {@link constants.DEFAULT_GRAVITATIONAL_CONSTANT} as Y-axis
-   * @since 0.0.0
+
    */
   this.gravitation = gravitation || math.v2.create([0, constants.DEFAULT_GRAVITATIONAL_CONSTANT]);
 
@@ -598,7 +598,7 @@ function GravityForceGenerator(gravitation) {
    * @param {RigidBody} rigidBody The rigid body to apply the force to
    * @param {int} delta The delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (rigidBody, delta) {
     if (!rigidBody.hasFiniteMass()) {
@@ -630,7 +630,7 @@ function GravityForceGenerator(gravitation) {
    * Converts the class to a string representation
    * @function
    * @returns {string} The string representation of this object
-   * @since 0.0.0
+
    */
   this.toString = function () {
     return "Gravity: " + this.gravitation.toString();
@@ -649,7 +649,7 @@ GravityForceGenerator.prototype = new ForceGenerator();
  *        in that object's local coordinates of the {@link #rigidBodyOther}
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
- * @since 0.0.0
+
  */
 function SpringForceGenerator(connectionPoint, rigidBodyOther, connectionPointOther, springConstant, restLength) {
 
@@ -659,7 +659,7 @@ function SpringForceGenerator(connectionPoint, rigidBodyOther, connectionPointOt
    * @field
    * @type Array
    * @default connectionPoint
-   * @since 0.0.0
+
    */
   this.connectionPoint = connectionPoint;
 
@@ -669,7 +669,7 @@ function SpringForceGenerator(connectionPoint, rigidBodyOther, connectionPointOt
    * @field
    * @type Array
    * @default connectionPointOther
-   * @since 0.0.0
+
    */
   this.connectionPointOther = connectionPointOther;
 
@@ -678,7 +678,7 @@ function SpringForceGenerator(connectionPoint, rigidBodyOther, connectionPointOt
    * @field
    * @type RigidBody
    * @default rigidBodyOther
-   * @since 0.0.0
+
    */
   this.rigidBodyOther = rigidBodyOther;
 
@@ -687,7 +687,7 @@ function SpringForceGenerator(connectionPoint, rigidBodyOther, connectionPointOt
    * @field
    * @type Number
    * @default springConstant
-   * @since 0.0.0
+
    */
   this.springConstant = springConstant;
 
@@ -696,7 +696,7 @@ function SpringForceGenerator(connectionPoint, rigidBodyOther, connectionPointOt
    * @field
    * @type Number
    * @default restLength
-   * @since 0.0.0
+
    */
   this.restLength = restLength;
 
@@ -707,7 +707,7 @@ function SpringForceGenerator(connectionPoint, rigidBodyOther, connectionPointOt
    * @param {RigidBody} rigidBody The rigid body to apply the force to
    * @param {int} delta The delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (rigidBody, delta) {
     var lws = rigidBody.getPointInWorldSpace(this.connectionPoint);
@@ -739,7 +739,7 @@ SpringForceGenerator.prototype = new ForceGenerator();
  * @constructor
  * @extends ForceGenerator
  * @param {Number} torque The amount of torque to apply
- * @since 0.0.0
+
  */
 function ConstantTorqueForceGenerator(torque) {
 
@@ -748,7 +748,7 @@ function ConstantTorqueForceGenerator(torque) {
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0
+
    */
   this.torque = torque || 0.0;
 
@@ -759,7 +759,7 @@ function ConstantTorqueForceGenerator(torque) {
    * @param {RigidBody} rigidBody The rigid body to apply the force to
    * @param {int} delta The delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (rigidBody, delta) {
     if (!rigidBody.hasFiniteMass()) {
@@ -778,7 +778,7 @@ function ConstantTorqueForceGenerator(torque) {
    * Converts the class to a string representation
    * @function
    * @returns {string} The string representation of this object
-   * @since 0.0.0
+
    */
   this.toString = function () {
     return "Constant Torque: " + this.torque;
@@ -793,7 +793,7 @@ ConstantTorqueForceGenerator.prototype = new ForceGenerator();
  * @param {Matrix2} tensor The aerodynamic tensor for the surface in body space
  * @param {Array} position The relative position of the aerodynamic surface in body coordinates
  * @param {Array} windspeed The wind speed
- * @since 0.0.0.3
+
  */
 function AeroForceGenerator(tensor, position, windspeed) {
 
@@ -802,7 +802,7 @@ function AeroForceGenerator(tensor, position, windspeed) {
    * @field
    * @type Matrix2
    * @default undefined
-   * @since 0.0.0.3
+
    */
   this.tensor = tensor;
 
@@ -811,7 +811,7 @@ function AeroForceGenerator(tensor, position, windspeed) {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0.3
+
    */
   this.position = position;
 
@@ -820,7 +820,7 @@ function AeroForceGenerator(tensor, position, windspeed) {
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0.3
+
    */
   this.windspeed = windspeed || math.v2.create();
 
@@ -828,7 +828,7 @@ function AeroForceGenerator(tensor, position, windspeed) {
    * Converts the class to a string representation
    * @function
    * @returns {string} The string representation of this object
-   * @since 0.0.0
+
    */
   this.toString = function () {
     return "Aero: windspeed=" + this.windspeed.toString() +
@@ -847,7 +847,7 @@ AeroForceGenerator.prototype = new ForceGenerator();
  * @param {Matrix2} maxTensor The aerodynamic tensor for the surface in body space (at max)
  * @param {Array} position The relative position of the aerodynamic surface in body coordinates
  * @param {Array} windspeed The wind speed
- * @since 0.0.0.3
+
  */
 function AeroControlForceGenerator(baseTensor, minTensor, maxTensor, position, windspeed) {
 
@@ -861,7 +861,7 @@ function AeroControlForceGenerator(baseTensor, minTensor, maxTensor, position, w
    * @field
    * @type Matrix2
    * @default undefined
-   * @since 0.0.0.3
+
    */
   this.minTensor = minTensor;
 
@@ -870,7 +870,7 @@ function AeroControlForceGenerator(baseTensor, minTensor, maxTensor, position, w
    * @field
    * @type Matrix2
    * @default undefined
-   * @since 0.0.0.3
+
    */
   this.maxTensor = maxTensor;
 
@@ -881,7 +881,7 @@ function AeroControlForceGenerator(baseTensor, minTensor, maxTensor, position, w
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0.3
+
    */
   this.controlSetting = 0.0;
 
@@ -890,7 +890,7 @@ function AeroControlForceGenerator(baseTensor, minTensor, maxTensor, position, w
    * @method
    * @type Array
    * @returns {Matrix2} Aero dynamic tensor to use for current control setting
-   * @since 0.0.0.3
+
    */
   this.getTensor = function () {
     if (this.controlSetting == -1) {
@@ -909,7 +909,7 @@ function AeroControlForceGenerator(baseTensor, minTensor, maxTensor, position, w
    * @param {RigidBody} rigidBody The rigid body to apply the force to
    * @param {int} delta The delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForce = function (rigidBody, delta) {
     if (!rigidBody.hasFiniteMass()) {
@@ -939,7 +939,7 @@ function AeroControlForceGenerator(baseTensor, minTensor, maxTensor, position, w
    * Converts the class to a string representation
    * @function
    * @returns {string} The string representation of this object
-   * @since 0.0.0
+
    */
   this.toString = function () {
     return "Aero: windspeed=" + this.windspeed.toString() +
@@ -952,7 +952,7 @@ AeroControlForceGenerator.prototype = new AeroForceGenerator();
 /**
  * @class Force generator factory
  * @constructor
- * @since 0.0.0
+
  */
 function ForceGeneratorFactory() {
 }
@@ -965,7 +965,7 @@ function ForceGeneratorFactory() {
  * @param {RigidBody} rigidBody The rigidBody to add the generator to
  * @param {Array} gravitation Optional gravitional pull
  * @returns {void}
- * @since 0.0.0
+
  */
 ForceGeneratorFactory.createGravity = function (forceRegistry, rigidBody, gravitation) {
   forceRegistry.add(rigidBody, new GravityForceGenerator(gravitation));
@@ -979,7 +979,7 @@ ForceGeneratorFactory.createGravity = function (forceRegistry, rigidBody, gravit
  * @param {RigidBody} rigidBody The rigidBody to add the generator to
  * @param {Number} torque The torque force to apply
  * @returns {void}
- * @since 0.0.0
+
  */
 ForceGeneratorFactory.createConstantTorque = function (forceRegistry, rigidBody, torque) {
   forceRegistry.add(rigidBody, new ConstantTorqueForceGenerator(torque));
@@ -999,7 +999,7 @@ ForceGeneratorFactory.createConstantTorque = function (forceRegistry, rigidBody,
  * @param {Number} springConstant Holds the spring constant
  * @param {Number} restLength Holds the spring's rest length
  * @returns {void}
- * @since 0.0.0
+
  */
 ForceGeneratorFactory.createSpring = function (forceRegistry, rigidBody, connectionPoint, rigidBodyOther, connectionPointOther, springConstant, restLength) {
   var p1F = new SpringForceGenerator(connectionPoint, rigidBodyOther, connectionPointOther, springConstant, restLength);
@@ -1026,7 +1026,7 @@ ForceGeneratorFactory.createSpring = function (forceRegistry, rigidBody, connect
 /**
  * @class A force registry for matching up force generators to rigid bodies
  * @constructor
- * @since 0.0.0
+
  */
 function ForceRegistry() {
 
@@ -1035,7 +1035,7 @@ function ForceRegistry() {
    * @field
    * @type {"rigidBody":RigidBody, "forceGenerators":ForceGenerator []}
    * @default []
-   * @since 0.0.0
+
    */
   this.entries = [];
 
@@ -1046,7 +1046,7 @@ function ForceRegistry() {
    * @param {RigidBody} rigidBody The rigid body to add a force generator to
    * @param {ForceGenerator} forceGenerator The force generator to add to the rigid body
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.add = function (rigidBody, forceGenerator) {
     var entry;
@@ -1073,7 +1073,7 @@ function ForceRegistry() {
    * @function
    * @param {RigidBody} rigidBody The rigid body to get the force generators for
    * @returns {ForceGenerator []} All the force generators for the supplied rigid body, undefined if not found
-   * @since 0.0.0
+
    */
   this.getForceGenerators = function (rigidBody) {
     var i = this.entries.length;
@@ -1092,7 +1092,7 @@ function ForceRegistry() {
    * @function
    * @param {RigidBody} rigidBody The rigid body to remove the force generators from
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.removeForceGenerators = function (rigidBody) {
     var i = this.entries.length;
@@ -1109,7 +1109,7 @@ function ForceRegistry() {
    * @function
    * @param {ForceGenerator} forceGenerator The specific force generator to remove
    * @return {void}
-   * @since 0.0.0
+
    */
   this.removeForceGenerator = function (forceGenerator) {
     var i = this.entries.length;
@@ -1130,7 +1130,7 @@ function ForceRegistry() {
    * @function
    * @param {int} delta Delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyForces = function (delta) {
     var i = this.entries.length;
@@ -1152,7 +1152,7 @@ function ForceRegistry() {
    * @abstract
    * @param {WorldVisitor} visitor Visitor to visit
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.accept = function (visitor) {
     var i = this.entries.length;
@@ -1183,7 +1183,7 @@ function ForceRegistry() {
  * in their correct orientation.
  *
  * @constructor
- * @since 0.0.0.4
+
  */
 function Contact() {
 
@@ -1193,7 +1193,7 @@ function Contact() {
    * @field
    * @type RigidBody []
    * @default []
-   * @since 0.0.0.4
+
    */
   this.ridigBodies = [];
 
@@ -1202,7 +1202,7 @@ function Contact() {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.contactPoint = undefined;
 
@@ -1211,7 +1211,7 @@ function Contact() {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.contactNormal = undefined;
 
@@ -1220,7 +1220,7 @@ function Contact() {
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0.4
+
    */
   this.penetration = 0.0;
 
@@ -1230,7 +1230,7 @@ function Contact() {
    * @protected
    * @param {int} delta Delta time in milliseconds since last update
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.resolve = function (delta) {
     this.resolveVelocity(delta);
@@ -1242,7 +1242,7 @@ function Contact() {
    * @function
    * @protected
    * @returns {Number} Separating velocity at this contact
-   * @since 0.0.0
+
    */
   this.calculateSeparatingVelocity = function () {
     var relativeVelocity = math.v2.create(this.particles[0].vel);
@@ -1261,7 +1261,7 @@ function Contact() {
    * @private
    * @param {int} delta Delta time in milliseconds since last update
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.resolveVelocity = function (delta) {
     var dt = delta / 1000;
@@ -1328,7 +1328,7 @@ function Contact() {
    * @function
    * @param {int} delta Delta time in milliseconds since last update
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.resolveInterpenetration = function (delta) {
     if (this.penetration <= 0) {
@@ -1368,7 +1368,7 @@ function Contact() {
 /**
  * @class Bounding volume base class
  * @constructor
- * @since 0.0.0
+
  */
 function BoundingVolume() {
 }
@@ -1379,7 +1379,7 @@ function BoundingVolume() {
  * @extends BoundingVolume
  * @param {Array} center Center of the sphere
  * @param {Number} radius Radius of the sphere
- * @since 0.0.0
+
  */
 function BoundingSphere(center, radius) {
 
@@ -1393,7 +1393,7 @@ function BoundingSphere(center, radius) {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0
+
    */
   this.center = center || undefined;
 
@@ -1402,7 +1402,7 @@ function BoundingSphere(center, radius) {
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0
+
    */
   this.radius = radius || 0.0;
 
@@ -1413,7 +1413,7 @@ function BoundingSphere(center, radius) {
    * @param {BoundingSphere} o The other sphere to test
    * @returns {boolean} True if this overlaps with the supplied bounding
    *  sphere
-   * @since 0.0.0
+
    */
   this.overlaps = function (o) {
     return math.v2.isWithin(this.center, o.center, this.radius + o.radius);
@@ -1430,7 +1430,7 @@ BoundingSphere.prototype = new BoundingVolume();
  * @param {BoundingSphere} bs2 Second bounding sphere
  * @returns {BoundingSphere} A new bounding sphere enclosing the supplied
  *  bounding spheres.
- * @since 0.0.0
+
  */
 BoundingSphere.enclose = function (bs1, bs2) {
   var boundingSphere = new BoundingSphere();
@@ -1450,7 +1450,7 @@ BoundingSphere.enclose = function (bs1, bs2) {
  * @extends BoundingVolume
  * @param {Array} center Center of the box
  * @param {Array} halfSize Half size used for collision detection
- * @since 0.0.0
+
  */
 function BoundingBox(center, halfSize) {
 
@@ -1464,7 +1464,7 @@ function BoundingBox(center, halfSize) {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0
+
    */
   this.center = center || undefined;
 
@@ -1473,7 +1473,7 @@ function BoundingBox(center, halfSize) {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0
+
    */
   this.halfSize = halfSize || undefined;
 }
@@ -1483,7 +1483,7 @@ BoundingBox.prototype = new BoundingVolume();
  * @class Stores a potential contact to check later
  * @constructor
  * @param {RigidBody []} rigidBodies The rigid bodies that might be in contact
- * @since 0.0.0
+
  */
 function PotentialContact(rigidBodies) {
 
@@ -1492,7 +1492,7 @@ function PotentialContact(rigidBodies) {
    * @field
    * @type RigidBody []
    * @default undefined
-   * @since 0.0.0
+
    */
   this.center = rigidBodies || undefined;
 }
@@ -1509,7 +1509,7 @@ function PotentialContact(rigidBodies) {
  *  Note that it is possible to rewrite the algorithms in this class to handle
  *  objects at all levels of the hierarchy, but the code provided ignores this
  *  vector unless firstChild is undefined.
- * @since 0.0.0
+
  */
 function BVHNode(children, volume, rigidBody) {
 
@@ -1518,7 +1518,7 @@ function BVHNode(children, volume, rigidBody) {
    * @field
    * @type BVHNode []
    * @default undefined
-   * @since 0.0.0
+
    */
   this.children = children || undefined;
 
@@ -1527,7 +1527,7 @@ function BVHNode(children, volume, rigidBody) {
    * @field
    * @type BoundingVolume
    * @default undefined
-   * @since 0.0.0
+
    */
   this.volume = volume || undefined;
 
@@ -1540,7 +1540,7 @@ function BVHNode(children, volume, rigidBody) {
    * @field
    * @type RigidBody
    * @default undefined
-   * @since 0.0.0
+
    */
   this.rigidBody = rigidBody || undefined;
 
@@ -1548,7 +1548,7 @@ function BVHNode(children, volume, rigidBody) {
    * Determines if this node is at the bottom of the hierarchy
    * @function
    * @returns {boolean} True if this node is at the bottom of the hierarchy
-   * @since 0.0.0
+
    */
   this.isLeaf = function () {
     return (this.rigidBody != undefined);
@@ -1562,7 +1562,7 @@ function BVHNode(children, volume, rigidBody) {
    * @param {RigidBody} rigidBody The rigid body to add
    * @param {BoundingVolume} volume The type of volume to add
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.insert = function (rigidBody, volume) {
     // If we are a leaf, then the only option is to spawn two
@@ -1602,7 +1602,7 @@ function BVHNode(children, volume, rigidBody) {
    * volume.
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.remove = function () {
     // If we don't have a parent, then we ignore the sibling processing.
@@ -1648,7 +1648,7 @@ function BVHNode(children, volume, rigidBody) {
    * @param {PotentialContact []} potentialContacts The array to append to
    * @param {int} limit The maximum number of contacts that may be generated
    * @returns {int} Number of potential contacts found
-   * @since 0.0.0
+
    */
   this.getPotentialContacts = function (potentialContacts, limit) {
     if (this.isLeaf() || limit == 0) {
@@ -1667,7 +1667,7 @@ function BVHNode(children, volume, rigidBody) {
    * @param {PotentialContact []} potentialContacts The array to append to
    * @param {int} limit The maximum number of contacts that may be generated
    * @returns {int} Number of potential contacts found
-   * @since 0.0.0
+
    */
   this.getPotentialContactsWith = function (o, potentialContacts, limit) {
     if (!this.overlaps(o) || limit == 0) {
@@ -1720,7 +1720,7 @@ function BVHNode(children, volume, rigidBody) {
    * @function
    * @param {BVHNode} o The other node to use
    * @returns {boolean} True if this node overlaps with the supplied node
-   * @since 0.0.0
+
    */
   this.overlaps = function (o) {
     return this.volume.overlaps(o.volume);
@@ -1732,7 +1732,7 @@ function BVHNode(children, volume, rigidBody) {
  * @constructor
  * @param {Array} position Any position on the plane
  * @param {Array} direction The direction perpendicular to the plane
- * @since 0.0.0
+
  */
 function Plane2(position, direction) {
 
@@ -1741,7 +1741,7 @@ function Plane2(position, direction) {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0
+
    */
   this.position = position || undefined;
 
@@ -1751,7 +1751,7 @@ function Plane2(position, direction) {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0
+
    */
   this.direction = direction || undefined;
 }
@@ -1759,7 +1759,7 @@ function Plane2(position, direction) {
 /**
  * BSP child can be of types NODE or OBJECTS
  * @enum
- * @since 0.0.0.4
+
  */
 BSP_CHILD_TYPE = {
   BSP_CHILD_NODE:1,
@@ -1770,7 +1770,7 @@ BSP_CHILD_TYPE = {
  * @class BSP collision child
  * @constructor
  * @param {int} type {@link BSP_CHILD_TYPE} Type of the child
- * @since 0.0.0.4
+
  */
 function BSPChild2(type) {
 
@@ -1779,7 +1779,7 @@ function BSPChild2(type) {
    * @field
    * @type int
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.type = type || undefined;
 
@@ -1788,7 +1788,7 @@ function BSPChild2(type) {
    * @field
    * @type BSPNode2
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.node = undefined;
 
@@ -1797,7 +1797,7 @@ function BSPChild2(type) {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.objects = undefined;
 }
@@ -1808,7 +1808,7 @@ function BSPChild2(type) {
  * @param {Plane2} plane Collision plane
  * @param {BSPNode2} front Node in front of the plane
  * @param {BSPNode2} black Node behind the plane
- * @since 0.0.0
+
  */
 function BSPNode2(plane, front, back) {
 
@@ -1817,7 +1817,7 @@ function BSPNode2(plane, front, back) {
    * @field
    * @type Plane2
    * @default undefined
-   * @since 0.0.0
+
    */
   this.plane = plane || undefined;
 
@@ -1826,7 +1826,7 @@ function BSPNode2(plane, front, back) {
    * @field
    * @type BSPChild
    * @default undefined
-   * @since 0.0.0
+
    */
   this.front = front || undefined;
 
@@ -1835,7 +1835,7 @@ function BSPNode2(plane, front, back) {
    * @field
    * @type BSPChild2
    * @default undefined
-   * @since 0.0.0
+
    */
   this.back = back || undefined;
 }
@@ -1844,7 +1844,7 @@ function BSPNode2(plane, front, back) {
  * @class 2D Quad node tree
  * @constructor
  * @param {Array} position Position of the quad tree node
- * @since 0.0.0.4
+
  */
 function QuadNodeTree2(position) {
 
@@ -1853,7 +1853,7 @@ function QuadNodeTree2(position) {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.position = position || undefined;
 
@@ -1862,7 +1862,7 @@ function QuadNodeTree2(position) {
    * @field
    * @type QuadNodeTree2 []
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.children = [];
 
@@ -1871,7 +1871,7 @@ function QuadNodeTree2(position) {
    * @function
    * @param {Array} o The object's position
    * @returns {int} The index of the object
-   * @since 0.0.0.4
+
    */
   this.getChildIndex = function (o) {
     var index = 0;
@@ -1892,7 +1892,7 @@ function QuadNodeTree2(position) {
  * @param {int} xExtent Number of cells in the X-direction of the grid
  * @param {int} yExtent Number of cells in the Y-direction of the grid
  * @param {Array} origin The origin of the grid
- * @since 0.0.0.4
+
  */
 function Grid2(xExtent, yExtent, origin) {
 
@@ -1901,7 +1901,7 @@ function Grid2(xExtent, yExtent, origin) {
    * @field
    * @type int
    * @default 0
-   * @since 0.0.0.4
+
    */
   this.xExtent = xExtent || 0;
 
@@ -1910,7 +1910,7 @@ function Grid2(xExtent, yExtent, origin) {
    * @field
    * @type int
    * @default 0
-   * @since 0.0.0.4
+
    */
   this.yExtent = yExtent || 0;
 
@@ -1919,7 +1919,7 @@ function Grid2(xExtent, yExtent, origin) {
    * @field
    * @type Object []
    * @default []
-   * @since 0.0.0.4
+
    */
   this.locations = [];
 
@@ -1928,7 +1928,7 @@ function Grid2(xExtent, yExtent, origin) {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.origin = origin || undefined;
 
@@ -1937,7 +1937,7 @@ function Grid2(xExtent, yExtent, origin) {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.oneOverCellSize = undefined;
 
@@ -1946,7 +1946,7 @@ function Grid2(xExtent, yExtent, origin) {
    * @function
    * @param {Array} o The object's location
    * @returns {int} The index of the location
-   * @since 0.0.0.4
+
    */
   this.getLocationIndex = function (o) {
     var square = o.multScalar(
@@ -1961,7 +1961,7 @@ function Grid2(xExtent, yExtent, origin) {
  * @constructor
  * @param {RigidBody} rigidBody The body encapsulated by this primitive
  * @param {TransformationMatrix3} offset Translation and rotation from the rigid body
- * @since 0.0.0.4
+
  */
 function CollisionPrimitive2(rigidBody, offset) {
 
@@ -1970,7 +1970,7 @@ function CollisionPrimitive2(rigidBody, offset) {
    * @field
    * @type RigidBody
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.rigidBody = rigidBody || undefined;
 
@@ -1979,7 +1979,7 @@ function CollisionPrimitive2(rigidBody, offset) {
    * @field
    * @type Matrix3
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.offset = offset || undefined;
 }
@@ -1990,7 +1990,7 @@ function CollisionPrimitive2(rigidBody, offset) {
  * @extends CollisionPrimitive2
  * @param {RigidBody} rigidBody The body encapsulated by this primitive
  * @param {Matrix3} offset Translation and rotation from the rigid body
- * @since 0.0.0.4
+
  */
 function CollisionCircle(rigidBody, offset, radius) {
 
@@ -2004,7 +2004,7 @@ function CollisionCircle(rigidBody, offset, radius) {
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0.4
+
    */
   this.radius = radius || 0.0;
 }
@@ -2018,7 +2018,7 @@ CollisionCircle.prototype = new CollisionPrimitive2();
  * @param {Matrix3} offset Translation and rotation from the rigid body
  * @param {Vector2} normal Direction of plane face
  * @param {Number} normalOffset Distance in normal direction
- * @since 0.0.0.4
+
  */
 function CollisionPlane2(rigidBody, offset, normal, normalOffset) {
 
@@ -2032,7 +2032,7 @@ function CollisionPlane2(rigidBody, offset, normal, normalOffset) {
    * @field
    * @type Vector2
    * @default 0.0
-   * @since 0.0.0.4
+
    */
   this.normal = normal || 0.0;
 
@@ -2041,7 +2041,7 @@ function CollisionPlane2(rigidBody, offset, normal, normalOffset) {
    * @field
    * @type Number
    * @default 0.0
-   * @since 0.0.0.4
+
    */
   this.normalOffset = normalOffset || 0.0;
 }
@@ -2054,7 +2054,7 @@ CollisionPlane2.prototype = new CollisionPrimitive2();
  * @param {RigidBody} rigidBody The body encapsulated by this primitive
  * @param {Matrix3} offset Translation and rotation from the rigid body
  * @param {Vector2} halfSize The halfsize of the rectangle (half width, half height)
- * @since 0.0.0.4
+
  */
 function CollisionRect(rigidBody, offset, normal, normalOffset) {
 
@@ -2068,7 +2068,7 @@ function CollisionRect(rigidBody, offset, normal, normalOffset) {
    * @field
    * @type Vector2
    * @default Zero vector
-   * @since 0.0.0.4
+
    */
   this.halfSize = halfSize || math.v2.create();
 }
@@ -2077,7 +2077,7 @@ CollisionRect.prototype = new CollisionPrimitive2();
 /**
  * @class 2D collision detector
  * @constructor
- * @since 0.0.0.4
+
  */
 var CollisionDetector2 = {
 
@@ -2089,7 +2089,7 @@ var CollisionDetector2 = {
    * @param {Contact []} contacts Contacts to append to
    * @param {int} limit Maximum number of contacts that may be added
    * @returns {int} The number of contacts generated
-   * @since 0.0.0.4
+
    */
   circleAndCircle : function(one, two, contacts, limit) {
     var positionOne = one.rigidBody.pos; // TODO: see getAxis(3)
@@ -2130,7 +2130,7 @@ var CollisionDetector2 = {
    * @param {Contact []} contacts Contacts to append to
    * @param {int} limit Maximum number of contacts that may be added
    * @returns {int} The number of contacts generated
-   * @since 0.0.0.4
+
    */
   circleAndHalfSpace : function(circle, rect, contacts, limit) {
 
@@ -2144,7 +2144,7 @@ var CollisionDetector2 = {
    * @param {Contact []} contacts Contacts to append to
    * @param {int} limit Maximum number of contacts that may be added
    * @returns {int} The number of contacts generated
-   * @since 0.0.0.4
+
    */
   rectAndHalfSpace : function(rect, plane, contacts, limit) {
     // clockwise vertex generation
@@ -2171,7 +2171,7 @@ var CollisionDetector2 = {
 /**
  * @class Visitor interface to visit the rigid body world
  * @constructor
- * @since 0.0.0.3
+
  */
 function WorldVisitor() {
 
@@ -2232,7 +2232,7 @@ function WorldVisitor() {
 /**
  * @class Keeps track of all rigid bodies
  * @constructor
- * @since 0.0.0
+
  */
 function World() {
 
@@ -2241,7 +2241,7 @@ function World() {
    * @field
    * @type RigidBody []
    * @default []
-   * @since 0.0.0
+
    */
   this.rigidBodies = [];
 
@@ -2250,7 +2250,7 @@ function World() {
    * @field
    * @type ForceRegistry
    * @default new ForceRegistry()
-   * @since 0.0.0
+
    */
   this.forceRegistry = new ForceRegistry();
 
@@ -2259,7 +2259,7 @@ function World() {
    * @field
    * @type ForceGenerator []
    * @default []
-   * @since 0.0.0
+
    */
   this.globalForceGenerators = [];
 
@@ -2268,7 +2268,7 @@ function World() {
    * @function
    * @param {RigidBody} rigidBody The new rigidBody to add
    * @returns {int} The total number of rigid bodies in the simulation
-   * @since 0.0.0
+
    */
   this.addRigidBody = function (rigidBody) {
     return this.rigidBodies.push(rigidBody);
@@ -2279,7 +2279,7 @@ function World() {
    * @function
    * @param {RigidBody} rigidBody The rigid body to remove
    * @returns {RigidBody} The removed rigid body, undefied if not removed
-   * @since 0.0.0
+
    */
   this.removeParticle = function (rigidBody) {
     var removedRigidBody = undefined;
@@ -2304,7 +2304,7 @@ function World() {
    * @function
    * @param {int} delta Delta time in milliseconds since last update
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.update = function (delta) {
     this.startFrame();
@@ -2315,7 +2315,7 @@ function World() {
    * Clears all force accumulators on rigid bodies
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.startFrame = function () {
     var i = this.rigidBodies.length;
@@ -2332,7 +2332,7 @@ function World() {
    * @function
    * @param {int} delta Delta time in milliseconds since last update
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.integrate = function (delta) {
     var i = this.rigidBodies.length;
@@ -2347,7 +2347,7 @@ function World() {
    * @function
    * @param {int} delta Delta time in milliseconds since last update
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.runPhysics = function (delta) {
     this.applyGlobalForces(delta);
@@ -2360,7 +2360,7 @@ function World() {
    * @function
    * @param {ForceGenerator} forceGenerator The global force generator to be added
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.addGlobalForce = function (forceGenerator) {
     this.globalForceGenerators.push(forceGenerator);
@@ -2371,7 +2371,7 @@ function World() {
    * @function
    * @param {int} delta Delta Time delta in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.applyGlobalForces = function (delta) {
     var j = this.globalForceGenerators.length;
@@ -2390,7 +2390,7 @@ function World() {
    * @function
    * @param {Array} gravitation Optional gravitational pull
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.addGlobalGravityForce = function (gravitation) {
     this.addGlobalForce(
@@ -2403,7 +2403,7 @@ function World() {
    * @function
    * @param {WorldVisitor} visitor Visitor to visit
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.accept = function (visitor) {
     visitor.visitWorld(this);

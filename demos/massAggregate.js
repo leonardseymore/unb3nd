@@ -10,7 +10,7 @@
  * @field
  * @constant
  * @type Object
- * @since 0.0.0
+
  */
 var ICONS = {
   SELECT:"pickup.png",
@@ -37,7 +37,7 @@ var ICONS = {
 /**
  * @class Mass aggreagte game implementation
  * @extends Engine
- * @since 0.0.0.4
+
  */
 function MassAggregateGame() {
 
@@ -49,14 +49,14 @@ function MassAggregateGame() {
   /**
    * @field
    * @type FancyMouse
-   * @since 0.0.0.4
+
    */
   this.mouse = undefined;
 
   /**
    * @field Particle world renderer
    * @type ParticleWorldRenderVisitor
-   * @since 0.0.0.4
+
    */
   this.particleWorldRenderer = undefined;
 
@@ -155,7 +155,7 @@ function MassAggregateGame() {
     var i = anchors.length;
     while (i--) {
       var anchor = anchors[i];
-      var anchorScreenPos = window(anchor);
+      var anchorScreenPos = worldToWindow(anchor);
       ctx.drawImage(anchorImage, anchorScreenPos[0] - anchorImage.width / 2, anchorScreenPos[1] - anchorImage.height / 2);
     } // for
 
@@ -306,7 +306,7 @@ function getFirstAnchorWithin(point, radius) {
   var i = anchors.length;
   while (i--) {
     var anchor = anchors[i];
-    var anchorScreenPos = window(anchor);
+    var anchorScreenPos = worldToWindow(anchor);
     if (math.v2.isWithin(anchorScreenPos, point, radius)) {
       return anchor;
     } // if
@@ -325,7 +325,7 @@ function highlightParticles(point, radius) {
   var i = particleWorld.particles.length;
   while (i--) {
     var particle = particleWorld.particles[i];
-    var particleScreenPos = window(particle.pos);
+    var particleScreenPos = worldToWindow(particle.pos);
     if (math.v2.isWithin(point, particleScreenPos, radius)) {
       highlightPoint(particleScreenPos, radius);
     } // if
@@ -343,7 +343,7 @@ function highlightAnchors(point, radius) {
   var i = anchors.length;
   while (i--) {
     var anchor = anchors[i];
-    var anchorScreenPos = window(anchor);
+    var anchorScreenPos = worldToWindow(anchor);
     if (math.v2.isWithin(point, anchorScreenPos, radius)) {
       highlightPoint(anchorScreenPos, radius);
     } // if
@@ -383,7 +383,7 @@ function Tool() {
    * @field
    * @type string
    * @default "default"
-   * @since 0.0.0
+
    */
   this.cursor = "default";
 
@@ -402,7 +402,7 @@ function Tool() {
    * @function
    * @param {String} cursor The name of the cursor
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.setCursor = function (cursor) {
     this.cursor = cursor;
@@ -412,7 +412,7 @@ function Tool() {
    * Call this on tool activation
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.activate = function () {
     EngineInstance.canvas.style.setProperty("cursor", this.cursor);
@@ -422,7 +422,7 @@ function Tool() {
    * Call this on tool deactivation
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.deactivate = function () {
     EngineInstance.canvas.style.removeProperty("cursor");
@@ -524,7 +524,7 @@ function SelectTool() {
         var x = e.offsetX;
         var y = e.offsetY;
         var newWindowPos = math.v2.create([x, y]);
-        particle.pos = world(newWindowPos);
+        particle.pos = windowToWorld(newWindowPos);
       };
 
       EngineInstance.addEventListener("mousemove", mouseMoveListener);
@@ -635,7 +635,7 @@ function CreateParticleTool() {
   this.use = function (point) {
     var particle = new Particle();
     particle.setMass(1);
-    particle.pos = world(point);
+    particle.pos = windowToWorld(point);
     particleWorld.addParticle(particle);
   };
 
@@ -678,7 +678,7 @@ function CreateParticleBombTool() {
         Math.random() * EngineInstance.windowRect.width,
         Math.random() * EngineInstance.windowRect.height
       ]);
-      particle.pos = world(windowPos);
+      particle.pos = windowToWorld(windowPos);
       particleWorld.addParticle(particle);
     } // while
   };
@@ -720,7 +720,7 @@ function CreateAnchorTool() {
    */
   this.use = function (point) {
     var anchor = math.v2.create(point);
-    anchors.push(world(anchor));
+    anchors.push(windowToWorld(anchor));
   };
 
   /**
@@ -995,7 +995,7 @@ function Particle2ParticleTool() {
 
       ctx.save();
       ctx.strokeStyle = "green";
-      var p1WindowPos = window(this.p1.pos);
+      var p1WindowPos = worldToWindow(this.p1.pos);
       highlightPoint(p1WindowPos, this.selectRadius);
 
       ctx.strokeStyle = "lightgrey";
@@ -1006,7 +1006,7 @@ function Particle2ParticleTool() {
         point, this.selectRadius
       );
       if (p2) {
-        var p2WindowPos = window(p2.pos);
+        var p2WindowPos = worldToWindow(p2.pos);
         ctx.lineTo(p2WindowPos[0], p2WindowPos[1]);
       } else {
         ctx.lineTo(point[0], point[1]);
@@ -1102,7 +1102,7 @@ function Anchor2ParticleTool() {
 
       ctx.save();
       ctx.strokeStyle = "green";
-      var anchorScreenPos = window(this.anchor);
+      var anchorScreenPos = worldToWindow(this.anchor);
       highlightPoint(anchorScreenPos, this.selectRadius);
 
       ctx.strokeStyle = "darkgrey";
@@ -1113,7 +1113,7 @@ function Anchor2ParticleTool() {
         point, this.selectRadius
       );
       if (particle) {
-        var particleScreenPos = window(particle.pos);
+        var particleScreenPos = worldToWindow(particle.pos);
         ctx.lineTo(particleScreenPos[0], particleScreenPos[1]);
         ctx.stroke();
         highlightPoint(particleScreenPos, this.selectRadius);
@@ -1374,7 +1374,7 @@ CreateCableTool.instance = new CreateCableTool();
  * @constructor
  * @extends Anchor2ParticleTool
  * Create anchored cable tool
- * @since 0.0.0.3
+
  */
 function CreateAnchoredCableTool() {
 
@@ -1447,7 +1447,7 @@ CreateRodTool.instance = new CreateRodTool();
  * @constructor
  * @extends Anchor2ParticleTool
  * Create anchored cable tool
- * @since 0.0.0.3
+
  */
 function CreateAnchoredRodTool() {
 

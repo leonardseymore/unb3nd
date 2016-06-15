@@ -1,7 +1,7 @@
 /**
  * @fileOverview Background effects
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0
+
  */
 
 "use strict";
@@ -9,7 +9,7 @@
 /**
  * @class Background base class
  * @constructor
- * @since 0.0.0
+
  */
 function Background() {
 
@@ -19,7 +19,7 @@ function Background() {
    * @abstract
    * @param {Number} delta Delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.update = function (delta) {
   };
@@ -31,7 +31,7 @@ function Background() {
    * @param {CanvasContext} ctx Rendering context
    * @param {Rectangle} area The area to draw the background on
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.draw = function (ctx, area) {
   };
@@ -42,7 +42,7 @@ function Background() {
  * @constructor
  * @extends Background
  * @param {String} fillStyle The style to use to fill the background
- * @since 0.0.0
+
  */
 function FillBackground(fillStyle) {
 
@@ -51,7 +51,7 @@ function FillBackground(fillStyle) {
    * @field
    * @type String
    * @default fillStyle
-   * @since 0.0.0
+
    */
   this.fillStyle = fillStyle;
 
@@ -62,7 +62,7 @@ function FillBackground(fillStyle) {
    * @param {CanvasContext} ctx Rendering context
    * @param {Rectangle} area The area to draw the background on
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.draw = function (ctx, area) {
     ctx.fillStyle = this.fillStyle;
@@ -77,7 +77,7 @@ FillBackground.prototype = new Background();
  * @extends Background
  * @param {Number} numStars Number of stars
  * @param {String} fillStyle Basic fill style
- * @since 0.0.0
+
  */
 function StarryBackground(numStars, fillStyle) {
 
@@ -86,7 +86,7 @@ function StarryBackground(numStars, fillStyle) {
    * @field
    * @type boolean
    * @default true
-   * @since 0.0.0
+
    */
   this.cartoonify = true;
 
@@ -95,7 +95,7 @@ function StarryBackground(numStars, fillStyle) {
    * @field
    * @type String
    * @default black
-   * @since 0.0.0
+
    */
   this.fillStyle = fillStyle || "darkblue";
 
@@ -104,7 +104,7 @@ function StarryBackground(numStars, fillStyle) {
    * @field
    * @type Number
    * @default 50
-   * @since 0.0.0
+
    */
   this.numStars = numStars || 50;
 
@@ -113,7 +113,7 @@ function StarryBackground(numStars, fillStyle) {
    * @field
    * @type Star
    * @default undefined
-   * @since 0.0.0
+
    */
   this.shootingStar = undefined;
 
@@ -122,7 +122,7 @@ function StarryBackground(numStars, fillStyle) {
    * @field
    * @type Number []
    * @default []
-   * @since 0.0.0
+
    */
   this.stars = [];
   var i = numStars;
@@ -139,7 +139,7 @@ function StarryBackground(numStars, fillStyle) {
    * @override
    * @param {Number} delta Delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.update = function (delta) {
     var dt = delta / 1000;
@@ -168,7 +168,7 @@ function StarryBackground(numStars, fillStyle) {
    * @param {CanvasContext} ctx Rendering context
    * @param {Rectangle} area The area to draw the background on
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.draw = function (ctx, area) {
     ctx.save();
@@ -201,7 +201,7 @@ StarryBackground.prototype = new Background();
  * @param {Number} x X-coordinate
  * @param {Number} y Y-coordinate
  * @param {Number} i Intensity 0 to 1
- * @since 0.0.0
+
  */
 function Star(x, y, i) {
 
@@ -210,7 +210,7 @@ function Star(x, y, i) {
    * @field
    * @type Number
    * @default x
-   * @since 0.0.0
+
    */
   this.pos = math.v2.create([x, y]);
 
@@ -219,7 +219,7 @@ function Star(x, y, i) {
    * @field
    * @type Number
    * @default i
-   * @since 0.0.0
+
    */
   this.i = i;
 
@@ -228,7 +228,7 @@ function Star(x, y, i) {
    * @field
    * @type Number
    * @default Random[2,6]
-   * @since 0.0.0
+
    */
   this.r = Math.floor(Math.random() * 4) + 2;
 
@@ -237,7 +237,7 @@ function Star(x, y, i) {
    * @function
    * @param {Number} delta Delta time in milliseconds
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.animate = function (delta) {
     if (Math.random() < 0.005) {
@@ -250,7 +250,7 @@ function Star(x, y, i) {
    * @function
    * @param {CanvasContext} ctx Rendering context\
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.draw = function (ctx) {
     ctx.fillStyle = "rgba(255, 255, 255, " + this.i + ")";
@@ -262,7 +262,7 @@ function Star(x, y, i) {
    * @function
    * @param {CanvasContext} ctx Rendering context
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.drawCartoon = function (ctx) {
     ctx.save();

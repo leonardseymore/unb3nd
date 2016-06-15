@@ -1,7 +1,7 @@
 /**
  * @fileOverview Simple rigid bodies under gravity demo
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0
+
  */
 
 /**
@@ -9,7 +9,7 @@
  * @field
  * @type int
  * @default 10
- * @since 0.0.0
+
  */
 var NUM_RIGID_BODIES = 10;
 
@@ -18,7 +18,7 @@ var NUM_RIGID_BODIES = 10;
  * @field
  * @type World
  * @default undefined
- * @since 0.0.0
+
  */
 var world = undefined;
  
@@ -26,7 +26,7 @@ var world = undefined;
   * Initialize game elements here
   * @function
   * @returns {void}
-  * @since 0.0.0
+
   */
  function initGame() {
 	world = new World();
@@ -50,7 +50,7 @@ var world = undefined;
   * Start game
   * @function
   * @returns {void}
-  * @since 0.0.0
+
   */
  function startGame() {
 	
@@ -61,7 +61,7 @@ var world = undefined;
  * @function
  * @param {int} delta Delta time since last update
  * @returns {void}
- * @since 0.0.0
+
  */
 function updateGame(delta) {
 	world.update(delta);
@@ -71,7 +71,7 @@ function updateGame(delta) {
  * Render a single frame
  * @function
  * @returns {void}
- * @since 0.0.0
+
  */
 function renderGame() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -82,7 +82,7 @@ function renderGame() {
  * Stop the game
  * @function
  * @returns {void}
- * @since 0.0.0
+
  */
 function stopGame() {
 

@@ -1,7 +1,7 @@
 /**
  * @fileOverview 2-Dimensional Vector Tests
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0.4
+
  */
 
 var TOL = 1e-4;

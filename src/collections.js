@@ -1,7 +1,7 @@
 /**
  * @fileOverview Reusable collection classes
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0
+
  */
 
 "use strict";
@@ -9,7 +9,7 @@
 /**
  * @class A queue (FIFO) collection implementation
  * @constructor
- * @since 0.0.0
+
  */
 function Queue() {
 
@@ -18,7 +18,7 @@ function Queue() {
 	 * @field 
 	 * @type Object []
 	 * @default []
-	 * @since 0.0.0
+
 	 */
 	var queue = [];
 	
@@ -26,7 +26,7 @@ function Queue() {
 	 * Gets the size of the queue
 	 * @function
 	 * @returns {int} The size of the queue
-	 * @since 0.0.0
+
 	 */
 	this.getSize = function() {
 		return queue.length;
@@ -36,7 +36,7 @@ function Queue() {
 	 * Determines if the queue is empty
 	 * @function
 	 * @returns {boolean} True if the queue is empty
-	 * @since 0.0.0
+
 	 */
 	this.isEmpty = function() {
 		return (queue.length == 0);
@@ -47,7 +47,7 @@ function Queue() {
 	 * @function
 	 * @param {Object} element The element to push into the queue
 	 * @returns {int} The new length of the queue
-	 * @since 0.0.0
+
 	 */
 	this.enqueue = function(element) {
 		return queue.push(element);
@@ -57,7 +57,7 @@ function Queue() {
 	 * Dequeues the oldest element in the queue
 	 * @function
 	 * @returns {Object} The oldest element in the queue, null if queue is empty
-	 * @since 0.0.0
+
 	 */
 	this.dequeue = function() {
 		return queue.shift();
@@ -67,7 +67,7 @@ function Queue() {
 	 * Gets all elements in this queue
 	 * @function
 	 * @returns {Object []} All elements in the queue
-	 * @since 0.0.0
+
 	 */
 	this.getElements = function() {
 		return queue;
@@ -80,7 +80,7 @@ function Queue() {
  * @constructor
  * @param {int} size The size of the buffer
  * @throws Error if size is not a valid integer
- * @since 0.0.0
+
  */
 function RingBuffer(size) {
 	
@@ -96,7 +96,7 @@ function RingBuffer(size) {
 	 * @field 
 	 * @type Queue
 	 * @default new Queue()
-	 * @since 0.0.0
+
 	 */
 	var queue = new Queue();
 	
@@ -104,7 +104,7 @@ function RingBuffer(size) {
 	 * Gets the size of the queue
 	 * @function
 	 * @returns {int} The size of the queue
-	 * @since 0.0.0
+
 	 */
 	this.getSize = function() {
 		return queue.getSize();
@@ -114,7 +114,7 @@ function RingBuffer(size) {
 	 * Determines if the queue is empty
 	 * @function
 	 * @returns {boolean} True if the queue is empty
-	 * @since 0.0.0
+
 	 */
 	this.isEmpty = function() {
 		return queue.isEmpty();
@@ -125,7 +125,7 @@ function RingBuffer(size) {
 	 * @function
 	 * @param {Object} element The element to push into the queue
 	 * @returns {int} The new length of the queue
-	 * @since 0.0.0
+
 	 */
 	this.enqueue = function(element) {
 		if (this.getSize() >= size) {
@@ -139,7 +139,7 @@ function RingBuffer(size) {
 	 * Dequeues the oldest element in the queue
 	 * @function
 	 * @returns {Object} The oldest element in the queue, null if queue is empty
-	 * @since 0.0.0
+
 	 */
 	this.dequeue = function() {
 		return queue.dequeue();
@@ -149,7 +149,7 @@ function RingBuffer(size) {
 	 * Gets all elements in this buffer
 	 * @function
 	 * @returns {Object []} All elements in the buffer
-	 * @since 0.0.0
+
 	 */
 	this.getElements = function() {
 		return queue.getElements();

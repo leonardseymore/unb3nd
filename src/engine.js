@@ -1,7 +1,7 @@
 /**
  * @fileOverview Main application driver
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0
+
  */
 
 "use strict";
@@ -10,7 +10,7 @@
  * @class An object to register engine events to
  * @constructor
  * @extends Observable
- * @since 0.0.0
+
  */
 function Engine() {
 
@@ -24,7 +24,7 @@ function Engine() {
    * @field
    * @type Boolean
    * @default false
-   * @since 0.0.0.4
+
    */
   this.isMouseDown = false;
 
@@ -33,7 +33,7 @@ function Engine() {
    * @field
    * @type MouseEvent
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.lastDrag = undefined;
 
@@ -42,7 +42,7 @@ function Engine() {
    * @field
    * @type function
    * @default undefined
-   * @since 0.0.0
+
    */
   this.onreset = undefined;
 
@@ -50,7 +50,7 @@ function Engine() {
    * Reset callback invoker
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.reset = function () {
     if (this.onreset) {
@@ -64,7 +64,7 @@ function Engine() {
    * @field
    * @type function
    * @default undefined
-   * @since 0.0.0
+
    */
   this.oninit = undefined;
 
@@ -72,7 +72,7 @@ function Engine() {
    * Init callback invoker
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.init = function () {
     if (this.oninit) {
@@ -86,7 +86,7 @@ function Engine() {
    * @field
    * @type function
    * @default undefined
-   * @since 0.0.0
+
    */
   this.onmousemove = undefined;
 
@@ -107,7 +107,7 @@ function Engine() {
    * @field
    * @type function
    * @default undefined
-   * @since 0.0.0
+
    */
   this.onmousedown = undefined;
 
@@ -116,7 +116,7 @@ function Engine() {
    * @function
    * @param {MouseEvent} e The event object
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.mousedown = function (e) {
     if (this.onmousedown) {
@@ -130,7 +130,7 @@ function Engine() {
    * @field
    * @type function
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.onmousedrag = undefined;
 
@@ -139,7 +139,7 @@ function Engine() {
    * @function
    * @param {MouseEvent} e The event object
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.mousedrag = function (e) {
     if (this.lastDrag) {
@@ -162,7 +162,7 @@ function Engine() {
    * @field
    * @type function
    * @default undefined
-   * @since 0.0.0
+
    */
   this.onmouseup = undefined;
 
@@ -171,7 +171,7 @@ function Engine() {
    * @function
    * @param {MouseEvent} e The event object
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.mouseup = function (e) {
     if (this.onmouseup) {
@@ -185,7 +185,7 @@ function Engine() {
    * @field
    * @type function
    * @default undefined
-   * @since 0.0.0
+
    */
   this.onmouseover = undefined;
 
@@ -194,7 +194,7 @@ function Engine() {
    * @function
    * @param {MouseEvent} e The event object
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.mouseover = function (e) {
     if (this.onmouseover) {
@@ -208,7 +208,7 @@ function Engine() {
    * @field
    * @type function
    * @default undefined
-   * @since 0.0.0
+
    */
   this.onmouseout = undefined;
 
@@ -217,7 +217,7 @@ function Engine() {
    * @function
    * @param {MouseEvent} e The event object
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.mouseout = function (e) {
     if (this.onmouseout) {
@@ -231,7 +231,7 @@ function Engine() {
    * @field
    * @type function
    * @default undefined
-   * @since 0.0.0.3
+
    */
   this.onmousewheel = undefined;
 
@@ -240,7 +240,7 @@ function Engine() {
    * @function
    * @param {MouseEvent} e The event object
    * @returns {void}
-   * @since 0.0.0.3
+
    */
   this.mousewheel = function (e) {
     if (this.onmousewheel) {
@@ -254,7 +254,7 @@ function Engine() {
    * @field
    * @type function
    * @default undefined
-   * @since 0.0.0
+
    */
   this.onkeydown = undefined;
 
@@ -263,7 +263,7 @@ function Engine() {
    * @function
    * @param {KeyboardEvent} e The event object
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.keydown = function (e) {
     if (this.onkeydown) {
@@ -277,7 +277,7 @@ function Engine() {
    * @field
    * @type function
    * @default undefined
-   * @since 0.0.0
+
    */
   this.onkeyup = undefined;
 
@@ -286,7 +286,7 @@ function Engine() {
    * @function
    * @param {KeyboardEvent} e The event object
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.keyup = function (e) {
     if (this.onkeyup) {
@@ -300,7 +300,7 @@ function Engine() {
    * @field
    * @type function
    * @default undefined
-   * @since 0.0.0
+
    */
   this.onpause = undefined;
 
@@ -308,7 +308,7 @@ function Engine() {
    * On pause callback invoker
    * @function
    * @returns {void}
-   * @since 0.0.0
+
    */
   this.pause = function () {
     if (this.onpause) {
@@ -323,7 +323,7 @@ function Engine() {
    * @constant
    * @field
    * @type Number
-   * @since 0.0.0
+
    */
   this.targetFps = 30;
 
@@ -332,7 +332,7 @@ function Engine() {
    * @public
    * @field
    * @type boolean
-   * @since 0.0.0
+
    */
   this.debug = true;
 
@@ -341,7 +341,7 @@ function Engine() {
    * @public
    * @field
    * @type boolean
-   * @since 0.0.0
+
    */
   this.verbose = false;
 
@@ -350,7 +350,7 @@ function Engine() {
    * @public
    * @field
    * @type CanvasContext
-   * @since 0.0.0
+
    */
   this.canvas = null;
 
@@ -359,7 +359,7 @@ function Engine() {
    * @public
    * @field
    * @type Rectangle
-   * @since 0.0.0
+
    */
   this.windowRect = null;
 
@@ -368,7 +368,7 @@ function Engine() {
    * @public
    * @field
    * @type CanvasContext
-   * @since 0.0.0
+
    */
   this.ctx = null;
 
@@ -377,7 +377,7 @@ function Engine() {
    * @public
    * @field
    * @type int
-   * @since 0.0.0
+
    */
   this.fps = 0;
 
@@ -386,7 +386,7 @@ function Engine() {
    * @public
    * @field
    * @type Number
-   * @since 0.0.0
+
    */
   this.lastFrame = 0;
 
@@ -395,7 +395,7 @@ function Engine() {
    * @public
    * @field
    * @type Number
-   * @since 0.0.0.3
+
    */
   this.avgFps = 0;
 
@@ -404,7 +404,7 @@ function Engine() {
    * @public
    * @field
    * @type Number
-   * @since 0.0.0
+
    */
   this.lastFPS = getTime();
 
@@ -413,7 +413,7 @@ function Engine() {
    * @public
    * @field
    * @type Number
-   * @since 0.0.0
+
    */
   this.lastSync = getTime();
 
@@ -422,7 +422,7 @@ function Engine() {
    * @public
    * @field
    * @type boolean
-   * @since 0.0.0
+
    */
   this.running = false;
 
@@ -431,7 +431,7 @@ function Engine() {
    * @public
    * @field
    * @type boolean
-   * @since 0.0.0
+
    */
   this.paused = false;
 
@@ -440,7 +440,7 @@ function Engine() {
    * @public
    * @field
    * @type Number
-   * @since 0.0.0.3
+
    */
   this.ppm = 1;
 
@@ -449,7 +449,7 @@ function Engine() {
    * @public
    * @field
    * @type Array
-   * @since 0.0.0.4
+
    */
   this.windowOffset = math.v2.create();
 
@@ -505,7 +505,7 @@ function Engine() {
         EngineInstance.mouseup(e);
       };
 
-      window.onmouseup = function (e) {
+      worldToWindow.onmouseup = function (e) {
         this.isMouseDown = false;
         this.lastDrag = undefined;
       };
@@ -692,7 +692,7 @@ function Engine() {
    * @abstract
    * Initialize game elements here
    * @returns {void}
-   * @since 0.0.0.4
+
    */
   this.initGame = function () {
   }
@@ -702,7 +702,7 @@ function Engine() {
    * @abstract
    * Initialize game start here
    * @returns {void}
-   * @since 0.0.0.4
+
    */
   this.startGame = function () {
   }
@@ -713,7 +713,7 @@ function Engine() {
    * Update all game elements
    * @param int delta Delta time since last update
    * @returns {void}
-   * @since 0.0.0.4
+
    */
   this.updateGame = function (delta) {
   }
@@ -723,7 +723,7 @@ function Engine() {
    * @abstract
    * Render a single frame
    * @returns {void}
-   * @since 0.0.0.4
+
    */
   this.renderGame = function () {
   }
@@ -733,7 +733,7 @@ function Engine() {
    * @abstract
    * Stop the game
    * @returns {void}
-   * @since 0.0.0.4
+
    */
   this.stopGame = function () {
     var ctx = this.ctx;
@@ -761,6 +761,6 @@ Engine.prototype = new Observable();
  * @global
  * Singleton reference to the game engine.
  * @type {Engine} Instance of the engine
- * @since 0.0.0.4
+
  */
 var EngineInstance = undefined;

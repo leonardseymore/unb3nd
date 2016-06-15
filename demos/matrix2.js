@@ -1,7 +1,7 @@
 /**
  * @fileOverview 2D Matrix Explorer
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0.3
+
  */
 
 "use strict";
@@ -9,7 +9,7 @@
 /**
  * @class Matrix2 game implementation
  * @extends Engine
- * @since 0.0.0.4
+
  */
 function Matrix2Game() {
 
@@ -21,7 +21,7 @@ function Matrix2Game() {
   /**
    * @field Triangular structure
    * @type Array
-   * @since 0.0.0.4
+
    */
   var triangle = undefined;
 

@@ -1,13 +1,13 @@
 /**
  * @fileOverview Entity management
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0
+
  */
  
  /**
  * @class Boundary action base class
  * @constructor
- * @since 0.0.0
+
  */
 function BoundaryAction() {
 
@@ -16,7 +16,7 @@ function BoundaryAction() {
 	 * @function
 	 * @param {Entity} entity The entity to apply this behaviour to
 	 * @returns {void}
-	 * @since 0.0.0
+
 	 */
 	this.update = function(entity) {
 	}
@@ -26,7 +26,7 @@ function BoundaryAction() {
  * @class Boundary bounce action
  * @constructor
  * @extends BoundaryAction
- * @since 0.0.0
+
  */
 function BoundaryBounce() {
 
@@ -36,7 +36,7 @@ function BoundaryBounce() {
 	 * @override
 	 * @param {Entity} entity The entity to apply this behaviour to
 	 * @returns {void}
-	 * @since 0.0.0
+
 	 */
 	this.update = function(entity) {
 		var rect = entity.boundingBox;
@@ -68,7 +68,7 @@ BoundaryBounce.prototype = new BoundaryAction();
  * @field
  * @static
  * @type BoundaryBounce
- * @since 0.0.0
+
  */
 BoundaryBounce.instance = new BoundaryBounce();
 
@@ -76,7 +76,7 @@ BoundaryBounce.instance = new BoundaryBounce();
  * @class Boundary wrap action
  * @constructor
  * @extends BoundaryAction
- * @since 0.0.0
+
  */
 function BoundaryWrap() {
 
@@ -86,7 +86,7 @@ function BoundaryWrap() {
 	 * @override
 	 * @param {Entity} entity The entity to apply this behaviour to
 	 * @returns {void}
-	 * @since 0.0.0
+
 	 */
 	this.update = function(entity) {
 		var rect = entity.boundingBox;
@@ -114,7 +114,7 @@ BoundaryWrap.prototype = new BoundaryAction();
  * @field
  * @static
  * @type BoundaryBounce
- * @since 0.0.0
+
  */
 BoundaryWrap.instance = new BoundaryWrap();
 
@@ -122,7 +122,7 @@ BoundaryWrap.instance = new BoundaryWrap();
  * @class Boundary die action
  * @constructor
  * @extends BoundaryAction
- * @since 0.0.0
+
  */
 function BoundaryDie() {
 
@@ -132,7 +132,7 @@ function BoundaryDie() {
 	 * @override
 	 * @param {Entity} entity The entity to apply this behaviour to
 	 * @returns {void}
-	 * @since 0.0.0
+
 	 */
 	this.update = function(entity) {
 		var rect = entity.boundingBox;
@@ -151,7 +151,7 @@ BoundaryDie.prototype = new BoundaryAction();
  * @field
  * @static
  * @type BoundaryBounce
- * @since 0.0.0
+
  */
 BoundaryDie.instance = new BoundaryDie();
  
@@ -159,7 +159,7 @@ BoundaryDie.instance = new BoundaryDie();
  * @class Sprite is responsible for drawing a sprite sheet
  * @constructor
  * @param {imgNam} The image name
- * @since 0.0.0
+
  */
 function Sprite(imgNam) {
 
@@ -168,7 +168,7 @@ function Sprite(imgNam) {
 	 * @field
 	 * @type Sprite
 	 * @default this
-	 * @since 0.0.0
+
 	 */
 	var self = this;
 	
@@ -177,7 +177,7 @@ function Sprite(imgNam) {
 	 * @field 
 	 * @type Image
 	 * @default Resources loader {@link Resources#loadImage}
-	 * @since 0.0.0
+
 	 */
 	this.image = Resources.loadImage(name);
 	
@@ -186,7 +186,7 @@ function Sprite(imgNam) {
 	 * @field 
 	 * @type int
 	 * @default 0
-	 * @since 0.0.0
+
 	 */
 	this.width = 0;
 	
@@ -195,7 +195,7 @@ function Sprite(imgNam) {
 	 * @field 
 	 * @type int
 	 * @default 0
-	 * @since 0.0.0
+
 	 */
 	this.height = 0;
 	
@@ -203,7 +203,7 @@ function Sprite(imgNam) {
 	 * Draw this sprite. No transforms applied in draw method
 	 * @function
 	 * @returns {void}
-	 * @since 0.0.0
+
 	 */
 	this.draw = function() {
 		ctx.drawImage(this.image, 0, 0);
@@ -214,7 +214,7 @@ function Sprite(imgNam) {
  * @class Game entity having spacial and physical properties
  * @constructor
  * @param {Sprite} sprite The renderable presentation of this entity
- * @since 0.0.0
+
  */
 function Entity(sprite) {
 
@@ -223,7 +223,7 @@ function Entity(sprite) {
 	 * @field 
 	 * @type boolean
 	 * @default true
-	 * @since 0.0.0
+
 	 */
 	this.alive = true;
 	
@@ -232,7 +232,7 @@ function Entity(sprite) {
 	 * @field 
 	 * @type int
 	 * @default 16
-	 * @since 0.0.0
+
 	 */
 	this.width = 16;
 	
@@ -241,7 +241,7 @@ function Entity(sprite) {
 	 * @field 
 	 * @type int
 	 * @default 16
-	 * @since 0.0.0
+
 	 */
 	this.height = 16;
 	
@@ -250,7 +250,7 @@ function Entity(sprite) {
 	 * @field 
 	 * @type Vector2
 	 * @default Zero vector
-	 * @since 0.0.0
+
 	 */
 	this.pos = new Vector2();
 	
@@ -259,7 +259,7 @@ function Entity(sprite) {
 	 * @field 
 	 * @type Vector2
 	 * @default Zero vector
-	 * @since 0.0.0
+
 	 */
 	this.vel = new Vector2();
 
@@ -268,7 +268,7 @@ function Entity(sprite) {
 	 * @field 
 	 * @type Rectangle
 	 * @default {@link windowRect}
-	 * @since 0.0.0
+
 	 */
 	this.boundingBox = windowRect;
 	
@@ -277,7 +277,7 @@ function Entity(sprite) {
 	 * @field 
 	 * @type BoundaryAction
 	 * @default {@link BoundaryBounce#instance}
-	 * @since 0.0.0
+
 	 */
 	this.boundingCollisionAction = BoundaryBounce.instance;
 
@@ -286,7 +286,7 @@ function Entity(sprite) {
 	 * @field
 	 * @type float
 	 * @default 0.0
-	 * @since 0.0.0
+
 	 */
 	this.angle = 0.0;
 	
@@ -295,7 +295,7 @@ function Entity(sprite) {
 	 * @field
 	 * @type float
 	 * @default Math.PI
-	 * @since 0.0.0
+
 	 */
 	this.anglev = Math.PI / 1; // angular velocity
 	
@@ -304,7 +304,7 @@ function Entity(sprite) {
 	 * @field
 	 * @type Sprite
 	 * @default undefined
-	 * @since 0.0.0
+
 	 */
 	this.sprite = undefined;
 	if (sprite) {
@@ -318,7 +318,7 @@ function Entity(sprite) {
 	 * Gets the X-position
 	 * @function
 	 * @returns {float} The X position
-	 * @since 0.0.0
+
 	 */
 	 this.getX = function() {
 		return this.pos.x;
@@ -328,7 +328,7 @@ function Entity(sprite) {
 	 * Gets the Y-position
 	 * @function
 	 * @returns {float} The Y position
-	 * @since 0.0.0
+
 	 */
 	 this.getY = function() {
 		return this.pos.y;
@@ -339,7 +339,7 @@ function Entity(sprite) {
 	 * @function
 	 * @param {delta} Time delta in milliseconds
 	 * @returns {void}
-	 * @since 0.0.0
+
 	 */
 	this.update = function(delta) {
 		var dt = delta / 1000;
@@ -355,7 +355,7 @@ function Entity(sprite) {
 	 * Draws a placeholder for this entity
 	 * @function
 	 * @returns {void}
-	 * @since 0.0.0
+
 	 */
 	this.drawPlaceholder = function() {
 		ctx.strokeRect(0, 0, this.width, this.height);
@@ -372,7 +372,7 @@ function Entity(sprite) {
 	 * Draw this entity
 	 * @function
 	 * @returns {void}
-	 * @since 0.0.0
+
 	 */
 	this.draw = function() {
 		ctx.save();	
@@ -391,7 +391,7 @@ function Entity(sprite) {
 /**
  * @class Game entity manager responsible for handling multiple entities
  * @constructor
- * @since 0.0.0
+
  */
 function EntityManager() {
 
@@ -400,7 +400,7 @@ function EntityManager() {
 	 * @field
 	 * @type Entity []
 	 * @default []
-	 * @since 0.0.0
+
 	 */
 	this.entities = [];
 	
@@ -409,7 +409,7 @@ function EntityManager() {
 	 * @function
 	 * @param {Entity} entity The entity to add
 	 * @returns {int} Number of managed entities
-	 * @since 0.0.0
+
 	 */
 	this.addEntity = function(entity) {
 		if (debug) {
@@ -424,7 +424,7 @@ function EntityManager() {
 	 * @function
 	 * @param {index} The index of the entity
 	 * @returns {Entity} The removed entity
-	 * @since 0.0.0
+
 	 */
 	this.removeEntityAtIndex = function(index) {
 		if (debug) {
@@ -438,7 +438,7 @@ function EntityManager() {
 	 * @function
 	 * @param {int} delta Delta time in milliseconds
 	 * @returns {void}
-	 * @since 0.0.0
+
 	 */
 	this.update = function(delta) {
 		for (i in this.entities) {
@@ -454,7 +454,7 @@ function EntityManager() {
 	 * Draw all game entities
 	 * @function
 	 * @returns {void}
-	 * @since 0.0.0
+
 	 */
 	this.draw = function() {
 		for (i in this.entities) {

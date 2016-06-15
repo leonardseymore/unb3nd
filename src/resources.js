@@ -1,13 +1,13 @@
 /**
  * @fileOverview Resource managers / helpers
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0
+
  */
 
 /** 
  * @class Resources loader
  * @constructor
- * @since 0.0.0
+
  */
 function Resources() {
 }
@@ -19,7 +19,7 @@ function Resources() {
  * @static
  * @type Object
  * @default Fully initialized static
- * @since 0.0.0
+
  */
 Resources.configuration = {
 	ROOT_PATH : "../",
@@ -34,7 +34,7 @@ Resources.configuration = {
  * @static
  * @param {string} name The name of the image to load
  * @return {Image} The loaded image
- * @since 0.0.0
+
  * @see Resources#configuration
  */
 Resources.loadImage = function(name) {

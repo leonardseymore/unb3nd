@@ -1,7 +1,7 @@
 /**
  * @fileOverview Aero rigid body sample
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0.3
+
  */
 
 /**
@@ -57,7 +57,7 @@ engine.addEventListener("mousewheel", function(e) {
  * @field
  * @type RigidBody
  * @default undefined
- * @since 0.0.0.3
+
  */
 var plane = undefined;
 var wind = new Vector2();
@@ -77,7 +77,7 @@ var planeStructure = [
  * @field
  * @type World
  * @default undefined
- * @since 0.0.0.3
+
  */
 var rigidBodyWorld = undefined;
 
@@ -85,7 +85,7 @@ var rigidBodyWorld = undefined;
   * Initialize game elements here
   * @function
   * @returns {void}
-  * @since 0.0.0.3
+
   */
  function initGame() {
 	 rigidBodyWorld = new World();
@@ -128,7 +128,7 @@ var rigidBodyWorld = undefined;
   * Start game
   * @function
   * @returns {void}
-  * @since 0.0.0.3
+
   */
  function startGame() {
 
@@ -139,7 +139,7 @@ var rigidBodyWorld = undefined;
  * @function
  * @param {int} delta Delta time since last update
  * @returns {void}
- * @since 0.0.0.3
+
  */
 function updateGame(delta) {
 	rigidBodyWorld.update(delta);
@@ -149,14 +149,14 @@ function updateGame(delta) {
  * Render a single frame
  * @function
  * @returns {void}
- * @since 0.0.0.3
+
  */
 function renderGame() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  var t1 = window(plane.getPointInWorldSpace(planeStructure[0]));
-  var t2 = window(plane.getPointInWorldSpace(planeStructure[1]));
-  var t3 = window(plane.getPointInWorldSpace(planeStructure[2]));
+  var t1 = worldToWindow(plane.getPointInWorldSpace(planeStructure[0]));
+  var t2 = worldToWindow(plane.getPointInWorldSpace(planeStructure[1]));
+  var t3 = worldToWindow(plane.getPointInWorldSpace(planeStructure[2]));
 
   ctx.save();
   ctx.strokeStyle = "blue";
@@ -209,7 +209,7 @@ function renderGame() {
  * Stop the game
  * @function
  * @returns {void}
- * @since 0.0.0.3
+
  */
 function stopGame() {
 

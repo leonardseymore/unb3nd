@@ -1,7 +1,7 @@
 /**
  * @fileOverview Benchmarking bed
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0.4
+
  */
 
 "use strict";
@@ -14,7 +14,7 @@
  * @class Observable value that can be bound to
  * @constructor
  * @extend Observable
- * @since 0.0.0.4
+
  */
 function ObservableValue(defaultValue) {
 
@@ -23,7 +23,7 @@ function ObservableValue(defaultValue) {
    * @field
    * @type Object
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.value = defaultValue;
 
@@ -32,7 +32,7 @@ function ObservableValue(defaultValue) {
    * @function
    * @param {Object} value The value to use
    * @returns {void}
-   * @since 0.0.0.4
+
    */
   this.setValue = function (value) {
     if (this.value != value) {
@@ -49,7 +49,7 @@ ObservableValue.prototype = new Observable();
  * @param {String} name Name of the benchmark
  * @param {Function} func The function to execute
  * @param {Array} args The arguments to use
- * @since 0.0.0.4
+
  */
 function Benchmark(name, func, args) {
 
@@ -58,7 +58,7 @@ function Benchmark(name, func, args) {
    * @field
    * @type String
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.name = name;
 
@@ -67,7 +67,7 @@ function Benchmark(name, func, args) {
    * @field
    * @type Object
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.lastResult = new ObservableValue(0);
 
@@ -76,7 +76,7 @@ function Benchmark(name, func, args) {
    * @field
    * @type Function
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.func = func;
 
@@ -85,7 +85,7 @@ function Benchmark(name, func, args) {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.args = args;
 
@@ -93,7 +93,7 @@ function Benchmark(name, func, args) {
    * Kicks off the process and sets the lastResult field
    * @function
    * @returns {Number} Operations per interval
-   * @since 0.0.0.4
+
    */
   this.runExec = function () {
     var startTime = getTime();
@@ -114,7 +114,7 @@ function Benchmark(name, func, args) {
  * @constructor
  * @param {String} name Name of the benchmark group
  * @param {Array} benchmarks The benchmarks belonging to this group
- * @since 0.0.0.4
+
  */
 function BenchmarkGroup(name, benchmarks) {
 
@@ -123,7 +123,7 @@ function BenchmarkGroup(name, benchmarks) {
    * @field
    * @type String
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.name = name;
 
@@ -132,7 +132,7 @@ function BenchmarkGroup(name, benchmarks) {
    * @field
    * @type Array
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.benchmarks = benchmarks;
 
@@ -141,7 +141,7 @@ function BenchmarkGroup(name, benchmarks) {
    * @field
    * @type Object
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.min = new ObservableValue(0);
 
@@ -150,7 +150,7 @@ function BenchmarkGroup(name, benchmarks) {
    * @field
    * @type Object
    * @default undefined
-   * @since 0.0.0.4
+
    */
   this.max = new ObservableValue(0);
 
@@ -158,7 +158,7 @@ function BenchmarkGroup(name, benchmarks) {
    * Runs all benchmarks in this group
    * @function
    * @returns {void}
-   * @since 0.0.0.4
+
    */
   this.runBenchmarks = function () {
     var benchmarks = this.benchmarks;

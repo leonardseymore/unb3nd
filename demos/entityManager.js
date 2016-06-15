@@ -6,7 +6,7 @@
 /**
  * @class Mouse game implementation
  * @extends Engine
- * @since 0.0.0.4
+
  */
 function EntityManagerGame() {
 
@@ -18,7 +18,7 @@ function EntityManagerGame() {
   /**
    * @field Application icon 16x16
    * @type Image
-   * @since 0.0.0.4
+
    */
   var appIcon16 = Resources.loadImage("icon_16.png");
 
@@ -86,7 +86,7 @@ function EntityManagerGame() {
     ctx.translate(20, 0);
     ctx.rotate(Math.PI / 4);
     ctx.drawImage(appIcon16, 5, 5);
-    ctx.fillText("fps: " + fps, 5 + 16 + 2, 15);
+    ctx.fillText("fps: " + this.fps, 5 + 16 + 2, 15);
     ctx.restore();
 
     entityManager.draw();

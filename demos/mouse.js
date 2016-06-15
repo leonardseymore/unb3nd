@@ -8,7 +8,7 @@
 /**
  * @class Mouse game implementation
  * @extends Engine
- * @since 0.0.0.4
+
  */
 function MouseGame() {
 
@@ -20,7 +20,7 @@ function MouseGame() {
   /**
    * @field
    * @type FancyMouse
-   * @since 0.0.0.4
+
    */
   var mouse = undefined;
 

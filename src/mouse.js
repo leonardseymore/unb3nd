@@ -1,7 +1,7 @@
 /**
  * @fileOverview Mouse cursor effects
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0
+
  */
 
 "use strict";
@@ -9,7 +9,7 @@
 /**
  * @class A fancy mouse using the mouse move deltas to draw a cool mouse
  * @constructor
- * @since 0.0.0
+
  */
 function FancyMouse() {
 
@@ -19,7 +19,7 @@ function FancyMouse() {
 	 * @constant
 	 * @type int
 	 * @default 10
-	 * @since 0.0.0
+
 	 */
 	var MAX_MOUSE_MOVES = 10;
 
@@ -28,7 +28,7 @@ function FancyMouse() {
 	 * @field
 	 * @type RingBuffer
 	 * @default new RingBuffer(MAX_MOUSE_MOVES)
-	 * @since 0.0.0
+
 	 */
 	var mouseMoves = new RingBuffer(MAX_MOUSE_MOVES);
 
@@ -46,7 +46,7 @@ function FancyMouse() {
 	 * @field
 	 * @type int
 	 * @default 0
-	 * @since 0.0.0
+
 	 */
 	this.lastDelta = 0;
 
@@ -55,7 +55,7 @@ function FancyMouse() {
 	 * @function
 	 * @param {int} delta Delta time in milliseconds
 	 * @returns {void}
-	 * @since 0.0.0
+
 	 */
 	this.update = function(delta) {
 		this.lastDelta += delta;
@@ -71,7 +71,7 @@ function FancyMouse() {
 	 * @function
    * @param {CanvasContext} ctx Rendering context
 	 * @returns {void}
-	 * @since 0.0.0
+
 	 */
 	this.draw = function(ctx) {
 		ctx.save();

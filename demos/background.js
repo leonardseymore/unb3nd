@@ -8,7 +8,7 @@
 /**
  * @class Background game implementation
  * @extends Engine
- * @since 0.0.0.4
+
  */
 function BackgroundGame() {
 
@@ -20,7 +20,7 @@ function BackgroundGame() {
   /**
    * @field
    * @type Background
-   * @since 0.0.0.4
+
    */
   var background = undefined;
 

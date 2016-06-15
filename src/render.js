@@ -1,7 +1,7 @@
 /**
  * @fileOverview Rendering routines
  * @author <a href="mailto:leonardseymore@gmail.com">Leonard Seymore</a>
- * @since 0.0.0.3
+
  */
 
 /**
@@ -10,7 +10,7 @@
  * @extends ParticleWorldVisitor
  * @param {CanvasContext} ctx Rendering context
  * Particle world renderer vistor implementation
- * @since 0.0.0.3
+
  */
 function ParticleWorldRenderVisitor(ctx) {
 
@@ -38,7 +38,7 @@ function ParticleWorldRenderVisitor(ctx) {
    *
    * @param {Array} point The point to test
    * @returns {boolean} True if the point is inside the screen
-   * @since 0.0.0.4
+
    */
   this.isPointInScreen = function(point) {
     return point[0] >= -constants.PARTICLE_HALF_WIDTH
@@ -53,7 +53,7 @@ function ParticleWorldRenderVisitor(ctx) {
 	 * Visits the particle world
 	 */
 	this.visitWorld = function(world) {
-    this.particleWorld = particleWorld;
+      this.particleWorld = particleWorld;
 	}
 
   /**
@@ -62,19 +62,19 @@ function ParticleWorldRenderVisitor(ctx) {
 	 * Visits the particle
 	 */
 	this.visitParticle = function(particle) {
-    var particleScreenPos = window(particle.pos);
-    if (!this.isPointInScreen(particleScreenPos)) {
-      return;
-    } // if
+      var particleScreenPos = worldToWindow(particle.pos);
+      if (!this.isPointInScreen(particleScreenPos)) {
+        return;
+      } // if
 
-		ctx.save();
-		ctx.fillStyle = constants.PARTICLE_COLOR;
-    ctx.translate(particleScreenPos[0], particleScreenPos[1]);
-    var width = constants.PARTICLE_WIDTH;
-    ctx.fillRect(
-      -width, -width, width * 2, width * 2
-    );
-    ctx.restore();
+      ctx.save();
+      ctx.fillStyle = constants.PARTICLE_COLOR;
+      ctx.translate(particleScreenPos[0], particleScreenPos[1]);
+      var width = constants.PARTICLE_WIDTH;
+      ctx.fillRect(
+        -width, -width, width * 2, width * 2
+      );
+      ctx.restore();
 	}
 
   /**
@@ -83,7 +83,7 @@ function ParticleWorldRenderVisitor(ctx) {
 	 * Visits the gravity force generator
 	 */
 	this.visitGravityForceGenerator = function(forceGenerator, particle) {
-    var particleScreenPos = window(particle.pos);
+    var particleScreenPos = worldToWindow(particle.pos);
     var gravityVector = math.v2.multScalar(
       forceGenerator.gravitation,
       particle.getMass()
@@ -110,7 +110,7 @@ function ParticleWorldRenderVisitor(ctx) {
 	 * Visits the wind force generator
 	 */
 	this.visitWindForceGenerator = function(forceGenerator, particle) {
-    var particleScreenPos = window(particle.pos);
+    var particleScreenPos = worldToWindow(particle.pos);
     var windVector = math.v2.multScalar(
       forceGenerator.direction,
       particle.getMass()
@@ -136,7 +136,7 @@ function ParticleWorldRenderVisitor(ctx) {
 	 * Visits the drag force generator
 	 */
 	this.visitDragForceGenerator = function(forceGenerator, particle) {
-    var particleScreenPos = window(particle.pos);
+    var particleScreenPos = worldToWindow(particle.pos);
     var dragVector = forceGenerator.calculateForce(particle);
     var dragVectorScreenPos = windowVector(dragVector);
 
@@ -161,8 +161,8 @@ function ParticleWorldRenderVisitor(ctx) {
 	 * Visits the spring force generator
 	 */
 	this.visitSpringForceGenerator = function(forceGenerator, particle) {
-    var particleScreenPos = window(particle.pos);
-    var particleOtherScreenPos = window(forceGenerator.particleOther.pos);
+    var particleScreenPos = worldToWindow(particle.pos);
+    var particleOtherScreenPos = worldToWindow(forceGenerator.particleOther.pos);
 
     if (!this.isPointInScreen(particleScreenPos)
         && !this.isPointInScreen(particleOtherScreenPos)) {
@@ -184,8 +184,8 @@ function ParticleWorldRenderVisitor(ctx) {
 	 * Visits the anchored spring force generator
 	 */
 	this.visitAnchoredSpringForceGenerator = function(forceGenerator, particle) {
-    var particleScreenPos = window(particle.pos);
-    var anchorScreenPos = window(forceGenerator.anchor);
+    var particleScreenPos = worldToWindow(particle.pos);
+    var anchorScreenPos = worldToWindow(forceGenerator.anchor);
 
     if (!this.isPointInScreen(particleScreenPos)
         && !this.isPointInScreen(anchorScreenPos)) {
@@ -207,8 +207,8 @@ function ParticleWorldRenderVisitor(ctx) {
 	 * Visits the bungee force generator
 	 */
 	this.visitBungeeForceGenerator = function(forceGenerator, particle) {
-    var particleScreenPos = window(particle.pos);
-    var particleOtherScreenPos = window(forceGenerator.particleOther.pos);
+    var particleScreenPos = worldToWindow(particle.pos);
+    var particleOtherScreenPos = worldToWindow(forceGenerator.particleOther.pos);
 
     if (!this.isPointInScreen(particleScreenPos)
         && !this.isPointInScreen(particleOtherScreenPos)) {
@@ -230,8 +230,8 @@ function ParticleWorldRenderVisitor(ctx) {
 	 * Visits the anchored bungee force generator
 	 */
 	this.visitAnchoredBungeeForceGenerator = function(forceGenerator, particle) {
-    var particleScreenPos = window(particle.pos);
-    var anchorScreenPos = window(forceGenerator.anchor);
+    var particleScreenPos = worldToWindow(particle.pos);
+    var anchorScreenPos = worldToWindow(forceGenerator.anchor);
 
     if (!this.isPointInScreen(particleScreenPos)
         && !this.isPointInScreen(anchorScreenPos)) {
@@ -253,8 +253,8 @@ function ParticleWorldRenderVisitor(ctx) {
 	 * Visits the particle cable contact generator
 	 */
 	this.visitCableContactGenerator = function(contactGenerator) {
-    var p1ScreenPos = window(contactGenerator.particles[0].pos);
-    var p2ScreenPos = window(contactGenerator.particles[1].pos);
+    var p1ScreenPos = worldToWindow(contactGenerator.particles[0].pos);
+    var p2ScreenPos = worldToWindow(contactGenerator.particles[1].pos);
 
     if (!this.isPointInScreen(p1ScreenPos)
         && !this.isPointInScreen(p2ScreenPos)) {
@@ -276,8 +276,8 @@ function ParticleWorldRenderVisitor(ctx) {
 	 * Visits the anchored particle cable contact generator
 	 */
 	this.visitAnchoredCableContactGenerator = function(contactGenerator) {
-    var p1ScreenPos = window(contactGenerator.particle.pos);
-    var anchorScreenPos = window(contactGenerator.anchor);
+    var p1ScreenPos = worldToWindow(contactGenerator.particle.pos);
+    var anchorScreenPos = worldToWindow(contactGenerator.anchor);
 
     if (!this.isPointInScreen(p1ScreenPos)
         && !this.isPointInScreen(anchorScreenPos)) {
@@ -299,8 +299,8 @@ function ParticleWorldRenderVisitor(ctx) {
 	 * Visits the particle rod contact generator
 	 */
 	this.visitRodContactGenerator = function(contactGenerator) {
-    var p1ScreenPos = window(contactGenerator.particles[0].pos);
-    var p2ScreenPos = window(contactGenerator.particles[1].pos);
+    var p1ScreenPos = worldToWindow(contactGenerator.particles[0].pos);
+    var p2ScreenPos = worldToWindow(contactGenerator.particles[1].pos);
 
     if (!this.isPointInScreen(p1ScreenPos)
         && !this.isPointInScreen(p2ScreenPos)) {
@@ -322,8 +322,8 @@ function ParticleWorldRenderVisitor(ctx) {
 	 * Visits the anchored particle rod contact generator
 	 */
 	this.visitAnchoredRodContactGenerator = function(contactGenerator) {
-    var p1ScreenPos = window(contactGenerator.particle.pos);
-    var anchorScreenPos = window(contactGenerator.anchor);
+    var p1ScreenPos = worldToWindow(contactGenerator.particle.pos);
+    var anchorScreenPos = worldToWindow(contactGenerator.anchor);
 
     if (!this.isPointInScreen(p1ScreenPos)
         && !this.isPointInScreen(anchorScreenPos)) {
@@ -349,7 +349,7 @@ function ParticleWorldRenderVisitor(ctx) {
 		ctx.strokeStyle = constants.COLLISION_DETECTION_COLOR;
 		for (i in contactGenerator.particles) {
 			var particle = contactGenerator.particles[i];
-      var particleScreenPos = window(particle.pos);
+      var particleScreenPos = worldToWindow(particle.pos);
 
       if (this.isPointInScreen(particleScreenPos)) {
         ctx.beginPath();
@@ -370,7 +370,7 @@ function ParticleWorldRenderVisitor(ctx) {
     ctx.save();
 		ctx.strokeStyle = constants.COLLISION_BOX_COLOR;
     var boxWorld = math.v2.create([contactGenerator.box.x, contactGenerator.box.y]);
-    var boxWindow = window(boxWindow);
+    var boxWindow = worldToWindow(boxWindow);
 		ctx.strokeRect(boxWindow[0],
       boxWindow[1],
       contactGenerator.box.width / EngineInstance.ppm,
@@ -392,7 +392,7 @@ ParticleWorldRenderVisitor.instance = new ParticleWorldRenderVisitor();
  * @extends WorldVisitor
  * World renderer vistor implementation
  * @param {CanvasContext} ctx Rendering context
- * @since 0.0.0.3
+
  */
 function WorldRenderVisitor(ctx) {
 
@@ -430,7 +430,7 @@ function WorldRenderVisitor(ctx) {
 	 * Visits the rigidBody
 	 */
 	this.visitRigidBody = function(rigidBody) {
-    var screenPos = window(rigidBody.pos);
+    var screenPos = worldToWindow(rigidBody.pos);
 		ctx.save();
 		ctx.fillStyle = constants.PARTICLE_COLOR;
     ctx.translate(screenPos[0], screenPos[1]);
@@ -447,7 +447,7 @@ function WorldRenderVisitor(ctx) {
 	 * Visits the gravity force generator
 	 */
 	this.visitGravityForceGenerator = function(forceGenerator, rigidBody) {
-    var screenPos = window(rigidBody.pos);
+    var screenPos = worldToWindow(rigidBody.pos);
 		ctx.save();
 		ctx.strokeStyle = constants.GRAVITY_COLOR;
 		ctx.beginPath();
@@ -469,8 +469,8 @@ function WorldRenderVisitor(ctx) {
 	 * Visits the spring force generator
 	 */
 	this.visitSpringForceGenerator = function(forceGenerator, rigidBody) {
-    var screenPos = window(rigidBody.getPointInWorldSpace(forceGenerator.connectionPoint));
-    var screenPosOther = window(forceGenerator.rigidBodyOther.getPointInWorldSpace(forceGenerator.connectionPointOther));
+    var screenPos = worldToWindow(rigidBody.getPointInWorldSpace(forceGenerator.connectionPoint));
+    var screenPosOther = worldToWindow(forceGenerator.rigidBodyOther.getPointInWorldSpace(forceGenerator.connectionPointOther));
 
 		ctx.save();
 
@@ -489,7 +489,7 @@ function WorldRenderVisitor(ctx) {
 	 * Visits the spring force generator
 	 */
 	this.visitAeroControlForceGenerator = function(forceGenerator, rigidBody) {
-    var screenPos = window(rigidBody.getPointInWorldSpace(forceGenerator.position));
+    var screenPos = worldToWindow(rigidBody.getPointInWorldSpace(forceGenerator.position));
 
     var force = forceGenerator.getTensor().multVector(forceGenerator.windspeed);
 
