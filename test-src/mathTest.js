@@ -4,15 +4,15 @@ module("Math");
 
 test("Test 2-Dimensional Matrix Operations", function () {
   // test equal
-  ok(new Matrix2(5, 6, 7, 8).equals(new Matrix2(5, 6, 7, 8)), "equal implementation positive check");
-  ok(!new Matrix2(5, 6, 7, 8).equals(new Matrix2(5, 6, 7, 9)), "equal implementation negative check");
+  ok(math.m2.equals(math.m2.create(5, 6, 7, 8), math.m2.create(5, 6, 7, 8)), "equal implementation positive check");
+  ok(!math.m2.equals(math.m2.create(5, 6, 7, 8), math.m2.create(5, 6, 7, 9)), "equal implementation negative check");
 
   // test get entry
-  var m1 = new Matrix2(1, 2, 3, 4);
-  equal(m1.getEntry(0, 0), 1, "Entry 1:1 correct");
-  equal(m1.getEntry(0, 1), 2, "Entry 1:2 correct");
-  equal(m1.getEntry(1, 0), 3, "Entry 2:1 correct");
-  equal(m1.getEntry(1, 1), 4, "Entry 2:2 correct");
+  var m1 = new math.m2.create(1, 2, 3, 4);
+  equal(math.m2.getEntry(m1, 0, 0), 1, "Entry 1:1 correct");
+  equal(math.m2.getEntry(m1, 0, 1), 2, "Entry 1:2 correct");
+  equal(math.m2.getEntry(m1, 1, 0), 3, "Entry 2:1 correct");
+  equal(math.m2.getEntry(m1, 1, 1), 4, "Entry 2:2 correct");
 
   // vector
   var v1 = new Vector2(9, 12);
