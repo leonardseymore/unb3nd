@@ -6,9 +6,9 @@ test("Test RigidBody", function() {
 	var uid = RigidBody.nextUid;
 	var b1 = new RigidBody();
 	equal(uid, b1.uid);
-	equal(b1.getOrientation().x, 1);
-	equal(b1.getOrientation().y, 0);
-	
+	equal(b1.getOrientation()[0], 1);
+	equal(b1.getOrientation()[1], 0);
+
 	var TOL = 0.01;
 
   var inBounds = true;

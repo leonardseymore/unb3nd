@@ -435,6 +435,19 @@ math.v2 = {
    */
   isWithinStrict : function(v1, v2, distance) {
     return math.v2.getDistanceSquare(v1, v2) < distance * distance;
+  },
+
+  /**
+   * Determines if the two vertices are equal
+   * @function
+   * @param {Array} v1 The first operand
+   * @param {Array} v2 The second operand
+   * @returns {Boolean} True if every entry in v1 is equal to the corresponding entry in v2
+
+   */
+  equals : function(v1, v2) {
+    return v1[0] == v2[0]
+        && v1[1] == v2[1];
   }
 };
 

@@ -2,10 +2,7 @@
 
 module("Engine");
 
-var _engine = new Engine();
-Engine.getInstance = function () {
-  return _engine;
-}
+EngineInstance = new Engine();
 
 test("Test reset engine", function () {
   var engine = EngineInstance;
