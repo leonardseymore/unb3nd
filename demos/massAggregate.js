@@ -1518,7 +1518,7 @@ function CreateCollisionDetectionTool() {
    */
   this.drawHandles = function (point) {
     this.drawIcon(point);
-    EngineInstance.ctx.fillText("Add global collsion detection", point[0] + 20, point[1]);
+    EngineInstance.ctx.fillText("Add global collision detection", point[0] + 20, point[1]);
   };
 }
 CreateCollisionDetectionTool.prototype = new Tool();
@@ -1551,7 +1551,7 @@ function CreateCollisionBoxTool() {
   this.use = function (point) {
     var collisionBox = EngineInstance.windowRect.shrink(0);
     ParticleContactGeneratorFactory.createCollisionBox(
-      particleWorld, particleWorld.particles, collisionBox
+      particleWorld, particleWorld.particles, collisionBox, 0
     );
   };
 
@@ -1562,7 +1562,7 @@ function CreateCollisionBoxTool() {
    */
   this.drawHandles = function (point) {
     this.drawIcon(point);
-    EngineInstance.ctx.fillText("Add global collsion box", point[0] + 20, point[1]);
+    EngineInstance.ctx.fillText("Add global collision box", point[0] + 20, point[1]);
   };
 }
 CreateCollisionBoxTool.prototype = new Tool();

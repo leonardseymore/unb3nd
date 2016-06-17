@@ -6,13 +6,24 @@
   <link rel="stylesheet" href="../css/unb3nd.css" type="text/css" media="screen"/>
   <style type="text/css">
     input {
-      width: 24px;
-      height: 24px;
+      width: 48px;
+      height: 48px;
+        border: 1px solid transparent;
+    }
+
+    input:hover {
+        border: 1px solid;
+        box-shadow: 2px 2px 5px #888888;
+    }
+
+    input:active {
+        border: 1px solid;
+        box-shadow: 1px 1px 2px #888888;
     }
 
     #btnPlay {
-      width: 48px;
-      height: 48px;
+      width: 96px;
+      height: 96px;
     }
   </style>
   <script type="text/javascript" src="../src/util.js"></script>
@@ -31,6 +42,7 @@
 <center>
   <input id="btnPlay" type="image" onclick="btnPlay_click(this);" src="../img/playButton.png"/>
   <br/>
+    <div height="100">
   <input id="btnEnableSelect" type="image" title="Select" value="Select" onclick="enableTool(SelectTool.instance);"
          src="../img/pickup.png"/>
   <input id="btnEnableRemove" type="image" title="Remove" value="Remove" onclick="enableTool(RemoveTool.instance);"
@@ -69,6 +81,7 @@
          src="../img/rod.png"/>
   <input id="btnAddAnchoredRod" type="image" title="Add Anchored Rod" value="Add Anchored Rod"
          onclick="enableTool(CreateAnchoredRodTool.instance);" src="../img/rodAnchored.png"/>
+    </div>
   <hr/>
   <canvas id="canvas" width="400" height="400"></canvas>
 </center>
