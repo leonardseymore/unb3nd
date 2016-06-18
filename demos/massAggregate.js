@@ -67,7 +67,7 @@ function MassAggregateGame() {
   this.initGame = function () {
     this.particleWorldRenderer = new ParticleWorldRenderVisitor(this.ctx);
     this.mouse = new FancyMouse();
-    this.ppm = 1;
+    this.ppm = 10;
     this.targetFps = 60;
 
     this.addEventListener("mousemove", function (e) {
@@ -77,8 +77,7 @@ function MassAggregateGame() {
       lastMouseMoveScreen[0] = x;
       lastMouseMoveScreen[1] = y;
 
-      lastMouseMoveWorld[0] = X(x);
-      lastMouseMoveWorld[1] = Y(y);
+      lastMouseMoveWorld = windowToWorld(lastMouseMoveScreen);
 
       this.renderGame();
     });
