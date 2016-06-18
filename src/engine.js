@@ -530,12 +530,17 @@ function Engine() {
 
       /**
        * @eventHandler
-       * This handler links up the canvas mouseout event handler
+       * This handler links up the canvas mousewheel event handler
        * @param Event e mousewheel event
        */
       this.canvas.onmousewheel = function (e) {
         EngineInstance.mousewheel(e);
       };
+
+      // TODO: Firefox decided to add new event DOMMouseScroll
+      // this.canvas.addEventListener("DOMMouseScroll", function (e) {
+      //   EngineInstance.mousewheel(e);
+      // }, false);
 
       var STYLE_DARK_EVENING = this.ctx.createLinearGradient(0, -75, 0, 75);
       STYLE_DARK_EVENING.addColorStop(0, '#232256');

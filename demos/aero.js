@@ -14,13 +14,13 @@ FPS = 64;
  * @global Vector2
  * Last mouse move screen planePosition
  */
-var lastMouseMoveScreen = new Vector2();
+var lastMouseMoveScreen = math.v2.create();
 
 /**
  * @global Vector2
  * Last mouse move world planePosition
  */
-var lastMouseMoveWorld = new Vector2();
+var lastMouseMoveWorld = math.v2.create();
 
 /**
  * @eventHandler
@@ -30,11 +30,11 @@ engine.addEventListener("mousemove", function(e) {
 	var x = e.offsetX;
 	var y = e.offsetY;
 
-	lastMouseMoveScreen.x = x;
-	lastMouseMoveScreen.y = y;
+	lastMouseMoveScreen[0] = x;
+	lastMouseMoveScreen[1] = y;
 
-  lastMouseMoveWorld.x = x;
-  lastMouseMoveWorld.y = Y(y);
+  lastMouseMoveWorld[0] = x;
+  lastMouseMoveWorld[1] = Y(y);
 
 	renderGame();
 });
@@ -161,9 +161,9 @@ function renderGame() {
   ctx.save();
   ctx.strokeStyle = "blue";
   ctx.beginPath();
-  ctx.moveTo(t1.x, t1.y);
-  ctx.lineTo(t2.x, t2.y);
-  ctx.lineTo(t3.x, t3.y);
+  ctx.moveTo(t1[0], t1[1]);
+  ctx.lineTo(t2[0], t2[1]);
+  ctx.lineTo(t3[0], t3[1]);
   ctx.closePath();
   ctx.stroke();
   ctx.restore();
@@ -174,8 +174,8 @@ function renderGame() {
     ctx.fillText("Global Forces: " + rigidBodyWorld.globalForceGenerators, 10, Y(80));
     ctx.fillText("Num Rigid Bodies: " + rigidBodyWorld.rigidBodies.length, 10, Y(70));
     ctx.fillText("Num Force Generators: " + rigidBodyWorld.forceRegistry.entries.length, 10, Y(60));
-    ctx.fillText("Mouse Screen: (" + lastMouseMoveScreen.x + "," + lastMouseMoveScreen.y + ")", 10, Y(50));
-    ctx.fillText("Mouse World: (" + lastMouseMoveWorld.x + "," + lastMouseMoveWorld.y + ")", 10, Y(40));
+    ctx.fillText("Mouse Screen: (" + lastMouseMoveScreen[0] + "," + lastMouseMoveScreen[1] + ")", 10, Y(50));
+    ctx.fillText("Mouse World: (" + lastMouseMoveWorld[0] + "," + lastMouseMoveWorld[1] + ")", 10, Y(40));
     ctx.fillText("Pixels Per Meter: " + ppm, 10, Y(30));
     ctx.fillText("FPS: " + avgFps, 10, Y(20));
     ctx.save();

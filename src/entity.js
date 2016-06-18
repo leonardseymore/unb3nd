@@ -40,24 +40,24 @@ function BoundaryBounce() {
 	 */
 	this.update = function(entity) {
 		var rect = entity.boundingBox;
-		if (entity.pos.x < rect.x) {
-			entity.pos.x = rect.x;
-			entity.vel.x = -entity.vel.x;
+		if (entity.pos[0] < rect.pos[0]) {
+			entity.pos[0] = rect.pos[0];
+			entity.vel[0] = -entity.vel[0];
 		} // if
 		
-		if (entity.pos.x + entity.width > rect.x + rect.width) {
-			entity.pos.x = rect.x + rect.width - entity.width;
-			entity.vel.x = -entity.vel.x;
+		if (entity.pos[0] + entity.width > rect.pos[0] + rect.width) {
+			entity.pos[0] = rect.pos[0] + rect.width - entity.width;
+			entity.vel[0] = -entity.vel[0];
 		} // if
 		
-		if (entity.pos.y < rect.y) {
-			entity.pos.y = rect.y;
-			entity.vel.y = -entity.vel.y;
+		if (entity.pos[1] < rect.pos[1]) {
+			entity.pos[1] = rect.pos[1];
+			entity.vel[1] = -entity.vel[1];
 		} // if
 		
-		if (entity.pos.y + entity.height > rect.y + rect.height) {
-			entity.pos.y = rect.y + rect.height - entity.height;
-			entity.vel.y = -entity.vel.y;
+		if (entity.pos[1] + entity.height > rect.pos[1] + rect.height) {
+			entity.pos[1] = rect.pos[1] + rect.height - entity.height;
+			entity.vel[1] = -entity.vel[1];
 		} // if
 	}
 
@@ -90,20 +90,20 @@ function BoundaryWrap() {
 	 */
 	this.update = function(entity) {
 		var rect = entity.boundingBox;
-		if (entity.pos.x + entity.width < rect.x) {
-			entity.pos.x = rect.x + rect.width;
+		if (entity.pos[0] + entity.width < rect.pos[0]) {
+			entity.pos[0] = rect.pos[0] + rect.width;
 		} // if
 		
-		if (entity.pos.x > rect.x + rect.width) {
-			entity.pos.x = rect.x - entity.width;
+		if (entity.pos[0] > rect.pos[0] + rect.width) {
+			entity.pos[0] = rect.pos[0] - entity.width;
 		} // if
 		
-		if (entity.pos.y + entity.height < rect.y) {
-			entity.pos.y = rect.y + rect.height;
+		if (entity.pos[1] + entity.height < rect.pos[1]) {
+			entity.pos[1] = rect.pos[1] + rect.height;
 		} // if
 		
-		if (entity.pos.y > rect.y + rect.height) {
-			entity.pos.y = rect.y - entity.height;
+		if (entity.pos[1] > rect.pos[1] + rect.height) {
+			entity.pos[1] = rect.pos[1] - entity.height;
 		} // if
 	}
 
@@ -136,10 +136,10 @@ function BoundaryDie() {
 	 */
 	this.update = function(entity) {
 		var rect = entity.boundingBox;
-		if (entity.pos.x < rect.x ||
-			entity.pos.x + entity.width > rect.x + rect.width ||
-			entity.pos.y < rect.y ||
-			entity.pos.y + entity.height > rect.y + rect.height) {
+		if (entity.pos[0] < rect.pos[0] ||
+			entity.pos[0] + entity.width > rect.pos[0] + rect.width ||
+			entity.pos[1] < rect.pos[1] ||
+			entity.pos[1] + entity.height > rect.pos[1] + rect.height) {
 			entity.alive = false;
 		} // if
 	}
@@ -252,7 +252,7 @@ function Entity(sprite) {
 	 * @default Zero vector
 
 	 */
-	this.pos = new Vector2();
+	this.pos = math.v2.create();
 	
 	/**
 	 * Entity velocity
@@ -261,7 +261,7 @@ function Entity(sprite) {
 	 * @default Zero vector
 
 	 */
-	this.vel = new Vector2();
+	this.vel = math.v2.create();
 
 	/**
 	 * Bounding box 
@@ -321,7 +321,7 @@ function Entity(sprite) {
 
 	 */
 	 this.getX = function() {
-		return this.pos.x;
+		return this.pos[0];
 	 }
 	 
 	 /**
@@ -331,7 +331,7 @@ function Entity(sprite) {
 
 	 */
 	 this.getY = function() {
-		return this.pos.y;
+		return this.pos[1];
 	 }
 		
 	/**
@@ -345,8 +345,8 @@ function Entity(sprite) {
 		var dt = delta / 1000;
 		
 		this.angle += this.anglev * dt;
-		this.pos.x += this.vel.x * dt;
-		this.pos.y += this.vel.y * dt;
+		this.pos[0] += this.vel[0] * dt;
+		this.pos[1] += this.vel[1] * dt;
 		
 		this.boundingCollisionAction.update(this);
 	}
@@ -376,7 +376,7 @@ function Entity(sprite) {
 	 */
 	this.draw = function() {
 		ctx.save();	
-		ctx.translate(this.pos.x, this.pos.y);
+		ctx.translate(this.pos[0], this.pos[1]);
 		ctx.rotate(this.angle);
 		if (this.sprite) {
 			this.sprite.draw();

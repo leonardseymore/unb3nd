@@ -47,8 +47,8 @@ function X(x) {
  */
 function windowToWorld(point) {
   var worldPos = math.v2.create(point);
-  worldPos[0] = X(point[0]);
-  worldPos[1] = Y(point[1]);
+  worldPos[0] = X(worldPos[0]);
+  worldPos[1] = Y(worldPos[1]);
   math.v2.multScalarMutate(worldPos, 1 / EngineInstance.ppm);
   return worldPos;
 }
@@ -62,9 +62,9 @@ function windowToWorld(point) {
  */
 function worldToWindow(point) {
   var windowPos = math.v2.create(point);
-  math.v2.multScalarMutate(windowPos, EngineInstance.ppm);
   windowPos[0] = X(windowPos[0]);
   windowPos[1] = Y(windowPos[1]);
+  math.v2.multScalarMutate(windowPos, EngineInstance.ppm);
   return windowPos;
 }
 

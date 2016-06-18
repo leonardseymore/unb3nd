@@ -2097,28 +2097,28 @@ function ParticleBoxContactGenerator(box, collisionRadius) {
       if (!box.shrink(this.collisionRadius).isPointInside(particle.pos)) {
         var normal = math.v2.create();
         var depth = 0;
-        if (particle.pos[0] < this.box.x + this.collisionRadius) {
+        if (particle.pos[0] < this.box.pos[0] + this.collisionRadius) {
           normal[0] = 1;
           normal[1] = 0;
-          depth = particle.pos[0] - this.box.x - this.collisionRadius;
+          depth = particle.pos[0] - this.box.pos[0] - this.collisionRadius;
         } // if
 
-        if (particle.pos[0] > this.box.x + this.box.width + this.collisionRadius) {
+        if (particle.pos[0] > this.box.pos[0] + this.box.width + this.collisionRadius) {
           normal[0] = -1;
           normal[1] = 0;
-          depth = this.box.x + this.box.width + this.collisionRadius - particle.pos[0];
+          depth = this.box.pos[0] + this.box.width + this.collisionRadius - particle.pos[0];
         } // if
 
-        if (particle.pos[1] < this.box.y + this.collisionRadius) {
+        if (particle.pos[1] < this.box.pos[1] + this.collisionRadius) {
           normal[0] = 0;
           normal[1] = 1;
-          depth = particle.pos[1] - this.box.y - this.collisionRadius;
+          depth = particle.pos[1] - this.box.pos[1] - this.collisionRadius;
         } // if
 
-        if (particle.pos[1] > this.box.y + this.box.height + this.collisionRadius) {
+        if (particle.pos[1] > this.box.pos[1] + this.box.height + this.collisionRadius) {
           normal[0] = 0;
           normal[1] = -1;
-          depth = this.box.y + this.box.height + this.collisionRadius - particle.pos[1];
+          depth = this.box.pos[1] + this.box.height + this.collisionRadius - particle.pos[1];
         } // if
 
         var particleContact = new ParticleContact();

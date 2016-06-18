@@ -369,8 +369,8 @@ function ParticleWorldRenderVisitor(ctx) {
 	this.visitBoxCollisionContactGenerator = function(contactGenerator) {
     ctx.save();
 		ctx.strokeStyle = constants.COLLISION_BOX_COLOR;
-    var boxWorld = math.v2.create([contactGenerator.box.x, contactGenerator.box.y]);
-    var boxWindow = worldToWindow(boxWindow);
+    var boxWorld = math.v2.create(contactGenerator.box.pos);
+    var boxWindow = worldToWindow(boxWorld);
 		ctx.strokeRect(boxWindow[0],
       boxWindow[1],
       contactGenerator.box.width / EngineInstance.ppm,

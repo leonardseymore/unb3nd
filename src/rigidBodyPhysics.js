@@ -1875,11 +1875,11 @@ function QuadNodeTree2(position) {
    */
   this.getChildIndex = function (o) {
     var index = 0;
-    if (o.x > this.position[0]) {
+    if (o[0] > this.position[0]) {
       index += 1;
     } // if
 
-    if (o.y > this.position[1]) {
+    if (o[1] > this.position[1]) {
       index += 2;
     } // if
     return index;
@@ -1952,7 +1952,7 @@ function Grid2(xExtent, yExtent, origin) {
     var square = o.multScalar(
       this.oneOverCellSize
     );
-    return square.x + this.xExtent * square.y;
+    return square[0] + this.xExtent * square[1];
   }
 }
 

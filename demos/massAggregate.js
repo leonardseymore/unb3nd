@@ -68,7 +68,7 @@ function MassAggregateGame() {
     this.particleWorldRenderer = new ParticleWorldRenderVisitor(this.ctx);
     this.mouse = new FancyMouse();
     this.ppm = 1;
-    this.targetFps = 1000;
+    this.targetFps = 60;
 
     this.addEventListener("mousemove", function (e) {
       var x = e.offsetX;
@@ -1549,7 +1549,8 @@ function CreateCollisionBoxTool() {
    * Use this tool at position x, y
    */
   this.use = function (point) {
-    var collisionBox = EngineInstance.windowRect.shrink(0);
+    var collisionBox = EngineInstance.windowRect.shrink(100);
+    collisionBox.pos = windowToWorld(collisionBox.pos);
     ParticleContactGeneratorFactory.createCollisionBox(
       particleWorld, particleWorld.particles, collisionBox, 0
     );
