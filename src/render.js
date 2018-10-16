@@ -491,7 +491,7 @@ function WorldRenderVisitor(ctx) {
 	this.visitAeroControlForceGenerator = function (forceGenerator, rigidBody) {
 		var screenPos = worldToWindow(rigidBody.getPointInWorldSpace(forceGenerator.position));
 
-		var force = forceGenerator.getTensor().multVector(forceGenerator.windspeed);
+		var force = math.m2.multVector(forceGenerator.getTensor(), forceGenerator.windspeed);
 
 		ctx.save();
 		ctx.strokeStyle = constants.AERO_COLOR;

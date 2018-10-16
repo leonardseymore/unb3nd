@@ -818,7 +818,7 @@ function AeroForceGenerator(tensor, position, windspeed) {
   /**
    * The wind speed
    * @field
-   * @type Number
+   * @type Array
    * @default 0.0
 
    */
@@ -868,7 +868,7 @@ function AeroControlForceGenerator(baseTensor, minTensor, maxTensor, position, w
   /**
    * The aerodynamic tensor for the surface in body space (at maximum value)
    * @field
-   * @type Matrix2
+   * @type Array
    * @default undefined
 
    */
@@ -889,7 +889,7 @@ function AeroControlForceGenerator(baseTensor, minTensor, maxTensor, position, w
    * The relative position of the aerodynamic surface in body coordinates
    * @method
    * @type Array
-   * @returns {Matrix2} Aero dynamic tensor to use for current control setting
+   * @returns {Array} Aero dynamic tensor to use for current control setting
 
    */
   this.getTensor = function () {
@@ -919,7 +919,7 @@ function AeroControlForceGenerator(baseTensor, minTensor, maxTensor, position, w
       return;
     } // if
 
-    var force = math.v2.multVector(
+    var force = math.m2.multVector(
       this.getTensor(),
       this.windspeed
     );

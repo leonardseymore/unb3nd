@@ -270,7 +270,7 @@ function Entity(sprite) {
 	 * @default {@link windowRect}
 
 	 */
-	this.boundingBox = windowRect;
+	this.boundingBox = EngineInstance.windowRect;
 	
 	/**
 	 * Action to perform when boundary is breached
@@ -412,7 +412,7 @@ function EntityManager() {
 
 	 */
 	this.addEntity = function(entity) {
-		if (debug) {
+		if (EngineInstance.debug) {
 			console.debug("Adding new managed entity");
 		} // if
 		
@@ -427,7 +427,7 @@ function EntityManager() {
 
 	 */
 	this.removeEntityAtIndex = function(index) {
-		if (debug) {
+		if (EngineInstance.debug) {
 			console.debug("Removing managed entity");
 		} // if
 		return this.entities.splice(index, 1);
